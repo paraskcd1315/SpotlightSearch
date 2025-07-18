@@ -1,0 +1,14 @@
+package com.paraskcd.spotlightsearch.types
+
+import android.graphics.drawable.Drawable
+import androidx.compose.ui.graphics.vector.ImageVector
+
+data class SearchResult(
+    val title: String,
+    val subtitle: String? = null,
+    val icon: Drawable? = null,
+    val iconVector: ImageVector? = null,
+    val onClick: () -> Unit,
+    val actionButtons: List<ActionButton>? = null,
+    val isHeader: Boolean = false
+)
