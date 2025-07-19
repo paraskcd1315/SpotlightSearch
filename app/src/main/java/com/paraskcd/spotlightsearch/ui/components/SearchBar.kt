@@ -20,8 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 
@@ -33,9 +31,6 @@ fun SearchBar(
     focusRequester: FocusRequester,
     onSearchImeAction: () -> Unit
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val focusManager = LocalFocusManager.current
-
     TextField(
         value = query,
         onValueChange = onQueryChanged,
@@ -47,8 +42,6 @@ fun SearchBar(
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(
             onSearch = {
-                focusManager.clearFocus()
-                keyboardController?.hide()
                 onSearchImeAction()
             }
         ),
@@ -80,8 +73,6 @@ fun SearchBar(
                 IconButton(
                     onClick = {
                         onClear()
-                        focusManager.clearFocus()
-                        keyboardController?.hide()
                     }
                 ) {
                     Icon(

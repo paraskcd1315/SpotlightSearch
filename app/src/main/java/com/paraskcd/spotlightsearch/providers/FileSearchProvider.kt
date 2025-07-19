@@ -2,6 +2,7 @@ package com.paraskcd.spotlightsearch.providers
 
 import android.content.Context
 import android.os.Environment
+import com.paraskcd.spotlightsearch.enums.SearchResultType
 import com.paraskcd.spotlightsearch.utils.FileUtils
 import com.paraskcd.spotlightsearch.icons.Document
 import com.paraskcd.spotlightsearch.types.SearchResult
@@ -45,7 +46,8 @@ class FileSearchProvider @Inject constructor(
                 onClick = {
                     val uri = FileUtils.getUriForFile(context, file)
                     FileUtils.openFile(context, uri, file)
-                }
+                },
+                searchResultType = SearchResultType.FILE
             )
         }
 

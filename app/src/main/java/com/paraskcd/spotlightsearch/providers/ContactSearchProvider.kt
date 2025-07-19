@@ -16,6 +16,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import com.paraskcd.spotlightsearch.enums.SearchResultType
 
 @Singleton
 class ContactSearchProvider @Inject constructor(
@@ -78,7 +79,8 @@ class ContactSearchProvider @Inject constructor(
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         context.startActivity(intent)
                     }
-                )
+                ),
+                searchResultType = SearchResultType.CONTACT
             )
         }
     }

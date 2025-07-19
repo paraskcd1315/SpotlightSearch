@@ -9,6 +9,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import androidx.core.net.toUri
+import com.paraskcd.spotlightsearch.enums.SearchResultType
 import com.paraskcd.spotlightsearch.icons.PermDeviceInfo
 
 @Singleton
@@ -166,7 +167,8 @@ class AppRepositoryProvider @Inject constructor(@ApplicationContext val context:
                                 }
                             )
                         )
-                    }
+                    },
+                    searchResultType = SearchResultType.APP
                 )
             } else null
         }

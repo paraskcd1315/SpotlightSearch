@@ -19,6 +19,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import androidx.core.net.toUri
@@ -26,6 +27,9 @@ import android.os.Environment
 import android.provider.Settings
 import androidx.compose.material.icons.filled.Warning
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+import com.paraskcd.spotlightsearch.enums.SearchResultType
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 
@@ -51,9 +55,18 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onSearch() {
-        val firstResult = _results.value.firstOrNull { !it.isHeader }
-        if (firstResult != null) {
-            firstResult.onClick()
+        val firstMatch = _results.value.firstOrNull {
+            !it.isHeader && when (it.searchResultType) {
+                SearchResultType.APP,
+                SearchResultType.CONTACT,
+                SearchResultType.FILE,
+                SearchResultType.CALCULATOR -> true
+                else -> false
+            }
+        }
+
+        if (firstMatch != null) {
+            firstMatch.onClick()
         } else {
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = "https://www.google.com/search?q=${Uri.encode(query.value)}".toUri()
@@ -81,42 +94,37 @@ class SearchViewModel @Inject constructor(
                     add(SearchResult(title = "Permissions", isHeader = true, onClick = {}))
                 }
                 if (needsFilePermission) {
-                    add(
-                        SearchResult(
-                            title = "Allow file access",
-                            subtitle = "Required to search local files",
-                            iconVector = Icons.Filled.Warning,
-                            onClick = {
-                                val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
-                                    data = "package:${context.packageName}".toUri()
-                                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                }
-                                context.startActivity(intent)
+                    add(SearchResult(
+                        title = "Allow file access",
+                        subtitle = "Required to search local files",
+                        iconVector = Icons.Filled.Warning,
+                        onClick = {
+                            val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                                data = "package:${context.packageName}".toUri()
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             }
-                        )
-                    )
+                            context.startActivity(intent)
+                        },
+                        searchResultType = SearchResultType.PERMISSION
+                    ))
                 }
                 if (needsContactPermission) {
-                    add(
-                        SearchResult(
-                            title = "Allow contact access",
-                            subtitle = "Required to search contacts",
-                            iconVector = Icons.Filled.Warning,
-                            onClick = {
-                                val intent = Intent(ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                    data = Uri.parse("package:${context.packageName}")
-                                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                }
-                                context.startActivity(intent)
+                    add(SearchResult(
+                        title = "Allow contact access",
+                        subtitle = "Required to search contacts",
+                        iconVector = Icons.Filled.Warning,
+                        onClick = {
+                            val intent = Intent(ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                data = Uri.parse("package:${context.packageName}")
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             }
-                        )
-                    )
+                            context.startActivity(intent)
+                        },
+                        searchResultType = SearchResultType.PERMISSION
+                    ))
                 }
             }
-
             _results.value = permissionPrompt
-
-            val results = mutableListOf<SearchResult>()
 
             val appDeferred = async { appRepository.searchInstalledApp(query) }
             val contactDeferred = async { contactSearchProvider.searchContacts(query) }
@@ -124,44 +132,43 @@ class SearchViewModel @Inject constructor(
             val suggestionDeferred = async { suggestionProvider.fetchSuggestions(query) }
             val playStoreDeferred = async { playStoreSearchProvider.getPlayStoreSearchItem(query) }
 
-            appDeferred.await().takeIf { it.isNotEmpty() }?.let {
-                results.add(SearchResult(title = "Apps", isHeader = true, onClick = {}))
-                results.addAll(it)
-                _results.value += results
-                results.clear()
+            appDeferred.invokeOnCompletion {
+                appDeferred.getCompletedOrNull()?.takeIf { it.isNotEmpty() }?.let {
+                    val list = listOf(SearchResult(title = "Apps", isHeader = true, onClick = {})) + it
+                    _results.update { prev -> prev + list }
+                }
             }
 
-            contactDeferred.await().takeIf { it.isNotEmpty() }?.let {
-                results.add(SearchResult(title = "Contacts", isHeader = true, onClick = {}))
-                results.addAll(it)
-                _results.value += results
-                results.clear()
+            contactDeferred.invokeOnCompletion {
+                contactDeferred.getCompletedOrNull()?.takeIf { it.isNotEmpty() }?.let {
+                    val list = listOf(SearchResult(title = "Contacts", isHeader = true, onClick = {})) + it
+                    _results.update { prev -> prev + list }
+                }
             }
 
-            fileDeferred.await().takeIf { it.isNotEmpty() }?.let {
-                results.add(SearchResult(title = "Files", isHeader = true, onClick = {}))
-                results.addAll(it)
-                _results.value += results
-                results.clear()
+            fileDeferred.invokeOnCompletion {
+                fileDeferred.getCompletedOrNull()?.takeIf { it.isNotEmpty() }?.let {
+                    val list = listOf(SearchResult(title = "Files", isHeader = true, onClick = {})) + it
+                    _results.update { prev -> prev + list }
+                }
             }
 
-            results.add(SearchResult(title = "Web", isHeader = true, onClick = {}))
-            results.add(
-                SearchResult(
-                    title = "Search \"$query\" on the web",
-                    subtitle = "Web Search",
-                    iconVector = Icons.Filled.Search,
-                    onClick = {
-                        val intent = Intent(Intent.ACTION_VIEW).apply {
-                            data = "https://www.google.com/search?q=${Uri.encode(query)}".toUri()
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        }
-                        context.startActivity(intent)
+            val webResults = mutableListOf<SearchResult>()
+            webResults.add(SearchResult(title = "Web", isHeader = true, onClick = {}))
+            webResults.add(SearchResult(
+                title = "Search \"$query\" on the web",
+                subtitle = "Web Search",
+                iconVector = Icons.Filled.Search,
+                onClick = {
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                        data = "https://www.google.com/search?q=${Uri.encode(query)}".toUri()
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     }
-                )
-            )
-            _results.value += results
-            results.clear()
+                    context.startActivity(intent)
+                },
+                searchResultType = SearchResultType.WEB
+            ))
+            _results.update { it + webResults }
 
             suggestionDeferred.await().let { suggestions ->
                 val sorted = suggestions.mapIndexed { _, suggestion ->
@@ -176,35 +183,41 @@ class SearchViewModel @Inject constructor(
                                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             }
                             context.startActivity(intent)
-                        }
+                        },
+                        searchResultType = if (isCalc) SearchResultType.CALCULATOR else SearchResultType.SUGGESTION
                     )
                 }
 
                 val calculatorItem = sorted.firstOrNull { it.subtitle == "Calculator" }
                 val otherSuggestions = sorted.filter { it.subtitle != "Calculator" }
 
+                val extra = mutableListOf<SearchResult>()
                 calculatorItem?.let {
-                    results.add(SearchResult(title = "Calculator", isHeader = true, onClick = {}))
-                    results.add(it)
-                    _results.value += results
-                    results.clear()
+                    extra.add(SearchResult(title = "Calculator", isHeader = true, onClick = {}))
+                    extra.add(it)
                 }
 
-                if (appDeferred.await().isEmpty() && contactDeferred.await().isEmpty() && calculatorItem == null) {
+                if (appDeferred.getCompletedOrNull().isNullOrEmpty() &&
+                    contactDeferred.getCompletedOrNull().isNullOrEmpty() &&
+                    calculatorItem == null
+                ) {
                     if (otherSuggestions.isNotEmpty()) {
-                        results.add(SearchResult(title = "Suggestions", isHeader = true, onClick = {}))
-                        results.addAll(otherSuggestions)
-                        _results.value += results
-                        results.clear()
+                        extra.add(SearchResult(title = "Suggestions", isHeader = true, onClick = {}))
+                        extra.addAll(otherSuggestions)
                     }
                 }
+
+                _results.update { it + extra }
             }
 
             playStoreDeferred.await()?.let {
-                results.add(SearchResult(title = "Play Store", isHeader = true, onClick = {}))
-                results.add(it)
-                _results.value += results
+                val play = listOf(SearchResult(title = "Play Store", isHeader = true, onClick = {}), it)
+                _results.update { it + play }
             }
         }
     }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun <T> Deferred<T>.getCompletedOrNull(): T? =
+        if (isCompleted && !isCancelled) getCompleted() else null
 }

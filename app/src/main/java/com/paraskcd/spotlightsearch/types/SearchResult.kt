@@ -2,6 +2,7 @@ package com.paraskcd.spotlightsearch.types
 
 import android.graphics.drawable.Drawable
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.paraskcd.spotlightsearch.enums.SearchResultType
 
 data class SearchResult(
     val title: String,
@@ -11,5 +12,6 @@ data class SearchResult(
     val onClick: () -> Unit,
     val actionButtons: List<ActionButton>? = null,
     val isHeader: Boolean = false,
-    val contextMenuActions: List<ContextMenuAction>? = null
+    val contextMenuActions: List<ContextMenuAction>? = null,
+    val searchResultType: SearchResultType? = null
 )
