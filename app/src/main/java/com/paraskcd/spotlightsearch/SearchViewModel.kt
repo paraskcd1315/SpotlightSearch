@@ -26,6 +26,7 @@ import android.os.Environment
 import android.provider.Settings
 import androidx.compose.material.icons.filled.Warning
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+import kotlinx.coroutines.async
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
@@ -45,6 +46,11 @@ class SearchViewModel @Inject constructor(
     fun onQueryChanged(newQuery: String) {
         _query.value = newQuery
         updateResults(newQuery)
+    }
+
+    fun onSearch() {
+        val firstResult = _results.value.firstOrNull { !it.isHeader } ?: return
+        firstResult.onClick()
     }
 
     private fun updateResults(query: String) {
@@ -95,85 +101,97 @@ class SearchViewModel @Inject constructor(
                 }
             }
 
-            val localResults = appRepository.searchInstalledApp(query)
+            _results.value = permissionPrompt
 
-            val suggestions = suggestionProvider.fetchSuggestions(query)
+            val results = mutableListOf<SearchResult>()
 
-            val webSearchItem = SearchResult(
-                title = "Search \"$query\" on the web",
-                subtitle = "Web Search",
-                iconVector = Icons.Filled.Search,
-                onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW).apply {
-                        data = "https://www.google.com/search?q=${Uri.encode(query)}".toUri()
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    }
-                    context.startActivity(intent)
-                }
-            )
+            val appDeferred = async { appRepository.searchInstalledApp(query) }
+            val contactDeferred = async { contactSearchProvider.searchContacts(query) }
+            val fileDeferred = async { fileSearchProvider.searchFiles(query) }
+            val suggestionDeferred = async { suggestionProvider.fetchSuggestions(query) }
+            val playStoreDeferred = async { playStoreSearchProvider.getPlayStoreSearchItem(query) }
 
-            val suggestionItems = suggestions.mapIndexed { index, suggestion ->
-                val isCalculator = suggestion.trim().startsWith("=")
-                SearchResult(
-                    title = if (isCalculator) "$query $suggestion" else suggestion,
-                    subtitle = if (isCalculator) "Calculator" else "Suggestion",
-                    iconVector = if (isCalculator) Calculate else Icons.Filled.Search,
-                    onClick =
-                    {
-                        val intent = Intent(Intent.ACTION_VIEW).apply {
-                            data =
-                                "https://www.google.com/search?q=${Uri.encode(suggestion)}".toUri()
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            appDeferred.await().takeIf { it.isNotEmpty() }?.let {
+                results.add(SearchResult(title = "Apps", isHeader = true, onClick = {}))
+                results.addAll(it)
+                _results.value += results
+                results.clear()
+            }
+
+            contactDeferred.await().takeIf { it.isNotEmpty() }?.let {
+                results.add(SearchResult(title = "Contacts", isHeader = true, onClick = {}))
+                results.addAll(it)
+                _results.value += results
+                results.clear()
+            }
+
+            fileDeferred.await().takeIf { it.isNotEmpty() }?.let {
+                results.add(SearchResult(title = "Files", isHeader = true, onClick = {}))
+                results.addAll(it)
+                _results.value += results
+                results.clear()
+            }
+
+            suggestionDeferred.await().let { suggestions ->
+                val sorted = suggestions.mapIndexed { _, suggestion ->
+                    val isCalc = suggestion.trim().startsWith("=")
+                    SearchResult(
+                        title = if (isCalc) "$query $suggestion" else suggestion,
+                        subtitle = if (isCalc) "Calculator" else "Suggestion",
+                        iconVector = if (isCalc) Calculate else Icons.Filled.Search,
+                        onClick = {
+                            val intent = Intent(Intent.ACTION_VIEW).apply {
+                                data = "https://www.google.com/search?q=${Uri.encode(suggestion)}".toUri()
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            }
+                            context.startActivity(intent)
                         }
-                        context.startActivity(intent)
-                    }
-                )
-            }
+                    )
+                }
 
-            val contactResults = contactSearchProvider.searchContacts(query)
-            val fileResults = fileSearchProvider.searchFiles(query)
+                val calculatorItem = sorted.firstOrNull { it.subtitle == "Calculator" }
+                val otherSuggestions = sorted.filter { it.subtitle != "Calculator" }
 
-            val sortedSuggestions = suggestionItems.sortedByDescending { it.subtitle == "Calculator" }
-
-            val calculatorItem = sortedSuggestions.firstOrNull { it.subtitle == "Calculator" }
-            val otherSuggestions = sortedSuggestions.filter { it.subtitle != "Calculator" }
-
-            val playStoreItem = if (localResults.isEmpty()) {
-                playStoreSearchProvider.getPlayStoreSearchItem(query)
-            } else null
-
-            val orderedResults = buildList {
                 calculatorItem?.let {
-                    add(SearchResult(title = "Calculator", isHeader = true, onClick = {}))
-                    add(it)
+                    results.add(SearchResult(title = "Calculator", isHeader = true, onClick = {}))
+                    results.add(it)
+                    _results.value += results
+                    results.clear()
                 }
-                if (contactResults.isNotEmpty()) {
-                    add(SearchResult(title = "Contacts", isHeader = true, onClick = {}))
-                    addAll(contactResults)
-                }
-                if (localResults.isNotEmpty()) {
-                    add(SearchResult(title = "Apps", isHeader = true, onClick = {}))
-                    addAll(localResults)
-                }
-                if (fileResults.isNotEmpty()) {
-                    add(SearchResult(title = "Files", isHeader = true, onClick = {}))
-                    addAll(fileResults)
-                }
-                add(SearchResult(title = "Web", isHeader = true, onClick = {}))
-                add(webSearchItem)
-                if (localResults.isEmpty() && contactResults.isEmpty() && calculatorItem == null) {
+
+                results.add(SearchResult(title = "Web", isHeader = true, onClick = {}))
+                results.add(
+                    SearchResult(
+                        title = "Search \"$query\" on the web",
+                        subtitle = "Web Search",
+                        iconVector = Icons.Filled.Search,
+                        onClick = {
+                            val intent = Intent(Intent.ACTION_VIEW).apply {
+                                data = "https://www.google.com/search?q=${Uri.encode(query)}".toUri()
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            }
+                            context.startActivity(intent)
+                        }
+                    )
+                )
+                _results.value += results
+                results.clear()
+
+                if (appDeferred.await().isEmpty() && contactDeferred.await().isEmpty() && calculatorItem == null) {
                     if (otherSuggestions.isNotEmpty()) {
-                        add(SearchResult(title = "Suggestions", isHeader = true, onClick = {}))
-                        addAll(otherSuggestions)
+                        results.add(SearchResult(title = "Suggestions", isHeader = true, onClick = {}))
+                        results.addAll(otherSuggestions)
+                        _results.value += results
+                        results.clear()
                     }
-                }
-                playStoreItem?.let {
-                    add(SearchResult(title = "Play Store", isHeader = true, onClick = {}))
-                    add(it)
                 }
             }
 
-            _results.value = permissionPrompt + orderedResults
+            playStoreDeferred.await()?.let {
+                results.add(SearchResult(title = "Play Store", isHeader = true, onClick = {}))
+                results.add(it)
+                _results.value += results
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
@@ -29,7 +30,8 @@ fun SearchBar(
     query: String,
     onQueryChanged: (String) -> Unit,
     onClear: () -> Unit,
-    focusRequester: FocusRequester
+    focusRequester: FocusRequester,
+    onSearchImeAction: () -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -43,6 +45,13 @@ fun SearchBar(
         shape = RoundedCornerShape(24.dp),
         singleLine = true,
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                focusManager.clearFocus()
+                keyboardController?.hide()
+                onSearchImeAction()
+            }
+        ),
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.White.copy(alpha = 0.35f),
             unfocusedContainerColor = Color.White.copy(alpha = 0.35f),

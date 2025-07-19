@@ -52,6 +52,7 @@ fun SearchScreen(viewModel: SearchViewModel) {
     }
 
     BackHandler {
+        focusManager.clearFocus(force = true)
         activity?.finish()
     }
 
@@ -81,7 +82,10 @@ fun SearchScreen(viewModel: SearchViewModel) {
                     focusManager.clearFocus()
                     keyboardController?.hide()
                 },
-                focusRequester = focusRequester
+                focusRequester = focusRequester,
+                onSearchImeAction = {
+                    viewModel.onSearch()
+                }
             )
 
             Spacer(
