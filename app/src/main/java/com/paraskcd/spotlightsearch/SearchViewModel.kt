@@ -136,6 +136,25 @@ class SearchViewModel @Inject constructor(
                 results.clear()
             }
 
+            _results.value += SearchResult(
+                title = "Search \"$query\" on the web",
+                subtitle = "Web Search",
+                iconVector = Icons.Filled.Search,
+                onClick = {
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                        data = "https://www.google.com/search?q=${Uri.encode(query)}".toUri()
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    context.startActivity(intent)
+                }
+            )
+
+            playStoreDeferred.await()?.let {
+                results.add(SearchResult(title = "Play Store", isHeader = true, onClick = {}))
+                results.add(it)
+                _results.value += results
+            }
+
             suggestionDeferred.await().let { suggestions ->
                 val sorted = suggestions.mapIndexed { _, suggestion ->
                     val isCalc = suggestion.trim().startsWith("=")
@@ -163,24 +182,6 @@ class SearchViewModel @Inject constructor(
                     results.clear()
                 }
 
-                results.add(SearchResult(title = "Web", isHeader = true, onClick = {}))
-                results.add(
-                    SearchResult(
-                        title = "Search \"$query\" on the web",
-                        subtitle = "Web Search",
-                        iconVector = Icons.Filled.Search,
-                        onClick = {
-                            val intent = Intent(Intent.ACTION_VIEW).apply {
-                                data = "https://www.google.com/search?q=${Uri.encode(query)}".toUri()
-                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            }
-                            context.startActivity(intent)
-                        }
-                    )
-                )
-                _results.value += results
-                results.clear()
-
                 if (appDeferred.await().isEmpty() && contactDeferred.await().isEmpty() && calculatorItem == null) {
                     if (otherSuggestions.isNotEmpty()) {
                         results.add(SearchResult(title = "Suggestions", isHeader = true, onClick = {}))
@@ -189,12 +190,6 @@ class SearchViewModel @Inject constructor(
                         results.clear()
                     }
                 }
-            }
-
-            playStoreDeferred.await()?.let {
-                results.add(SearchResult(title = "Play Store", isHeader = true, onClick = {}))
-                results.add(it)
-                _results.value += results
             }
         }
     }
