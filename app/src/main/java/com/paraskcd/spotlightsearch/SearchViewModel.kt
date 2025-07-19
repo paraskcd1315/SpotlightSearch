@@ -47,15 +47,24 @@ class SearchViewModel @Inject constructor(
 
     fun onQueryChanged(newQuery: String) {
         _query.value = newQuery
-        updateResults(newQuery)
+        updateResults()
     }
 
     fun onSearch() {
-        val firstResult = _results.value.firstOrNull { !it.isHeader } ?: return
-        firstResult.onClick()
+        val firstResult = _results.value.firstOrNull { !it.isHeader }
+        if (firstResult != null) {
+            firstResult.onClick()
+        } else {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = "https://www.google.com/search?q=${Uri.encode(query.value)}".toUri()
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+        }
     }
 
-    private fun updateResults(query: String) {
+    private fun updateResults() {
+        val query = _query.value
         searchJob?.cancel()
 
         searchJob = viewModelScope.launch {
@@ -136,24 +145,23 @@ class SearchViewModel @Inject constructor(
                 results.clear()
             }
 
-            _results.value += SearchResult(
-                title = "Search \"$query\" on the web",
-                subtitle = "Web Search",
-                iconVector = Icons.Filled.Search,
-                onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW).apply {
-                        data = "https://www.google.com/search?q=${Uri.encode(query)}".toUri()
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            results.add(SearchResult(title = "Web", isHeader = true, onClick = {}))
+            results.add(
+                SearchResult(
+                    title = "Search \"$query\" on the web",
+                    subtitle = "Web Search",
+                    iconVector = Icons.Filled.Search,
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_VIEW).apply {
+                            data = "https://www.google.com/search?q=${Uri.encode(query)}".toUri()
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        context.startActivity(intent)
                     }
-                    context.startActivity(intent)
-                }
+                )
             )
-
-            playStoreDeferred.await()?.let {
-                results.add(SearchResult(title = "Play Store", isHeader = true, onClick = {}))
-                results.add(it)
-                _results.value += results
-            }
+            _results.value += results
+            results.clear()
 
             suggestionDeferred.await().let { suggestions ->
                 val sorted = suggestions.mapIndexed { _, suggestion ->
@@ -190,6 +198,12 @@ class SearchViewModel @Inject constructor(
                         results.clear()
                     }
                 }
+            }
+
+            playStoreDeferred.await()?.let {
+                results.add(SearchResult(title = "Play Store", isHeader = true, onClick = {}))
+                results.add(it)
+                _results.value += results
             }
         }
     }

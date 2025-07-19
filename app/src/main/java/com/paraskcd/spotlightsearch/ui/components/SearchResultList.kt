@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SearchResultList(results: List<SearchResult>) {
     LazyColumn {
-        items(results, key = { it.hashCode() }) { result ->
+        items(results) { result ->
             SearchResultItem(result = result)
         }
         item {
