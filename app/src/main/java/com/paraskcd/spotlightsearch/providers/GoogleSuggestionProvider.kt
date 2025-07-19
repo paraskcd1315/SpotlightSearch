@@ -1,4 +1,4 @@
-package com.paraskcd.spotlightsearch
+package com.paraskcd.spotlightsearch.providers
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -16,11 +16,10 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.scaleIn
-import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.core.view.WindowCompat
+import com.paraskcd.spotlightsearch.ui.components.SearchScreen
 import com.paraskcd.spotlightsearch.ui.theme.SpotlightSearchTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -34,7 +33,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             var isVisible by remember { mutableStateOf(false) }
-            var screenshot = remember { searchViewModel.blurredBitmap }
 
             LaunchedEffect(Unit) {
                 delay(100)
@@ -48,7 +46,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Surface(
                         modifier = Modifier.fillMaxSize(),
-                        color = Color.Black.copy(alpha = 0.5f)
+                        color = Color.Transparent
                     ) {
                         SearchScreen(viewModel = searchViewModel)
                     }
@@ -64,6 +62,6 @@ class MainActivity : ComponentActivity() {
         }
 
         window.setBackgroundBlurRadius(75)
-        window.setDimAmount(0.2f)
+        window.setDimAmount(0.5f)
     }
 }

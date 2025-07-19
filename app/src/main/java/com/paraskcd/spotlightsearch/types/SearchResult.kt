@@ -10,5 +10,6 @@ data class SearchResult(
     val iconVector: ImageVector? = null,
     val onClick: () -> Unit,
     val actionButtons: List<ActionButton>? = null,
-    val isHeader: Boolean = false
+    val isHeader: Boolean = false,
+    val contextMenuActions: List<ContextMenuAction>? = null
 )

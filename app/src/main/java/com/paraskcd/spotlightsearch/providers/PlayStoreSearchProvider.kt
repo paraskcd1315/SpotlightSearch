@@ -1,4 +1,4 @@
-package com.paraskcd.spotlightsearch
+package com.paraskcd.spotlightsearch.providers
 
 import android.content.Context
 import android.content.Intent
@@ -26,7 +26,7 @@ class PlayStoreSearchProvider @Inject constructor(
                 icon = icon,
                 onClick = {
                     val intent = Intent(Intent.ACTION_VIEW).apply {
-                        data = Uri.parse("https://play.google.com/store/search?q=${Uri.encode(query)}&c=apps")
+                        setData(Uri.parse("https://play.google.com/store/search?q=${Uri.encode(query)}&c=apps"))
                         setPackage("com.android.vending")
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     }

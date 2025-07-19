@@ -1,5 +1,6 @@
-package com.paraskcd.spotlightsearch
+package com.paraskcd.spotlightsearch.providers
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -14,6 +15,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 
 @Singleton
 class ContactSearchProvider @Inject constructor(
@@ -22,8 +24,12 @@ class ContactSearchProvider @Inject constructor(
     // In-memory cache of all contacts as (name, number, photoUri?) triples
     private var cachedContacts: List<Triple<String, String, String?>>? = null
 
+    fun requiresPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
+    }
+
     fun searchContacts(query: String): List<SearchResult> {
-        if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_CONTACTS)
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS)
             != PackageManager.PERMISSION_GRANTED
         ) {
             return emptyList()
@@ -58,7 +64,7 @@ class ContactSearchProvider @Inject constructor(
                 onClick = {},
                 actionButtons = listOf(
                     ActionButton("Call") {
-                        val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$number"))
+                        val intent = Intent(Intent.ACTION_DIAL, "tel:$number".toUri())
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         context.startActivity(intent)
                     },
@@ -68,7 +74,8 @@ class ContactSearchProvider @Inject constructor(
                         context.startActivity(intent)
                     },
                     ActionButton("WhatsApp") {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/${number.replace("[^\\d+]".toRegex(), "")}"))
+                        val intent = Intent(Intent.ACTION_VIEW,
+                            "https://wa.me/${number.replace("[^\\d+]".toRegex(), "")}".toUri())
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         context.startActivity(intent)
                     }
