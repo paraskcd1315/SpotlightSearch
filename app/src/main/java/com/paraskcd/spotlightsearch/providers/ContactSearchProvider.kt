@@ -39,9 +39,8 @@ class ContactSearchProvider @Inject constructor(
             cachedContacts = loadAllContacts()
         }
 
-        val filtered = cachedContacts!!.filter { (name, number, _) ->
-            name.contains(query, ignoreCase = true) ||
-            number.contains(query)
+        val filtered = cachedContacts!!.filter { (name, _) ->
+            name.contains(query, ignoreCase = true)
         }
 
         return filtered.map { (name, number, photoUri) ->

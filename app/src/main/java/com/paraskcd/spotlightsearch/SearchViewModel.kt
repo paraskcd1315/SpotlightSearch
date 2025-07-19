@@ -26,6 +26,7 @@ import android.os.Environment
 import android.provider.Settings
 import androidx.compose.material.icons.filled.Warning
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 
 @HiltViewModel
@@ -39,6 +40,7 @@ class SearchViewModel @Inject constructor(
 ) : ViewModel() {
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query.asStateFlow()
+    private var searchJob: Job? = null
 
     private val _results = MutableStateFlow<List<SearchResult>>(emptyList())
     val results: StateFlow<List<SearchResult>> = _results.asStateFlow()
@@ -54,7 +56,9 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun updateResults(query: String) {
-        viewModelScope.launch {
+        searchJob?.cancel()
+
+        searchJob = viewModelScope.launch {
             if (query.isBlank()) {
                 _results.value = emptyList()
                 return@launch
