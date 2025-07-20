@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,15 +48,11 @@ import com.paraskcd.spotlightsearch.types.SearchResult
 fun SearchResultItem(result: SearchResult) {
     val activity = LocalActivity.current
 
-    AnimatedVisibility(
-        visible = true,
-        enter = fadeIn() + slideInVertically(initialOffsetY = { it / 4 }),
-        exit = fadeOut()
-    ) {
+    Column {
         if (result.isHeader) {
             Text(
                 text = result.title,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
                     .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 4.dp),
                 fontWeight = FontWeight.Black
@@ -86,6 +84,11 @@ fun SearchResultItem(result: SearchResult) {
                                     .padding(end = 8.dp)
                                     .height(40.dp)
                                     .width(40.dp)
+                                    .border(
+                                        width = 1.dp,
+                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f),
+                                        shape = CircleShape
+                                    )
                                     .clip(CircleShape)
                             )
                         }
@@ -95,13 +98,18 @@ fun SearchResultItem(result: SearchResult) {
                                     .padding(end = 8.dp)
                                     .height(40.dp)
                                     .width(40.dp)
+                                    .border(
+                                        width = 1.dp,
+                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f),
+                                        shape = CircleShape
+                                    )
                                     .clip(CircleShape),
-                                color = Color.White.copy(alpha = 0.2f)
+                                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)
                             ) {
                                 Icon(
                                     imageVector = result.iconVector,
                                     contentDescription = null,
-                                    tint = Color.White,
+                                    tint = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier
                                         .padding(8.dp)
                                         .fillMaxSize()
@@ -111,11 +119,11 @@ fun SearchResultItem(result: SearchResult) {
                         Column {
                             Text(
                                 result.title,
-                                color = Color.White,
+                                color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Bold
                             )
                             result.subtitle?.let {
-                                Text(it, color = Color.White, fontSize = 12.sp)
+                                Text(it, color = MaterialTheme.colorScheme.onSurface, fontSize = 12.sp)
                             }
                         }
                     }
@@ -128,12 +136,20 @@ fun SearchResultItem(result: SearchResult) {
                         ) {
                             result.actionButtons.forEach { action ->
                                 Button(
-                                    onClick = action.onClick,
+                                    onClick = {
+                                        action.onClick()
+                                        activity?.finish()
+                                    },
                                     modifier = Modifier
                                         .weight(1f)
-                                        .padding(horizontal = 4.dp),
+                                        .padding(horizontal = 4.dp)
+                                        .border(
+                                            width = 1.dp,
+                                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f),
+                                            shape = CircleShape
+                                        ),
                                     colors = ButtonDefaults.buttonColors(
-                                        containerColor = Color.White.copy(alpha = 0.2f),
+                                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
                                         contentColor = Color.White
                                     )
                                 ) {
@@ -154,19 +170,20 @@ fun SearchResultItem(result: SearchResult) {
                             text = {
                                 Text(
                                     text = action.title,
-                                    color = Color.White
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
                             },
                             onClick = {
                                 expanded = false
                                 action.onClick()
+                                activity?.finish()
                             },
                             leadingIcon = action.icon?.let {
                                 {
                                     Icon(
                                         imageVector = it,
                                         contentDescription = null,
-                                        tint = Color.White
+                                        tint = MaterialTheme.colorScheme.onSurface
                                     )
                                 }
                             },

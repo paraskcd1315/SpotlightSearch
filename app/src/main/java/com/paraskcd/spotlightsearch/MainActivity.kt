@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Surface(
                         modifier = Modifier.fillMaxSize(),
-                        color = if (isBatterySaver) MaterialTheme.colorScheme.surface else Color.Transparent
+                        color = if (isBatterySaver) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.background.copy(alpha = 0.25f),
                     ) {
                         SearchScreen(viewModel = searchViewModel)
                     }
@@ -73,7 +73,6 @@ class MainActivity : ComponentActivity() {
         }
 
         window.setBackgroundBlurRadius(100)
-        window.setDimAmount(0.5f)
     }
 
     private fun isBatterySaverOn(context: Context): Boolean {
