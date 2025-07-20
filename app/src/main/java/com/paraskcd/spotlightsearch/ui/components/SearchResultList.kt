@@ -48,7 +48,7 @@ fun SearchResultList(results: List<SearchResult>) {
     LaunchedEffect(grouped) {
         sectionVisibility.clear()
         grouped.forEachIndexed { index, _ ->
-            delay(50L * index)
+            delay(100L * index)
             sectionVisibility.add(true)
         }
     }

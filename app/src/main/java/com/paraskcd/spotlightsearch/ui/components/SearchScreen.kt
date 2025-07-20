@@ -76,7 +76,7 @@ fun SearchScreen(viewModel: SearchViewModel) {
 
     LaunchedEffect(localQuery) {
         snapshotFlow { localQuery }
-            .debounce(300)
+            .debounce(400)
             .collect { debouncedText ->
                 viewModel.onQueryChanged(debouncedText)
             }

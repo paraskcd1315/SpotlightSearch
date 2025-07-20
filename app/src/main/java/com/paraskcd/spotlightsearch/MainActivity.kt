@@ -50,15 +50,16 @@ class MainActivity : ComponentActivity() {
             }
 
             SpotlightSearchTheme {
-                AnimatedVisibility(
-                    visible = isVisible,
-                    enter = fadeIn(tween(400)) +
-                            scaleIn(initialScale = 0.95f, animationSpec = tween(400, easing = FastOutSlowInEasing))
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = if (isBatterySaver) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.background.copy(alpha = 0.5f),
                 ) {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = if (isBatterySaver) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.background.copy(alpha = 0.25f),
+                    AnimatedVisibility(
+                        visible = isVisible,
+                        enter = fadeIn(tween(400)) +
+                                scaleIn(initialScale = 0.95f, animationSpec = tween(400, easing = FastOutSlowInEasing))
                     ) {
+
                         SearchScreen(viewModel = searchViewModel)
                     }
                 }
@@ -73,6 +74,7 @@ class MainActivity : ComponentActivity() {
         }
 
         window.setBackgroundBlurRadius(100)
+        window.setDimAmount(0.0f)
     }
 
     private fun isBatterySaverOn(context: Context): Boolean {

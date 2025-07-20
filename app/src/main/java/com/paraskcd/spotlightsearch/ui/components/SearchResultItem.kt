@@ -142,12 +142,12 @@ fun SearchResultItem(result: SearchResult) {
                                     },
                                     modifier = Modifier
                                         .weight(1f)
-                                        .padding(horizontal = 4.dp)
                                         .border(
                                             width = 1.dp,
                                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f),
                                             shape = CircleShape
-                                        ),
+                                        )
+                                        .padding(horizontal = 4.dp),
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
                                         contentColor = Color.White
