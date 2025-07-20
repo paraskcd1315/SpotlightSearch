@@ -28,6 +28,7 @@ import android.provider.Settings
 import androidx.compose.material.icons.filled.Warning
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import com.paraskcd.spotlightsearch.enums.SearchResultType
+import com.paraskcd.spotlightsearch.providers.MathEvaluationProvider
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -41,6 +42,7 @@ class SearchViewModel @Inject constructor(
     private val playStoreSearchProvider: PlayStoreSearchProvider,
     private val contactSearchProvider: ContactSearchProvider,
     private val fileSearchProvider: FileSearchProvider,
+    private val mathEvaluationProvider: MathEvaluationProvider,
 ) : ViewModel() {
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query.asStateFlow()
@@ -115,7 +117,7 @@ class SearchViewModel @Inject constructor(
                         iconVector = Icons.Filled.Warning,
                         onClick = {
                             val intent = Intent(ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                data = Uri.parse("package:${context.packageName}")
+                                data = "package:${context.packageName}".toUri()
                                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             }
                             context.startActivity(intent)
@@ -125,6 +127,17 @@ class SearchViewModel @Inject constructor(
                 }
             }
             _results.value = permissionPrompt
+
+            // Math/Date/Unit/Temp evaluation
+            val mathResult = mathEvaluationProvider.evaluate(query)
+            mathResult?.let {
+                _results.update { prev ->
+                    prev + listOf(
+                        SearchResult(title = "Calculator", isHeader = true, onClick = {}),
+                        it
+                    )
+                }
+            }
 
             val appDeferred = async { appRepository.searchInstalledApp(query) }
             val contactDeferred = async { contactSearchProvider.searchContacts(query) }
@@ -195,6 +208,14 @@ class SearchViewModel @Inject constructor(
                 calculatorItem?.let {
                     extra.add(SearchResult(title = "Calculator", isHeader = true, onClick = {}))
                     extra.add(it)
+                }
+
+                if (calculatorItem != null) {
+                    // Remove previous local calculator results
+                    _results.update { prev -> prev.filterNot { it.searchResultType == SearchResultType.CALCULATOR || (it.isHeader && it.title == "Calculator") } }
+                    extra.clear()
+                    extra.add(SearchResult(title = "Calculator", isHeader = true, onClick = {}))
+                    extra.add(calculatorItem)
                 }
 
                 if (appDeferred.getCompletedOrNull().isNullOrEmpty() &&

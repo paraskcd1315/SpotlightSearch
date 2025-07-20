@@ -1,6 +1,8 @@
 package com.paraskcd.spotlightsearch
 
+import android.content.Context
 import android.os.Bundle
+import android.os.PowerManager
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import androidx.activity.ComponentActivity
@@ -16,6 +18,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.scaleIn
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.core.view.WindowCompat
@@ -33,11 +36,15 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             var isVisible by remember { mutableStateOf(false) }
+            val isBatterySaver = remember {
+                isBatterySaverOn(this)
+            }
 
             LaunchedEffect(Unit) {
-                delay(100)
+                delay(250)
                 isVisible = true
             }
+
             SpotlightSearchTheme {
                 AnimatedVisibility(
                     visible = isVisible,
@@ -46,7 +53,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Surface(
                         modifier = Modifier.fillMaxSize(),
-                        color = Color.Transparent
+                        color = if (isBatterySaver) MaterialTheme.colorScheme.surface else Color.Transparent
                     ) {
                         SearchScreen(viewModel = searchViewModel)
                     }
@@ -63,5 +70,10 @@ class MainActivity : ComponentActivity() {
 
         window.setBackgroundBlurRadius(75)
         window.setDimAmount(0.5f)
+    }
+
+    private fun isBatterySaverOn(context: Context): Boolean {
+        val powerManager = context.getSystemService(POWER_SERVICE) as PowerManager
+        return powerManager.isPowerSaveMode
     }
 }
