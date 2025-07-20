@@ -1,10 +1,6 @@
 package com.paraskcd.spotlightsearch.ui.components
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+
 import androidx.compose.foundation.border
 import androidx.compose.runtime.Composable
 import com.paraskcd.spotlightsearch.types.SearchResult
@@ -19,11 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.LaunchedEffect
-import kotlinx.coroutines.delay
 
 @Composable
 fun SearchResultList(results: List<SearchResult>) {
@@ -43,40 +35,24 @@ fun SearchResultList(results: List<SearchResult>) {
         sections
     }
 
-    val sectionVisibility = remember { mutableStateListOf<Boolean>() }
-
-    LaunchedEffect(grouped) {
-        sectionVisibility.clear()
-        grouped.forEachIndexed { index, _ ->
-            delay(100L * index)
-            sectionVisibility.add(true)
-        }
-    }
-
     LazyColumn {
         grouped.forEachIndexed { index, section ->
             item {
-                AnimatedVisibility(
-                    visible = sectionVisibility.getOrNull(index) == true,
-                    enter = fadeIn() + slideInVertically(initialOffsetY = { it / 2 }),
-                    exit = fadeOut() + slideOutVertically(targetOffsetY = { it / 2 })
+                Surface(
+                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.35f),
+                    shape = RoundedCornerShape(24.dp),
+                    modifier = Modifier
+                        .padding(bottom = 12.dp)
+                        .fillMaxWidth()
+                        .border(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f),
+                            shape = RoundedCornerShape(24.dp)
+                        )
                 ) {
-                    Surface(
-                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.35f),
-                        shape = RoundedCornerShape(24.dp),
-                        modifier = Modifier
-                            .padding(bottom = 12.dp)
-                            .fillMaxWidth()
-                            .border(
-                                width = 1.dp,
-                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f),
-                                shape = RoundedCornerShape(24.dp)
-                            )
-                    ) {
-                        Column {
-                            section.forEach { result ->
-                                SearchResultItem(result)
-                            }
+                    Column {
+                        section.forEach { result ->
+                            SearchResultItem(result)
                         }
                     }
                 }
