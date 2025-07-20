@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -38,13 +37,13 @@ fun SearchResultList(results: List<SearchResult>) {
         grouped.forEach { section ->
             item {
                 Surface(
-                    color = Color.White.copy(alpha = 0.15f),
+                    color = Color.White.copy(alpha = 0.25f),
                     shape = RoundedCornerShape(24.dp),
                     modifier = Modifier
-                        .padding(horizontal = 8.dp, vertical = 6.dp)
+                        .padding(bottom = 12.dp)
                         .fillMaxWidth()
                 ) {
-                    Column(modifier = Modifier.padding(8.dp)) {
+                    Column {
                         section.forEach { result ->
                             SearchResultItem(result)
                         }

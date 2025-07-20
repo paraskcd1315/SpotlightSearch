@@ -1,5 +1,6 @@
 package com.paraskcd.spotlightsearch.ui.components
 
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
@@ -27,6 +28,16 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.safeDrawing
 import com.paraskcd.spotlightsearch.SearchViewModel
 import kotlinx.coroutines.FlowPreview
+import androidx.activity.OnBackPressedCallback
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.DisposableEffect
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.compose.LocalLifecycleOwner
 
 @OptIn(FlowPreview::class)
 @Composable
@@ -35,9 +46,29 @@ fun SearchScreen(viewModel: SearchViewModel) {
     val results by viewModel.results.collectAsState()
 
     val focusRequester = remember { FocusRequester() }
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val focusManager = LocalFocusManager.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     val activity = LocalActivity.current
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    DisposableEffect(lifecycleOwner) {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Cierra teclado y focus primero
+                focusManager.clearFocus()
+                keyboardController?.hide()
+                // Luego termina la activity
+                activity?.finish()
+            }
+        }
+
+        val onBackPressedDispatcher = (activity as? ComponentActivity)?.onBackPressedDispatcher
+        onBackPressedDispatcher?.addCallback(lifecycleOwner, callback)
+
+        onDispose {
+            callback.remove()
+        }
+    }
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
@@ -49,12 +80,6 @@ fun SearchScreen(viewModel: SearchViewModel) {
             .collect { debouncedText ->
                 viewModel.onQueryChanged(debouncedText)
             }
-    }
-
-    BackHandler {
-        focusManager.clearFocus()
-        keyboardController?.hide()
-        activity?.finish()
     }
 
     AnimatedVisibility(

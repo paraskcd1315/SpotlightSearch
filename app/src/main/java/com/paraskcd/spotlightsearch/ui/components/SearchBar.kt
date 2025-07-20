@@ -46,15 +46,16 @@ fun SearchBar(
             }
         ),
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.White.copy(alpha = 0.35f),
-            unfocusedContainerColor = Color.White.copy(alpha = 0.35f),
+            focusedContainerColor = Color.White.copy(alpha = 0.25f),
+            unfocusedContainerColor = Color.White.copy(alpha = 0.25f),
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
             cursorColor = Color.White,
             focusedTextColor = Color.White,
             unfocusedTextColor = Color.White,
-            disabledTextColor = Color.Gray
+            disabledTextColor = Color.Gray,
+
         ),
         placeholder = { Text("Search...") },
         leadingIcon = {

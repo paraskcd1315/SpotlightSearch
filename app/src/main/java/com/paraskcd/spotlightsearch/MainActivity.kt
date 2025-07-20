@@ -26,6 +26,8 @@ import com.paraskcd.spotlightsearch.ui.components.SearchScreen
 import com.paraskcd.spotlightsearch.ui.theme.SpotlightSearchTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import androidx.compose.ui.platform.LocalView
+import android.view.HapticFeedbackConstants
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -39,9 +41,11 @@ class MainActivity : ComponentActivity() {
             val isBatterySaver = remember {
                 isBatterySaverOn(this)
             }
+            val localView = LocalView.current
 
             LaunchedEffect(Unit) {
                 delay(250)
+                localView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
                 isVisible = true
             }
 
@@ -68,7 +72,7 @@ class MainActivity : ComponentActivity() {
             systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
 
-        window.setBackgroundBlurRadius(75)
+        window.setBackgroundBlurRadius(100)
         window.setDimAmount(0.5f)
     }
 

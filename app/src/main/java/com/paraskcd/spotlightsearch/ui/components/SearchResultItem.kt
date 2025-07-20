@@ -1,12 +1,12 @@
 package com.paraskcd.spotlightsearch.ui.components
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
@@ -43,6 +44,8 @@ import com.paraskcd.spotlightsearch.types.SearchResult
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SearchResultItem(result: SearchResult) {
+    val activity = LocalActivity.current
+
     AnimatedVisibility(
         visible = true,
         enter = fadeIn() + slideInVertically(initialOffsetY = { it / 4 }),
@@ -53,18 +56,22 @@ fun SearchResultItem(result: SearchResult) {
                 text = result.title,
                 color = Color.White,
                 modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 4.dp),
+                fontWeight = FontWeight.Black
             )
         } else {
             var expanded by remember { mutableStateOf(false) }
             Surface(
-                color = Color.White.copy(alpha = 0.15f),
+                color = Color.White.copy(alpha = 0.0f),
                 shape = RoundedCornerShape(24.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
+                    .padding(bottom = 8.dp)
                     .combinedClickable(
-                        onClick = { result.onClick() },
+                        onClick = {
+                            result.onClick()
+                            activity?.finish()
+                        },
                         onLongClick = { expanded = true },
                         enabled = result.onClick != {}
                     )
@@ -102,7 +109,11 @@ fun SearchResultItem(result: SearchResult) {
                             }
                         }
                         Column {
-                            Text(result.title, color = Color.White)
+                            Text(
+                                result.title,
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold
+                            )
                             result.subtitle?.let {
                                 Text(it, color = Color.White, fontSize = 12.sp)
                             }
