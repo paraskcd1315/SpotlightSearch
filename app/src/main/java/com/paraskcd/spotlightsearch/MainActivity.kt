@@ -8,35 +8,33 @@ import android.view.WindowInsetsController
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.gestures.detectVerticalDragGestures
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.unit.IntOffset
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.scaleIn
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.core.view.WindowCompat
 import com.paraskcd.spotlightsearch.ui.components.SearchScreen
 import com.paraskcd.spotlightsearch.ui.theme.SpotlightSearchTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import androidx.compose.ui.platform.LocalView
 import android.view.HapticFeedbackConstants
-import androidx.compose.animation.core.animate
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.IntOffset
 import kotlin.math.roundToInt
+import androidx.compose.ui.graphics.graphicsLayer
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -53,38 +51,27 @@ class MainActivity : ComponentActivity() {
             val localView = LocalView.current
             var dragOffsetY by remember { mutableStateOf(0f) }
 
-            val animatedDragOffsetY by animateFloatAsState(
-                targetValue = dragOffsetY,
-                animationSpec = tween(durationMillis = 500)
-            )
-
             LaunchedEffect(Unit) {
-                dragOffsetY = 100f
-                window.setBackgroundBlurRadius(0)
-                delay(100)
+                delay(250)
                 localView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
                 isVisible = true
-                dragOffsetY = 0f
-            }
-
-            LaunchedEffect(animatedDragOffsetY) {
-                window.setBackgroundBlurRadius((100f - animatedDragOffsetY).coerceIn(0f, 100f).roundToInt())
             }
 
             SpotlightSearchTheme {
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = if (isBatterySaver) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.background.copy(alpha = (0.5f - (animatedDragOffsetY / 300f)).coerceIn(0f, 0.5f)),
+                    color = if (isBatterySaver) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.background.copy(alpha = (0.5f - (dragOffsetY / 300f)).coerceIn(0f, 0.5f)),
                 ) {
                     Box(
                         Modifier
                             .fillMaxSize()
-                            .offset { IntOffset(0, animatedDragOffsetY.roundToInt()) }
+                            .offset { IntOffset(0, dragOffsetY.roundToInt()) }
                             .pointerInput(Unit) {
                                 detectVerticalDragGestures(
                                     onVerticalDrag = { change, dragAmount ->
                                         dragOffsetY += dragAmount
+                                        window.setBackgroundBlurRadius((100f - dragOffsetY).coerceIn(0f, 100f).roundToInt())
                                         change.consume()
                                     },
                                     onDragEnd = {
@@ -103,7 +90,7 @@ class MainActivity : ComponentActivity() {
                             enter = fadeIn(tween(400)) +
                                     scaleIn(initialScale = 0.95f, animationSpec = tween(400, easing = FastOutSlowInEasing)),
                             modifier = Modifier.graphicsLayer {
-                                alpha = (1f - (animatedDragOffsetY / 300f)).coerceIn(0f, 1f)
+                                alpha = (1f - (dragOffsetY / 300f)).coerceIn(0f, 1f)
                             }
                         ) {
                             SearchScreen(viewModel = searchViewModel)
