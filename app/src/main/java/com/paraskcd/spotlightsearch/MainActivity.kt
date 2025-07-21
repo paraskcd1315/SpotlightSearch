@@ -28,6 +28,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import androidx.compose.ui.platform.LocalView
 import android.view.HapticFeedbackConstants
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.IntOffset
+import kotlin.math.roundToInt
+import androidx.compose.ui.graphics.graphicsLayer
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -42,6 +49,7 @@ class MainActivity : ComponentActivity() {
                 isBatterySaverOn(this)
             }
             val localView = LocalView.current
+            var dragOffsetY by remember { mutableStateOf(0f) }
 
             LaunchedEffect(Unit) {
                 delay(250)
@@ -50,17 +58,43 @@ class MainActivity : ComponentActivity() {
             }
 
             SpotlightSearchTheme {
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = if (isBatterySaver) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.background.copy(alpha = 0.5f),
+                    color = if (isBatterySaver) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.background.copy(alpha = (0.5f - (dragOffsetY / 300f)).coerceIn(0f, 0.5f)),
                 ) {
-                    AnimatedVisibility(
-                        visible = isVisible,
-                        enter = fadeIn(tween(400)) +
-                                scaleIn(initialScale = 0.95f, animationSpec = tween(400, easing = FastOutSlowInEasing))
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .offset { IntOffset(0, dragOffsetY.roundToInt()) }
+                            .pointerInput(Unit) {
+                                detectVerticalDragGestures(
+                                    onVerticalDrag = { change, dragAmount ->
+                                        dragOffsetY += dragAmount
+                                        window.setBackgroundBlurRadius((100f - dragOffsetY).coerceIn(0f, 100f).roundToInt())
+                                        change.consume()
+                                    },
+                                    onDragEnd = {
+                                        if (dragOffsetY > 100f) {
+                                            finish()
+                                        } else {
+                                            dragOffsetY = 0f
+                                            window.setBackgroundBlurRadius(100)
+                                        }
+                                    }
+                                )
+                            }
                     ) {
-
-                        SearchScreen(viewModel = searchViewModel)
+                        AnimatedVisibility(
+                            visible = isVisible,
+                            enter = fadeIn(tween(400)) +
+                                    scaleIn(initialScale = 0.95f, animationSpec = tween(400, easing = FastOutSlowInEasing)),
+                            modifier = Modifier.graphicsLayer {
+                                alpha = (1f - (dragOffsetY / 300f)).coerceIn(0f, 1f)
+                            }
+                        ) {
+                            SearchScreen(viewModel = searchViewModel)
+                        }
                     }
                 }
             }
@@ -73,7 +107,7 @@ class MainActivity : ComponentActivity() {
             systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
 
-        window.setBackgroundBlurRadius(100)
+        window.setBackgroundBlurRadius(100) // Now handled reactively
         window.setDimAmount(0.0f)
     }
 
