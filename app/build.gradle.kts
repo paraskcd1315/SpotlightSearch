@@ -84,4 +84,5 @@ dependencies {
     ksp("androidx.hilt:hilt-compiler:1.2.0")
 
     implementation("com.google.accompanist:accompanist-drawablepainter:0.28.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 }
