@@ -28,7 +28,9 @@ import android.provider.Settings
 import androidx.compose.material.icons.filled.Warning
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import com.paraskcd.spotlightsearch.enums.SearchResultType
+import com.paraskcd.spotlightsearch.providers.AICoreProvider
 import com.paraskcd.spotlightsearch.providers.MathEvaluationProvider
+import com.paraskcd.spotlightsearch.providers.TranslationProvider
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -43,7 +45,10 @@ class SearchViewModel @Inject constructor(
     private val contactSearchProvider: ContactSearchProvider,
     private val fileSearchProvider: FileSearchProvider,
     private val mathEvaluationProvider: MathEvaluationProvider,
+    private val aicoreProvider: AICoreProvider,
+    private val translationProvider: TranslationProvider
 ) : ViewModel() {
+    val model = aicoreProvider.getModel()
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query.asStateFlow()
     private var searchJob: Job? = null
@@ -142,6 +147,7 @@ class SearchViewModel @Inject constructor(
             val appDeferred = async { appRepository.searchInstalledApp(query) }
             val contactDeferred = async { contactSearchProvider.searchContacts(query) }
             val fileDeferred = async { fileSearchProvider.searchFiles(query) }
+            val translationDeferred = async { translationProvider.translate(query, model) }
             val suggestionDeferred = async { suggestionProvider.fetchSuggestions(query) }
             val playStoreDeferred = async { playStoreSearchProvider.getPlayStoreSearchItem(query) }
 
@@ -182,6 +188,13 @@ class SearchViewModel @Inject constructor(
                 searchResultType = SearchResultType.WEB
             ))
             _results.update { it + webResults }
+
+            translationDeferred.invokeOnCompletion {
+                translationDeferred.getCompletedOrNull()?.let { result ->
+                    val list = listOf(SearchResult(title = "Translation", isHeader = true, onClick = {}), result)
+                    _results.update { prev -> prev + list }
+                }
+            }
 
             suggestionDeferred.await().let { suggestions ->
                 val sorted = suggestions.mapIndexed { _, suggestion ->

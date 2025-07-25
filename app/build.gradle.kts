@@ -31,7 +31,19 @@ android {
             val formatter = SimpleDateFormat("yyyy-MM-dd-HH'h'mm'm'")
             val timestamp = formatter.format(Date())
 
-            output.outputFileName = "$appName-v-$timestamp.apk"
+            val branchName = try {
+                Runtime.getRuntime()
+                    .exec("git rev-parse --abbrev-ref HEAD")
+                    .inputStream
+                    .bufferedReader()
+                    .readText()
+                    .trim()
+                    .replace("/", "_") // avoid invalid file names
+            } catch (e: Exception) {
+                "unknownBranch"
+            }
+
+            output.outputFileName = "$appName-$branchName-v-$timestamp.apk"
         }
     }
 
@@ -85,4 +97,7 @@ dependencies {
 
     implementation("com.google.accompanist:accompanist-drawablepainter:0.28.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+
+    implementation("com.google.ai.edge.aicore:aicore:0.0.1-exp02")
 }

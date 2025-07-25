@@ -7,5 +7,6 @@ enum class SearchResultType {
     SUGGESTION,
     CALCULATOR,
     WEB,
-    PERMISSION
+    PERMISSION,
+    TRANSLATOR
 }
