@@ -2,41 +2,51 @@ package com.paraskcd.spotlightsearch.providers
 
 
 import android.util.Log
+import com.google.ai.edge.aicore.Content
 import com.google.ai.edge.aicore.GenerativeModel
+import com.google.ai.edge.aicore.TextPart
 import com.paraskcd.spotlightsearch.enums.SearchResultType
 import com.paraskcd.spotlightsearch.types.SearchResult
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class TranslationProvider @Inject constructor() {
-    suspend fun translate(query: String, model: GenerativeModel): SearchResult? {
-        val prompt = buildPrompt(query) ?: return null
+    suspend fun getTranslationResult(
+        model: GenerativeModel,
+        query: String
+    ): SearchResult? = withContext(Dispatchers.IO) {
+        val regex = Regex("""translate\s+(\w+)\s+(to|into|a|en)\s+(\w+)\s*:\s*(.+)""", RegexOption.IGNORE_CASE)
+        val match = regex.find(query.lowercase()) ?: return@withContext null
 
-        return try {
-            val response = model.generateContent(prompt)
-            val translated = response.text?.trim()
-            if (!translated.isNullOrBlank()) {
-                SearchResult(
-                    title = translated,
-                    subtitle = "Translated result",
-                    searchResultType = SearchResultType.TRANSLATOR,
-                    onClick = {}
-                )
-            } else null
+        val (fromLang, _, toLang, message) = match.destructured
+
+        val prompt = """
+            You are a well-known translator of any language I give you.
+            You have to translate from $fromLang to $toLang.
+            Your job is to only translate the message and respond me with the translated message.
+            After this Prompt Translate me this message - $message
+        """.trimIndent()
+
+        return@withContext try {
+            val inputResponse = model.generateContent(prompt)
+            Log.d("[Debug] InputResponse", inputResponse.text?.trim().orEmpty())
+            val translated = inputResponse.text?.trim().orEmpty()
+
+            if (translated.isBlank()) return@withContext null
+
+            SearchResult(
+                title = translated,
+                subtitle = "Translation ($fromLang → $toLang)",
+                searchResultType = SearchResultType.TRANSLATOR,
+                onClick = {},
+                isHeader = false
+            )
         } catch (e: Exception) {
-            Log.e("TranslationProvider", "Translation failed", e)
+            Log.e("TranslatorProvider", "Translation failed", e)
             null
         }
-    }
-
-    private fun buildPrompt(query: String): String? {
-        val regex = Regex("translate (.+?) (into|to|en|a) ([a-zA-Z]+)", RegexOption.IGNORE_CASE)
-        val match = regex.find(query)
-        return if (match != null) {
-            val text = match.groupValues[1]
-            val language = match.groupValues[3]
-            "Translate the following text to $language:\n$text"
-        } else null
     }
 }

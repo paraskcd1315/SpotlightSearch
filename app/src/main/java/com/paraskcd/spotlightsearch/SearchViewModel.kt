@@ -147,7 +147,7 @@ class SearchViewModel @Inject constructor(
             val appDeferred = async { appRepository.searchInstalledApp(query) }
             val contactDeferred = async { contactSearchProvider.searchContacts(query) }
             val fileDeferred = async { fileSearchProvider.searchFiles(query) }
-            val translationDeferred = async { translationProvider.translate(query, model) }
+            val translationDeferred = async { translationProvider.getTranslationResult(model, query) }
             val suggestionDeferred = async { suggestionProvider.fetchSuggestions(query) }
             val playStoreDeferred = async { playStoreSearchProvider.getPlayStoreSearchItem(query) }
 
