@@ -1,6 +1,7 @@
 package com.paraskcd.spotlightsearch.providers
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -15,6 +16,8 @@ class GoogleSuggestionProvider @Inject constructor() {
 
     suspend fun fetchSuggestions(query: String): List<String> = withContext(Dispatchers.IO) {
         if (query.isBlank()) return@withContext emptyList()
+
+        delay(250)
 
         val encoded = URLEncoder.encode(query, "UTF-8")
         val url = "https://suggestqueries.google.com/complete/search?client=firefox&q=$encoded"

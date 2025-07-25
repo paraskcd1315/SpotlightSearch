@@ -72,6 +72,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
     implementation("androidx.appcompat:appcompat:1.7.1")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
@@ -85,4 +86,9 @@ dependencies {
 
     implementation("com.google.accompanist:accompanist-drawablepainter:0.28.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+    implementation("com.google.mlkit:translate:17.0.3")
+    implementation("com.google.mlkit:language-id:17.0.4")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 }

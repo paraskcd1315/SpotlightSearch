@@ -28,6 +28,7 @@ import android.provider.Settings
 import androidx.compose.material.icons.filled.Warning
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import com.paraskcd.spotlightsearch.enums.SearchResultType
+import com.paraskcd.spotlightsearch.providers.MLKitTranslationProvider
 import com.paraskcd.spotlightsearch.providers.MathEvaluationProvider
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -43,6 +44,7 @@ class SearchViewModel @Inject constructor(
     private val contactSearchProvider: ContactSearchProvider,
     private val fileSearchProvider: FileSearchProvider,
     private val mathEvaluationProvider: MathEvaluationProvider,
+    private val mlKitTranslationProvider: MLKitTranslationProvider
 ) : ViewModel() {
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query.asStateFlow()
@@ -139,6 +141,7 @@ class SearchViewModel @Inject constructor(
                 }
             }
 
+            val translationDeferred = async { mlKitTranslationProvider.translate(query) }
             val appDeferred = async { appRepository.searchInstalledApp(query) }
             val contactDeferred = async { contactSearchProvider.searchContacts(query) }
             val fileDeferred = async { fileSearchProvider.searchFiles(query) }
@@ -182,6 +185,13 @@ class SearchViewModel @Inject constructor(
                 searchResultType = SearchResultType.WEB
             ))
             _results.update { it + webResults }
+
+            translationDeferred.invokeOnCompletion {
+                translationDeferred.getCompletedOrNull()?.let {
+                    val list = listOf(SearchResult(title = "Translation", isHeader = true, onClick = {})) + it
+                    _results.update { prev -> prev + list }
+                }
+            }
 
             suggestionDeferred.await().let { suggestions ->
                 val sorted = suggestions.mapIndexed { _, suggestion ->
