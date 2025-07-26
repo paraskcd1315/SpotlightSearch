@@ -28,7 +28,7 @@ class GoogleSuggestionProvider @Inject constructor() {
             val body = response.body?.string() ?: return@withContext emptyList()
             val array = JSONArray(body)
             val suggestions = array.getJSONArray(1)
-            List(suggestions.length()) { suggestions.getString(it) }
+            List(5) { suggestions.getString(it) }
         } catch (e: Exception) {
             emptyList()
         }

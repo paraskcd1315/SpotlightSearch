@@ -30,6 +30,7 @@ import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import com.paraskcd.spotlightsearch.enums.SearchResultType
 import com.paraskcd.spotlightsearch.providers.MLKitTranslationProvider
 import com.paraskcd.spotlightsearch.providers.MathEvaluationProvider
+import com.paraskcd.spotlightsearch.providers.SettingsSearchProvider
 import com.paraskcd.spotlightsearch.providers.SpellCheckerProvider
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -46,7 +47,8 @@ class SearchViewModel @Inject constructor(
     private val fileSearchProvider: FileSearchProvider,
     private val mathEvaluationProvider: MathEvaluationProvider,
     private val mlKitTranslationProvider: MLKitTranslationProvider,
-    private val spellCheckerProvider: SpellCheckerProvider
+    private val spellCheckerProvider: SpellCheckerProvider,
+    private val settingsSearchProvider: SettingsSearchProvider
 ) : ViewModel() {
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query.asStateFlow()
@@ -72,7 +74,7 @@ class SearchViewModel @Inject constructor(
                 SearchResultType.APP,
                 SearchResultType.CONTACT,
                 SearchResultType.FILE,
-                SearchResultType.CALCULATOR -> true
+                SearchResultType.SETTINGS-> true
                 else -> false
             }
         }
@@ -97,8 +99,6 @@ class SearchViewModel @Inject constructor(
                 _results.value = emptyList()
                 return@launch
             }
-
-
 
             val needsFilePermission = !Environment.isExternalStorageManager()
             val needsContactPermission = contactSearchProvider.requiresPermission()
@@ -138,7 +138,7 @@ class SearchViewModel @Inject constructor(
                     ))
                 }
             }
-            _results.value = permissionPrompt
+            _results.update { permissionPrompt + it }
 
             val cleanQuery = query.trim()
             val suggestions = spellCheckerProvider.suggest(cleanQuery)
@@ -154,6 +154,11 @@ class SearchViewModel @Inject constructor(
                     hasTextChangeFlag = true
                 )
                 _results.update { listOf(header, suggestionResult) + it }
+            }
+
+            val settingsResults = settingsSearchProvider.searchSettings(cleanQuery)
+            if (settingsResults.isNotEmpty()) {
+                _results.update { settingsResults + it }
             }
 
             // Math/Date/Unit/Temp evaluation
