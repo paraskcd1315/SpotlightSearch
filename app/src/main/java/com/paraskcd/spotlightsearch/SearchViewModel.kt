@@ -30,6 +30,7 @@ import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import com.paraskcd.spotlightsearch.enums.SearchResultType
 import com.paraskcd.spotlightsearch.providers.MLKitTranslationProvider
 import com.paraskcd.spotlightsearch.providers.MathEvaluationProvider
+import com.paraskcd.spotlightsearch.providers.SpellCheckerProvider
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -44,7 +45,8 @@ class SearchViewModel @Inject constructor(
     private val contactSearchProvider: ContactSearchProvider,
     private val fileSearchProvider: FileSearchProvider,
     private val mathEvaluationProvider: MathEvaluationProvider,
-    private val mlKitTranslationProvider: MLKitTranslationProvider
+    private val mlKitTranslationProvider: MLKitTranslationProvider,
+    private val spellCheckerProvider: SpellCheckerProvider
 ) : ViewModel() {
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query.asStateFlow()
@@ -52,6 +54,12 @@ class SearchViewModel @Inject constructor(
 
     private val _results = MutableStateFlow<List<SearchResult>>(emptyList())
     val results: StateFlow<List<SearchResult>> = _results.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            spellCheckerProvider.init()
+        }
+    }
 
     fun onQueryChanged(newQuery: String) {
         _query.value = newQuery
@@ -89,6 +97,8 @@ class SearchViewModel @Inject constructor(
                 _results.value = emptyList()
                 return@launch
             }
+
+
 
             val needsFilePermission = !Environment.isExternalStorageManager()
             val needsContactPermission = contactSearchProvider.requiresPermission()
@@ -129,6 +139,22 @@ class SearchViewModel @Inject constructor(
                 }
             }
             _results.value = permissionPrompt
+
+            val cleanQuery = query.trim()
+            val suggestions = spellCheckerProvider.suggest(cleanQuery)
+            val first = suggestions.firstOrNull()
+            if (!first.isNullOrBlank() && !first.equals(cleanQuery, ignoreCase = true)) {
+                val header = SearchResult(title = "Dictionary", isHeader = true, onClick = {})
+                val suggestionResult = SearchResult(
+                    title = "Did you mean...?",
+                    subtitle = first,
+                    iconVector = Icons.Filled.Search,
+                    onClick = { onQueryChanged(first) },
+                    searchResultType = SearchResultType.SUGGESTION,
+                    hasTextChangeFlag = true
+                )
+                _results.update { listOf(header, suggestionResult) + it }
+            }
 
             // Math/Date/Unit/Temp evaluation
             val mathResult = mathEvaluationProvider.evaluate(query)

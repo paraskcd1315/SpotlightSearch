@@ -91,4 +91,7 @@ dependencies {
     implementation("com.google.mlkit:language-id:17.0.4")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+
+    implementation("com.darkrockstudios:symspellkt:3.4.0")
+    implementation("com.darkrockstudios:SymSpellKtFdic-android:3.4.0")
 }

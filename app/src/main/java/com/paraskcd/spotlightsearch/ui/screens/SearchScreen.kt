@@ -1,7 +1,6 @@
-package com.paraskcd.spotlightsearch.ui.components
+package com.paraskcd.spotlightsearch.ui.screens
 
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -29,15 +28,11 @@ import androidx.compose.foundation.layout.safeDrawing
 import com.paraskcd.spotlightsearch.SearchViewModel
 import kotlinx.coroutines.FlowPreview
 import androidx.activity.OnBackPressedCallback
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.DisposableEffect
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.paraskcd.spotlightsearch.ui.components.CloseButton
+import com.paraskcd.spotlightsearch.ui.components.SearchBar
+import com.paraskcd.spotlightsearch.ui.components.SearchResultList
 
 @OptIn(FlowPreview::class)
 @Composable
@@ -118,7 +113,8 @@ fun SearchScreen(viewModel: SearchViewModel) {
             )
 
             SearchResultList(
-                results = results
+                results = results,
+                onQueryChanged = { localQuery = it }
             )
         }
     }

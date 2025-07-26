@@ -13,5 +13,6 @@ data class SearchResult(
     val actionButtons: List<ActionButton>? = null,
     val isHeader: Boolean = false,
     val contextMenuActions: List<ContextMenuAction>? = null,
-    val searchResultType: SearchResultType? = null
+    val searchResultType: SearchResultType? = null,
+    val hasTextChangeFlag: Boolean? = false
 )

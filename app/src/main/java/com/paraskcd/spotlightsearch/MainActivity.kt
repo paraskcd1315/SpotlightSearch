@@ -21,7 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.core.view.WindowCompat
-import com.paraskcd.spotlightsearch.ui.components.SearchScreen
+import com.paraskcd.spotlightsearch.ui.screens.SearchScreen
 import com.paraskcd.spotlightsearch.ui.theme.SpotlightSearchTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay

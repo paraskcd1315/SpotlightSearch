@@ -45,7 +45,7 @@ import com.paraskcd.spotlightsearch.types.SearchResult
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SearchResultItem(result: SearchResult) {
+fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
     val activity = LocalActivity.current
 
     Column {
@@ -67,6 +67,10 @@ fun SearchResultItem(result: SearchResult) {
                     .padding(bottom = 8.dp)
                     .combinedClickable(
                         onClick = {
+                            if (result.hasTextChangeFlag == true) {
+                                onQueryChanged(result.subtitle.toString())
+                                return@combinedClickable
+                            }
                             result.onClick()
                             activity?.finish()
                         },

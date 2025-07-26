@@ -26,7 +26,7 @@ import androidx.compose.runtime.setValue
 import kotlinx.coroutines.delay
 
 @Composable
-fun SearchResultList(results: List<SearchResult>) {
+fun SearchResultList(results: List<SearchResult>, onQueryChanged: (String) -> Unit) {
     val grouped = remember(results) {
         val sections = mutableListOf<List<SearchResult>>()
         var currentSection = mutableListOf<SearchResult>()
@@ -73,7 +73,7 @@ fun SearchResultList(results: List<SearchResult>) {
                     ) {
                         Column {
                             section.forEach { result ->
-                                SearchResultItem(result)
+                                SearchResultItem(result, onQueryChanged)
                             }
                         }
                     }
