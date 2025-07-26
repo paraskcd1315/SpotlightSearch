@@ -68,7 +68,7 @@ class SearchViewModel @Inject constructor(
         updateResults()
     }
 
-    fun onSearch() {
+    fun onSearch(queryText: String) {
         val firstMatch = _results.value.firstOrNull {
             !it.isHeader && when (it.searchResultType) {
                 SearchResultType.APP,
@@ -82,8 +82,12 @@ class SearchViewModel @Inject constructor(
         if (firstMatch != null) {
             firstMatch.onClick()
         } else {
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                data = "https://www.google.com/search?q=${Uri.encode(query.value)}".toUri()
+            var encodedQuery = Uri.encode(query.value.trim())
+            if (encodedQuery.isEmpty()) {
+                encodedQuery = Uri.encode(queryText.trim())
+            }
+            val uri = Uri.parse("https://www.google.com/search?q=$encodedQuery")
+            val intent = Intent(Intent.ACTION_VIEW, uri).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)

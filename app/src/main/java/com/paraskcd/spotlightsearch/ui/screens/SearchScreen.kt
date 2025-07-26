@@ -103,7 +103,7 @@ fun SearchScreen(viewModel: SearchViewModel) {
                 },
                 focusRequester = focusRequester,
                 onSearchImeAction = {
-                    viewModel.onSearch()
+                    viewModel.onSearch(localQuery)
                     activity?.finish()
                 }
             )
