@@ -4,8 +4,10 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.ContentObserver
 import android.graphics.drawable.Drawable
-import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.provider.ContactsContract
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
@@ -22,8 +24,21 @@ import com.paraskcd.spotlightsearch.enums.SearchResultType
 class ContactSearchProvider @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-    // In-memory cache of all contacts as (name, number, photoUri?) triples
     private var cachedContacts: List<Triple<String, String, String?>>? = null
+
+    private val contactObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
+        override fun onChange(self: Boolean) {
+            cachedContacts = null
+        }
+    }
+
+    init {
+        context.contentResolver.registerContentObserver(
+            ContactsContract.Contacts.CONTENT_URI,
+            true,
+            contactObserver
+        )
+    }
 
     fun requiresPermission(): Boolean {
         return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
@@ -47,11 +62,11 @@ class ContactSearchProvider @Inject constructor(
         return filtered.map { (name, number, photoUri) ->
             val drawable = photoUri?.let {
                 try {
-                    val uri = Uri.parse(it)
+                    val uri = it.toUri()
                     context.contentResolver.openInputStream(uri)?.use { stream ->
                         Drawable.createFromStream(stream, null)
                     }
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
             }
@@ -69,7 +84,7 @@ class ContactSearchProvider @Inject constructor(
                         context.startActivity(intent)
                     },
                     ActionButton("SMS") {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("sms:$number"))
+                        val intent = Intent(Intent.ACTION_VIEW, "sms:$number".toUri())
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         context.startActivity(intent)
                     },

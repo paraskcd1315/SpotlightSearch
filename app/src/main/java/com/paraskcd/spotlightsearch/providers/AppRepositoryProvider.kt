@@ -1,7 +1,9 @@
 package com.paraskcd.spotlightsearch.providers
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import com.paraskcd.spotlightsearch.types.ContextMenuAction
 import com.paraskcd.spotlightsearch.types.SearchResult
@@ -15,6 +17,13 @@ import com.paraskcd.spotlightsearch.icons.PermDeviceInfo
 @Singleton
 class AppRepositoryProvider @Inject constructor(@ApplicationContext val context: Context) {
     private val packageManager: PackageManager = context.packageManager
+    private var cachedApps: List<SearchResult> = loadInstalledApps()
+
+    private val packageReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            cachedApps = loadInstalledApps()
+        }
+    }
 
     private val packageNameAliases: Map<String, List<String>> = mapOf(
         "app.revanced.manager.flutter" to listOf("manager", "revanced"),
@@ -137,9 +146,19 @@ class AppRepositoryProvider @Inject constructor(@ApplicationContext val context:
         "tw.nekomimi.nekogram" to listOf("telegram", "chat", "mensajería", "messaging", "tg", "nekogram", "neko")
     )
 
-    private val cachedApps: List<SearchResult> by lazy {
+    init {
+        val filter = IntentFilter().apply {
+            addAction(Intent.ACTION_PACKAGE_ADDED)
+            addAction(Intent.ACTION_PACKAGE_REMOVED)
+            addAction(Intent.ACTION_PACKAGE_CHANGED)
+            addDataScheme("package")
+        }
+        context.registerReceiver(packageReceiver, filter)
+    }
+
+    private fun loadInstalledApps(): List<SearchResult> {
         val apps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
-        apps.mapNotNull { appInfo ->
+        return apps.mapNotNull { appInfo ->
             val launchIntent = packageManager.getLaunchIntentForPackage(appInfo.packageName)
             if (launchIntent != null) {
                 val label = appInfo.loadLabel(packageManager).toString()
