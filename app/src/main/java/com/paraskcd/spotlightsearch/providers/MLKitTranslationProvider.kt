@@ -1,4 +1,6 @@
 package com.paraskcd.spotlightsearch.providers
+import android.content.ActivityNotFoundException
+import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 
@@ -57,13 +59,32 @@ class MLKitTranslationProvider @Inject constructor(
                 subtitle = "Translation (${resolveLanguageName(source.lowercase()) ?: source} → ${resolveLanguageName(target.lowercase()) ?: target.lowercase()})",
                 iconVector = Translate,
                 onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW).apply {
-                        data = "https://translate.google.com/?sl=auto&tl=${parsed.to}&text=${
+                    try {
+                        val intent = Intent(Intent.ACTION_SEND).apply {
+                            putExtra(Intent.EXTRA_TEXT, parsed.text)
+                            putExtra("key_text_input", parsed.text)
+                            putExtra("key_text_output", "")
+                            putExtra("key_language_from", parsed.from?.lowercase() ?: "auto")
+                            putExtra("key_language_to", parsed.to.lowercase())
+                            putExtra("key_suggest_translation", "")
+                            putExtra("key_from_floating_window", false)
+                            component = ComponentName(
+                                "com.google.android.apps.translate",
+                                "com.google.android.apps.translate.TranslateActivity"
+                            )
+                            type = "text/plain"
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        context.startActivity(intent)
+                    } catch (e: ActivityNotFoundException) {
+                        val url = "https://translate.google.com/?sl=auto&tl=${parsed.to}&text=${
                             Uri.encode(parsed.text)
-                        }&op=translate".toUri()
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }&op=translate"
+                        val fallbackIntent = Intent(Intent.ACTION_VIEW, url.toUri()).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        context.startActivity(fallbackIntent)
                     }
-                    context.startActivity(intent)
                 },
                 searchResultType = SearchResultType.TRANSLATOR
             )
