@@ -142,7 +142,7 @@ class SearchViewModel @Inject constructor(
                     ))
                 }
             }
-            _results.update { permissionPrompt + it }
+            _results.value = permissionPrompt
 
             val cleanQuery = query.trim()
             val suggestions = spellCheckerProvider.suggest(cleanQuery)
