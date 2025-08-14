@@ -1,3 +1,9 @@
+---
+layout: default
+title: Privacy Policy
+permalink: /privacy-policy/
+---
+
 # Privacy Policy for SpotlightSearch
 
 **Effective Date:** 14/08/2025  
