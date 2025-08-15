@@ -42,7 +42,7 @@ fun SearchBar(
             .focusRequester(focusRequester)
             .border(
                 width = 1.dp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f),
+                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
                 shape = RoundedCornerShape(24.dp)
             ),
         shape = RoundedCornerShape(24.dp),

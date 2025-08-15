@@ -17,8 +17,8 @@ android {
         applicationId = "com.paraskcd.spotlightsearch"
         minSdk = 34
         targetSdk = 36
-        versionCode = 6
-        versionName = "1.0.3"
+        versionCode = 7
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -94,4 +94,9 @@ dependencies {
 
     implementation("com.darkrockstudios:symspellkt:3.4.0")
     implementation("com.darkrockstudios:SymSpellKtFdic-android:3.4.0")
+
+    implementation("androidx.room:room-runtime:2.7.2")
+    ksp("androidx.room:room-compiler:2.7.2")
+    implementation("androidx.room:room-ktx:2.7.2")
+
 }

@@ -83,6 +83,14 @@ fun SearchScreen(viewModel: SearchViewModel, supportsBlur: Boolean) {
         }
     }
 
+    LaunchedEffect(Unit) {
+        awaitFrame()
+        awaitFrame()
+        focusRequester.requestFocus()
+        awaitFrame()
+        awaitFrame()
+    }
+
     LaunchedEffect(localQuery) {
         snapshotFlow { localQuery }
             .debounce(400)
@@ -92,8 +100,8 @@ fun SearchScreen(viewModel: SearchViewModel, supportsBlur: Boolean) {
     }
 
     val isImeVisible = imeBottom > 0.dp
-    val reduceFactor = 0.9f
-    val minGap = 2.dp
+    val reduceFactor = 0.85f
+    val minGap = 8.dp
 
     val bottomPadding = if (isImeVisible) {
         (imeBottom * (1 - reduceFactor)).coerceAtLeast(minGap)

@@ -26,6 +26,8 @@ import android.os.Environment
 import android.provider.Settings
 import androidx.compose.material.icons.filled.Warning
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+import com.paraskcd.spotlightsearch.data.repo.AppUsageRepository
+import com.paraskcd.spotlightsearch.enums.SearchResultDisplayMode
 import com.paraskcd.spotlightsearch.enums.SearchResultType
 import com.paraskcd.spotlightsearch.providers.MLKitTranslationProvider
 import com.paraskcd.spotlightsearch.providers.MathEvaluationProvider
@@ -35,6 +37,9 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
@@ -46,7 +51,8 @@ class SearchViewModel @Inject constructor(
     private val mathEvaluationProvider: MathEvaluationProvider,
     private val mlKitTranslationProvider: MLKitTranslationProvider,
     private val spellCheckerProvider: SpellCheckerProvider,
-    private val settingsSearchProvider: SettingsSearchProvider
+    private val settingsSearchProvider: SettingsSearchProvider,
+    private val appUsageRepository: AppUsageRepository
 ) : ViewModel() {
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query.asStateFlow()
@@ -55,9 +61,27 @@ class SearchViewModel @Inject constructor(
     private val _results = MutableStateFlow<List<SearchResult>>(emptyList())
     val results: StateFlow<List<SearchResult>> = _results.asStateFlow()
 
+    private val topApps: StateFlow<List<SearchResult>> =
+        appUsageRepository.observeTop(limit = 5)
+            .map { entities ->
+                entities.mapNotNull { e ->
+                    appRepository.getCachedApp(e.packageName)
+                        ?.copy(
+                            displayMode = SearchResultDisplayMode.COMPACT,
+                            searchResultType = SearchResultType.APP_FREQUENT
+                        )
+                }
+            }
+            .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
     init {
         viewModelScope.launch {
             spellCheckerProvider.init()
+        }
+        viewModelScope.launch {
+            topApps.collect {
+                if (_query.value.isBlank()) updateResults()
+            }
         }
     }
 
@@ -93,7 +117,22 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun updateResults() {
-        val query = _query.value
+        val query = _query.value.trim()
+        if (query.isEmpty()) {
+            var list = mutableListOf<SearchResult>()
+            if (topApps.value.isNotEmpty()) {
+                list += SearchResult(
+                    title = "Frequently used",
+                    onClick = {},
+                    isHeader = true
+                )
+                list += topApps.value
+            }
+
+            _results.value = list
+            return
+        }
+
         searchJob?.cancel()
 
         searchJob = viewModelScope.launch {

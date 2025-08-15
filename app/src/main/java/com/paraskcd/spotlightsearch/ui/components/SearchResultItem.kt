@@ -38,15 +38,108 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
+import com.paraskcd.spotlightsearch.enums.SearchResultDisplayMode
 import com.paraskcd.spotlightsearch.types.SearchResult
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
     val activity = LocalActivity.current
+    val isCompact = result.displayMode == SearchResultDisplayMode.COMPACT
+    var expanded by remember { mutableStateOf(false) }
+
+    if (isCompact && !result.isHeader) {
+        Column(
+            modifier = Modifier
+                .width(72.dp)
+                .padding(8.dp)
+                .combinedClickable(
+                    onClick = result.onClick,
+                    onLongClick = { expanded = true }
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            val icon = result.icon
+            if (icon != null) {
+                Image(
+                    painter = rememberDrawablePainter(icon),
+                    contentDescription = result.title,
+                    modifier = Modifier
+                        .width(54.dp)
+                        .height(54.dp)
+                        .clip(CircleShape)
+                        .border(
+                            1.dp,
+                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
+                            CircleShape
+                        )
+                        .padding(6.dp)
+                )
+            } else if (result.iconVector != null) {
+                Icon(
+                    imageVector = result.iconVector,
+                    contentDescription = result.title,
+                    tint = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier
+                        .width(54.dp)
+                        .height(54.dp)
+                        .clip(CircleShape)
+                        .border(
+                            1.dp,
+                            MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
+                            CircleShape
+                        )
+                        .padding(12.dp)
+                )
+            }
+            Text(
+                text = result.title,
+                style = MaterialTheme.typography.labelSmall,
+                maxLines = 2,
+                lineHeight = 12.sp,
+                textAlign = TextAlign.Center
+            )
+        }
+
+        result.contextMenuActions?.takeIf { it.isNotEmpty() }?.let { actions ->
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+            ) {
+                actions.forEach { action ->
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                text = action.title,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        },
+                        onClick = {
+                            expanded = false
+                            action.onClick()
+                            activity?.finish()
+                        },
+                        leadingIcon = action.icon?.let {
+                            {
+                                Icon(
+                                    imageVector = it,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurface
+                                )
+                            }
+                        },
+                    )
+                }
+            }
+        }
+
+        return
+    }
 
     Column {
         if (result.isHeader) {
@@ -58,7 +151,6 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                 fontWeight = FontWeight.Black
             )
         } else {
-            var expanded by remember { mutableStateOf(false) }
             Surface(
                 color = Color.White.copy(alpha = 0.0f),
                 shape = RoundedCornerShape(24.dp),
@@ -90,7 +182,7 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                                     .width(40.dp)
                                     .border(
                                         width = 1.dp,
-                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f),
+                                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
                                         shape = CircleShape
                                     )
                                     .clip(CircleShape)
@@ -104,7 +196,7 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                                     .width(40.dp)
                                     .border(
                                         width = 1.dp,
-                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f),
+                                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
                                         shape = CircleShape
                                     )
                                     .clip(CircleShape),
@@ -148,7 +240,7 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                                         .weight(1f)
                                         .border(
                                             width = 1.dp,
-                                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f),
+                                            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
                                             shape = CircleShape
                                         )
                                         .padding(horizontal = 4.dp),

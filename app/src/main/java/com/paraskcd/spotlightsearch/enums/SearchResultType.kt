@@ -9,5 +9,6 @@ enum class SearchResultType {
     WEB,
     PERMISSION,
     TRANSLATOR,
-    SETTINGS
+    SETTINGS,
+    APP_FREQUENT
 }

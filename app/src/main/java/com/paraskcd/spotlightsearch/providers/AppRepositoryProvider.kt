@@ -11,12 +11,21 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import androidx.core.net.toUri
+import com.paraskcd.spotlightsearch.data.repo.AppUsageRepository
 import com.paraskcd.spotlightsearch.enums.SearchResultType
 import com.paraskcd.spotlightsearch.icons.PermDeviceInfo
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 @Singleton
-class AppRepositoryProvider @Inject constructor(@ApplicationContext val context: Context) {
+class AppRepositoryProvider @Inject constructor(
+    @ApplicationContext val context: Context,
+    private val appUsageRepository: AppUsageRepository
+) {
     private val packageManager: PackageManager = context.packageManager
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private var cachedApps: List<SearchResult> = loadInstalledApps()
 
     private val packageReceiver = object : BroadcastReceiver() {
@@ -171,6 +180,9 @@ class AppRepositoryProvider @Inject constructor(@ApplicationContext val context:
                     subtitle = appInfo.packageName,
                     icon = icon,
                     onClick = {
+                        scope.launch {
+                            appUsageRepository.increment(appInfo.packageName)
+                        }
                         launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         context.startActivity(launchIntent)
                     },
@@ -207,4 +219,6 @@ class AppRepositoryProvider @Inject constructor(@ApplicationContext val context:
             } == true
         }
     }
+
+    fun getCachedApp(packageName: String): SearchResult? = cachedApps.firstOrNull { it.subtitle == packageName }
 }

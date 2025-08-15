@@ -2,6 +2,7 @@ package com.paraskcd.spotlightsearch.types
 
 import android.graphics.drawable.Drawable
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.paraskcd.spotlightsearch.enums.SearchResultDisplayMode
 import com.paraskcd.spotlightsearch.enums.SearchResultType
 
 data class SearchResult(
@@ -14,5 +15,6 @@ data class SearchResult(
     val isHeader: Boolean = false,
     val contextMenuActions: List<ContextMenuAction>? = null,
     val searchResultType: SearchResultType? = null,
-    val hasTextChangeFlag: Boolean? = false
+    val hasTextChangeFlag: Boolean? = false,
+    val displayMode: SearchResultDisplayMode? = SearchResultDisplayMode.DEFAULT
 )

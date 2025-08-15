@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = if (isBatterySaver || !supportsBlur) MaterialTheme.colorScheme.background.copy(alpha = 0.85f) else MaterialTheme.colorScheme.background.copy(alpha = (0.5f - (dragOffsetY / 300f)).coerceIn(0f, 0.5f)),
+                    color = if (isBatterySaver || !supportsBlur) MaterialTheme.colorScheme.background.copy(alpha = 0.9f) else MaterialTheme.colorScheme.background.copy(alpha = (0.5f - (dragOffsetY / 300f)).coerceIn(0f, 0.5f)),
                 ) {
                     Box(
                         Modifier
