@@ -47,6 +47,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.paraskcd.spotlightsearch.ui.components.CloseButton
 import com.paraskcd.spotlightsearch.ui.components.SearchBar
 import com.paraskcd.spotlightsearch.ui.components.SearchResultList
+import kotlinx.coroutines.android.awaitFrame
 
 @OptIn(FlowPreview::class, ExperimentalLayoutApi::class)
 @Composable
@@ -59,6 +60,9 @@ fun SearchScreen(viewModel: SearchViewModel, supportsBlur: Boolean) {
     val activity = LocalActivity.current
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    val imeBottom = WindowInsets.ime.asPaddingValues().calculateBottomPadding()
+    val navBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     DisposableEffect(lifecycleOwner) {
         val callback = object : OnBackPressedCallback(true) {
@@ -79,10 +83,6 @@ fun SearchScreen(viewModel: SearchViewModel, supportsBlur: Boolean) {
         }
     }
 
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
-
     LaunchedEffect(localQuery) {
         snapshotFlow { localQuery }
             .debounce(400)
@@ -90,9 +90,6 @@ fun SearchScreen(viewModel: SearchViewModel, supportsBlur: Boolean) {
                 viewModel.onQueryChanged(debouncedText)
             }
     }
-
-    val imeBottom = WindowInsets.ime.asPaddingValues().calculateBottomPadding()
-    val navBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
     val isImeVisible = imeBottom > 0.dp
     val reduceFactor = 0.9f
