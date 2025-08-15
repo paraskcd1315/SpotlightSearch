@@ -60,7 +60,6 @@ class MainActivity : ComponentActivity() {
             }
 
             SpotlightSearchTheme {
-
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = if (isBatterySaver || !supportsBlur) MaterialTheme.colorScheme.background.copy(alpha = 0.9f) else MaterialTheme.colorScheme.background.copy(alpha = (0.5f - (dragOffsetY / 300f)).coerceIn(0f, 0.5f)),
@@ -109,7 +108,7 @@ class MainActivity : ComponentActivity() {
             systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
 
-        window.setBackgroundBlurRadius(100) // Now handled reactively
+        window.setBackgroundBlurRadius(100)
         window.setDimAmount(0.0f)
     }
 

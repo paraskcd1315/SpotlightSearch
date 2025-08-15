@@ -55,6 +55,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.SpotlightSearch" />
+
     </application>
 
 </manifest>

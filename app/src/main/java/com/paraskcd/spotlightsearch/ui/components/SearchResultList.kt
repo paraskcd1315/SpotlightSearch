@@ -70,35 +70,52 @@ fun SearchResultList(results: List<SearchResult>, onQueryChanged: (String) -> Un
                     body.all { it.searchResultType == SearchResultType.APP_FREQUENT }
 
             item {
-                Surface(
-                    color = MaterialTheme.colorScheme.surfaceBright.copy(alpha = if (supportsBlur) 0.35f else 1f),
-                    shape = RoundedCornerShape(24.dp),
-                    modifier = Modifier
-                        .padding(bottom = 12.dp)
-                        .fillMaxWidth()
-                        .border(
-                            width = 1.dp,
-                            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
-                            shape = RoundedCornerShape(24.dp)
-                        )
-                ) {
-                    Column {
-                        section.firstOrNull()?.let { SearchResultItem(it, onQueryChanged) }
+                Column {
+                    section.firstOrNull()?.let { SearchResultItem(it, onQueryChanged) }
 
-                        if (isFrequentBlock) {
-                            FlowRow(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 4.dp, bottom = 8.dp),
-                                maxItemsInEachRow = 5,
-                                horizontalArrangement = Arrangement.SpaceEvenly
-                            ) {
-                                body.forEach { item ->
-                                    SearchResultItem(item, onQueryChanged)
-                                }
-                            }
-                        } else {
+                    if (isFrequentBlock) {
+                        FlowRow(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 4.dp, bottom = 8.dp),
+                            maxItemsInEachRow = 5,
+                            horizontalArrangement = Arrangement.SpaceEvenly
+                        ) {
                             body.forEach { item ->
+                                SearchResultItem(item, onQueryChanged)
+                            }
+                        }
+                    } else {
+                        val itemCount = body.size
+
+                        body.forEachIndexed { i, item ->
+                            val shape = when {
+                                itemCount == 1 -> RoundedCornerShape(24.dp)
+                                i == 0 -> RoundedCornerShape(
+                                    topStart = 24.dp, topEnd = 24.dp,
+                                    bottomStart = 8.dp, bottomEnd = 8.dp
+                                )
+                                i == itemCount - 1 -> RoundedCornerShape(
+                                    topStart = 8.dp, topEnd = 8.dp,
+                                    bottomStart = 24.dp, bottomEnd = 24.dp
+                                )
+                                else -> RoundedCornerShape(8.dp)
+                            }
+
+                            val bottomPadding = if (i == itemCount - 1) 12.dp else 4.dp
+
+                            Surface(
+                                color = MaterialTheme.colorScheme.surfaceBright.copy(alpha = if (supportsBlur) 0.35f else 1f),
+                                shape = shape,
+                                modifier = Modifier
+                                    .padding(vertical = 1.dp)
+                                    .fillMaxWidth()
+                                    .border(
+                                        width = 1.dp,
+                                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
+                                        shape = shape
+                                    )
+                            ) {
                                 SearchResultItem(item, onQueryChanged)
                             }
                         }

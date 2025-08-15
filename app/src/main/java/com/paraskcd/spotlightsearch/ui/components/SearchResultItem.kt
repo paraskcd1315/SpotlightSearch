@@ -148,110 +148,90 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                 text = result.title,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
-                    .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 4.dp),
+                    .padding(16.dp),
                 fontWeight = FontWeight.Black
             )
         } else {
-            Surface(
-                color = Color.White.copy(alpha = 0.0f),
-                shape = RoundedCornerShape(24.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
-                    .combinedClickable(
-                        onClick = {
-                            if (result.hasTextChangeFlag == true) {
-                                onQueryChanged(result.subtitle.toString())
-                                return@combinedClickable
-                            }
-                            result.onClick()
-                            activity?.finish()
-                        },
-                        onLongClick = { expanded = true },
-                        enabled = result.onClick != {}
-                    )
-            ) {
-                Column(modifier = Modifier.padding(12.dp)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        result.icon?.let {
-                            Image(
-                                painter = rememberDrawablePainter(drawable = it),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .padding(end = 8.dp)
-                                    .height(40.dp)
-                                    .width(40.dp)
-                                    .border(
-                                        width = 1.dp,
-                                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
-                                        shape = CircleShape
-                                    )
-                                    .clip(CircleShape)
-                            )
-                        }
-                        result.iconVector?.let {
-                            Surface(
-                                modifier = Modifier
-                                    .padding(end = 8.dp)
-                                    .height(40.dp)
-                                    .width(40.dp)
-                                    .border(
-                                        width = 1.dp,
-                                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
-                                        shape = CircleShape
-                                    )
-                                    .clip(CircleShape),
-                                color = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.5f),
-                            ) {
-                                Icon(
-                                    imageVector = result.iconVector,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier
-                                        .padding(8.dp)
-                                        .fillMaxSize()
+            Column(modifier = Modifier.padding(16.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    result.icon?.let {
+                        Image(
+                            painter = rememberDrawablePainter(drawable = it),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(end = 8.dp)
+                                .height(40.dp)
+                                .width(40.dp)
+                                .border(
+                                    width = 1.dp,
+                                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
+                                    shape = CircleShape
                                 )
-                            }
-                        }
-                        Column {
-                            Text(
-                                result.title,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                fontWeight = FontWeight.Bold
+                                .clip(CircleShape)
+                        )
+                    }
+                    result.iconVector?.let {
+                        Surface(
+                            modifier = Modifier
+                                .padding(end = 8.dp)
+                                .height(40.dp)
+                                .width(40.dp)
+                                .border(
+                                    width = 1.dp,
+                                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
+                                    shape = CircleShape
+                                )
+                                .clip(CircleShape),
+                            color = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.5f),
+                        ) {
+                            Icon(
+                                imageVector = result.iconVector,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .fillMaxSize()
                             )
-                            result.subtitle?.let {
-                                Text(it, color = MaterialTheme.colorScheme.onSurface, fontSize = 12.sp)
-                            }
                         }
                     }
+                    Column {
+                        Text(
+                            result.title,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontWeight = FontWeight.Bold
+                        )
+                        result.subtitle?.let {
+                            Text(it, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f), fontSize = 12.sp)
+                        }
+                    }
+                }
 
-                    result.actionButtons?.takeIf { it.isNotEmpty() }?.let { buttons ->
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            result.actionButtons.forEach { action ->
-                                Button(
-                                    onClick = {
-                                        action.onClick()
-                                        activity?.finish()
-                                    },
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .border(
-                                            width = 1.dp,
-                                            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
-                                            shape = CircleShape
-                                        )
-                                        .padding(horizontal = 4.dp),
-                                    colors = ButtonDefaults.buttonColors(
-                                        containerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.5f),
-                                        contentColor = MaterialTheme.colorScheme.onSurface
+                result.actionButtons?.takeIf { it.isNotEmpty() }?.let { buttons ->
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        result.actionButtons.forEach { action ->
+                            Button(
+                                onClick = {
+                                    action.onClick()
+                                    activity?.finish()
+                                },
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .border(
+                                        width = 1.dp,
+                                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
+                                        shape = CircleShape
                                     )
-                                ) {
-                                    Text(action.label, maxLines = 1)
-                                }
+                                    .padding(horizontal = 4.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.5f),
+                                    contentColor = MaterialTheme.colorScheme.onSurface
+                                )
+                            ) {
+                                Text(action.label, maxLines = 1)
                             }
                         }
                     }

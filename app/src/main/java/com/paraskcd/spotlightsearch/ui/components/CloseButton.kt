@@ -18,37 +18,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CloseButton(onClick: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.End
+fun Button(title: String, icon: ImageVector, onClick: () -> Unit) {
+    Button(
+        onClick = { onClick() },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.onSurface
+        ),
+        elevation = null,
+        contentPadding = PaddingValues(0.dp),
+        shape = RoundedCornerShape(50)
     ) {
-        Button(
-            onClick = { onClick() },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent,
-                contentColor = MaterialTheme.colorScheme.onSurface
-            ),
-            elevation = null,
-            contentPadding = PaddingValues(0.dp),
-            shape = RoundedCornerShape(50)
+        Row(
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text("Close")
-                Spacer(modifier = Modifier.padding())
-                Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = "Close",
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
-            }
+            Icon(
+                imageVector = icon,
+                contentDescription = title,
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+            Spacer(modifier = Modifier.padding())
+            Text(title)
         }
     }
 }

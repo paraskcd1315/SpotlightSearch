@@ -5,6 +5,8 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.KeyboardActions
@@ -39,13 +41,14 @@ fun SearchBar(
         onValueChange = onQueryChanged,
         modifier = Modifier
             .fillMaxWidth()
+            .height(72.dp)
             .focusRequester(focusRequester)
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
-                shape = RoundedCornerShape(24.dp)
+                shape = RoundedCornerShape(64.dp)
             ),
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(64.dp),
         singleLine = true,
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(
@@ -71,7 +74,8 @@ fun SearchBar(
             Icon(
                 imageVector = Icons.Filled.Search,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurface
+                tint = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(start = 32.dp, end = 16.dp)
             )
         },
         trailingIcon = {
@@ -83,7 +87,8 @@ fun SearchBar(
                 IconButton(
                     onClick = {
                         onClear()
-                    }
+                    },
+                    modifier = Modifier.padding(end = 32.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
