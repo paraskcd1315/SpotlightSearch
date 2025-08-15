@@ -10,7 +10,6 @@ import androidx.lifecycle.viewModelScope
 import com.paraskcd.spotlightsearch.icons.Calculate
 import com.paraskcd.spotlightsearch.providers.AppRepositoryProvider
 import com.paraskcd.spotlightsearch.providers.ContactSearchProvider
-import com.paraskcd.spotlightsearch.providers.FileSearchProvider
 import com.paraskcd.spotlightsearch.providers.GoogleSuggestionProvider
 import com.paraskcd.spotlightsearch.providers.PlayStoreSearchProvider
 import com.paraskcd.spotlightsearch.types.SearchResult
@@ -44,7 +43,6 @@ class SearchViewModel @Inject constructor(
     private val suggestionProvider: GoogleSuggestionProvider,
     private val playStoreSearchProvider: PlayStoreSearchProvider,
     private val contactSearchProvider: ContactSearchProvider,
-    private val fileSearchProvider: FileSearchProvider,
     private val mathEvaluationProvider: MathEvaluationProvider,
     private val mlKitTranslationProvider: MLKitTranslationProvider,
     private val spellCheckerProvider: SpellCheckerProvider,
@@ -104,27 +102,11 @@ class SearchViewModel @Inject constructor(
                 return@launch
             }
 
-            val needsFilePermission = !Environment.isExternalStorageManager()
             val needsContactPermission = contactSearchProvider.requiresPermission()
 
             val permissionPrompt = buildList {
-                if (needsFilePermission || needsContactPermission) {
+                if (needsContactPermission) {
                     add(SearchResult(title = "Permissions", isHeader = true, onClick = {}))
-                }
-                if (needsFilePermission) {
-                    add(SearchResult(
-                        title = "Allow file access",
-                        subtitle = "Required to search local files",
-                        iconVector = Icons.Filled.Warning,
-                        onClick = {
-                            val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
-                                data = "package:${context.packageName}".toUri()
-                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            }
-                            context.startActivity(intent)
-                        },
-                        searchResultType = SearchResultType.PERMISSION
-                    ))
                 }
                 if (needsContactPermission) {
                     add(SearchResult(
@@ -179,7 +161,6 @@ class SearchViewModel @Inject constructor(
             val translationDeferred = async { mlKitTranslationProvider.translate(query) }
             val appDeferred = async { appRepository.searchInstalledApp(query) }
             val contactDeferred = async { contactSearchProvider.searchContacts(query) }
-            val fileDeferred = async { fileSearchProvider.searchFiles(query) }
             val suggestionDeferred = async { suggestionProvider.fetchSuggestions(query) }
             val playStoreDeferred = async { playStoreSearchProvider.getPlayStoreSearchItem(query) }
 
@@ -193,13 +174,6 @@ class SearchViewModel @Inject constructor(
             contactDeferred.invokeOnCompletion {
                 contactDeferred.getCompletedOrNull()?.takeIf { it.isNotEmpty() }?.let {
                     val list = listOf(SearchResult(title = "Contacts", isHeader = true, onClick = {})) + it
-                    _results.update { prev -> prev + list }
-                }
-            }
-
-            fileDeferred.invokeOnCompletion {
-                fileDeferred.getCompletedOrNull()?.takeIf { it.isNotEmpty() }?.let {
-                    val list = listOf(SearchResult(title = "Files", isHeader = true, onClick = {})) + it
                     _results.update { prev -> prev + list }
                 }
             }

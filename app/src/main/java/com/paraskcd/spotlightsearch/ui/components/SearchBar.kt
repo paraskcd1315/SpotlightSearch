@@ -31,7 +31,8 @@ fun SearchBar(
     onQueryChanged: (String) -> Unit,
     onClear: () -> Unit,
     focusRequester: FocusRequester,
-    onSearchImeAction: () -> Unit
+    onSearchImeAction: () -> Unit,
+    supportsBlur: Boolean
 ) {
     TextField(
         value = query,
@@ -53,8 +54,8 @@ fun SearchBar(
             }
         ),
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.35f),
-            unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.35f),
+            focusedContainerColor = MaterialTheme.colorScheme.surfaceBright.copy(alpha = if (supportsBlur) 0.35f else 1f),
+            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceBright.copy(alpha = if (supportsBlur) 0.35f else 1f),
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
@@ -86,7 +87,7 @@ fun SearchBar(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
-                        contentDescription = "Borrar",
+                        contentDescription = "Remove query",
                         tint = MaterialTheme.colorScheme.onSurface
                     )
                 }

@@ -9,4 +9,4 @@ Right now it has the following features -
   - Allows you to search for Suggestions, these suggestions are retrieved from Google, and also allows you to open a google search directly of the query you have entered
 
 ## Getting started
-Download and install from the [releases tab](https://github.com/paraskcd1315/SpotlightSearch/releases).
+Download and install from the [Play Store](https://play.google.com/store/apps/details?id=com.paraskcd.spotlightsearch).

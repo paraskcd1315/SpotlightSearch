@@ -32,13 +32,7 @@ class ContactSearchProvider @Inject constructor(
         }
     }
 
-    init {
-        context.contentResolver.registerContentObserver(
-            ContactsContract.Contacts.CONTENT_URI,
-            true,
-            contactObserver
-        )
-    }
+    private var isObserving = false
 
     fun requiresPermission(): Boolean {
         return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
@@ -126,5 +120,24 @@ class ContactSearchProvider @Inject constructor(
         }
 
         return results
+    }
+
+    fun startObserving() {
+        if (isObserving) return
+        if (requiresPermission()) return
+        context.contentResolver.registerContentObserver(
+            ContactsContract.Contacts.CONTENT_URI,
+            true,
+            contactObserver
+        )
+        isObserving = true
+    }
+
+    fun stopObserving() {
+        if (!isObserving) return
+        try {
+            context.contentResolver.unregisterContentObserver(contactObserver)
+        } catch (_: Exception) { /* ignore */ }
+        isObserving = false
     }
 }

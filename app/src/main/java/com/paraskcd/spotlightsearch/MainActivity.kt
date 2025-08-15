@@ -47,6 +47,9 @@ class MainActivity : ComponentActivity() {
             val isBatterySaver = remember {
                 isBatterySaverOn(this)
             }
+            val supportsBlur = remember {
+                supportsBlur()
+            }
             val localView = LocalView.current
             var dragOffsetY by remember { mutableStateOf(0f) }
 
@@ -60,7 +63,7 @@ class MainActivity : ComponentActivity() {
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = if (isBatterySaver) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.background.copy(alpha = (0.5f - (dragOffsetY / 300f)).coerceIn(0f, 0.5f)),
+                    color = if (isBatterySaver || !supportsBlur) MaterialTheme.colorScheme.background.copy(alpha = 0.85f) else MaterialTheme.colorScheme.background.copy(alpha = (0.5f - (dragOffsetY / 300f)).coerceIn(0f, 0.5f)),
                 ) {
                     Box(
                         Modifier
@@ -92,7 +95,7 @@ class MainActivity : ComponentActivity() {
                                 alpha = (1f - (dragOffsetY / 300f)).coerceIn(0f, 1f)
                             }
                         ) {
-                            SearchScreen(viewModel = searchViewModel)
+                            SearchScreen(viewModel = searchViewModel, supportsBlur = supportsBlur)
                         }
                     }
                 }
@@ -108,6 +111,10 @@ class MainActivity : ComponentActivity() {
 
         window.setBackgroundBlurRadius(100) // Now handled reactively
         window.setDimAmount(0.0f)
+    }
+
+    private fun supportsBlur(): Boolean {
+        return windowManager.isCrossWindowBlurEnabled
     }
 
     private fun isBatterySaverOn(context: Context): Boolean {

@@ -28,15 +28,29 @@ import androidx.compose.foundation.layout.safeDrawing
 import com.paraskcd.spotlightsearch.SearchViewModel
 import kotlinx.coroutines.FlowPreview
 import androidx.activity.OnBackPressedCallback
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.imeNestedScroll
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.paraskcd.spotlightsearch.ui.components.CloseButton
 import com.paraskcd.spotlightsearch.ui.components.SearchBar
 import com.paraskcd.spotlightsearch.ui.components.SearchResultList
 
-@OptIn(FlowPreview::class)
+@OptIn(FlowPreview::class, ExperimentalLayoutApi::class)
 @Composable
-fun SearchScreen(viewModel: SearchViewModel) {
+fun SearchScreen(viewModel: SearchViewModel, supportsBlur: Boolean) {
     var localQuery by remember { mutableStateOf("") }
     val results by viewModel.results.collectAsState()
 
@@ -77,44 +91,59 @@ fun SearchScreen(viewModel: SearchViewModel) {
             }
     }
 
-    AnimatedVisibility(
-        visible = true,
-        enter = slideInVertically { fullHeight -> fullHeight } + fadeIn()
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    WindowInsets.safeDrawing
-                        .only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal)
-                        .asPaddingValues()
-                )
-                .padding(horizontal = 16.dp)
-        ) {
-            CloseButton {
-                activity?.finish()
-            }
+    val imeBottom = WindowInsets.ime.asPaddingValues().calculateBottomPadding()
+    val navBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
-            SearchBar(
-                query = localQuery,
-                onQueryChanged = { localQuery = it },
-                onClear = {
-                    localQuery = ""
-                },
-                focusRequester = focusRequester,
-                onSearchImeAction = {
-                    viewModel.onSearch(localQuery)
+    val isImeVisible = imeBottom > 0.dp
+    val reduceFactor = 0.9f
+    val minGap = 2.dp
+
+    val bottomPadding = if (isImeVisible) {
+        (imeBottom * (1 - reduceFactor)).coerceAtLeast(minGap)
+    } else {
+        navBottom
+    }
+
+    Scaffold (
+        bottomBar = {
+            Column(
+                modifier = Modifier
+                    .padding(bottom = bottomPadding)
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+            ) {
+                CloseButton {
                     activity?.finish()
                 }
-            )
 
-            Spacer(
-                modifier = Modifier.height(16.dp)
-            )
-
+                SearchBar(
+                    query = localQuery,
+                    onQueryChanged = { localQuery = it },
+                    onClear = {
+                        localQuery = ""
+                    },
+                    focusRequester = focusRequester,
+                    onSearchImeAction = {
+                        viewModel.onSearch(localQuery)
+                        activity?.finish()
+                    },
+                    supportsBlur = supportsBlur
+                )
+            }
+        },
+        containerColor = Color.Transparent,
+        contentWindowInsets = WindowInsets.systemBars
+    ) { innerPadding ->
+        Box(
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .consumeWindowInsets(innerPadding)
+                .padding(horizontal = 16.dp)
+        ) {
             SearchResultList(
                 results = results,
-                onQueryChanged = { localQuery = it }
+                onQueryChanged = { localQuery = it },
+                supportsBlur = supportsBlur
             )
         }
     }

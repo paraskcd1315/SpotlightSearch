@@ -108,7 +108,7 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                                         shape = CircleShape
                                     )
                                     .clip(CircleShape),
-                                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)
+                                color = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.5f),
                             ) {
                                 Icon(
                                     imageVector = result.iconVector,
@@ -153,8 +153,8 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                                         )
                                         .padding(horizontal = 4.dp),
                                     colors = ButtonDefaults.buttonColors(
-                                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
-                                        contentColor = Color.White
+                                        containerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.5f),
+                                        contentColor = MaterialTheme.colorScheme.onSurface
                                     )
                                 ) {
                                     Text(action.label, maxLines = 1)

@@ -157,8 +157,10 @@ class AppRepositoryProvider @Inject constructor(@ApplicationContext val context:
     }
 
     private fun loadInstalledApps(): List<SearchResult> {
-        val apps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
-        return apps.mapNotNull { appInfo ->
+        val launcherIntent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
+        val activities = packageManager.queryIntentActivities(launcherIntent, 0)
+        return activities.mapNotNull { info ->
+            val appInfo = info.activityInfo
             val launchIntent = packageManager.getLaunchIntentForPackage(appInfo.packageName)
             if (launchIntent != null) {
                 val label = appInfo.loadLabel(packageManager).toString()
