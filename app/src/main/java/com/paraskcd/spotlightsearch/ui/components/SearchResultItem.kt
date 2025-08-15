@@ -152,7 +152,15 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                 fontWeight = FontWeight.Black
             )
         } else {
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .combinedClickable(
+                        onClick = result.onClick,
+                        onLongClick = { expanded = true }
+                    ),
+            ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     result.icon?.let {
                         Image(

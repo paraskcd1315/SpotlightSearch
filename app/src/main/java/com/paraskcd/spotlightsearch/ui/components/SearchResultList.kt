@@ -74,17 +74,31 @@ fun SearchResultList(results: List<SearchResult>, onQueryChanged: (String) -> Un
                     section.firstOrNull()?.let { SearchResultItem(it, onQueryChanged) }
 
                     if (isFrequentBlock) {
-                        FlowRow(
+                        Surface(
+                            color = MaterialTheme.colorScheme.surfaceBright.copy(alpha = if (supportsBlur) 0.65f else 1f),
+                            shape = RoundedCornerShape(24.dp),
                             modifier = Modifier
+                                .padding(vertical = 1.dp)
                                 .fillMaxWidth()
-                                .padding(top = 4.dp, bottom = 8.dp),
-                            maxItemsInEachRow = 5,
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                                .border(
+                                    width = 1.dp,
+                                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
+                                    shape = RoundedCornerShape(24.dp)
+                                )
                         ) {
-                            body.forEach { item ->
-                                SearchResultItem(item, onQueryChanged)
+                            FlowRow(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 4.dp, bottom = 8.dp),
+                                maxItemsInEachRow = 5,
+                                horizontalArrangement = Arrangement.SpaceEvenly
+                            ) {
+                                body.forEach { item ->
+                                    SearchResultItem(item, onQueryChanged)
+                                }
                             }
                         }
+
                     } else {
                         val itemCount = body.size
 
@@ -105,7 +119,7 @@ fun SearchResultList(results: List<SearchResult>, onQueryChanged: (String) -> Un
                             val bottomPadding = if (i == itemCount - 1) 12.dp else 4.dp
 
                             Surface(
-                                color = MaterialTheme.colorScheme.surfaceBright.copy(alpha = if (supportsBlur) 0.35f else 1f),
+                                color = MaterialTheme.colorScheme.surfaceBright.copy(alpha = if (supportsBlur) 0.65f else 1f),
                                 shape = shape,
                                 modifier = Modifier
                                     .padding(vertical = 1.dp)
