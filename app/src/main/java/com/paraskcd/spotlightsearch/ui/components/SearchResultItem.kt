@@ -102,7 +102,8 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                 style = MaterialTheme.typography.labelSmall,
                 maxLines = 2,
                 lineHeight = 12.sp,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
 

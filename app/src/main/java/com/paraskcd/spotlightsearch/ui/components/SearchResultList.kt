@@ -91,7 +91,7 @@ fun SearchResultList(results: List<SearchResult>, onQueryChanged: (String) -> Un
                                     .fillMaxWidth()
                                     .padding(top = 4.dp, bottom = 8.dp),
                                 maxItemsInEachRow = 5,
-                                horizontalArrangement = Arrangement.Start
+                                horizontalArrangement = Arrangement.SpaceEvenly
                             ) {
                                 body.forEach { item ->
                                     SearchResultItem(item, onQueryChanged)
