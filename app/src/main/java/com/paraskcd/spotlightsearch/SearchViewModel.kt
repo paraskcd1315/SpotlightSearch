@@ -43,7 +43,7 @@ import kotlinx.coroutines.flow.stateIn
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    @ApplicationContext val context: Context,
+    @param:ApplicationContext val context: Context,
     private val appRepository: AppRepositoryProvider,
     private val suggestionProvider: GoogleSuggestionProvider,
     private val playStoreSearchProvider: PlayStoreSearchProvider,
@@ -108,7 +108,7 @@ class SearchViewModel @Inject constructor(
             if (encodedQuery.isEmpty()) {
                 encodedQuery = Uri.encode(queryText.trim())
             }
-            val uri = Uri.parse("https://www.google.com/search?q=$encodedQuery")
+            val uri = "https://www.google.com/search?q=$encodedQuery".toUri()
             val intent = Intent(Intent.ACTION_VIEW, uri).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
@@ -119,7 +119,7 @@ class SearchViewModel @Inject constructor(
     private fun updateResults() {
         val query = _query.value.trim()
         if (query.isEmpty()) {
-            var list = mutableListOf<SearchResult>()
+            val list = mutableListOf<SearchResult>()
             if (topApps.value.isNotEmpty()) {
                 list += SearchResult(
                     title = "Frequently used",
