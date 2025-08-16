@@ -59,7 +59,7 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                 .padding(8.dp)
                 .combinedClickable(
                     onClick = {
-                        result.onClick
+                        result.onClick()
                         activity?.finish()
                     },
                     onLongClick = { expanded = true }
@@ -156,10 +156,15 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                     .padding(16.dp)
                     .combinedClickable(
                         onClick = {
-                            result.onClick
+                            if (result.hasTextChangeFlag == true) {
+                                onQueryChanged(result.subtitle.toString())
+                                return@combinedClickable
+                            }
+                            result.onClick()
                             activity?.finish()
                         },
-                        onLongClick = { expanded = true }
+                        onLongClick = { expanded = true },
+                        enabled = result.onClick != {}
                     ),
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
