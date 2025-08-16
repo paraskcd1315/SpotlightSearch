@@ -1,6 +1,5 @@
 package com.paraskcd.spotlightsearch.ui.screens
 
-import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Column
@@ -36,7 +35,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -45,7 +43,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.paraskcd.spotlightsearch.SettingsActivity
 import com.paraskcd.spotlightsearch.ui.components.SearchBar
 import com.paraskcd.spotlightsearch.ui.components.SearchResultList
 import kotlinx.coroutines.android.awaitFrame
@@ -155,7 +152,7 @@ fun SearchScreen(viewModel: SearchViewModel, supportsBlur: Boolean) {
 //                        Icon(
 //                            imageVector = Icons.Default.Settings,
 //                            contentDescription = "Settings",
-//                            tint = Color.White,
+//                            tint = MaterialTheme.colorScheme.onSurface,
 //                            modifier = Modifier
 //                                .padding(8.dp)
 //                                .fillMaxSize()
@@ -185,7 +182,7 @@ fun SearchScreen(viewModel: SearchViewModel, supportsBlur: Boolean) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ExitToApp,
                             contentDescription = "Exit",
-                            tint = Color.White,
+                            tint = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier
                                 .padding(8.dp)
                                 .fillMaxSize()
