@@ -19,6 +19,7 @@ mlkitTranslate = "17.0.3"
 mlkitLanguageId = "17.0.6"
 symspell = "3.4.0"
 room = "2.7.2"
+nav_version = "2.9.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,6 +52,7 @@ symspellkt-fdic-android = { group = "com.darkrockstudios", name = "SymSpellKtFdi
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "nav_version" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

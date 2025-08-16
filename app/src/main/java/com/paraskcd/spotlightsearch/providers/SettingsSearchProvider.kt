@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SettingsSearchProvider @Inject constructor(@ApplicationContext private val context: Context) {
+class SettingsSearchProvider @Inject constructor(@param:ApplicationContext private val context: Context) {
 
     private val settingsItems = listOf(
         Triple(

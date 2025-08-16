@@ -11,7 +11,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SpellCheckerProvider @Inject constructor(@ApplicationContext private val context: Context) {
+class SpellCheckerProvider @Inject constructor(@param:ApplicationContext private val context: Context) {
     private var spellChecker: SymSpell? = null
 
     suspend fun init() = withContext(Dispatchers.IO) {

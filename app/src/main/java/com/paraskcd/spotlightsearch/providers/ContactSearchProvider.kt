@@ -22,7 +22,7 @@ import com.paraskcd.spotlightsearch.enums.SearchResultType
 
 @Singleton
 class ContactSearchProvider @Inject constructor(
-    @ApplicationContext private val context: Context
+    @param:ApplicationContext private val context: Context
 ) {
     private var cachedContacts: List<Triple<String, String, String?>>? = null
 

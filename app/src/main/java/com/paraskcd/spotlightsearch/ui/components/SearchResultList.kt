@@ -116,8 +116,6 @@ fun SearchResultList(results: List<SearchResult>, onQueryChanged: (String) -> Un
                                 else -> RoundedCornerShape(8.dp)
                             }
 
-                            val bottomPadding = if (i == itemCount - 1) 12.dp else 4.dp
-
                             Surface(
                                 color = MaterialTheme.colorScheme.surfaceBright.copy(alpha = if (supportsBlur) 0.65f else 1f),
                                 shape = shape,

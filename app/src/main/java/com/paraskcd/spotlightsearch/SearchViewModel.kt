@@ -1,17 +1,17 @@
 package com.paraskcd.spotlightsearch
 
+import android.app.SearchManager
 import android.content.Context
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import android.content.Intent
-import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.paraskcd.spotlightsearch.icons.Calculate
 import com.paraskcd.spotlightsearch.providers.AppRepositoryProvider
 import com.paraskcd.spotlightsearch.providers.ContactSearchProvider
 import com.paraskcd.spotlightsearch.providers.GoogleSuggestionProvider
-import com.paraskcd.spotlightsearch.providers.PlayStoreSearchProvider
+import com.paraskcd.spotlightsearch.providers.MultipleSearchProvider
 import com.paraskcd.spotlightsearch.types.SearchResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -22,8 +22,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import androidx.core.net.toUri
-import android.os.Environment
-import android.provider.Settings
 import androidx.compose.material.icons.filled.Warning
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import com.paraskcd.spotlightsearch.data.repo.AppUsageRepository
@@ -46,7 +44,7 @@ class SearchViewModel @Inject constructor(
     @param:ApplicationContext val context: Context,
     private val appRepository: AppRepositoryProvider,
     private val suggestionProvider: GoogleSuggestionProvider,
-    private val playStoreSearchProvider: PlayStoreSearchProvider,
+    private val multipleSearchProvider: MultipleSearchProvider,
     private val contactSearchProvider: ContactSearchProvider,
     private val mathEvaluationProvider: MathEvaluationProvider,
     private val mlKitTranslationProvider: MLKitTranslationProvider,
@@ -104,12 +102,8 @@ class SearchViewModel @Inject constructor(
         if (firstMatch != null) {
             firstMatch.onClick()
         } else {
-            var encodedQuery = Uri.encode(query.value.trim())
-            if (encodedQuery.isEmpty()) {
-                encodedQuery = Uri.encode(queryText.trim())
-            }
-            val uri = "https://www.google.com/search?q=$encodedQuery".toUri()
-            val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+            val intent = Intent(Intent.ACTION_WEB_SEARCH).apply {
+                putExtra(SearchManager.QUERY, queryText.trim())
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)
@@ -201,7 +195,7 @@ class SearchViewModel @Inject constructor(
             val appDeferred = async { appRepository.searchInstalledApp(query) }
             val contactDeferred = async { contactSearchProvider.searchContacts(query) }
             val suggestionDeferred = async { suggestionProvider.fetchSuggestions(query) }
-            val playStoreDeferred = async { playStoreSearchProvider.getPlayStoreSearchItem(query) }
+            val multiSearchDeferred = async { multipleSearchProvider.getSearchAppItems(query) }
 
             appDeferred.invokeOnCompletion {
                 appDeferred.getCompletedOrNull()?.takeIf { it.isNotEmpty() }?.let {
@@ -224,8 +218,8 @@ class SearchViewModel @Inject constructor(
                 subtitle = "Web Search",
                 iconVector = Icons.Filled.Search,
                 onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW).apply {
-                        data = "https://www.google.com/search?q=${Uri.encode(query)}".toUri()
+                    val intent = Intent(Intent.ACTION_WEB_SEARCH).apply {
+                        putExtra(SearchManager.QUERY, query)
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     }
                     context.startActivity(intent)
@@ -249,8 +243,8 @@ class SearchViewModel @Inject constructor(
                         subtitle = if (isCalc) "Calculator" else "Suggestion",
                         iconVector = if (isCalc) Calculate else Icons.Filled.Search,
                         onClick = {
-                            val intent = Intent(Intent.ACTION_VIEW).apply {
-                                data = "https://www.google.com/search?q=${Uri.encode(suggestion)}".toUri()
+                            val intent = Intent(Intent.ACTION_WEB_SEARCH).apply {
+                                putExtra(SearchManager.QUERY, suggestion.trim())
                                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             }
                             context.startActivity(intent)
@@ -289,9 +283,8 @@ class SearchViewModel @Inject constructor(
                 _results.update { it + extra }
             }
 
-            playStoreDeferred.await()?.let {
-                val play = listOf(SearchResult(title = "Play Store", isHeader = true, onClick = {}), it)
-                _results.update { it + play }
+            multiSearchDeferred.await().takeIf { it.isNotEmpty() }?.let { list ->
+                _results.update { prev -> prev + list }
             }
         }
     }

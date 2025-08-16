@@ -22,7 +22,7 @@ import androidx.core.net.toUri
 
 @Singleton
 class MLKitTranslationProvider @Inject constructor(
-    @ApplicationContext private val context: Context
+    @param:ApplicationContext private val context: Context
 ) {
     suspend fun translate(query: String): SearchResult? {
         val parsed = parseTranslationQuery(query) ?: return null

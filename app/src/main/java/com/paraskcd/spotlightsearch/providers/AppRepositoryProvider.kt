@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 
 @Singleton
 class AppRepositoryProvider @Inject constructor(
-    @ApplicationContext val context: Context,
+    @param:ApplicationContext val context: Context,
     private val appUsageRepository: AppUsageRepository
 ) {
     private val packageManager: PackageManager = context.packageManager

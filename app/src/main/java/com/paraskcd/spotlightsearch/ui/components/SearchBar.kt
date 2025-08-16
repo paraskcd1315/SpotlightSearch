@@ -46,9 +46,9 @@ fun SearchBar(
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
-                shape = RoundedCornerShape(64.dp)
+                shape = RoundedCornerShape(100.dp)
             ),
-        shape = RoundedCornerShape(64.dp),
+        shape = RoundedCornerShape(100.dp),
         singleLine = true,
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(
@@ -75,7 +75,7 @@ fun SearchBar(
                 imageVector = Icons.Filled.Search,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(start = 32.dp, end = 16.dp)
+                modifier = Modifier.padding(start = 24.dp, end = 8.dp)
             )
         },
         trailingIcon = {
@@ -88,7 +88,7 @@ fun SearchBar(
                     onClick = {
                         onClear()
                     },
-                    modifier = Modifier.padding(end = 32.dp)
+                    modifier = Modifier.padding(start = 8.dp, end = 24.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
