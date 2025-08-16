@@ -118,17 +118,17 @@ fun SearchScreen(viewModel: SearchViewModel, supportsBlur: Boolean) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End
                 ) {
-//                    Button("Settings", Icons.Default.Settings) {
-//                        activity?.let {
-//                            it.startActivity(
-//                                Intent(
-//                                    it,
-//                                    SettingsActivity::class.java
-//                                )
-//                            )
-//                        }
-//                    }
-//                    Spacer(modifier = Modifier.padding(horizontal = 8.dp))
+                    Button("Settings", Icons.Default.Settings) {
+                        activity?.let {
+                            it.startActivity(
+                                Intent(
+                                    it,
+                                    SettingsActivity::class.java
+                                )
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.padding(horizontal = 8.dp))
                     Button("Close", Icons.Default.Close) {
                         activity?.finish()
                     }

@@ -5,8 +5,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.dagger.hilt)
 }
 
 android {
@@ -65,6 +65,31 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.appcompat)
+
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.play.services)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.androidx.hilt.compiler)
+
+    // Otros
+    implementation(libs.accompanist.drawablepainter)
+    implementation(libs.okhttp)
+    implementation(libs.mlkit.translate)
+    implementation(libs.mlkit.language.id)
+    implementation(libs.symspellkt)
+    implementation(libs.symspellkt.fdic.android)
+
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -72,31 +97,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-    implementation("androidx.appcompat:appcompat:1.7.1")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
-    // Hilt
-    implementation("com.google.dagger:hilt-android:2.56.2")
-    ksp("com.google.dagger:hilt-compiler:2.56.2")
-
-    // Hilt para ViewModel
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-    ksp("androidx.hilt:hilt-compiler:1.2.0")
-
-    implementation("com.google.accompanist:accompanist-drawablepainter:0.28.0")
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
-
-    implementation("com.google.mlkit:translate:17.0.3")
-    implementation("com.google.mlkit:language-id:17.0.4")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
-
-    implementation("com.darkrockstudios:symspellkt:3.4.0")
-    implementation("com.darkrockstudios:SymSpellKtFdic-android:3.4.0")
-
-    implementation("androidx.room:room-runtime:2.7.2")
-    ksp("androidx.room:room-compiler:2.7.2")
-    implementation("androidx.room:room-ktx:2.7.2")
-
 }

@@ -149,7 +149,8 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
                     .padding(16.dp),
-                fontWeight = FontWeight.Black
+                fontWeight = FontWeight.Black,
+                style = MaterialTheme.typography.titleSmall
             )
         } else {
             Column(
@@ -206,10 +207,11 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                         Text(
                             result.title,
                             color = MaterialTheme.colorScheme.onSurface,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.bodyLarge
                         )
                         result.subtitle?.let {
-                            Text(it, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f), fontSize = 12.sp)
+                            Text(it, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f), style = MaterialTheme.typography.labelMedium)
                         }
                     }
                 }
