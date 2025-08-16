@@ -21,26 +21,31 @@ import androidx.compose.foundation.layout.asPaddingValues
 import com.paraskcd.spotlightsearch.SearchViewModel
 import kotlinx.coroutines.FlowPreview
 import androidx.activity.OnBackPressedCallback
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.paraskcd.spotlightsearch.SettingsActivity
-import com.paraskcd.spotlightsearch.ui.components.Button
 import com.paraskcd.spotlightsearch.ui.components.SearchBar
 import com.paraskcd.spotlightsearch.ui.components.SearchResultList
 import kotlinx.coroutines.android.awaitFrame
@@ -63,10 +68,8 @@ fun SearchScreen(viewModel: SearchViewModel, supportsBlur: Boolean) {
     DisposableEffect(lifecycleOwner) {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                // Cierra teclado y focus primero
                 focusManager.clearFocus()
                 keyboardController?.hide()
-                // Luego termina la activity
                 activity?.finish()
             }
         }
@@ -107,33 +110,14 @@ fun SearchScreen(viewModel: SearchViewModel, supportsBlur: Boolean) {
 
     Scaffold (
         bottomBar = {
-            Column(
+            Row(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .padding(bottom = bottomPadding)
-                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Button("Settings", Icons.Default.Settings) {
-                        activity?.let {
-                            it.startActivity(
-                                Intent(
-                                    it,
-                                    SettingsActivity::class.java
-                                )
-                            )
-                        }
-                    }
-                    Spacer(modifier = Modifier.padding(horizontal = 8.dp))
-                    Button("Close", Icons.Default.Close) {
-                        activity?.finish()
-                    }
-                }
-
                 SearchBar(
                     query = localQuery,
                     onQueryChanged = { localQuery = it },
@@ -145,8 +129,69 @@ fun SearchScreen(viewModel: SearchViewModel, supportsBlur: Boolean) {
                         viewModel.onSearch(localQuery)
                         activity?.finish()
                     },
-                    supportsBlur = supportsBlur
+                    supportsBlur = supportsBlur,
+                    modifier = Modifier.weight(1f)
                 )
+
+//                Surface(
+//                    onClick = {
+//                        activity?.startActivity(Intent(activity, SettingsActivity::class.java))
+//                    },
+//                    shape = CircleShape,
+//                    color = MaterialTheme.colorScheme.surfaceBright.copy(alpha = if (supportsBlur) 0.65f else 1f)
+//                ) {
+//                    Column(
+//                        horizontalAlignment = Alignment.CenterHorizontally,
+//                        verticalArrangement = Arrangement.Center,
+//                        modifier = Modifier
+//                            .border(
+//                                width = 1.dp,
+//                                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
+//                                shape = RoundedCornerShape(100.dp)
+//                            )
+//                            .padding(8.dp)
+//                            .size(40.dp)
+//                    ) {
+//                        Icon(
+//                            imageVector = Icons.Default.Settings,
+//                            contentDescription = "Settings",
+//                            tint = Color.White,
+//                            modifier = Modifier
+//                                .padding(8.dp)
+//                                .fillMaxSize()
+//                        )
+//                    }
+//                }
+
+                Surface(
+                    onClick = {
+                        activity?.finish()
+                    },
+                    shape = CircleShape,
+                    color = MaterialTheme.colorScheme.surfaceBright.copy(alpha = if (supportsBlur) 0.65f else 1f)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
+                                shape = RoundedCornerShape(100.dp)
+                            )
+                            .padding(8.dp)
+                            .size(40.dp),
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                            contentDescription = "Exit",
+                            tint = Color.White,
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .fillMaxSize()
+                        )
+                    }
+                }
             }
         },
         containerColor = Color.Transparent,

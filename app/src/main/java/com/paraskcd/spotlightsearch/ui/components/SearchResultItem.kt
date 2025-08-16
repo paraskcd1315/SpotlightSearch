@@ -58,7 +58,10 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                 .width(72.dp)
                 .padding(8.dp)
                 .combinedClickable(
-                    onClick = result.onClick,
+                    onClick = {
+                        result.onClick
+                        activity?.finish()
+                    },
                     onLongClick = { expanded = true }
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -72,12 +75,6 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                     modifier = Modifier
                         .width(54.dp)
                         .height(54.dp)
-                        .clip(CircleShape)
-                        .border(
-                            1.dp,
-                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
-                            CircleShape
-                        )
                         .padding(6.dp)
                 )
             } else if (result.iconVector != null) {
@@ -158,7 +155,10 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                     .fillMaxWidth()
                     .padding(16.dp)
                     .combinedClickable(
-                        onClick = result.onClick,
+                        onClick = {
+                            result.onClick
+                            activity?.finish()
+                        },
                         onLongClick = { expanded = true }
                     ),
             ) {
@@ -171,12 +171,6 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                                 .padding(end = 8.dp)
                                 .height(40.dp)
                                 .width(40.dp)
-                                .border(
-                                    width = 1.dp,
-                                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
-                                    shape = CircleShape
-                                )
-                                .clip(CircleShape)
                         )
                     }
                     result.iconVector?.let {

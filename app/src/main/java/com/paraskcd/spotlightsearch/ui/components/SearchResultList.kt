@@ -1,9 +1,5 @@
 package com.paraskcd.spotlightsearch.ui.components
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
@@ -23,16 +19,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import com.paraskcd.spotlightsearch.enums.SearchResultType
-import kotlinx.coroutines.delay
+import com.paraskcd.spotlightsearch.ui.modifiers.drawFadingEdgesBasic
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -57,11 +50,13 @@ fun SearchResultList(results: List<SearchResult>, onQueryChanged: (String) -> Un
     val reduceFactor = 0.1f
     val minGap = 2.dp
     val adjustedImeBottom = if (imeBottom > minGap) (imeBottom * (1 - reduceFactor)).coerceAtLeast(0.dp) else imeBottom
+    val scrollableState = rememberLazyListState()
 
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().drawFadingEdgesBasic(scrollableState),
         reverseLayout = true,
-        contentPadding = PaddingValues(vertical = 8.dp)
+        contentPadding = PaddingValues(vertical = 8.dp),
+        state = scrollableState
     ) {
         grouped.forEachIndexed { index, section ->
             val header = section.firstOrNull()
@@ -72,7 +67,6 @@ fun SearchResultList(results: List<SearchResult>, onQueryChanged: (String) -> Un
             item {
                 Column {
                     section.firstOrNull()?.let { SearchResultItem(it, onQueryChanged) }
-
                     if (isFrequentBlock) {
                         Surface(
                             color = MaterialTheme.colorScheme.surfaceBright.copy(alpha = if (supportsBlur) 0.65f else 1f),

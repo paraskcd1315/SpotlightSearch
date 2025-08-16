@@ -34,14 +34,13 @@ fun SearchBar(
     onClear: () -> Unit,
     focusRequester: FocusRequester,
     onSearchImeAction: () -> Unit,
-    supportsBlur: Boolean
+    supportsBlur: Boolean,
+    modifier: Modifier = Modifier
 ) {
     TextField(
         value = query,
         onValueChange = onQueryChanged,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(72.dp)
+        modifier = modifier
             .focusRequester(focusRequester)
             .border(
                 width = 1.dp,
@@ -88,7 +87,7 @@ fun SearchBar(
                     onClick = {
                         onClear()
                     },
-                    modifier = Modifier.padding(start = 8.dp, end = 24.dp)
+                    modifier = Modifier.padding(start = 8.dp, end = 16.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
