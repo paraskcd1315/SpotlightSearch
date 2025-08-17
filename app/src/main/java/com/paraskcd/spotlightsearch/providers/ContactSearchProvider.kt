@@ -11,6 +11,7 @@ import android.os.Looper
 import android.provider.ContactsContract
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
 import com.paraskcd.spotlightsearch.types.ActionButton
 import com.paraskcd.spotlightsearch.types.SearchResult
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -19,11 +20,15 @@ import javax.inject.Singleton
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.paraskcd.spotlightsearch.enums.SearchResultType
+import com.paraskcd.spotlightsearch.icons.SMS
+import com.paraskcd.spotlightsearch.icons.WhatsApp
 
 @Singleton
 class ContactSearchProvider @Inject constructor(
     @param:ApplicationContext private val context: Context
 ) {
+    private val pm: PackageManager get() = context.packageManager
+
     private var cachedContacts: List<Triple<String, String, String?>>? = null
 
     private val contactObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
@@ -39,11 +44,7 @@ class ContactSearchProvider @Inject constructor(
     }
 
     fun searchContacts(query: String): List<SearchResult> {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            return emptyList()
-        }
+        if (requiresPermission()) return emptyList()
 
         if (cachedContacts == null) {
             cachedContacts = loadAllContacts()
@@ -52,6 +53,8 @@ class ContactSearchProvider @Inject constructor(
         val filtered = cachedContacts!!.filter { (name, _) ->
             name.contains(query, ignoreCase = true)
         }
+
+        val waInstalled = resolveWhatsApp()
 
         return filtered.map { (name, number, photoUri) ->
             val drawable = photoUri?.let {
@@ -65,30 +68,41 @@ class ContactSearchProvider @Inject constructor(
                 }
             }
 
+            val actions = mutableListOf<ActionButton>()
+
+            actions += ActionButton(label = "Call", iconVector = Icons.Default.Phone) {
+                val intent = Intent(Intent.ACTION_DIAL, "tel:$number".toUri())
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
+            }
+            actions += ActionButton(label = "SMS", iconVector = SMS) {
+                val intent = Intent(Intent.ACTION_VIEW, "sms:$number".toUri())
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
+            }
+            if (waInstalled) {
+                val sanitized = number.replace("[^\\d+]".toRegex(), "")
+                actions += ActionButton(
+                    label = "WhatsApp",
+                    onClick = {
+                        val intent = Intent(
+                            Intent.ACTION_VIEW,
+                            "https://wa.me/$sanitized".toUri()
+                        )
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        context.startActivity(intent)
+                    },
+                    iconVector = WhatsApp
+                )
+            }
+
             SearchResult(
                 title = name,
                 subtitle = number,
                 icon = drawable,
                 iconVector = if (drawable == null) Icons.Filled.Person else null,
                 onClick = {},
-                actionButtons = listOf(
-                    ActionButton("Call") {
-                        val intent = Intent(Intent.ACTION_DIAL, "tel:$number".toUri())
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        context.startActivity(intent)
-                    },
-                    ActionButton("SMS") {
-                        val intent = Intent(Intent.ACTION_VIEW, "sms:$number".toUri())
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        context.startActivity(intent)
-                    },
-                    ActionButton("WhatsApp") {
-                        val intent = Intent(Intent.ACTION_VIEW,
-                            "https://wa.me/${number.replace("[^\\d+]".toRegex(), "")}".toUri())
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        context.startActivity(intent)
-                    }
-                ),
+                actionButtons = actions,
                 searchResultType = SearchResultType.CONTACT
             )
         }
@@ -139,5 +153,14 @@ class ContactSearchProvider @Inject constructor(
             context.contentResolver.unregisterContentObserver(contactObserver)
         } catch (_: Exception) { /* ignore */ }
         isObserving = false
+    }
+
+    private fun isInstalled(pkg: String): Boolean =
+        try { pm.getApplicationInfo(pkg, 0); true } catch (_: Exception) { false }
+
+    private fun resolveWhatsApp(): Boolean {
+        val candidates = listOf("com.whatsapp", "com.whatsapp.w4b")
+        val pkg = candidates.firstOrNull { isInstalled(it) }
+        return pkg != null
     }
 }

@@ -3,7 +3,9 @@ package com.paraskcd.spotlightsearch.di
 import android.content.Context
 import androidx.room.Room
 import com.paraskcd.spotlightsearch.data.SettingsDatabase
+import com.paraskcd.spotlightsearch.data.dao.QuickSearchProviderDao
 import com.paraskcd.spotlightsearch.data.dao.UserThemeDao
+import com.paraskcd.spotlightsearch.data.repo.QuickSearchProviderRepository
 import com.paraskcd.spotlightsearch.data.repo.UserThemeRepository
 import dagger.Module
 import dagger.Provides
@@ -33,4 +35,11 @@ object SettingsDatabaseModule {
     @Singleton
     fun provideUserThemeRepository(dao: UserThemeDao): UserThemeRepository =
         UserThemeRepository(dao)
+
+    @Provides
+    fun provideQuickSearchProviderDao(db: SettingsDatabase): QuickSearchProviderDao = db.quickSearchProviderDao()
+
+    @Provides
+    @Singleton
+    fun provideQuickSearchProviderRepository(dao: QuickSearchProviderDao): QuickSearchProviderRepository = QuickSearchProviderRepository(dao)
 }

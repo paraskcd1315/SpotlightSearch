@@ -1,5 +1,5 @@
 [versions]
-agp = "8.11.1"
+agp = "8.12.0"
 kotlin = "2.2.10"
 ksp = "2.2.10-2.0.2"
 coreKtx = "1.17.0"
@@ -20,6 +20,7 @@ mlkitLanguageId = "17.0.6"
 symspell = "3.4.0"
 room = "2.7.2"
 nav_version = "2.9.3"
+reorderable = "0.9.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -53,6 +54,7 @@ androidx-room-runtime = { group = "androidx.room", name = "room-runtime", versio
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "nav_version" }
+burnoutcrew-reorderable = { group = "org.burnoutcrew.composereorderable", name = "reorderable", version.ref = "reorderable" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -89,6 +89,7 @@ dependencies {
     implementation(libs.mlkit.language.id)
     implementation(libs.symspellkt)
     implementation(libs.symspellkt.fdic.android)
+    implementation(libs.burnoutcrew.reorderable)
 
     // Room
     implementation(libs.androidx.room.runtime)

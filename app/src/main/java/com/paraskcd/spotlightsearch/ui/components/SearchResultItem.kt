@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -248,18 +249,19 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                                 },
                                 modifier = Modifier
                                     .weight(1f)
-                                    .border(
-                                        width = 1.dp,
-                                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
-                                        shape = CircleShape
-                                    )
                                     .padding(horizontal = 4.dp),
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.5f),
                                     contentColor = MaterialTheme.colorScheme.onSurface
                                 )
                             ) {
-                                Text(action.label, maxLines = 1)
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally)
+                                ) {
+                                    action.iconVector?.let { Icon(it, action.label, modifier = Modifier.size(25.dp) ) }
+                                    Text(action.label, maxLines = 1)
+                                }
                             }
                         }
                     }

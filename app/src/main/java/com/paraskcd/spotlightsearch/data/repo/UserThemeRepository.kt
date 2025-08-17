@@ -2,6 +2,7 @@ package com.paraskcd.spotlightsearch.data.repo
 
 import com.paraskcd.spotlightsearch.data.dao.UserThemeDao
 import com.paraskcd.spotlightsearch.data.entities.UserThemeEntity
+import com.paraskcd.spotlightsearch.enums.ColorOverrideKey
 import com.paraskcd.spotlightsearch.enums.ThemeMode
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -56,6 +57,24 @@ class UserThemeRepository @Inject constructor(
     private suspend fun ensureRow() {
         if (dao.get() == null) {
             dao.upsert(UserThemeEntity())
+        }
+    }
+
+    suspend fun clearSingle(key: ColorOverrideKey) {
+        ensureRow()
+        when (key) {
+            ColorOverrideKey.surface ->
+                dao.merge(clearSurface = true)
+            ColorOverrideKey.surfaceBright ->
+                dao.merge(clearSurfaceBright = true)
+            ColorOverrideKey.background ->
+                dao.merge(clearBackground = true)
+            ColorOverrideKey.surfaceTint ->
+                dao.merge(clearSurfaceTint = true)
+            ColorOverrideKey.onSurface ->
+                dao.merge(clearOnSurface = true)
+            ColorOverrideKey.outline ->
+                dao.merge(clearOutline = true)
         }
     }
 }

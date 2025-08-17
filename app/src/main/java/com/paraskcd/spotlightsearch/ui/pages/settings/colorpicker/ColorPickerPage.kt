@@ -114,6 +114,12 @@ fun ColorPickerPage(
         }
     }
 
+    fun resetToDefault() {
+        scope.launch {
+            repo.clearSingle(key)
+        }
+    }
+
     val previewResult = remember(color, key) {
         SearchResult(
             title = "Preview",
@@ -189,12 +195,21 @@ fun ColorPickerPage(
             updateHexFromColor(color)
         }
 
-        Button(
-            onClick = { save() },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Save")
+        Row {
+            Button(
+                onClick = { save() },
+                modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+            ) {
+                Text("Save")
+            }
+            Button(
+                onClick = { resetToDefault() },
+                modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+            ) {
+                Text("Reset to default")
+            }
         }
+
     }
 }
 

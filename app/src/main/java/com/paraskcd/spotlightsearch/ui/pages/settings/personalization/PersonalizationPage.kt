@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,13 +14,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -35,25 +31,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.paraskcd.spotlightsearch.data.repo.UserThemeRepository
 import com.paraskcd.spotlightsearch.enums.ColorOverrideKey
 import com.paraskcd.spotlightsearch.enums.ThemeMode
-import com.paraskcd.spotlightsearch.ui.components.ChevronRight
+import com.paraskcd.spotlightsearch.icons.ChevronRight
+import com.paraskcd.spotlightsearch.ui.components.BaseRowContainer
+import com.paraskcd.spotlightsearch.ui.components.HeaderCard
+import com.paraskcd.spotlightsearch.ui.components.GroupSurface
 import com.paraskcd.spotlightsearch.ui.theme.ThemeUi
 import com.paraskcd.spotlightsearch.ui.theme.ThemeViewModel
 import kotlinx.coroutines.launch
-import kotlin.math.max
 
 @Composable
 fun PersonalizationPage(
@@ -74,7 +66,9 @@ fun PersonalizationPage(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // Header
-        item { HeaderCard() }
+        item {
+            HeaderCard("Appearance and Personalization")
+        }
 
         // Grupo principal: Theme / Blur / Icon Packs
         item {
@@ -203,95 +197,6 @@ fun PersonalizationPage(
             dismissButton = {
                 TextButton(onClick = { showResetColorsDialog = false }) { Text("Cancelar") }
             }
-        )
-    }
-}
-
-@Composable
-private fun HeaderCard() {
-    var size by remember { mutableStateOf(IntSize.Zero) }
-
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        color = Color.Transparent,
-        shape = RoundedCornerShape(24.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .clip(RoundedCornerShape(24.dp))
-                .onSizeChanged { size = it }
-                .background(
-                    Brush.radialGradient(
-                        colors = listOf(
-                            MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.95f),
-                            MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.55f),
-                            MaterialTheme.colorScheme.surface
-                        ),
-                        center = Offset(
-                            (size.width / 2f),
-                            (size.height / 2f)
-                        ),
-                        radius = (max(size.width, size.height)
-                            .coerceAtLeast(1))   // evita 0
-                            .toFloat() * 0.95f
-                    )
-                )
-                .padding(56.dp)
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text("Appearance and Personalization", style = MaterialTheme.typography.headlineLarge, textAlign = TextAlign.Center, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.inverseOnSurface)
-        }
-    }
-}
-
-@Composable
-private fun GroupSurface(
-    count: Int,
-    content: @Composable (index: Int, shape: RoundedCornerShape) -> Unit
-) {
-    Column {
-        repeat(count) { i ->
-            val shape = when {
-                count == 1 -> RoundedCornerShape(24.dp)
-                i == 0 -> RoundedCornerShape(
-                    topStart = 24.dp, topEnd = 24.dp,
-                    bottomStart = 8.dp, bottomEnd = 8.dp
-                )
-                i == count - 1 -> RoundedCornerShape(
-                    topStart = 8.dp, topEnd = 8.dp,
-                    bottomStart = 24.dp, bottomEnd = 24.dp
-                )
-                else -> RoundedCornerShape(8.dp)
-            }
-            content(i, shape)
-        }
-    }
-}
-
-@Composable
-private fun BaseRowContainer(
-    shape: RoundedCornerShape,
-    onClick: () -> Unit,
-    content: @Composable RowScope.() -> Unit
-) {
-    Surface(
-        onClick = onClick,
-        shape = shape,
-        color = MaterialTheme.colorScheme.surfaceBright,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 1.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(24.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            content = content
         )
     }
 }
