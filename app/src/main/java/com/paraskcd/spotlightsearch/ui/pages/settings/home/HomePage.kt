@@ -28,6 +28,7 @@ import com.paraskcd.spotlightsearch.icons.DashboardCustomize
 import com.paraskcd.spotlightsearch.icons.FeaturesFunctionality
 import com.paraskcd.spotlightsearch.types.SettingPageItem
 import com.paraskcd.spotlightsearch.icons.ChevronRight
+import com.paraskcd.spotlightsearch.icons.Palette
 import com.paraskcd.spotlightsearch.ui.components.BaseRowContainer
 import com.paraskcd.spotlightsearch.ui.components.GroupSurface
 import com.paraskcd.spotlightsearch.ui.components.HeaderCard
@@ -38,20 +39,20 @@ fun HomePage(navController: NavController) {
         SettingPageItem(
             title = "Appearance and Personalization",
             subtitle = "Customize the look and feel of Spotlight Search",
-            icon = DashboardCustomize,
+            icon = Palette,
             route = "settings_personalization"
         ),
         SettingPageItem(
             title = "Features and Functionality",
             subtitle = "Manage features and functionality of Spotlight Search",
             icon = FeaturesFunctionality,
-            route = "settings_personalization"
+            route = "settings_features"
         ),
         SettingPageItem(
             title = "About",
             subtitle = "Learn more about Spotlight Search",
             icon = Icons.Outlined.Info,
-            route = "settings_personalization"
+            route = "settings_about"
         )
     )
 

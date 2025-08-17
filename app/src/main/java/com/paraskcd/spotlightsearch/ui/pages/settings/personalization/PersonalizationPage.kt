@@ -62,6 +62,10 @@ fun PersonalizationPage(
         (context as? Activity)?.windowManager?.isCrossWindowBlurEnabled == true
     }
 
+    val onToggle: (Boolean) -> Unit = { checked ->
+        scope.launch { repo.setBlur(checked) }
+    }
+
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -76,25 +80,40 @@ fun PersonalizationPage(
                 val rows = listOf("theme", "blur")
                 GroupSurface(count = rows.size) { index, shape ->
                     when (rows[index]) {
-                        "theme" -> ThemeRow(
-                            shape = shape,
-                            current = state.mode,
-                            onClick = { showThemeDialog = true }
-                        )
-                        "blur" -> BlurRow(
-                            shape = shape,
-                            checked = state.enableBlur,
-                            onToggle = { scope.launch { repo.setBlur(it) } }
-                        )
+                        "theme" ->
+                            BaseRowContainer(shape, { showThemeDialog = true }) {
+                                Text("Select Theme", style = MaterialTheme.typography.titleMedium)
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Text(
+                                        state.mode.name.lowercase().replaceFirstChar { it.uppercase() },
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                                    )
+                                    Spacer(Modifier.width(8.dp))
+                                    Icon(ChevronRight, contentDescription = null)
+                                }
+                            }
+                        "blur" ->
+                            BaseRowContainer(shape, onClick = { onToggle(!state.enableBlur) }) {
+                                Text("Enable Blur", style = MaterialTheme.typography.titleMedium)
+                                Switch(checked = state.enableBlur, onCheckedChange = onToggle)
+                            }
                     }
                 }
             } else {
                 GroupSurface(count = 1) { index, shape ->
-                    ThemeRow(
-                        shape = shape,
-                        current = state.mode,
-                        onClick = { showThemeDialog = true }
-                    )
+                    BaseRowContainer(shape, { showThemeDialog = true }) {
+                        Text("Select Theme", style = MaterialTheme.typography.titleMedium)
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                state.mode.name.lowercase().replaceFirstChar { it.uppercase() },
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                            )
+                            Spacer(Modifier.width(8.dp))
+                            Icon(ChevronRight, contentDescription = null)
+                        }
+                    }
                 }
             }
         }
@@ -124,12 +143,22 @@ fun PersonalizationPage(
                 } else {
                     val key = keys[i - 1]
                     val color = currentColorForKey(state, key) ?: fallbackBaseColor(key)
-                    ColorRow(
-                        key = key,
-                        color = color,
-                        shape = shape,
-                        onClick = { navController.navigate("settings_color_picker/${key.name}") }
-                    )
+
+                    BaseRowContainer(shape, { navController.navigate("settings_color_picker/${key.name}") }) {
+                        Text(key.title, style = MaterialTheme.typography.titleMedium)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Box(
+                                Modifier
+                                    .size(width = 54.dp, height = 28.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(color)
+                            )
+                            Icon(ChevronRight, contentDescription = null)
+                        }
+                    }
                 }
 
             }
@@ -198,84 +227,6 @@ fun PersonalizationPage(
                 TextButton(onClick = { showResetColorsDialog = false }) { Text("Cancelar") }
             }
         )
-    }
-}
-
-@Composable
-private fun ThemeRow(
-    shape: RoundedCornerShape,
-    current: ThemeMode,
-    onClick: () -> Unit
-) {
-    BaseRowContainer(shape, onClick) {
-        Text("Select Theme", style = MaterialTheme.typography.titleMedium)
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                current.name.lowercase().replaceFirstChar { it.uppercase() },
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-            )
-            Spacer(Modifier.width(8.dp))
-            Icon(ChevronRight, contentDescription = null)
-        }
-    }
-}
-
-@Composable
-private fun BlurRow(
-    shape: RoundedCornerShape,
-    checked: Boolean,
-    onToggle: (Boolean) -> Unit
-) {
-    BaseRowContainer(shape, onClick = { onToggle(!checked) }) {
-        Text("Enable Blur", style = MaterialTheme.typography.titleMedium)
-        Switch(checked = checked, onCheckedChange = onToggle)
-    }
-}
-
-@Composable
-private fun IconPacksRow(
-    shape: RoundedCornerShape,
-    hasSelection: Boolean,
-    onClick: () -> Unit
-) {
-    BaseRowContainer(shape, onClick) {
-        Text("Icon Packs", style = MaterialTheme.typography.titleMedium)
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            if (hasSelection) {
-                Text(
-                    "Active",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                )
-                Spacer(Modifier.width(8.dp))
-            }
-            Icon(ChevronRight, contentDescription = null)
-        }
-    }
-}
-
-@Composable
-private fun ColorRow(
-    key: ColorOverrideKey,
-    color: Color,
-    shape: RoundedCornerShape,
-    onClick: () -> Unit
-) {
-    BaseRowContainer(shape, onClick) {
-        Text(key.title, style = MaterialTheme.typography.titleMedium)
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Box(
-                Modifier
-                    .size(width = 54.dp, height = 28.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(color)
-            )
-            Icon(ChevronRight, contentDescription = null)
-        }
     }
 }
 
