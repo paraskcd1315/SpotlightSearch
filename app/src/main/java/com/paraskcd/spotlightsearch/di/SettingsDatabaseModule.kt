@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.paraskcd.spotlightsearch.data.SettingsDatabase
 import com.paraskcd.spotlightsearch.data.dao.QuickSearchProviderDao
 import com.paraskcd.spotlightsearch.data.dao.UserThemeDao
+import com.paraskcd.spotlightsearch.data.migrations.MIGRATION_1_2
 import com.paraskcd.spotlightsearch.data.repo.QuickSearchProviderRepository
 import com.paraskcd.spotlightsearch.data.repo.UserThemeRepository
 import dagger.Module
@@ -26,7 +27,9 @@ object SettingsDatabaseModule {
             context,
             SettingsDatabase::class.java,
             "settings_database"
-        ).build()
+        )
+            .addMigrations(MIGRATION_1_2)
+            .build()
 
     @Provides
     fun provideUserThemeDao(db: SettingsDatabase): UserThemeDao = db.userThemeDao()

@@ -40,9 +40,12 @@ import com.paraskcd.spotlightsearch.data.repo.UserThemeRepository
 import com.paraskcd.spotlightsearch.enums.ColorOverrideKey
 import com.paraskcd.spotlightsearch.enums.ThemeMode
 import com.paraskcd.spotlightsearch.icons.ChevronRight
+import com.paraskcd.spotlightsearch.icons.Palette
 import com.paraskcd.spotlightsearch.ui.components.BaseRowContainer
+import com.paraskcd.spotlightsearch.ui.components.Blur
 import com.paraskcd.spotlightsearch.ui.components.HeaderCard
 import com.paraskcd.spotlightsearch.ui.components.GroupSurface
+import com.paraskcd.spotlightsearch.ui.components.RowWithIcon
 import com.paraskcd.spotlightsearch.ui.theme.ThemeUi
 import com.paraskcd.spotlightsearch.ui.theme.ThemeViewModel
 import kotlinx.coroutines.launch
@@ -71,7 +74,7 @@ fun PersonalizationPage(
     ) {
         // Header
         item {
-            HeaderCard("Appearance and Personalization")
+            HeaderCard("Appearance and Personalization", icon = Palette)
         }
 
         // Grupo principal: Theme / Blur / Icon Packs
@@ -82,7 +85,10 @@ fun PersonalizationPage(
                     when (rows[index]) {
                         "theme" ->
                             BaseRowContainer(shape, { showThemeDialog = true }) {
-                                Text("Select Theme", style = MaterialTheme.typography.titleMedium)
+                                RowWithIcon(
+                                    icon = Palette,
+                                    text = "Select theme"
+                                )
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Text(
                                         state.mode.name.lowercase().replaceFirstChar { it.uppercase() },
@@ -95,7 +101,10 @@ fun PersonalizationPage(
                             }
                         "blur" ->
                             BaseRowContainer(shape, onClick = { onToggle(!state.enableBlur) }) {
-                                Text("Enable Blur", style = MaterialTheme.typography.titleMedium)
+                                RowWithIcon(
+                                    icon = Blur,
+                                    text = "Enable Blur"
+                                )
                                 Switch(checked = state.enableBlur, onCheckedChange = onToggle)
                             }
                     }
@@ -103,7 +112,10 @@ fun PersonalizationPage(
             } else {
                 GroupSurface(count = 1) { index, shape ->
                     BaseRowContainer(shape, { showThemeDialog = true }) {
-                        Text("Select Theme", style = MaterialTheme.typography.titleMedium)
+                        RowWithIcon(
+                            icon = Palette,
+                            text = "Select theme"
+                        )
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
                                 state.mode.name.lowercase().replaceFirstChar { it.uppercase() },
@@ -137,7 +149,10 @@ fun PersonalizationPage(
                         shape = shape,
                         onClick = { showResetColorsDialog = true }
                     ) {
-                        Text("Reset colors", style = MaterialTheme.typography.titleMedium)
+                        RowWithIcon(
+                            icon = Palette,
+                            text = "Reset colors"
+                        )
                         Icon(ChevronRight, contentDescription = null)
                     }
                 } else {
@@ -145,7 +160,10 @@ fun PersonalizationPage(
                     val color = currentColorForKey(state, key) ?: fallbackBaseColor(key)
 
                     BaseRowContainer(shape, { navController.navigate("settings_color_picker/${key.name}") }) {
-                        Text(key.title, style = MaterialTheme.typography.titleMedium)
+                        RowWithIcon(
+                            icon = Palette,
+                            text = key.title
+                        )
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(12.dp)

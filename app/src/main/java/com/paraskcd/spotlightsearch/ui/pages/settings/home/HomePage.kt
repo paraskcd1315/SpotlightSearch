@@ -32,6 +32,7 @@ import com.paraskcd.spotlightsearch.icons.Palette
 import com.paraskcd.spotlightsearch.ui.components.BaseRowContainer
 import com.paraskcd.spotlightsearch.ui.components.GroupSurface
 import com.paraskcd.spotlightsearch.ui.components.HeaderCard
+import com.paraskcd.spotlightsearch.ui.components.RowWithIcon
 
 @Composable
 fun HomePage(navController: NavController) {
@@ -63,36 +64,17 @@ fun HomePage(navController: NavController) {
             HeaderCard("Spotlight Search", icon = Icons.Outlined.Search)
         }
         item {
-            GroupSurface(count = settingPages.size) { i, shape ->
-                BaseRowContainer(shape = shape, onClick = { navController.navigate(settingPages[i].route) }) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Surface(
-                            modifier = Modifier
-                                .padding(end = 8.dp)
-                                .height(40.dp)
-                                .width(40.dp),
-                            color = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.5f),
-                            shape = CircleShape
-                        ) {
-                            Icon(
-                                imageVector = settingPages[i].icon,
-                                contentDescription = settingPages[i].title,
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .fillMaxSize()
-                            )
-                        }
-                        Column {
-                            Text(settingPages[i].title, style = MaterialTheme.typography.titleMedium)
-                            settingPages[i].subtitle?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
-                        }
-                    }
+            GroupSurface(count = itemCount) { i, shape ->
+                val setting = settingPages[i]
+                BaseRowContainer(shape = shape, onClick = { navController.navigate(setting.route) }) {
+                    RowWithIcon(
+                        icon = setting.icon,
+                        text = setting.title,
+                        subtext = setting.subtitle
+                    )
                     Icon(
                         imageVector = ChevronRight,
-                        contentDescription = "Go to ${settingPages[i].title}"
+                        contentDescription = "Go to ${setting.title}"
                     )
                 }
             }

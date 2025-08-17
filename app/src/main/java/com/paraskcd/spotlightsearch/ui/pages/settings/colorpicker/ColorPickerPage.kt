@@ -2,11 +2,14 @@ package com.paraskcd.spotlightsearch.ui.pages.settings.colorpicker
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -39,6 +42,8 @@ import com.paraskcd.spotlightsearch.ui.theme.ThemeViewModel
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
+// Fragmento modificado de ColorPickerPage.kt (añadir/ajustar dentro del archivo)
+
 @Composable
 fun ColorPickerPage(
     navController: NavController,
@@ -51,7 +56,6 @@ fun ColorPickerPage(
     val scope = rememberCoroutineScope()
     val scheme = MaterialTheme.colorScheme
 
-    // Override actual (puede ser null)
     val overrideColor: Color? = when (key) {
         ColorOverrideKey.surface -> state.surface
         ColorOverrideKey.surfaceBright -> state.surfaceBright
@@ -61,10 +65,9 @@ fun ColorPickerPage(
         ColorOverrideKey.outline -> state.outline
     }
 
-    // Color base (cuando no hay override) usando el esquema, nunca gris
     val baseColor: Color = when (key) {
         ColorOverrideKey.surface -> scheme.surface
-        ColorOverrideKey.surfaceBright -> scheme.surfaceVariant
+        ColorOverrideKey.surfaceBright -> scheme.surfaceBright
         ColorOverrideKey.background -> scheme.background
         ColorOverrideKey.surfaceTint -> scheme.surfaceTint
         ColorOverrideKey.onSurface -> scheme.onSurface
@@ -72,14 +75,11 @@ fun ColorPickerPage(
     }
 
     var userEdited by remember { mutableStateOf(false) }
-
-    // Estado visible del picker (inicia con override si existe, si no con base)
     var color by remember { mutableStateOf(overrideColor ?: baseColor) }
     var hex by remember {
         mutableStateOf(TextFieldValue("#%06X".format((overrideColor ?: baseColor).toArgb() and 0xFFFFFF)))
     }
 
-    // Si llega el override más tarde y el usuario no tocó, sincronizar
     LaunchedEffect(overrideColor) {
         if (!userEdited && overrideColor != null && overrideColor != color) {
             color = overrideColor
@@ -90,16 +90,13 @@ fun ColorPickerPage(
     fun updateHexFromColor(c: Color) {
         hex = TextFieldValue("#%06X".format(c.toArgb() and 0xFFFFFF))
     }
-
     fun syncHexToColor(txt: String) {
         val clean = txt.removePrefix("#")
         if (clean.length == 6 && clean.all { it in "0123456789ABCDEFabcdef" }) {
             val int = clean.toInt(16)
-            val newColor = Color((0xFF000000 or int.toLong()).toInt())
-            color = newColor
+            color = Color((0xFF000000 or int.toLong()).toInt())
         }
     }
-
     fun save() {
         scope.launch {
             repo.merge(
@@ -113,10 +110,13 @@ fun ColorPickerPage(
             navController.popBackStack()
         }
     }
-
     fun resetToDefault() {
         scope.launch {
             repo.clearSingle(key)
+            val resetColor = baseColor
+            userEdited = false
+            color = resetColor
+            updateHexFromColor(resetColor)
         }
     }
 
@@ -132,13 +132,16 @@ fun ColorPickerPage(
         )
     }
 
-    val previewContainerColor = when (key) {
-        ColorOverrideKey.surface,
-        ColorOverrideKey.surfaceBright -> color
-        ColorOverrideKey.background -> color
-        ColorOverrideKey.surfaceTint -> color.copy(alpha = 0.6f)
-        ColorOverrideKey.onSurface -> scheme.surface
-        ColorOverrideKey.outline -> scheme.surface
+    // Nuevo: esquema provisional que refleja el cambio en vivo
+    val liveScheme = remember(color, key, scheme) {
+        when (key) {
+            ColorOverrideKey.surface -> scheme.copy(surface = color)
+            ColorOverrideKey.surfaceBright -> scheme.copy(surfaceBright = color)
+            ColorOverrideKey.background -> scheme.copy(background = color)
+            ColorOverrideKey.surfaceTint -> scheme.copy(surfaceTint = color)
+            ColorOverrideKey.onSurface -> scheme.copy(onSurface = color)
+            ColorOverrideKey.outline -> scheme.copy(outline = color)
+        }
     }
 
     Column(
@@ -147,23 +150,29 @@ fun ColorPickerPage(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        Text("Edit Color: ${key.title}", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
+        Text("Editing: ${key.title}", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
 
-        Surface(
-            shape = MaterialTheme.shapes.large,
-            color = previewContainerColor,
-            tonalElevation = 2.dp,
-            modifier = Modifier.fillMaxWidth()
+
+        MaterialTheme(
+            colorScheme = liveScheme,
+            typography = MaterialTheme.typography,
+            shapes = MaterialTheme.shapes
         ) {
-            Column(Modifier.padding(16.dp)) {
-                val contentColor = if (key == ColorOverrideKey.onSurface) color else scheme.onSurface
-                CompositionLocalProvider(LocalContentColor provides contentColor) {
+            Surface(
+                shape = MaterialTheme.shapes.large,
+                color = MaterialTheme.colorScheme.surface,
+                tonalElevation = 4.dp,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(Modifier.padding(16.dp)) {
                     SearchResultItem(
                         result = previewResult.copy(
                             subtitle = "#%06X".format(color.toArgb() and 0xFFFFFF)
                         ),
                         onQueryChanged = {}
                     )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    RolesMiniGrid(colorForKey = color, key = key)
                 }
             }
         }
@@ -198,18 +207,53 @@ fun ColorPickerPage(
         Row {
             Button(
                 onClick = { save() },
-                modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
-            ) {
-                Text("Save")
-            }
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 4.dp)
+            ) { Text("Save") }
             Button(
                 onClick = { resetToDefault() },
-                modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 4.dp)
+            ) { Text("Reset") }
+        }
+    }
+}
+
+@Composable
+private fun RolesMiniGrid(colorForKey: Color, key: ColorOverrideKey) {
+    val roles = listOf(
+        "surface" to MaterialTheme.colorScheme.surface,
+        "surfaceBright" to MaterialTheme.colorScheme.surfaceBright,
+        "background" to MaterialTheme.colorScheme.background,
+        "onSurface" to MaterialTheme.colorScheme.onSurface,
+        "outline" to MaterialTheme.colorScheme.outline
+    )
+    FlowRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        roles.forEach { (label, c) ->
+            Surface(
+                color = c,
+                shape = RoundedCornerShape(12.dp),
+                tonalElevation = if (label == key.name) 4.dp else 0.dp,
+                modifier = Modifier
+                    .height(40.dp)
+                    .padding(end = 2.dp)
             ) {
-                Text("Reset to default")
+                Column(
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                ) {
+                    Text(
+                        label,
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                }
             }
         }
-
     }
 }
 

@@ -87,7 +87,7 @@ fun HeaderCard(title: String, subtitle: String? = null, icon: ImageVector? = nul
                         tint = MaterialTheme.colorScheme.inverseOnSurface
                     )
                 }
-                Text("Spotlight Search", style = MaterialTheme.typography.headlineLarge, textAlign = TextAlign.Center, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.inverseOnSurface)
+                Text(title, style = MaterialTheme.typography.headlineLarge, textAlign = TextAlign.Center, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.inverseOnSurface)
             }
         }
     }
