@@ -76,23 +76,36 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                         .width(54.dp)
                         .height(54.dp)
                         .padding(6.dp)
+                        .border(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
+                            shape = CircleShape
+                        )
+                        .clip(CircleShape)
                 )
             } else if (result.iconVector != null) {
-                Icon(
-                    imageVector = result.iconVector,
-                    contentDescription = result.title,
-                    tint = MaterialTheme.colorScheme.onSurface,
+                Surface(
                     modifier = Modifier
-                        .width(54.dp)
                         .height(54.dp)
-                        .clip(CircleShape)
+                        .width(54.dp)
+                        .padding(6.dp)
                         .border(
-                            1.dp,
-                            MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
-                            CircleShape
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
+                            shape = CircleShape
                         )
-                        .padding(12.dp)
-                )
+                        .clip(CircleShape),
+                    color = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.5f),
+                ) {
+                    Icon(
+                        imageVector = result.iconVector,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxSize()
+                    )
+                }
             }
             Text(
                 text = result.title,
@@ -176,6 +189,12 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                                 .padding(end = 8.dp)
                                 .height(40.dp)
                                 .width(40.dp)
+                                .border(
+                                    width = 1.dp,
+                                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
+                                    shape = CircleShape
+                                )
+                                .clip(CircleShape)
                         )
                     }
                     result.iconVector?.let {

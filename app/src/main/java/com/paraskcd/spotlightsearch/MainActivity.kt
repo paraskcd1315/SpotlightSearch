@@ -34,15 +34,18 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntOffset
 import kotlin.math.roundToInt
 import androidx.compose.ui.graphics.graphicsLayer
+import com.paraskcd.spotlightsearch.ui.theme.ThemeViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val searchViewModel: SearchViewModel by viewModels()
+        val themeViewModel: ThemeViewModel by viewModels()
 
         enableEdgeToEdge()
         setContent {
+            val themeState by themeViewModel.state.collectAsState()
             var isVisible by remember { mutableStateOf(false) }
             val isBatterySaver = remember {
                 isBatterySaverOn(this)
@@ -52,6 +55,8 @@ class MainActivity : ComponentActivity() {
             }
             val localView = LocalView.current
             var dragOffsetY by remember { mutableStateOf(0f) }
+            val userPrefEnableBlur = themeState.enableBlur != false // null o true => true
+            val effectiveBlur = supportsBlur && userPrefEnableBlur && !isBatterySaver
 
             LaunchedEffect(Unit) {
                 delay(250)
@@ -62,8 +67,15 @@ class MainActivity : ComponentActivity() {
             SpotlightSearchTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = if (isBatterySaver || !supportsBlur) MaterialTheme.colorScheme.background.copy(alpha = 0.9f) else MaterialTheme.colorScheme.background.copy(alpha = (0.5f - (dragOffsetY / 300f)).coerceIn(0f, 0.5f)),
+                    color = if (!effectiveBlur) MaterialTheme.colorScheme.background.copy(alpha = 0.9f) else MaterialTheme.colorScheme.background.copy(alpha = (0.5f - (dragOffsetY / 300f)).coerceIn(0f, 0.5f)),
                 ) {
+                    LaunchedEffect(effectiveBlur, dragOffsetY) {
+                        window.setBackgroundBlurRadius(
+                            if (effectiveBlur) (100f - dragOffsetY).coerceIn(0f, 100f).roundToInt()
+                            else 0
+                        )
+                    }
+
                     Box(
                         Modifier
                             .fillMaxSize()
@@ -72,7 +84,11 @@ class MainActivity : ComponentActivity() {
                                 detectVerticalDragGestures(
                                     onVerticalDrag = { change, dragAmount ->
                                         dragOffsetY += dragAmount
-                                        window.setBackgroundBlurRadius((100f - dragOffsetY).coerceIn(0f, 100f).roundToInt())
+                                        if (effectiveBlur) {
+                                            window.setBackgroundBlurRadius(
+                                                (100f - dragOffsetY).coerceIn(0f, 100f).roundToInt()
+                                            )
+                                        }
                                         change.consume()
                                     },
                                     onDragEnd = {
@@ -80,7 +96,7 @@ class MainActivity : ComponentActivity() {
                                             finish()
                                         } else {
                                             dragOffsetY = 0f
-                                            window.setBackgroundBlurRadius(100)
+                                            if (effectiveBlur) window.setBackgroundBlurRadius(100)
                                         }
                                     }
                                 )
@@ -94,7 +110,7 @@ class MainActivity : ComponentActivity() {
                                 alpha = (1f - (dragOffsetY / 300f)).coerceIn(0f, 1f)
                             }
                         ) {
-                            SearchScreen(viewModel = searchViewModel, supportsBlur = supportsBlur)
+                            SearchScreen(viewModel = searchViewModel, supportsBlur = effectiveBlur)
                         }
                     }
                 }
@@ -108,7 +124,7 @@ class MainActivity : ComponentActivity() {
             systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
 
-        window.setBackgroundBlurRadius(100)
+        window.setBackgroundBlurRadius(0)
         window.setDimAmount(0.0f)
     }
 

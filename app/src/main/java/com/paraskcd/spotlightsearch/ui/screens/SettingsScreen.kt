@@ -16,16 +16,24 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.paraskcd.spotlightsearch.data.repo.UserThemeRepository
+import com.paraskcd.spotlightsearch.ui.pages.settings.colorpicker.ColorPickerPage
 import com.paraskcd.spotlightsearch.ui.pages.settings.home.HomePage
+import com.paraskcd.spotlightsearch.ui.pages.settings.personalization.PersonalizationPage
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen() {
     val activity = LocalActivity.current
     val navController = rememberNavController()
+    val repoVm: SettingsRepoViewModel = hiltViewModel()
 
     Scaffold(
         topBar = {
@@ -54,6 +62,18 @@ fun SettingsScreen() {
             composable("settings_home") {
                 HomePage(navController)
             }
+            composable("settings_personalization") {
+                PersonalizationPage(navController = navController, repo = repoVm.repo)
+            }
+            composable("settings_color_picker/{key}") { backStackEntry ->
+                val key = backStackEntry.arguments?.getString("key").orEmpty()
+                ColorPickerPage(navController, key, repoVm.repo)
+            }
         }
     }
 }
+
+@HiltViewModel
+class SettingsRepoViewModel @Inject constructor(
+    val repo: UserThemeRepository
+) : ViewModel()

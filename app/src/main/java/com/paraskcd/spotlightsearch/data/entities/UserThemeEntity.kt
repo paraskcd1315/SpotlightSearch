@@ -8,11 +8,12 @@ import com.paraskcd.spotlightsearch.enums.ThemeMode
 data class UserThemeEntity(
     @PrimaryKey val id: Int = 0,
     val theme: ThemeMode = ThemeMode.AUTO,
-    val enableBlur: Boolean = false,
-    val surfaceColor: Long? = null,
-    val surfaceBrightColor: Long? = null,
-    val backgroundColor: Long? = null,
-    val surfaceTintColor: Long? = null,
-    val onSurfaceColor: Long? = null,
-    val outlineColor: Long? = null,
+    val enableBlur: Boolean? = null,
+    val surfaceColor: Int? = null,
+    val surfaceBrightColor: Int? = null,
+    val backgroundColor: Int? = null,
+    val surfaceTintColor: Int? = null,
+    val onSurfaceColor: Int? = null,
+    val outlineColor: Int? = null,
+    val iconPack: String? = null
 )

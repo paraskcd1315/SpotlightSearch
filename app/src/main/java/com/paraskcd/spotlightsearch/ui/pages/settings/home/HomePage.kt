@@ -42,6 +42,8 @@ import androidx.navigation.NavController
 import com.paraskcd.spotlightsearch.icons.DashboardCustomize
 import com.paraskcd.spotlightsearch.icons.FeaturesFunctionality
 import com.paraskcd.spotlightsearch.types.SettingPageItem
+import com.paraskcd.spotlightsearch.ui.components.ChevronRight
+import kotlin.div
 import kotlin.math.max
 
 @Composable
@@ -85,25 +87,20 @@ fun HomePage(navController: NavController) {
                         .clip(RoundedCornerShape(24.dp))
                         .onSizeChanged { size = it }
                         .background(
-                            if (size.width > 0) {
-                                Brush.radialGradient(
-                                    colors = listOf(
-                                        MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.95f),
-                                        MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.55f),
-                                        MaterialTheme.colorScheme.surface
-                                    ),
-                                    center = Offset(size.width / 2f, size.height / 2f),
-                                    radius = max(size.width, size.height) * 0.95f
-                                )
-                            } else {
-                                Brush.radialGradient(
-                                    colors = listOf(
-                                        MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.95f),
-                                        MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.55f),
-                                        MaterialTheme.colorScheme.surface
-                                    ),
-                                )
-                            },
+                            Brush.radialGradient(
+                                colors = listOf(
+                                    MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.95f),
+                                    MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.55f),
+                                    MaterialTheme.colorScheme.surface
+                                ),
+                                center = Offset(
+                                    (size.width / 2f),
+                                    (size.height / 2f)
+                                ),
+                                radius = (max(size.width, size.height)
+                                    .coerceAtLeast(1))   // evita 0
+                                    .toFloat() * 0.95f
+                            )
                         )
                         .padding(72.dp) // mismo padding interno
                         .fillMaxWidth()
@@ -182,8 +179,8 @@ fun HomePage(navController: NavController) {
                         }
                     }
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = "Ir a ${setting.title}"
+                        imageVector = ChevronRight,
+                        contentDescription = "Go to ${setting.title}"
                     )
                 }
             }
