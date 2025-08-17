@@ -2,7 +2,10 @@ package com.paraskcd.spotlightsearch.ui.screens
 
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -52,7 +55,8 @@ fun SettingsScreen() {
             )
         },
         containerColor = Color.Transparent,
-        contentWindowInsets = WindowInsets.systemBars
+        contentWindowInsets = WindowInsets.safeDrawing
+            .only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal)
     ) { innerPadding ->
         NavHost(
             navController = navController,
