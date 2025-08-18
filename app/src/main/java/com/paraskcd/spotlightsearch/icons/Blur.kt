@@ -1,4 +1,4 @@
-package com.paraskcd.spotlightsearch.ui.components
+package com.paraskcd.spotlightsearch.icons
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor

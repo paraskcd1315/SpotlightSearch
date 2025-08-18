@@ -1,5 +1,6 @@
 package com.paraskcd.spotlightsearch.ui.pages.settings.home
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.paraskcd.spotlightsearch.icons.DashboardCustomize
@@ -58,6 +60,7 @@ fun HomePage(navController: NavController) {
     )
 
     val itemCount = settingPages.size
+    val context = LocalContext.current
 
     LazyColumn {
         item {
@@ -66,7 +69,17 @@ fun HomePage(navController: NavController) {
         item {
             GroupSurface(count = itemCount) { i, shape ->
                 val setting = settingPages[i]
-                BaseRowContainer(shape = shape, onClick = { navController.navigate(setting.route) }) {
+                BaseRowContainer(
+                    shape = shape,
+                    onClick = {
+                        val destinationExists = navController.graph.findNode(setting.route) != null
+                        if (destinationExists && setting.route?.isNotEmpty() == true) {
+                            navController.navigate(setting.route)
+                        } else {
+                            Toast.makeText(context, "Coming soon", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                ) {
                     RowWithIcon(
                         icon = setting.icon,
                         text = setting.title,

@@ -6,5 +6,6 @@ data class SettingPageItem(
     val title: String,
     val subtitle: String? = null,
     val icon: ImageVector,
-    val route: String
+    val route: String? = null,
+    val onClick: (() -> Unit)? = null
 )

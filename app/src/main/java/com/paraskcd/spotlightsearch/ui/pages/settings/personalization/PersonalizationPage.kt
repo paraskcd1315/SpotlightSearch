@@ -42,7 +42,7 @@ import com.paraskcd.spotlightsearch.enums.ThemeMode
 import com.paraskcd.spotlightsearch.icons.ChevronRight
 import com.paraskcd.spotlightsearch.icons.Palette
 import com.paraskcd.spotlightsearch.ui.components.BaseRowContainer
-import com.paraskcd.spotlightsearch.ui.components.Blur
+import com.paraskcd.spotlightsearch.icons.Blur
 import com.paraskcd.spotlightsearch.ui.components.HeaderCard
 import com.paraskcd.spotlightsearch.ui.components.GroupSurface
 import com.paraskcd.spotlightsearch.ui.components.RowWithIcon
@@ -69,9 +69,7 @@ fun PersonalizationPage(
         scope.launch { repo.setBlur(checked) }
     }
 
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
+    LazyColumn {
         // Header
         item {
             HeaderCard("Appearance and Personalization", icon = Palette)
@@ -79,12 +77,22 @@ fun PersonalizationPage(
 
         // Grupo principal: Theme / Blur / Icon Packs
         item {
+            Text(
+                "Appearance",
+                modifier = Modifier
+                    .padding(16.dp),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+            )
+        }
+
+        item {
             if (supportsBlur) {
                 val rows = listOf("theme", "blur")
                 GroupSurface(count = rows.size) { index, shape ->
                     when (rows[index]) {
                         "theme" ->
-                            BaseRowContainer(shape, { showThemeDialog = true }) {
+                            BaseRowContainer(shape = shape, onClick = { showThemeDialog = true }) {
                                 RowWithIcon(
                                     icon = Palette,
                                     text = "Select theme"
@@ -100,7 +108,7 @@ fun PersonalizationPage(
                                 }
                             }
                         "blur" ->
-                            BaseRowContainer(shape, onClick = { onToggle(!state.enableBlur) }) {
+                            BaseRowContainer(shape = shape, onClick = { onToggle(!state.enableBlur) }) {
                                 RowWithIcon(
                                     icon = Blur,
                                     text = "Enable Blur"
@@ -111,7 +119,7 @@ fun PersonalizationPage(
                 }
             } else {
                 GroupSurface(count = 1) { index, shape ->
-                    BaseRowContainer(shape, { showThemeDialog = true }) {
+                    BaseRowContainer(shape, onClick = { showThemeDialog = true }) {
                         RowWithIcon(
                             icon = Palette,
                             text = "Select theme"
@@ -133,8 +141,9 @@ fun PersonalizationPage(
         // Título colores
         item {
             Text(
-                "Colors",
-                modifier = Modifier.padding(horizontal = 16.dp),
+                "Personalization",
+                modifier = Modifier
+                    .padding(16.dp),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
             )
@@ -159,7 +168,7 @@ fun PersonalizationPage(
                     val key = keys[i - 1]
                     val color = currentColorForKey(state, key) ?: fallbackBaseColor(key)
 
-                    BaseRowContainer(shape, { navController.navigate("settings_color_picker/${key.name}") }) {
+                    BaseRowContainer(shape, onClick = { navController.navigate("settings_color_picker/${key.name}") }) {
                         RowWithIcon(
                             icon = Palette,
                             text = key.title

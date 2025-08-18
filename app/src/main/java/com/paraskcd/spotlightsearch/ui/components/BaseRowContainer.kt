@@ -16,11 +16,13 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun BaseRowContainer(
     shape: RoundedCornerShape,
-    onClick: () -> Unit,
+    isDragging: Boolean = false,
+    onClick: (() -> Unit)? = null,
     content: @Composable RowScope.() -> Unit
 ) {
     Surface(
-        onClick = onClick,
+        tonalElevation = if (isDragging) 4.dp else 0.dp,
+        onClick = { onClick?.invoke() },
         shape = shape,
         color = MaterialTheme.colorScheme.surfaceBright,
         modifier = Modifier
