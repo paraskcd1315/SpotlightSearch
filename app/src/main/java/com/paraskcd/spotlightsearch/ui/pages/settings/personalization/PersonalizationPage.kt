@@ -2,6 +2,7 @@ package com.paraskcd.spotlightsearch.ui.pages.settings.personalization
 
 import android.app.Activity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -213,7 +214,11 @@ fun PersonalizationPage(
                                     else
                                         Color.Transparent
                                 )
-                                .padding(horizontal = 4.dp),
+                                .padding(horizontal = 4.dp)
+                                .clickable {
+                                    showThemeDialog = false
+                                    scope.launch { repo.setMode(mode) }
+                                },
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RadioButton(

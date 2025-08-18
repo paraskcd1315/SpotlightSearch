@@ -77,7 +77,7 @@ fun QuicksearchPage(
 
     Column {
         Text(
-            "Drag to reorder, toggle to disable (If you see an app without icon it means it is not installed, and will not show up in the search)",
+            "Tap, hold and Drag to reorder, toggle the switch to disable (If you see an app without icon it means it is not installed, and will not show up in the search)",
             modifier = Modifier
                 .padding(16.dp),
             style = MaterialTheme.typography.titleSmall,

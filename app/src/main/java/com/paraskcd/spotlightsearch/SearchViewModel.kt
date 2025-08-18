@@ -24,7 +24,9 @@ import javax.inject.Inject
 import androidx.core.net.toUri
 import androidx.compose.material.icons.filled.Warning
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+import com.paraskcd.spotlightsearch.data.entities.GlobalSearchConfigEntity
 import com.paraskcd.spotlightsearch.data.repo.AppUsageRepository
+import com.paraskcd.spotlightsearch.data.repo.GlobalSearchConfigRepository
 import com.paraskcd.spotlightsearch.enums.SearchResultDisplayMode
 import com.paraskcd.spotlightsearch.enums.SearchResultType
 import com.paraskcd.spotlightsearch.providers.MLKitTranslationProvider
@@ -41,6 +43,7 @@ import kotlinx.coroutines.flow.stateIn
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
+    appUsageRepository: AppUsageRepository,
     @param:ApplicationContext val context: Context,
     private val appRepository: AppRepositoryProvider,
     private val suggestionProvider: GoogleSuggestionProvider,
@@ -50,7 +53,7 @@ class SearchViewModel @Inject constructor(
     private val mlKitTranslationProvider: MLKitTranslationProvider,
     private val spellCheckerProvider: SpellCheckerProvider,
     private val settingsSearchProvider: SettingsSearchProvider,
-    private val appUsageRepository: AppUsageRepository
+    private val globalConfigRepo: GlobalSearchConfigRepository
 ) : ViewModel() {
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query.asStateFlow()
@@ -72,7 +75,13 @@ class SearchViewModel @Inject constructor(
             }
             .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
+    private val globalConfig = globalConfigRepo.config
+        .stateIn(viewModelScope, SharingStarted.Eagerly, GlobalSearchConfigEntity())
+
     init {
+        viewModelScope.launch {
+            globalConfigRepo.ensure()
+        }
         viewModelScope.launch {
             spellCheckerProvider.init()
         }
@@ -111,6 +120,8 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun updateResults() {
+        val cfg = globalConfig.value
+
         val query = _query.value.trim()
         if (query.isEmpty()) {
             val list = mutableListOf<SearchResult>()
@@ -192,19 +203,19 @@ class SearchViewModel @Inject constructor(
             }
 
             val translationDeferred = async { mlKitTranslationProvider.translate(query) }
-            val appDeferred = async { appRepository.searchInstalledApp(query) }
-            val contactDeferred = async { contactSearchProvider.searchContacts(query) }
-            val suggestionDeferred = async { suggestionProvider.fetchSuggestions(query) }
+            val appDeferred = if (cfg.appsEnabled) async { appRepository.searchInstalledApp(query) } else null
+            val contactDeferred = if (cfg.contactsEnabled) async { contactSearchProvider.searchContacts(query) } else null
+            val suggestionDeferred = if (cfg.webSuggestionsEnabled) async { suggestionProvider.fetchSuggestions(query) } else null
             val multiSearchDeferred = async { multipleSearchProvider.getSearchAppItems(query) }
 
-            appDeferred.invokeOnCompletion {
+            appDeferred?.invokeOnCompletion {
                 appDeferred.getCompletedOrNull()?.takeIf { it.isNotEmpty() }?.let {
                     val list = listOf(SearchResult(title = "Apps", isHeader = true, onClick = {})) + it
                     _results.update { prev -> prev + list }
                 }
             }
 
-            contactDeferred.invokeOnCompletion {
+            contactDeferred?.invokeOnCompletion {
                 contactDeferred.getCompletedOrNull()?.takeIf { it.isNotEmpty() }?.let {
                     val list = listOf(SearchResult(title = "Contacts", isHeader = true, onClick = {})) + it
                     _results.update { prev -> prev + list }
@@ -235,8 +246,8 @@ class SearchViewModel @Inject constructor(
                 }
             }
 
-            suggestionDeferred.await().let { suggestions ->
-                val sorted = suggestions.mapIndexed { _, suggestion ->
+            suggestionDeferred?.await().let { suggestions ->
+                val sorted = suggestions?.mapIndexed { _, suggestion ->
                     val isCalc = suggestion.trim().startsWith("=")
                     SearchResult(
                         title = if (isCalc) "$query $suggestion" else suggestion,
@@ -253,8 +264,8 @@ class SearchViewModel @Inject constructor(
                     )
                 }
 
-                val calculatorItem = sorted.firstOrNull { it.subtitle == "Calculator" }
-                val otherSuggestions = sorted.filter { it.subtitle != "Calculator" }
+                val calculatorItem = sorted?.firstOrNull { it.subtitle == "Calculator" }
+                val otherSuggestions = sorted?.filter { it.subtitle != "Calculator" }
 
                 val extra = mutableListOf<SearchResult>()
                 calculatorItem?.let {
@@ -270,11 +281,11 @@ class SearchViewModel @Inject constructor(
                     extra.add(calculatorItem)
                 }
 
-                if (appDeferred.getCompletedOrNull().isNullOrEmpty() &&
-                    contactDeferred.getCompletedOrNull().isNullOrEmpty() &&
+                if (appDeferred?.getCompletedOrNull().isNullOrEmpty() &&
+                    contactDeferred?.getCompletedOrNull().isNullOrEmpty() &&
                     calculatorItem == null
                 ) {
-                    if (otherSuggestions.isNotEmpty()) {
+                    if (otherSuggestions?.isNotEmpty() == true) {
                         extra.add(SearchResult(title = "Suggestions", isHeader = true, onClick = {}))
                         extra.addAll(otherSuggestions)
                     }
@@ -283,7 +294,7 @@ class SearchViewModel @Inject constructor(
                 _results.update { it + extra }
             }
 
-            multiSearchDeferred.await().takeIf { it.isNotEmpty() }?.let { list ->
+            multiSearchDeferred?.await().takeIf { it?.isNotEmpty() == true }?.let { list ->
                 _results.update { prev -> prev + list }
             }
         }

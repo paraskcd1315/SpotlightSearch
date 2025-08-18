@@ -27,12 +27,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.paraskcd.spotlightsearch.data.entities.QuickSearchProviderEntity
+import com.paraskcd.spotlightsearch.data.repo.GlobalSearchConfigRepository
 import com.paraskcd.spotlightsearch.data.repo.QuickSearchProviderRepository
 import com.paraskcd.spotlightsearch.data.repo.UserThemeRepository
 import com.paraskcd.spotlightsearch.providers.AppRepositoryProvider
 import com.paraskcd.spotlightsearch.ui.pages.settings.colorpicker.ColorPickerPage
 import com.paraskcd.spotlightsearch.ui.pages.settings.features.FeaturesPage
 import com.paraskcd.spotlightsearch.ui.pages.settings.home.HomePage
+import com.paraskcd.spotlightsearch.ui.pages.settings.manageapps.ManageAppsPage
+import com.paraskcd.spotlightsearch.ui.pages.settings.managecontacts.ManageContactsPage
+import com.paraskcd.spotlightsearch.ui.pages.settings.managewebsuggestions.ManageWebSuggestions
 import com.paraskcd.spotlightsearch.ui.pages.settings.personalization.PersonalizationPage
 import com.paraskcd.spotlightsearch.ui.pages.settings.quicksearch.QuicksearchPage
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -91,6 +95,15 @@ fun SettingsScreen() {
             composable("settings_quick_search") {
                 QuicksearchPage(navController = navController)
             }
+            composable("settings_manage_apps") {
+                ManageAppsPage(navController = navController)
+            }
+            composable("settings_web_suggestions") {
+                ManageWebSuggestions(navController = navController)
+            }
+            composable("settings_manage_contacts") {
+                ManageContactsPage(navController = navController)
+            }
         }
     }
 }
@@ -108,7 +121,8 @@ data class QuickSearchUi(
 class SettingsRepoViewModel @Inject constructor(
     val userRepo: UserThemeRepository,
     val quickSearchRepo: QuickSearchProviderRepository,
-    val appRepo: AppRepositoryProvider
+    val appRepo: AppRepositoryProvider,
+    val globalSearchConfigRepo: GlobalSearchConfigRepository
 ) : ViewModel() {
     private val labelMap = mapOf(
         "com.google.android.googlequicksearchbox" to "Google",
@@ -141,4 +155,11 @@ class SettingsRepoViewModel @Inject constructor(
     }
 
     private fun getCachedAppIcon(pkg: String): Drawable? = appRepo.getCachedApp(pkg)?.icon
+
+    val globalSearchConfigState = globalSearchConfigRepo.config.stateIn(viewModelScope,
+        SharingStarted.WhileSubscribed(5000), null)
+
+    fun setApps(enabled: Boolean) = viewModelScope.launch { globalSearchConfigRepo.setAppsEnabled(enabled) }
+    fun setContacts(enabled: Boolean) = viewModelScope.launch { globalSearchConfigRepo.setContactsEnabled(enabled) }
+    fun setWebSuggestions(enabled: Boolean) = viewModelScope.launch { globalSearchConfigRepo.setWebSuggestionsEnabled(enabled) }
 }

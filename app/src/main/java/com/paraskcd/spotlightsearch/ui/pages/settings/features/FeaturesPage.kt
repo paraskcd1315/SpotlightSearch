@@ -49,16 +49,16 @@ fun FeaturesPage(
             route = "settings_manage_apps"
         ),
         SettingPageItem(
-            title = "Web suggestions",
+            title = "Manage web suggestions",
             subtitle = "Click to manage web suggestions from Google",
             icon = WebTraffic,
             route = "settings_web_suggestions"
         ),
         SettingPageItem(
-            title = "Contacts",
+            title = "Manage contacts",
             subtitle = "Click to manage contacts",
             icon = PersonBook,
-            route = "settings_web_suggestions"
+            route = "settings_manage_contacts"
         )
     )
 
