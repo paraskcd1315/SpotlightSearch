@@ -147,6 +147,6 @@ class MultipleSearchProvider @Inject constructor(
             }
 
         if (list.isEmpty()) return emptyList()
-        return listOf(SearchResult("App Searches", onClick = {}, isHeader = true)) + list
+        return listOf(SearchResult("Quick search", onClick = {}, isHeader = true)) + list
     }
 }

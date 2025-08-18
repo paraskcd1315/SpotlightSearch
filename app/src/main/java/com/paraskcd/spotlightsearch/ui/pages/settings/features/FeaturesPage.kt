@@ -102,7 +102,8 @@ fun FeaturesPage(
         item {
             Text(
                 "Features",
-                modifier = Modifier.padding(start = 32.dp, end = 32.dp, top = 16.dp),
+                modifier = Modifier
+                    .padding(16.dp),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
             )
@@ -136,7 +137,8 @@ fun FeaturesPage(
         item {
             Text(
                 "Shortcuts",
-                modifier = Modifier.padding(start = 32.dp, end = 32.dp, top = 16.dp),
+                modifier = Modifier
+                    .padding(16.dp),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
             )
