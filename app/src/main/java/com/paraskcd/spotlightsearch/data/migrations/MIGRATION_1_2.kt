@@ -5,7 +5,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 val MIGRATION_1_2 = object : Migration(1, 2) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        // Crear nueva tabla quick_search_provider
         db.execSQL(
             """
             CREATE TABLE IF NOT EXISTS quick_search_provider (
@@ -16,7 +15,6 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
             """.trimIndent()
         )
 
-        // Pre-poblar (solo si está vacía)
         val defaults = listOf(
             "com.google.android.googlequicksearchbox",
             "com.google.android.youtube",
@@ -31,7 +29,7 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
         defaults.forEachIndexed { index, pkg ->
             db.execSQL(
                 "INSERT OR IGNORE INTO quick_search_provider(packageName, enabled, sortOrder) VALUES(?, 1, ?)",
-                arrayOf(pkg, index)
+                arrayOf<Any?>(pkg, index)
             )
         }
     }

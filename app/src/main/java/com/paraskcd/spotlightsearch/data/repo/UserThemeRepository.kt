@@ -63,8 +63,6 @@ class UserThemeRepository @Inject constructor(
     suspend fun clearSingle(key: ColorOverrideKey) {
         ensureRow()
         when (key) {
-            ColorOverrideKey.surface ->
-                dao.merge(clearSurface = true)
             ColorOverrideKey.surfaceBright ->
                 dao.merge(clearSurfaceBright = true)
             ColorOverrideKey.background ->

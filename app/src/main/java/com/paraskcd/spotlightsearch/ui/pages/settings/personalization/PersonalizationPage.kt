@@ -152,7 +152,7 @@ fun PersonalizationPage(
 
         // Grupo colores
         item {
-            val keys = ColorOverrideKey.values().toList()
+            val keys = ColorOverrideKey.entries
             GroupSurface(count = keys.size + 1) { i, shape ->
                 if (i == 0) {
                     BaseRowContainer(
@@ -202,7 +202,7 @@ fun PersonalizationPage(
             title = { Text("Theme Mode") },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    ThemeMode.values().forEach { mode ->
+                    ThemeMode.entries.forEach { mode ->
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -266,7 +266,6 @@ private fun currentColorForKey(
     state: ThemeUi,
     key: ColorOverrideKey
 ): Color? = when (key) {
-    ColorOverrideKey.surface -> state.surface
     ColorOverrideKey.surfaceBright -> state.surfaceBright
     ColorOverrideKey.background -> state.background
     ColorOverrideKey.surfaceTint -> state.surfaceTint
@@ -278,7 +277,6 @@ private fun currentColorForKey(
 private fun fallbackBaseColor(key: ColorOverrideKey): Color {
     val scheme = MaterialTheme.colorScheme
     return when (key) {
-        ColorOverrideKey.surface -> scheme.surface
         ColorOverrideKey.surfaceBright -> scheme.surfaceVariant
         ColorOverrideKey.background -> scheme.background
         ColorOverrideKey.surfaceTint -> scheme.surfaceTint
