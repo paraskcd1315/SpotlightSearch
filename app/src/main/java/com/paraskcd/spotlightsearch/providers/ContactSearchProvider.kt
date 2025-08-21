@@ -1,14 +1,18 @@
 package com.paraskcd.spotlightsearch.providers
 
 import android.Manifest
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.ContentObserver
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract
+import android.widget.Toast
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
@@ -76,8 +80,10 @@ class ContactSearchProvider @Inject constructor(
                 context.startActivity(intent)
             }
             actions += ActionButton(label = "SMS", iconVector = SMS) {
-                val intent = Intent(Intent.ACTION_VIEW, "sms:$number".toUri())
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                val intent = Intent(Intent.ACTION_SENDTO).apply {
+                    data = Uri.parse("smsto:$number")
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
                 context.startActivity(intent)
             }
             if (waInstalled) {
@@ -101,7 +107,22 @@ class ContactSearchProvider @Inject constructor(
                 subtitle = number,
                 icon = drawable,
                 iconVector = if (drawable == null) Icons.Filled.Person else null,
-                onClick = {},
+                onClick = {
+                    val contactUri = getContactUriByNumber(number)
+                    contactUri?.let {
+                        val intent = Intent(Intent.ACTION_VIEW).apply {
+                            data = it
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        context.startActivity(intent)
+                    }
+                },
+                onLongClick = {
+                    val clipboard = ContextCompat.getSystemService(context, ClipboardManager::class.java)
+                    val clip = ClipData.newPlainText("Phone Number", number)
+                    clipboard?.setPrimaryClip(clip)
+                    Toast.makeText(context, "Phone number copied", Toast.LENGTH_SHORT).show()
+                },
                 actionButtons = actions,
                 searchResultType = SearchResultType.CONTACT
             )
@@ -160,7 +181,27 @@ class ContactSearchProvider @Inject constructor(
 
     private fun resolveWhatsApp(): Boolean {
         val candidates = listOf("com.whatsapp", "com.whatsapp.w4b")
-        val pkg = candidates.firstOrNull { isInstalled(it) }
-        return pkg != null
+        return candidates.any { isInstalled(it) }
+    }
+
+    private fun getContactUriByNumber(number: String): Uri? {
+        val uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
+        val projection = arrayOf(
+            ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
+            ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY
+        )
+        val normalized = number.replace("[^\\d+]".toRegex(), "")
+        val selection = "${ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER} = ?"
+        val selectionArgs = arrayOf(normalized)
+
+        val cursor = context.contentResolver.query(uri, projection, selection, selectionArgs, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val contactId = it.getLong(0)
+                val lookupKey = it.getString(1)
+                return ContactsContract.Contacts.getLookupUri(contactId, lookupKey)
+            }
+        }
+        return null
     }
 }
