@@ -1,0 +1,12 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="assistant_shortcut"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/assistant_shortcut_label"
+        android:shortcutLongLabel="@string/assistant_shortcut_long_label">
+
+        <intent
+            android:action="android.settings.VOICE_INPUT_SETTINGS" />
+    </shortcut>
+</shortcuts>

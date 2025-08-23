@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Spotlight Search</string>
+    <string name="assistant_shortcut_label">Assistant Settings</string>
+    <string name="assistant_shortcut_long_label">Set as Assistant </string>
 </resources>
