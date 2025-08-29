@@ -1,4 +1,4 @@
-package com.paraskcd.spotlightsearch.ui.pages.settings.manageapps
+package com.paraskcd.spotlightsearch.ui.pages.settings.features.manageapps
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.padding
@@ -12,17 +12,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.paraskcd.spotlightsearch.SettingsViewModel
 import com.paraskcd.spotlightsearch.icons.Apps
 import com.paraskcd.spotlightsearch.icons.ChevronRight
 import com.paraskcd.spotlightsearch.ui.components.BaseRowContainer
 import com.paraskcd.spotlightsearch.ui.components.GroupSurface
 import com.paraskcd.spotlightsearch.ui.components.RowWithIcon
-import com.paraskcd.spotlightsearch.ui.screens.SettingsRepoViewModel
 
 @Composable
-fun ManageAppsPage(navController: NavController, vm: SettingsRepoViewModel = hiltViewModel()) {
+fun ManageAppsPage(navController: NavController, vm: SettingsViewModel) {
     val state = vm.globalSearchConfigState.collectAsState().value ?: return
     val context = LocalContext.current
     LazyColumn {

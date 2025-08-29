@@ -1,4 +1,4 @@
-package com.paraskcd.spotlightsearch.ui.pages.settings.colorpicker
+package com.paraskcd.spotlightsearch.ui.pages.settings.personalization.colorpicker
 
 import android.graphics.Color as AndroidColor
 import androidx.compose.foundation.background
@@ -17,15 +17,14 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -254,7 +253,7 @@ fun ColorPickerPage(
                                 color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
                                 shape = RoundedCornerShape(100.dp)
                             ),
-                        colors = androidx.compose.material3.TextFieldDefaults.colors(
+                        colors = TextFieldDefaults.colors(
                             focusedContainerColor = MaterialTheme.colorScheme.surfaceBright.copy(alpha = if (effectiveBlur) 0.65f else 1f),
                             unfocusedContainerColor = MaterialTheme.colorScheme.surfaceBright.copy(alpha = if (effectiveBlur) 0.65f else 1f),
                             focusedIndicatorColor = Color.Transparent,

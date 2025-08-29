@@ -12,6 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import androidx.core.net.toUri
 import com.paraskcd.spotlightsearch.data.repo.AppUsageRepository
+import com.paraskcd.spotlightsearch.data.repo.BlacklistAppsRepository
 import com.paraskcd.spotlightsearch.enums.SearchResultType
 import com.paraskcd.spotlightsearch.icons.PermDeviceInfo
 import kotlinx.coroutines.CoroutineScope
@@ -22,15 +23,20 @@ import kotlinx.coroutines.launch
 @Singleton
 class AppRepositoryProvider @Inject constructor(
     @param:ApplicationContext val context: Context,
-    private val appUsageRepository: AppUsageRepository
+    private val appUsageRepository: AppUsageRepository,
+    private val blacklistRepo: BlacklistAppsRepository
 ) {
     private val packageManager: PackageManager = context.packageManager
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private var cachedApps: List<SearchResult> = loadInstalledApps()
+
+    private var allApps: List<SearchResult> = emptyList()
+    private var visibleApps: List<SearchResult> = emptyList()
+    private var blacklistedPkgs: Set<String> = emptySet()
 
     private val packageReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            cachedApps = loadInstalledApps()
+            rebuildAllApps()
+            rebuildVisibleApps()
         }
     }
 
@@ -156,6 +162,15 @@ class AppRepositoryProvider @Inject constructor(
     )
 
     init {
+        rebuildAllApps()
+        rebuildVisibleApps()
+        scope.launch {
+            blacklistRepo.observe().collect { list ->
+                blacklistedPkgs = list.map { it.packageName }.toSet()
+                rebuildVisibleApps()
+            }
+        }
+
         val filter = IntentFilter().apply {
             addAction(Intent.ACTION_PACKAGE_ADDED)
             addAction(Intent.ACTION_PACKAGE_REMOVED)
@@ -163,6 +178,17 @@ class AppRepositoryProvider @Inject constructor(
             addDataScheme("package")
         }
         context.registerReceiver(packageReceiver, filter)
+    }
+
+    private fun rebuildAllApps() {
+        allApps = loadInstalledApps()
+    }
+
+    private fun rebuildVisibleApps() {
+        visibleApps = allApps.filterNot { sr ->
+            val pkg = sr.subtitle
+            pkg != null && blacklistedPkgs.contains(pkg)
+        }
     }
 
     private fun loadInstalledApps(): List<SearchResult> {
@@ -209,16 +235,18 @@ class AppRepositoryProvider @Inject constructor(
 
     fun searchInstalledApp(query: String): List<SearchResult> {
         if (query.isBlank()) return emptyList()
-
-        return cachedApps.filter { app ->
-            app.title.contains(query, ignoreCase = true) ||
-            app.subtitle?.let { packageName ->
-                packageNameAliases[packageName]?.any { alias ->
-                    alias.contains(query, ignoreCase = true)
-                }
-            } == true
+        return visibleApps.filter { app ->
+            app.title.contains(query, ignoreCase = true)
+            || app.subtitle?.let { packageName ->
+                        packageNameAliases[packageName]?.any { alias ->
+                            alias.contains(query, ignoreCase = true)
+                        }
+                    } == true
         }
     }
 
-    fun getCachedApp(packageName: String): SearchResult? = cachedApps.firstOrNull { it.subtitle == packageName }
+    fun getCachedApp(packageName: String): SearchResult? =
+        allApps.firstOrNull { it.subtitle == packageName }
+
+    fun getAllCachedApps(): List<SearchResult> = allApps
 }

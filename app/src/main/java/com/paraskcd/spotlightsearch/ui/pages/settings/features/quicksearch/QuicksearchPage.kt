@@ -1,7 +1,6 @@
-package com.paraskcd.spotlightsearch.ui.pages.settings.quicksearch
+package com.paraskcd.spotlightsearch.ui.pages.settings.features.quicksearch
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -12,7 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -28,21 +26,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.paraskcd.spotlightsearch.SettingsViewModel
 import com.paraskcd.spotlightsearch.icons.Bars
-import com.paraskcd.spotlightsearch.icons.Palette
 import com.paraskcd.spotlightsearch.ui.components.BaseRowContainer
-import com.paraskcd.spotlightsearch.ui.components.GroupSurface
-import com.paraskcd.spotlightsearch.ui.components.HeaderCard
 import com.paraskcd.spotlightsearch.ui.components.RowWithIcon
-import com.paraskcd.spotlightsearch.ui.screens.SettingsRepoViewModel
 import org.burnoutcrew.reorderable.*
 
 @Composable
 fun QuicksearchPage(
     navController: NavController,
-    vm: SettingsRepoViewModel = hiltViewModel()
+    vm: SettingsViewModel
 ) {
     val dbList by vm.quickSearchProviders.collectAsState()
     var uiList by remember { mutableStateOf(dbList) }
