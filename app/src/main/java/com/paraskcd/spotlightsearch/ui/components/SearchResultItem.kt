@@ -60,10 +60,19 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                 .padding(8.dp)
                 .combinedClickable(
                     onClick = {
+                        if (result.hasTextChangeFlag == true) {
+                            onQueryChanged(result.subtitle.toString())
+                            return@combinedClickable
+                        }
                         result.onClick()
                         activity?.finish()
                     },
-                    onLongClick = { expanded = true }
+                    onLongClick = {
+                        result.onLongClick?.invoke()
+                        if (!result.contextMenuActions.isNullOrEmpty()) {
+                            expanded = true
+                        }
+                    }
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(6.dp)
@@ -177,8 +186,12 @@ fun SearchResultItem(result: SearchResult, onQueryChanged: (String) -> Unit) {
                             result.onClick()
                             activity?.finish()
                         },
-                        onLongClick = { expanded = true },
-                        enabled = result.onClick != {}
+                        onLongClick = {
+                            result.onLongClick?.invoke()
+                            if (!result.contextMenuActions.isNullOrEmpty()) {
+                                expanded = true
+                            }
+                        },
                     ),
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
