@@ -11,6 +11,7 @@ data class SearchResult(
     val icon: Drawable? = null,
     val iconVector: ImageVector? = null,
     val onClick: () -> Unit,
+    val onLongClick: (() -> Unit)? = null,
     val actionButtons: List<ActionButton>? = null,
     val isHeader: Boolean = false,
     val contextMenuActions: List<ContextMenuAction>? = null,
