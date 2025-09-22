@@ -44,6 +44,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.paraskcd.spotlightsearch.SettingsActivity
 import com.paraskcd.spotlightsearch.ui.components.SearchBar
@@ -64,6 +65,8 @@ fun SearchScreen(viewModel: SearchViewModel, supportsBlur: Boolean) {
 
     val imeBottom = WindowInsets.ime.asPaddingValues().calculateBottomPadding()
     val navBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+
+    val iconTintColorArgb = MaterialTheme.colorScheme.primary.toArgb()
 
     DisposableEffect(lifecycleOwner) {
         val callback = object : OnBackPressedCallback(true) {
@@ -207,7 +210,10 @@ fun SearchScreen(viewModel: SearchViewModel, supportsBlur: Boolean) {
             SearchResultList(
                 results = results,
                 onQueryChanged = { localQuery = it },
-                supportsBlur = supportsBlur
+                supportsBlur = supportsBlur,
+                resolveThemedAppIcon = { pkg ->
+                    viewModel.getAppIcons(pkg, dynamicColor = iconTintColorArgb)
+                }
             )
         }
     }

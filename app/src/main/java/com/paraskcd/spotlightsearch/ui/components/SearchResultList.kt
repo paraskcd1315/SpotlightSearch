@@ -1,5 +1,6 @@
 package com.paraskcd.spotlightsearch.ui.components
 
+import android.graphics.drawable.Drawable
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
@@ -29,7 +30,12 @@ import com.paraskcd.spotlightsearch.ui.modifiers.drawFadingEdgesBasic
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SearchResultList(results: List<SearchResult>, onQueryChanged: (String) -> Unit, supportsBlur: Boolean) {
+fun SearchResultList(
+    results: List<SearchResult>,
+    onQueryChanged: (String) -> Unit,
+    supportsBlur: Boolean,
+    resolveThemedAppIcon: ((String) -> Drawable?)?
+) {
     val grouped = remember(results) {
         val sections = mutableListOf<List<SearchResult>>()
         var currentSection = mutableListOf<SearchResult>()
@@ -66,7 +72,7 @@ fun SearchResultList(results: List<SearchResult>, onQueryChanged: (String) -> Un
 
             item {
                 Column {
-                    section.firstOrNull()?.let { SearchResultItem(it, onQueryChanged) }
+                    section.firstOrNull()?.let { SearchResultItem(it, onQueryChanged, resolveThemedAppIcon) }
                     if (isFrequentBlock) {
                         Surface(
                             color = MaterialTheme.colorScheme.surfaceBright.copy(alpha = if (supportsBlur) 0.65f else 1f),
@@ -88,7 +94,7 @@ fun SearchResultList(results: List<SearchResult>, onQueryChanged: (String) -> Un
                                 horizontalArrangement = Arrangement.SpaceEvenly
                             ) {
                                 body.forEach { item ->
-                                    SearchResultItem(item, onQueryChanged)
+                                    SearchResultItem(item, onQueryChanged, resolveThemedAppIcon)
                                 }
                             }
                         }
@@ -122,7 +128,7 @@ fun SearchResultList(results: List<SearchResult>, onQueryChanged: (String) -> Un
                                         shape = shape
                                     )
                             ) {
-                                SearchResultItem(item, onQueryChanged)
+                                SearchResultItem(item, onQueryChanged, resolveThemedAppIcon)
                             }
                         }
                     }

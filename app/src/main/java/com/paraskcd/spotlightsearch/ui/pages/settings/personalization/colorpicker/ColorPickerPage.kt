@@ -234,7 +234,8 @@ fun ColorPickerPage(
                             result = previewResult.copy(
                                 subtitle = "#%06X".format(color.toArgb() and 0xFFFFFF)
                             ),
-                            onQueryChanged = {}
+                            onQueryChanged = {},
+                            resolveThemedAppIcon = null
                         )
                     }
                     TextField(
