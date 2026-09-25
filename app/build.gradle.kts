@@ -47,6 +47,13 @@ android {
                 "proguard-rules.pro"
             )
         }
+        create("benchmark") {
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            applicationIdSuffix = ".bench"
+            resValue("string", "app_name", "Spotlight Search Bench")
+        }
     }
 }
 
@@ -63,17 +70,11 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.play.services)
 
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.androidx.hilt.compiler)
 
     implementation(libs.accompanist.drawablepainter)
-    implementation(libs.okhttp)
-    implementation(libs.mlkit.translate)
-    implementation(libs.mlkit.language.id)
-    implementation(libs.symspellkt)
-    implementation(libs.symspellkt.fdic.android)
     implementation(libs.burnoutcrew.reorderable)
 
     androidTestImplementation(libs.androidx.junit)

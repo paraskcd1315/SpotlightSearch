@@ -24,4 +24,8 @@ object DsMetrics {
     const val HeaderGlowInnerAlpha = 0.95f
     const val HeaderGlowOuterAlpha = 0.55f
     const val HeaderGlowRadiusFactor = 0.95f
+    const val SkeletonMinAlpha = 0.4f
+    const val SkeletonMaxAlpha = 1f
+    const val SkeletonFillAlpha = 0.12f
+    const val SkeletonPulseMs = 800
 }
