@@ -27,8 +27,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import androidx.core.net.toUri
-import com.paraskcd.spotlightsearch.data.repo.AppUsageRepository
-import com.paraskcd.spotlightsearch.data.repo.BlacklistAppsRepository
+import com.paraskcd.spotlightsearch.preferences.data.AppUsageRepository
+import com.paraskcd.spotlightsearch.preferences.data.BlacklistAppsRepository
 import com.paraskcd.spotlightsearch.enums.SearchResultType
 import com.paraskcd.spotlightsearch.designsystem.icons.PermDeviceInfo
 import kotlinx.coroutines.CoroutineScope

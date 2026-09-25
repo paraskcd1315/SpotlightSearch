@@ -2,7 +2,7 @@ package com.paraskcd.spotlightsearch.ui.theme
 
 import androidx.compose.ui.graphics.Color
 import com.paraskcd.spotlightsearch.designsystem.theme.ColorOverrides
-import com.paraskcd.spotlightsearch.enums.ThemeMode
+import com.paraskcd.spotlightsearch.preferences.domain.model.ThemeMode
 
 data class ThemeUi(
     val mode: ThemeMode,

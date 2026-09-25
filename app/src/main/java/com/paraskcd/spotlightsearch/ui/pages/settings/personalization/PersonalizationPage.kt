@@ -37,9 +37,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.paraskcd.spotlightsearch.data.repo.UserThemeRepository
-import com.paraskcd.spotlightsearch.enums.ColorOverrideKey
-import com.paraskcd.spotlightsearch.enums.ThemeMode
+import com.paraskcd.spotlightsearch.preferences.data.UserThemeRepository
+import com.paraskcd.spotlightsearch.preferences.domain.model.ColorOverrideKey
+import com.paraskcd.spotlightsearch.preferences.domain.model.ThemeMode
 import com.paraskcd.spotlightsearch.designsystem.icons.ChevronRight
 import com.paraskcd.spotlightsearch.designsystem.icons.Palette
 import com.paraskcd.spotlightsearch.designsystem.ds.molecules.BaseRowContainer

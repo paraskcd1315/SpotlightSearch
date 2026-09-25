@@ -12,7 +12,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import androidx.core.net.toUri
-import com.paraskcd.spotlightsearch.data.repo.QuickSearchProviderRepository
+import com.paraskcd.spotlightsearch.preferences.data.QuickSearchProviderRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 

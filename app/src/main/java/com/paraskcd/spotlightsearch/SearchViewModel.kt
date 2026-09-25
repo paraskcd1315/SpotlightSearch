@@ -24,9 +24,9 @@ import javax.inject.Inject
 import androidx.core.net.toUri
 import androidx.compose.material.icons.filled.Warning
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-import com.paraskcd.spotlightsearch.data.entities.GlobalSearchConfigEntity
-import com.paraskcd.spotlightsearch.data.repo.AppUsageRepository
-import com.paraskcd.spotlightsearch.data.repo.GlobalSearchConfigRepository
+import com.paraskcd.spotlightsearch.preferences.infrastructure.room.entity.GlobalSearchConfigEntity
+import com.paraskcd.spotlightsearch.preferences.data.AppUsageRepository
+import com.paraskcd.spotlightsearch.preferences.data.GlobalSearchConfigRepository
 import com.paraskcd.spotlightsearch.enums.SearchResultDisplayMode
 import com.paraskcd.spotlightsearch.enums.SearchResultType
 import com.paraskcd.spotlightsearch.providers.MLKitTranslationProvider

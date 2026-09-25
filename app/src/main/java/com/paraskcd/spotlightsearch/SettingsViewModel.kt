@@ -3,11 +3,11 @@ package com.paraskcd.spotlightsearch
 import android.graphics.drawable.Drawable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.paraskcd.spotlightsearch.data.entities.QuickSearchProviderEntity
-import com.paraskcd.spotlightsearch.data.repo.BlacklistAppsRepository
-import com.paraskcd.spotlightsearch.data.repo.GlobalSearchConfigRepository
-import com.paraskcd.spotlightsearch.data.repo.QuickSearchProviderRepository
-import com.paraskcd.spotlightsearch.data.repo.UserThemeRepository
+import com.paraskcd.spotlightsearch.preferences.infrastructure.room.entity.QuickSearchProviderEntity
+import com.paraskcd.spotlightsearch.preferences.data.BlacklistAppsRepository
+import com.paraskcd.spotlightsearch.preferences.data.GlobalSearchConfigRepository
+import com.paraskcd.spotlightsearch.preferences.data.QuickSearchProviderRepository
+import com.paraskcd.spotlightsearch.preferences.data.UserThemeRepository
 import com.paraskcd.spotlightsearch.providers.AppRepositoryProvider
 import com.paraskcd.spotlightsearch.ui.screens.QuickSearchUi
 import dagger.hilt.android.lifecycle.HiltViewModel

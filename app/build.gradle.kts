@@ -76,10 +76,6 @@ dependencies {
     implementation(libs.symspellkt.fdic.android)
     implementation(libs.burnoutcrew.reorderable)
 
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
-
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.ui.test.junit4)

@@ -3,9 +3,9 @@ package com.paraskcd.spotlightsearch.ui.theme
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.paraskcd.spotlightsearch.data.entities.UserThemeEntity
-import com.paraskcd.spotlightsearch.data.repo.UserThemeRepository
-import com.paraskcd.spotlightsearch.enums.ThemeMode
+import com.paraskcd.spotlightsearch.preferences.infrastructure.room.entity.UserThemeEntity
+import com.paraskcd.spotlightsearch.preferences.data.UserThemeRepository
+import com.paraskcd.spotlightsearch.preferences.domain.model.ThemeMode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
