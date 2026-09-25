@@ -36,6 +36,7 @@ fun ColorPreview(
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = scheme.background.copy(alpha = backgroundAlpha),
+        contentColor = scheme.onSurface,
         shape = cardShape
     ) {
         Column(
@@ -44,6 +45,7 @@ fun ColorPreview(
         ) {
             Surface(
                 color = scheme.surfaceBright.copy(alpha = surfaceAlpha),
+                contentColor = scheme.onSurface,
                 shape = cardShape,
                 modifier = Modifier
                     .fillMaxWidth()
