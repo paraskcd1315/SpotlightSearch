@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface InstalledAppsRepository {
     val apps: StateFlow<List<InstalledApp>>
+    val allApps: StateFlow<List<InstalledApp>?>
     fun warmUp()
     suspend fun search(query: String): List<AppHit>
 }

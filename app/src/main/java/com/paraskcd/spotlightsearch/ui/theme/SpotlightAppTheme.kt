@@ -6,6 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.paraskcd.spotlightsearch.designsystem.theme.SpotlightSearchTheme
+import com.paraskcd.spotlightsearch.preferences.presentation.viewmodels.ThemeViewModel
 
 @Composable
 fun SpotlightAppTheme(

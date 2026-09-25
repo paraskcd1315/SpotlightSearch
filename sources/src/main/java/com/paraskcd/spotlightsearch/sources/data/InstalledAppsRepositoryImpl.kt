@@ -44,6 +44,8 @@ class InstalledAppsRepositoryImpl @Inject constructor(
     override val apps: StateFlow<List<InstalledApp>> =
         visible.stateIn(scope, SharingStarted.Eagerly, emptyList())
 
+    override val allApps: StateFlow<List<InstalledApp>?> = installed
+
     init {
         PackageChangeReceiver { reload() }.register(context)
     }

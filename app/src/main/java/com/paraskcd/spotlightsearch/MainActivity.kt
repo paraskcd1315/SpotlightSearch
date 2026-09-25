@@ -12,11 +12,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
+import com.paraskcd.spotlightsearch.preferences.presentation.viewmodels.ThemeViewModel
 import com.paraskcd.spotlightsearch.search.infrastructure.window.WindowBlur
 import com.paraskcd.spotlightsearch.search.presentation.screens.SearchScreen
 import com.paraskcd.spotlightsearch.search.presentation.viewmodels.SearchViewModel
 import com.paraskcd.spotlightsearch.ui.theme.SpotlightAppTheme
-import com.paraskcd.spotlightsearch.ui.theme.ThemeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,0 +1,75 @@
+<resources>
+    <string name="settings_title">Settings</string>
+    <string name="settings_back">Back</string>
+    <string name="settings_coming_soon">Coming soon</string>
+    <string name="settings_open_failed">Couldn\'t open settings</string>
+    <string name="settings_go_to">Go to %1$s</string>
+    <string name="settings_no_results">No results found</string>
+
+    <string name="home_header">Spotlight Search</string>
+    <string name="home_appearance_title">Appearance and Personalization</string>
+    <string name="home_appearance_subtitle">Customize the look and feel of Spotlight Search</string>
+    <string name="home_features_title">Features and Functionality</string>
+    <string name="home_features_subtitle">Manage features and functionality of Spotlight Search</string>
+    <string name="home_about_title">About</string>
+    <string name="home_about_subtitle">Learn more about Spotlight Search</string>
+
+    <string name="features_header">Features and Functionality</string>
+    <string name="features_section">Features</string>
+    <string name="features_shortcuts_section">Shortcuts</string>
+    <string name="features_quick_search_title">Quick search apps</string>
+    <string name="features_quick_search_subtitle">Click to manage apps to search query quickly</string>
+    <string name="features_manage_apps_title">Manage apps</string>
+    <string name="features_manage_apps_subtitle">Click to manage apps to search, blacklist apps to hide, etc.</string>
+    <string name="features_web_title">Manage web suggestions</string>
+    <string name="features_web_subtitle">Click to manage web suggestions from Google</string>
+    <string name="features_contacts_title">Manage contacts</string>
+    <string name="features_contacts_subtitle">Click to manage contacts</string>
+    <string name="features_widget_title">Search widget</string>
+    <string name="features_widget_subtitle">Click to place a widget on your home screen</string>
+    <string name="features_assistant_title">Digital Assistant</string>
+    <string name="features_assistant_subtitle">Set spotlight search as your digital assistant</string>
+
+    <string name="apps_section">Manage Apps</string>
+    <string name="apps_enable">Enable apps</string>
+    <string name="apps_blacklist">Blacklist apps</string>
+    <string name="blacklist_section">Apps Blacklist</string>
+    <string name="contacts_section">Manage Contacts</string>
+    <string name="contacts_enable">Enable contacts</string>
+    <string name="web_section">Manage Web Suggestions</string>
+    <string name="web_enable">Enable Web Suggestions</string>
+    <string name="quick_search_help">Tap, hold and Drag to reorder, toggle the switch to disable (If you see an app without icon it means it is not installed, and will not show up in the search)</string>
+    <string name="quick_search_drag">Drag</string>
+
+    <string name="appearance_header">Appearance and Personalization</string>
+    <string name="appearance_section">Appearance</string>
+    <string name="appearance_select_theme">Select theme</string>
+    <string name="appearance_enable_blur">Enable Blur</string>
+    <string name="personalization_section">Personalization</string>
+    <string name="personalization_reset_colors">Reset colors</string>
+    <string name="theme_dialog_title">Theme Mode</string>
+    <string name="theme_auto">Auto</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="reset_colors_title">Reset colors</string>
+    <string name="reset_colors_message">Clear all color customizations and go back to the dynamic colors?</string>
+    <string name="reset_colors_confirm">Reset</string>
+    <string name="dialog_cancel">Cancel</string>
+
+    <string name="color_background">Background</string>
+    <string name="color_surface_bright">Container background</string>
+    <string name="color_surface_tint">Container tint</string>
+    <string name="color_on_surface">Text color</string>
+    <string name="color_outline">Border color</string>
+    <string name="color_editing">Editing: %1$s, the searchbar is an interactive textfield - you can edit the hex and add your own</string>
+    <string name="color_preview">Preview</string>
+    <string name="color_hue">Hue</string>
+    <string name="color_saturation">Saturation</string>
+    <string name="color_brightness">Brightness</string>
+    <string name="color_percent">%1$d%%</string>
+    <string name="color_save">Save</string>
+    <string name="color_reset">Reset</string>
+    <string name="color_reset_title">Reset color</string>
+    <string name="color_reset_message">The color for %1$s will be changed back to default. This action can not be undone, are you sure?</string>
+    <string name="color_reset_confirm">Confirm</string>
+</resources>

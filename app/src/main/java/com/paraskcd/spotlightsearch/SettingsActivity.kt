@@ -1,8 +1,6 @@
 package com.paraskcd.spotlightsearch
 
-import android.content.Context
 import android.os.Bundle
-import android.os.PowerManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -15,60 +13,37 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.paraskcd.spotlightsearch.ui.screens.SettingsScreen
+import com.paraskcd.spotlightsearch.preferences.presentation.navigation.SettingsNavHost
+import com.paraskcd.spotlightsearch.preferences.presentation.utils.SettingsMetrics
+import com.paraskcd.spotlightsearch.preferences.presentation.viewmodels.ThemeViewModel
+import com.paraskcd.spotlightsearch.search.infrastructure.window.WindowBlur
 import com.paraskcd.spotlightsearch.ui.theme.SpotlightAppTheme
-import com.paraskcd.spotlightsearch.ui.theme.ThemeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.getValue
-import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class SettingsActivity : ComponentActivity() {
-    val themeViewModel: ThemeViewModel by viewModels()
+    private val themeViewModel: ThemeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        window.setBackgroundBlurRadius(0)
+        window.setDimAmount(0f)
+
         setContent {
-            val themeState by themeViewModel.state.collectAsState()
-
-            val isBatterySaver = remember {
-                isBatterySaverOn(this)
+            val theme by themeViewModel.state.collectAsState()
+            val blurEnabled = remember(theme.enableBlur) { WindowBlur.isAvailable(this, theme.enableBlur) }
+            LaunchedEffect(blurEnabled) {
+                window.setBackgroundBlurRadius(if (blurEnabled) SettingsMetrics.WindowBlurRadius else 0)
             }
-            val supportsBlur = remember {
-                supportsBlur()
-            }
-
-            val userPrefEnableBlur = themeState.enableBlur != false // null o true => true
-            val effectiveBlur = supportsBlur && userPrefEnableBlur && !isBatterySaver
-
-            SpotlightAppTheme {
+            SpotlightAppTheme(themeViewModel) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = if (!effectiveBlur) MaterialTheme.colorScheme.background.copy(alpha = 0.9f) else MaterialTheme.colorScheme.background.copy(alpha = 0.5f),
+                    color = MaterialTheme.colorScheme.background.copy(alpha = SettingsMetrics.backgroundAlpha(blurEnabled))
                 ) {
-                    LaunchedEffect(effectiveBlur) {
-                        window.setBackgroundBlurRadius(
-                            if (effectiveBlur) (100f).coerceIn(0f, 100f).roundToInt()
-                            else 0
-                        )
-                    }
-
-                    SettingsScreen()
+                    SettingsNavHost(themeViewModel = themeViewModel, onClose = ::finish)
                 }
             }
         }
-
-        window.setBackgroundBlurRadius(0)
-        window.setDimAmount(0.0f)
-    }
-
-    private fun supportsBlur(): Boolean {
-        return windowManager.isCrossWindowBlurEnabled
-    }
-
-    private fun isBatterySaverOn(context: Context): Boolean {
-        val powerManager = context.getSystemService(POWER_SERVICE) as PowerManager
-        return powerManager.isPowerSaveMode
     }
 }
