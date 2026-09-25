@@ -46,7 +46,7 @@ import androidx.navigation.NavController
 import com.paraskcd.spotlightsearch.data.repo.UserThemeRepository
 import com.paraskcd.spotlightsearch.enums.ColorOverrideKey
 import com.paraskcd.spotlightsearch.enums.SearchResultDisplayMode
-import com.paraskcd.spotlightsearch.icons.Palette
+import com.paraskcd.spotlightsearch.designsystem.icons.Palette
 import com.paraskcd.spotlightsearch.types.SearchResult
 import com.paraskcd.spotlightsearch.ui.components.SearchResultItem
 import com.paraskcd.spotlightsearch.ui.theme.ThemeViewModel

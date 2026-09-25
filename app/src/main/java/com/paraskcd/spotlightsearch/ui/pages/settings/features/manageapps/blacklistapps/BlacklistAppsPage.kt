@@ -1,5 +1,6 @@
 package com.paraskcd.spotlightsearch.ui.pages.settings.features.manageapps.blacklistapps
 
+import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,9 +37,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.paraskcd.spotlightsearch.SettingsViewModel
 import com.paraskcd.spotlightsearch.types.SearchResult
-import com.paraskcd.spotlightsearch.ui.components.BaseRowContainer
-import com.paraskcd.spotlightsearch.ui.components.RowWithIcon
-import com.paraskcd.spotlightsearch.ui.modifiers.drawFadingEdgesBasic
+import com.paraskcd.spotlightsearch.designsystem.ds.molecules.BaseRowContainer
+import com.paraskcd.spotlightsearch.designsystem.ds.molecules.RowWithIcon
+import com.paraskcd.spotlightsearch.designsystem.ds.foundation.fadingEdges
 
 @Composable
 fun BlacklistAppsPage(
@@ -75,7 +76,7 @@ fun BlacklistAppsPage(
 
         Box {
             LazyColumn(
-                modifier = Modifier.fillMaxSize().drawFadingEdgesBasic(scrollableState),
+                modifier = Modifier.fillMaxSize().fadingEdges(scrollableState),
                 state = scrollableState,
             ) {
                 item {
@@ -112,7 +113,7 @@ fun BlacklistAppsPage(
                             horizontalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             RowWithIcon(
-                                iconDrawable = item.icon,
+                                iconPainter = item.icon?.let { rememberDrawablePainter(it) },
                                 text = item.title,
                                 subtext = pkg
                             )

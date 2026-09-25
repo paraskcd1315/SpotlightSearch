@@ -2,7 +2,7 @@ package com.paraskcd.spotlightsearch.math
 
 import com.paraskcd.spotlightsearch.types.SearchResult
 import com.paraskcd.spotlightsearch.enums.SearchResultType
-import com.paraskcd.spotlightsearch.icons.Calculate
+import com.paraskcd.spotlightsearch.designsystem.icons.Calculate
 import javax.inject.Inject
 import javax.inject.Singleton
 

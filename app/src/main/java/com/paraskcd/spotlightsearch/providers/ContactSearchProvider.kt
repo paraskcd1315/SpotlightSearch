@@ -24,8 +24,8 @@ import javax.inject.Singleton
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.paraskcd.spotlightsearch.enums.SearchResultType
-import com.paraskcd.spotlightsearch.icons.SMS
-import com.paraskcd.spotlightsearch.icons.WhatsApp
+import com.paraskcd.spotlightsearch.designsystem.icons.SMS
+import com.paraskcd.spotlightsearch.designsystem.icons.WhatsApp
 
 @Singleton
 class ContactSearchProvider @Inject constructor(

@@ -9,14 +9,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import com.paraskcd.spotlightsearch.icons.FeaturesFunctionality
+import com.paraskcd.spotlightsearch.designsystem.icons.FeaturesFunctionality
 import com.paraskcd.spotlightsearch.types.SettingPageItem
-import com.paraskcd.spotlightsearch.icons.ChevronRight
-import com.paraskcd.spotlightsearch.icons.Palette
-import com.paraskcd.spotlightsearch.ui.components.BaseRowContainer
-import com.paraskcd.spotlightsearch.ui.components.GroupSurface
-import com.paraskcd.spotlightsearch.ui.components.HeaderCard
-import com.paraskcd.spotlightsearch.ui.components.RowWithIcon
+import com.paraskcd.spotlightsearch.designsystem.icons.ChevronRight
+import com.paraskcd.spotlightsearch.designsystem.icons.Palette
+import com.paraskcd.spotlightsearch.designsystem.ds.molecules.BaseRowContainer
+import com.paraskcd.spotlightsearch.designsystem.ds.molecules.GroupSurface
+import com.paraskcd.spotlightsearch.designsystem.ds.molecules.HeaderCard
+import com.paraskcd.spotlightsearch.designsystem.ds.molecules.RowWithIcon
 
 @Composable
 fun HomePage(navController: NavController) {

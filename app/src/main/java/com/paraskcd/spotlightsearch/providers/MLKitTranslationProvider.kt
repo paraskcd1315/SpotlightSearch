@@ -15,7 +15,7 @@ import com.paraskcd.spotlightsearch.types.TranslationRequest
 import kotlinx.coroutines.tasks.await
 import dagger.hilt.android.qualifiers.ApplicationContext
 import com.google.mlkit.nl.languageid.LanguageIdentification
-import com.paraskcd.spotlightsearch.icons.Translate
+import com.paraskcd.spotlightsearch.designsystem.icons.Translate
 import javax.inject.Inject
 import javax.inject.Singleton
 import androidx.core.net.toUri

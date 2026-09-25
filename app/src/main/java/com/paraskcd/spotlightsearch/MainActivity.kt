@@ -22,7 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.core.view.WindowCompat
 import com.paraskcd.spotlightsearch.ui.screens.SearchScreen
-import com.paraskcd.spotlightsearch.ui.theme.SpotlightSearchTheme
+import com.paraskcd.spotlightsearch.ui.theme.SpotlightAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import androidx.compose.ui.platform.LocalView
@@ -64,7 +64,7 @@ class MainActivity : ComponentActivity() {
                 isVisible = true
             }
 
-            SpotlightSearchTheme {
+            SpotlightAppTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = if (!effectiveBlur) MaterialTheme.colorScheme.background.copy(alpha = 0.9f) else MaterialTheme.colorScheme.background.copy(alpha = (0.5f - (dragOffsetY / 300f)).coerceIn(0f, 0.5f)),

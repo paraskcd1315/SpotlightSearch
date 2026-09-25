@@ -16,7 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.paraskcd.spotlightsearch.ui.screens.SettingsScreen
-import com.paraskcd.spotlightsearch.ui.theme.SpotlightSearchTheme
+import com.paraskcd.spotlightsearch.ui.theme.SpotlightAppTheme
 import com.paraskcd.spotlightsearch.ui.theme.ThemeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
@@ -42,7 +42,7 @@ class SettingsActivity : ComponentActivity() {
             val userPrefEnableBlur = themeState.enableBlur != false // null o true => true
             val effectiveBlur = supportsBlur && userPrefEnableBlur && !isBatterySaver
 
-            SpotlightSearchTheme {
+            SpotlightAppTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = if (!effectiveBlur) MaterialTheme.colorScheme.background.copy(alpha = 0.9f) else MaterialTheme.colorScheme.background.copy(alpha = 0.5f),

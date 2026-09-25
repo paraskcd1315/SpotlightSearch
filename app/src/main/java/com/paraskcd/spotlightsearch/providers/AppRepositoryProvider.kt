@@ -30,7 +30,7 @@ import androidx.core.net.toUri
 import com.paraskcd.spotlightsearch.data.repo.AppUsageRepository
 import com.paraskcd.spotlightsearch.data.repo.BlacklistAppsRepository
 import com.paraskcd.spotlightsearch.enums.SearchResultType
-import com.paraskcd.spotlightsearch.icons.PermDeviceInfo
+import com.paraskcd.spotlightsearch.designsystem.icons.PermDeviceInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

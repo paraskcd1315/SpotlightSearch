@@ -12,10 +12,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.paraskcd.spotlightsearch.SettingsViewModel
-import com.paraskcd.spotlightsearch.icons.PersonBook
-import com.paraskcd.spotlightsearch.ui.components.BaseRowContainer
-import com.paraskcd.spotlightsearch.ui.components.GroupSurface
-import com.paraskcd.spotlightsearch.ui.components.RowWithIcon
+import com.paraskcd.spotlightsearch.designsystem.icons.PersonBook
+import com.paraskcd.spotlightsearch.designsystem.ds.molecules.BaseRowContainer
+import com.paraskcd.spotlightsearch.designsystem.ds.molecules.GroupSurface
+import com.paraskcd.spotlightsearch.designsystem.ds.molecules.RowWithIcon
 
 @Composable
 fun ManageContactsPage(navController: NavController, vm: SettingsViewModel) {

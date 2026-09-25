@@ -26,7 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.remember
 import com.paraskcd.spotlightsearch.enums.SearchResultType
-import com.paraskcd.spotlightsearch.ui.modifiers.drawFadingEdgesBasic
+import com.paraskcd.spotlightsearch.designsystem.ds.foundation.fadingEdges
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -59,7 +59,7 @@ fun SearchResultList(
     val scrollableState = rememberLazyListState()
 
     LazyColumn(
-        modifier = Modifier.fillMaxSize().drawFadingEdgesBasic(scrollableState),
+        modifier = Modifier.fillMaxSize().fadingEdges(scrollableState),
         reverseLayout = true,
         contentPadding = PaddingValues(vertical = 8.dp),
         state = scrollableState

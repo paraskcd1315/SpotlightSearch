@@ -1,5 +1,6 @@
 package com.paraskcd.spotlightsearch.ui.pages.settings.features.quicksearch
 
+import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxScope
@@ -28,9 +29,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.paraskcd.spotlightsearch.SettingsViewModel
-import com.paraskcd.spotlightsearch.icons.Bars
-import com.paraskcd.spotlightsearch.ui.components.BaseRowContainer
-import com.paraskcd.spotlightsearch.ui.components.RowWithIcon
+import com.paraskcd.spotlightsearch.designsystem.icons.Bars
+import com.paraskcd.spotlightsearch.designsystem.ds.molecules.BaseRowContainer
+import com.paraskcd.spotlightsearch.designsystem.ds.molecules.RowWithIcon
 import org.burnoutcrew.reorderable.*
 
 @Composable
@@ -108,7 +109,7 @@ fun QuicksearchPage(
                                 contentDescription = "Drag",
                             )
                             RowWithIcon(
-                                iconDrawable = item.icon,
+                                iconPainter = item.icon?.let { rememberDrawablePainter(it) },
                                 text = item.label,
                                 subtext = item.packageName
                             )

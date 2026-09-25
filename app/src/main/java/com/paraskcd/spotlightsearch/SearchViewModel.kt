@@ -7,7 +7,7 @@ import androidx.compose.material.icons.filled.Search
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.paraskcd.spotlightsearch.icons.Calculate
+import com.paraskcd.spotlightsearch.designsystem.icons.Calculate
 import com.paraskcd.spotlightsearch.providers.AppRepositoryProvider
 import com.paraskcd.spotlightsearch.providers.ContactSearchProvider
 import com.paraskcd.spotlightsearch.providers.GoogleSuggestionProvider

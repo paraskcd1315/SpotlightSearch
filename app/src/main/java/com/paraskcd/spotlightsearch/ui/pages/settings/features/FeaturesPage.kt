@@ -15,19 +15,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.paraskcd.spotlightsearch.icons.Apps
-import com.paraskcd.spotlightsearch.icons.ArrowOutward
-import com.paraskcd.spotlightsearch.icons.Assistant
-import com.paraskcd.spotlightsearch.icons.ChevronRight
-import com.paraskcd.spotlightsearch.icons.FeaturesFunctionality
-import com.paraskcd.spotlightsearch.icons.PersonBook
-import com.paraskcd.spotlightsearch.icons.WebTraffic
-import com.paraskcd.spotlightsearch.icons.Widgets
+import com.paraskcd.spotlightsearch.designsystem.icons.Apps
+import com.paraskcd.spotlightsearch.designsystem.icons.ArrowOutward
+import com.paraskcd.spotlightsearch.designsystem.icons.Assistant
+import com.paraskcd.spotlightsearch.designsystem.icons.ChevronRight
+import com.paraskcd.spotlightsearch.designsystem.icons.FeaturesFunctionality
+import com.paraskcd.spotlightsearch.designsystem.icons.PersonBook
+import com.paraskcd.spotlightsearch.designsystem.icons.WebTraffic
+import com.paraskcd.spotlightsearch.designsystem.icons.Widgets
 import com.paraskcd.spotlightsearch.types.SettingPageItem
-import com.paraskcd.spotlightsearch.ui.components.BaseRowContainer
-import com.paraskcd.spotlightsearch.ui.components.GroupSurface
-import com.paraskcd.spotlightsearch.ui.components.HeaderCard
-import com.paraskcd.spotlightsearch.ui.components.RowWithIcon
+import com.paraskcd.spotlightsearch.designsystem.ds.molecules.BaseRowContainer
+import com.paraskcd.spotlightsearch.designsystem.ds.molecules.GroupSurface
+import com.paraskcd.spotlightsearch.designsystem.ds.molecules.HeaderCard
+import com.paraskcd.spotlightsearch.designsystem.ds.molecules.RowWithIcon
 
 @Composable
 fun FeaturesPage(
