@@ -34,6 +34,10 @@ gradlePlugin {
             id = libs.plugins.spotlight.android.compose.get().pluginId
             implementationClass = "AndroidComposeConventionPlugin"
         }
+        register("androidTest") {
+            id = libs.plugins.spotlight.android.test.get().pluginId
+            implementationClass = "AndroidTestConventionPlugin"
+        }
         register("hilt") {
             id = libs.plugins.spotlight.hilt.get().pluginId
             implementationClass = "HiltConventionPlugin"

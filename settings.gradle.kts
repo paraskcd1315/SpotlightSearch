@@ -26,4 +26,5 @@ include(":designsystem")
 include(":sources")
 include(":search")
 include(":preferences")
+include(":baselineprofile")
  

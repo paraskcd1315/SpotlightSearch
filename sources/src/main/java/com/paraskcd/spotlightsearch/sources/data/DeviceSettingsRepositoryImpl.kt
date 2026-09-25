@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Singleton
 class DeviceSettingsRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+    @param:ApplicationContext private val context: Context
 ) : DeviceSettingsRepository {
     override suspend fun search(query: String): List<DeviceSettingHit> {
         if (query.isBlank()) return emptyList()

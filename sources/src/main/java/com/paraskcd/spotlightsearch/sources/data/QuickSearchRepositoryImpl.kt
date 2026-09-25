@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 class QuickSearchRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
     private val order: QuickSearchOrderPort
 ) : QuickSearchRepository {
     private val defaults = QuickSearchService.entries.map { it.packageName }

@@ -1,4 +1,4 @@
-import com.android.build.gradle.internal.api.ApkVariantOutputImpl
+import com.android.build.api.artifact.SingleArtifact
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.spotlight.android.compose)
     alias(libs.plugins.spotlight.hilt)
 }
+
+val benchSuffix = ".bench"
 
 android {
     namespace = "com.paraskcd.spotlightsearch"
@@ -22,18 +24,6 @@ android {
         resValues = true
     }
 
-    applicationVariants.all {
-        val variant = this
-        outputs.all {
-            val output = this as ApkVariantOutputImpl
-            val appName = variant.applicationId
-            val formatter = SimpleDateFormat("yyyy-MM-dd-HH'h'mm'm'")
-            val timestamp = formatter.format(Date())
-
-            output.outputFileName = "$appName-v-$timestamp.apk"
-        }
-    }
-
     buildTypes {
         debug {
             applicationIdSuffix = ".dev"
@@ -41,7 +31,8 @@ android {
             resValue("string", "app_name", "Spotlight Search Dev")
         }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -51,9 +42,36 @@ android {
             initWith(getByName("release"))
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks += listOf("release")
-            applicationIdSuffix = ".bench"
+            applicationIdSuffix = benchSuffix
             resValue("string", "app_name", "Spotlight Search Bench")
         }
+        create("nonMinified") {
+            initWith(getByName("benchmark"))
+            isMinifyEnabled = false
+            isShrinkResources = false
+        }
+    }
+}
+
+androidComponents {
+    onVariants { variant ->
+        val taskSuffix = variant.name.replaceFirstChar { it.uppercase() }
+        val apkFolder = variant.artifacts.get(SingleArtifact.APK)
+        val loader = variant.artifacts.getBuiltArtifactsLoader()
+        val appId = variant.applicationId
+        val namedFolder = layout.buildDirectory.dir("outputs/named-apk/${variant.name}")
+        val copyTask = tasks.register("copyNamed${taskSuffix}Apk") {
+            inputs.files(apkFolder)
+            outputs.dir(namedFolder)
+            doLast {
+                val timestamp = SimpleDateFormat("yyyy-MM-dd-HH'h'mm'm'").format(Date())
+                val target = namedFolder.get().asFile
+                loader.load(apkFolder.get())?.elements?.forEach { element ->
+                    file(element.outputFile).copyTo(target.resolve("${appId.get()}-v-$timestamp.apk"), overwrite = true)
+                }
+            }
+        }
+        tasks.matching { it.name == "assemble$taskSuffix" }.configureEach { finalizedBy(copyTask) }
     }
 }
 
@@ -68,6 +86,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.profileinstaller)
 
     implementation(libs.kotlinx.coroutines.android)
 
