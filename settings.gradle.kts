@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -21,4 +22,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "SpotlightSearch"
 include(":app")
+include(":designsystem")
+include(":sources")
+include(":search")
+include(":preferences")
  
