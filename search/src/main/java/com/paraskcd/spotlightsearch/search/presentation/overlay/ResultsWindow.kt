@@ -25,14 +25,16 @@ fun ResultsWindow(
     callbacks: HitCallbacks,
     onClose: () -> Unit
 ) {
+    val hasContent = results.sections.isNotEmpty() || results.loading
     BlurredWindow(
         focusable = false,
         blurEnabled = blurEnabled,
         offsetY = offsetY,
         cornerRadius = OverlayMetrics.WindowCornerRadius,
-        onDismissRequest = onClose
+        onDismissRequest = onClose,
+        visible = hasContent
     ) {
-        if (results.sections.isEmpty() && !results.loading) return@BlurredWindow
+        if (!hasContent) return@BlurredWindow
         val shape = RoundedCornerShape(OverlayMetrics.WindowCornerRadius)
         val alpha = if (blurEnabled) OverlayMetrics.PanelAlphaWithBlur else OverlayMetrics.PanelAlphaWithoutBlur
         Surface(

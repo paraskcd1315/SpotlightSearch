@@ -3,6 +3,7 @@ package com.paraskcd.spotlightsearch.search.infrastructure.window
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
@@ -34,6 +35,10 @@ object DialogWindowSetup {
         window.setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL)
         window.setLayout(widthPx, ViewGroup.LayoutParams.WRAP_CONTENT)
         window.attributes = window.attributes.apply { y = offsetYPx }
+    }
+
+    fun setVisible(window: Window, visible: Boolean) {
+        window.decorView.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 
     fun setBlur(window: Window, radius: Int) {
