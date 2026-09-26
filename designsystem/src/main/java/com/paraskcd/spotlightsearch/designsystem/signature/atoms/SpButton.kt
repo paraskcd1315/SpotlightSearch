@@ -52,8 +52,8 @@ fun SpButton(
     val fill = when (variant) {
         SpButtonVariant.Primary -> Modifier.background(SpTheme.gradients.buttonFill)
         SpButtonVariant.Secondary -> Modifier
-            .background(colors.surfaceContainer)
-            .border(SpGlass.borderWidth, colors.border, SpShapes.pill)
+            .background(colors.glassBg)
+            .border(SpGlass.borderWidth, colors.glassBorder, SpShapes.pill)
         SpButtonVariant.Danger -> Modifier
             .background(colors.danger.copy(alpha = SpMetrics.dangerFillAlpha))
             .border(SpGlass.borderWidth, colors.danger.copy(alpha = SpMetrics.dangerBorderAlpha), SpShapes.pill)
