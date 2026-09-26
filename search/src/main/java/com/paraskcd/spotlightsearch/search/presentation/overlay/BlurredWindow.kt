@@ -20,7 +20,6 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
 import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpMotion
 import com.paraskcd.spotlightsearch.search.infrastructure.window.DialogWindowSetup
-import kotlin.math.roundToInt
 
 @Composable
 fun BlurredWindow(
@@ -48,7 +47,6 @@ fun BlurredWindow(
         val window = (LocalView.current.parent as DialogWindowProvider).window
         val density = LocalDensity.current
         val cornerRadiusPx = with(density) { cornerRadius.toPx() }
-        val risePx = with(density) { OverlayMetrics.RevealRise.toPx() }
         val elevationPx = with(density) { OverlayMetrics.WindowElevation.toPx() }
         val blur = remember { Animatable(0f) }
         val reveal = remember { Animatable(if (animateIn) 0f else 1f) }
@@ -97,7 +95,7 @@ fun BlurredWindow(
         SideEffect {
             DialogWindowSetup.place(
                 window = window,
-                offsetYPx = offsetY - (risePx * (1f - progress)).roundToInt(),
+                offsetYPx = offsetY,
                 alpha = if (configured) progress else 0f,
                 heightPx = heightPx ?: ViewGroup.LayoutParams.WRAP_CONTENT
             )
