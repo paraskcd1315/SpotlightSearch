@@ -79,9 +79,9 @@ fun BlurredWindow(
             laidOut = true
             reveal.animateTo(1f, tween(SpMotion.durAutoHeightMs, easing = SpMotion.easeIos))
         }
+        val progress = reveal.value
         SideEffect {
             if (configured) {
-                val progress = reveal.value
                 DialogWindowSetup.place(window, offsetY - (risePx * (1f - progress)).roundToInt(), progress)
             }
             DialogWindowSetup.setVisible(window, shown)
