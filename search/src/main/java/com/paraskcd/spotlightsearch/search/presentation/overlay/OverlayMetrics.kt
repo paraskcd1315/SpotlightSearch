@@ -14,6 +14,7 @@ object OverlayMetrics {
     val SettingsButtonCornerRadius = 100.dp
     val SettingsButtonPaddingHorizontal = 16.dp
     val SettingsButtonPaddingVertical = 10.dp
+    val SettingsButtonMinHeight = 48.dp
     val SettingsButtonIconSpacing = 8.dp
     val SettingsButtonIconSize = 20.dp
     val LogoSize = 96.dp

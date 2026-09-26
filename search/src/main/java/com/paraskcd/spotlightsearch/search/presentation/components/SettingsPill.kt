@@ -2,6 +2,7 @@ package com.paraskcd.spotlightsearch.search.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -19,10 +20,12 @@ import com.paraskcd.spotlightsearch.search.presentation.overlay.OverlayMetrics
 @Composable
 fun SettingsPill() {
     Row(
-        modifier = Modifier.padding(
-            horizontal = OverlayMetrics.SettingsButtonPaddingHorizontal,
-            vertical = OverlayMetrics.SettingsButtonPaddingVertical
-        ),
+        modifier = Modifier
+            .heightIn(min = OverlayMetrics.SettingsButtonMinHeight)
+            .padding(
+                horizontal = OverlayMetrics.SettingsButtonPaddingHorizontal,
+                vertical = OverlayMetrics.SettingsButtonPaddingVertical
+            ),
         horizontalArrangement = Arrangement.spacedBy(OverlayMetrics.SettingsButtonIconSpacing),
         verticalAlignment = Alignment.CenterVertically
     ) {
