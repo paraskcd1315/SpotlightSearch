@@ -9,12 +9,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpSpacing
 import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpTheme
 import com.paraskcd.spotlightsearch.preferences.R
 
 @Composable
-fun VersionLine(modifier: Modifier = Modifier) {
+fun VersionLine(modifier: Modifier = Modifier, textAlign: TextAlign = TextAlign.Start) {
     val context = LocalContext.current
     val info = remember(context) {
         runCatching { context.packageManager.getPackageInfo(context.packageName, 0) }.getOrNull()
@@ -23,6 +24,7 @@ fun VersionLine(modifier: Modifier = Modifier) {
         text = stringResource(R.string.settings_version_line, info?.versionName.orEmpty(), info?.longVersionCode ?: 0L),
         style = MaterialTheme.typography.labelSmall,
         color = SpTheme.colors.textSecondary,
+        textAlign = textAlign,
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = SpSpacing.s4, vertical = SpSpacing.s2)

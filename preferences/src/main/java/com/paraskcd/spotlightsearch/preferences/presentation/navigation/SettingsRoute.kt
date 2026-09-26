@@ -11,6 +11,7 @@ object SettingsRoute {
     const val WEB_SUGGESTIONS = "settings_web_suggestions"
     const val MANAGE_CONTACTS = "settings_manage_contacts"
     const val APPS_BLACKLIST = "settings_apps_blacklist"
+    const val ABOUT = "settings_about"
 
     fun colorPicker(key: String) = "settings_color_picker/$key"
 }

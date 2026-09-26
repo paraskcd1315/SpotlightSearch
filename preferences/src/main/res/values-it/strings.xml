@@ -1,7 +1,6 @@
 <resources>
     <string name="settings_title">Impostazioni</string>
     <string name="settings_back">Indietro</string>
-    <string name="settings_coming_soon">Disponibile a breve</string>
     <string name="settings_open_failed">Impossibile aprire le impostazioni</string>
     <string name="settings_go_to">Vai a %1$s</string>
     <string name="settings_no_results">Nessun risultato</string>
@@ -12,6 +11,13 @@
     <string name="home_features_subtitle">Gestisci le funzionalità di Spotlight Search</string>
     <string name="home_about_title">Informazioni</string>
     <string name="home_about_subtitle">Scopri di più su Spotlight Search</string>
+    <string name="about_description">Cerca app, contatti e il web da un unico posto.</string>
+    <string name="about_links_section">Link</string>
+    <string name="about_rate">Valuta su Google Play</string>
+    <string name="about_source">Codice sorgente</string>
+    <string name="about_source_caption">Vedi il progetto su GitHub</string>
+    <string name="about_privacy">Informativa sulla privacy</string>
+    <string name="about_developer">Creato da %1$s</string>
 
     <string name="features_header">Funzionalità</string>
     <string name="features_section">Funzionalità</string>

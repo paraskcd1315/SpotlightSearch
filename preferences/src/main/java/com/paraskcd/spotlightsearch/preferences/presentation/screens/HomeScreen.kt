@@ -18,7 +18,7 @@ fun HomeScreen(onNavigate: (String) -> Unit, onBack: () -> Unit) {
     val pages = listOf(
         SettingPageItem(R.string.home_appearance_title, R.string.home_appearance_subtitle, Lucide.Palette, SettingsRoute.PERSONALIZATION),
         SettingPageItem(R.string.home_features_title, R.string.home_features_subtitle, Lucide.Sparkles, SettingsRoute.FEATURES),
-        SettingPageItem(R.string.home_about_title, R.string.home_about_subtitle, Lucide.Info)
+        SettingPageItem(R.string.home_about_title, R.string.home_about_subtitle, Lucide.Info, SettingsRoute.ABOUT)
     )
     SpScreenScaffold(
         title = stringResource(R.string.settings_title),
@@ -26,6 +26,6 @@ fun HomeScreen(onNavigate: (String) -> Unit, onBack: () -> Unit) {
         onBack = onBack
     ) {
         item { VersionLine() }
-        item { SettingsGroup(pages) { page -> page.route?.also(onNavigate) != null } }
+        item { SettingsGroup(pages, onNavigate) }
     }
 }

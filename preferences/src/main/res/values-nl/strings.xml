@@ -1,7 +1,6 @@
 <resources>
     <string name="settings_title">Instellingen</string>
     <string name="settings_back">Terug</string>
-    <string name="settings_coming_soon">Binnenkort beschikbaar</string>
     <string name="settings_open_failed">Kan de instellingen niet openen</string>
     <string name="settings_go_to">Naar %1$s</string>
     <string name="settings_no_results">Geen resultaten gevonden</string>
@@ -12,6 +11,13 @@
     <string name="home_features_subtitle">Beheer de functies van Spotlight Search</string>
     <string name="home_about_title">Over</string>
     <string name="home_about_subtitle">Meer over Spotlight Search</string>
+    <string name="about_description">Zoek je apps, contacten en het web vanaf één plek.</string>
+    <string name="about_links_section">Links</string>
+    <string name="about_rate">Beoordelen op Google Play</string>
+    <string name="about_source">Broncode</string>
+    <string name="about_source_caption">Bekijk het project op GitHub</string>
+    <string name="about_privacy">Privacybeleid</string>
+    <string name="about_developer">Gemaakt door %1$s</string>
 
     <string name="features_header">Functies</string>
     <string name="features_section">Functies</string>

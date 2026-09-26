@@ -1,7 +1,6 @@
 <resources>
     <string name="settings_title">सेटिंग</string>
     <string name="settings_back">वापस जाएं</string>
-    <string name="settings_coming_soon">जल्द आ रहा है</string>
     <string name="settings_open_failed">सेटिंग नहीं खोली जा सकी</string>
     <string name="settings_go_to">%1$s पर जाएं</string>
     <string name="settings_no_results">कोई नतीजा नहीं मिला</string>
@@ -12,6 +11,13 @@
     <string name="home_features_subtitle">Spotlight Search की सुविधाएं मैनेज करें</string>
     <string name="home_about_title">जानकारी</string>
     <string name="home_about_subtitle">Spotlight Search के बारे में ज़्यादा जानें</string>
+    <string name="about_description">ऐप्स, संपर्क और वेब एक ही जगह से खोजें।</string>
+    <string name="about_links_section">लिंक</string>
+    <string name="about_rate">Google Play पर रेटिंग दें</string>
+    <string name="about_source">सोर्स कोड</string>
+    <string name="about_source_caption">GitHub पर प्रोजेक्ट देखें</string>
+    <string name="about_privacy">गोपनीयता नीति</string>
+    <string name="about_developer">%1$s द्वारा बनाया गया</string>
 
     <string name="features_header">सुविधाएं</string>
     <string name="features_section">सुविधाएं</string>

@@ -37,7 +37,7 @@ fun FeaturesScreen(onNavigate: (String) -> Unit, onBack: () -> Unit) {
         onBack = onBack
     ) {
         item { SpSectionHeader(stringResource(R.string.features_section)) }
-        item { SettingsGroup(features) { page -> page.route?.also(onNavigate) != null } }
+        item { SettingsGroup(features, onNavigate) }
         item { SpSectionHeader(stringResource(R.string.features_shortcuts_section)) }
         item {
             SpGroupedList(count = 1) {

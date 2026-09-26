@@ -1,7 +1,6 @@
 <resources>
     <string name="settings_title">Настройки</string>
     <string name="settings_back">Назад</string>
-    <string name="settings_coming_soon">Скоро</string>
     <string name="settings_open_failed">Не удалось открыть настройки</string>
     <string name="settings_go_to">Перейти: %1$s</string>
     <string name="settings_no_results">Ничего не найдено</string>
@@ -12,6 +11,13 @@
     <string name="home_features_subtitle">Управление функциями Spotlight Search</string>
     <string name="home_about_title">О приложении</string>
     <string name="home_about_subtitle">Подробнее о Spotlight Search</string>
+    <string name="about_description">Ищите приложения, контакты и в интернете из одного места.</string>
+    <string name="about_links_section">Ссылки</string>
+    <string name="about_rate">Оценить в Google Play</string>
+    <string name="about_source">Исходный код</string>
+    <string name="about_source_caption">Открыть проект на GitHub</string>
+    <string name="about_privacy">Политика конфиденциальности</string>
+    <string name="about_developer">Автор: %1$s</string>
 
     <string name="features_header">Функции</string>
     <string name="features_section">Функции</string>

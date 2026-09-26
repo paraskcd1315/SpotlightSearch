@@ -20,6 +20,7 @@ import com.composables.icons.lucide.Lucide
 import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpMotion
 import com.paraskcd.spotlightsearch.preferences.R
 import com.paraskcd.spotlightsearch.preferences.domain.model.ColorOverrideKey
+import com.paraskcd.spotlightsearch.preferences.presentation.screens.AboutScreen
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.BlacklistAppsScreen
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.ColorPickerScreen
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.FeaturesScreen
@@ -59,6 +60,7 @@ fun SettingsNavHost(themeViewModel: ThemeViewModel, onClose: () -> Unit) {
             ColorPickerScreen(key, themeViewModel, back)
         }
         composable(SettingsRoute.FEATURES) { FeaturesScreen(navigate, back) }
+        composable(SettingsRoute.ABOUT) { AboutScreen(back) }
         composable(SettingsRoute.QUICK_SEARCH) { QuickSearchScreen(hiltViewModel(), back) }
         composable(SettingsRoute.MANAGE_APPS) { ManageAppsScreen(hiltViewModel(), navigate, back) }
         composable(SettingsRoute.APPS_BLACKLIST) { BlacklistAppsScreen(hiltViewModel(), back) }
