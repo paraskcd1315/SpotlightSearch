@@ -31,6 +31,8 @@
     <string name="apps_enable">Activar aplicaciones</string>
     <string name="apps_blacklist">Aplicaciones ocultas</string>
     <string name="blacklist_section">Aplicaciones ocultas</string>
+    <string name="blacklist_filter">Filtrar aplicaciones</string>
+    <string name="blacklist_filter_clear">Borrar filtro</string>
     <string name="contacts_section">Gestionar contactos</string>
     <string name="contacts_enable">Activar contactos</string>
     <string name="web_section">Gestionar sugerencias web</string>

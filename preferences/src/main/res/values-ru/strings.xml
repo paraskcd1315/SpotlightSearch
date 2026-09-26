@@ -31,6 +31,8 @@
     <string name="apps_enable">Искать приложения</string>
     <string name="apps_blacklist">Скрытые приложения</string>
     <string name="blacklist_section">Скрытые приложения</string>
+    <string name="blacklist_filter">Фильтр приложений</string>
+    <string name="blacklist_filter_clear">Сбросить фильтр</string>
     <string name="contacts_section">Управление контактами</string>
     <string name="contacts_enable">Искать контакты</string>
     <string name="web_section">Подсказки из интернета</string>

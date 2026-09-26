@@ -32,6 +32,8 @@
     <string name="apps_enable">Enable apps</string>
     <string name="apps_blacklist">Blacklist apps</string>
     <string name="blacklist_section">Apps Blacklist</string>
+    <string name="blacklist_filter">Filter apps</string>
+    <string name="blacklist_filter_clear">Clear filter</string>
     <string name="contacts_section">Manage Contacts</string>
     <string name="contacts_enable">Enable contacts</string>
     <string name="web_section">Manage Web Suggestions</string>

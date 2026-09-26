@@ -31,6 +31,8 @@
     <string name="apps_enable">ایپس فعال کریں</string>
     <string name="apps_blacklist">چھپی ہوئی ایپس</string>
     <string name="blacklist_section">چھپی ہوئی ایپس</string>
+    <string name="blacklist_filter">ایپس فلٹر کریں</string>
+    <string name="blacklist_filter_clear">فلٹر صاف کریں</string>
     <string name="contacts_section">رابطوں کا نظم کریں</string>
     <string name="contacts_enable">رابطے فعال کریں</string>
     <string name="web_section">ویب تجاویز کا نظم کریں</string>

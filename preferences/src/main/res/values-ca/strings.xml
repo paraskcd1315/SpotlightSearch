@@ -31,6 +31,8 @@
     <string name="apps_enable">Activa les aplicacions</string>
     <string name="apps_blacklist">Aplicacions amagades</string>
     <string name="blacklist_section">Aplicacions amagades</string>
+    <string name="blacklist_filter">Filtra les aplicacions</string>
+    <string name="blacklist_filter_clear">Esborra el filtre</string>
     <string name="contacts_section">Gestiona els contactes</string>
     <string name="contacts_enable">Activa els contactes</string>
     <string name="web_section">Gestiona els suggeriments web</string>

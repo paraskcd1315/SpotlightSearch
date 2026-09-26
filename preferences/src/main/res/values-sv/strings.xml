@@ -31,6 +31,8 @@
     <string name="apps_enable">Aktivera appar</string>
     <string name="apps_blacklist">Dolda appar</string>
     <string name="blacklist_section">Dolda appar</string>
+    <string name="blacklist_filter">Filtrera appar</string>
+    <string name="blacklist_filter_clear">Rensa filter</string>
     <string name="contacts_section">Hantera kontakter</string>
     <string name="contacts_enable">Aktivera kontakter</string>
     <string name="web_section">Hantera webbförslag</string>

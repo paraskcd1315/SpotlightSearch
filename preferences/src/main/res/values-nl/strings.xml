@@ -31,6 +31,8 @@
     <string name="apps_enable">Apps inschakelen</string>
     <string name="apps_blacklist">Verborgen apps</string>
     <string name="blacklist_section">Verborgen apps</string>
+    <string name="blacklist_filter">Apps filteren</string>
+    <string name="blacklist_filter_clear">Filter wissen</string>
     <string name="contacts_section">Contacten beheren</string>
     <string name="contacts_enable">Contacten inschakelen</string>
     <string name="web_section">Websuggesties beheren</string>

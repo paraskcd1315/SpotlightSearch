@@ -1,10 +1,11 @@
 package com.paraskcd.spotlightsearch.preferences.presentation.screens
 
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.paraskcd.spotlightsearch.designsystem.ds.molecules.GroupSurface
-import com.paraskcd.spotlightsearch.preferences.presentation.components.SectionTitle
+import androidx.compose.ui.res.stringResource
+import com.paraskcd.spotlightsearch.designsystem.signature.layouts.SpScreenScaffold
+import com.paraskcd.spotlightsearch.designsystem.signature.organisms.SpGroupedList
+import com.paraskcd.spotlightsearch.preferences.R
 import com.paraskcd.spotlightsearch.preferences.presentation.components.SettingsSkeleton
 import com.paraskcd.spotlightsearch.preferences.presentation.components.SwitchRow
 
@@ -14,17 +15,17 @@ fun ToggleScreen(
     label: String,
     icon: ImageVector,
     checked: Boolean?,
-    onCheckedChange: (Boolean) -> Unit
+    onCheckedChange: (Boolean) -> Unit,
+    onBack: () -> Unit
 ) {
-    LazyColumn {
-        item { SectionTitle(title) }
+    SpScreenScaffold(title = title, backDescription = stringResource(R.string.settings_back), onBack = onBack) {
         item {
             if (checked == null) {
-                SettingsSkeleton()
+                SettingsSkeleton(rows = 1)
                 return@item
             }
-            GroupSurface(count = 1) { _, shape ->
-                SwitchRow(label, icon, checked, shape, onCheckedChange)
+            SpGroupedList(count = 1) {
+                SwitchRow(text = label, icon = icon, checked = checked, onCheckedChange = onCheckedChange)
             }
         }
     }
