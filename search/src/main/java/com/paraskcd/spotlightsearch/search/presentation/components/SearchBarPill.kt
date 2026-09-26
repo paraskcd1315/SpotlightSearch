@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,6 +30,7 @@ import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Search
 import com.composables.icons.lucide.X
 import com.paraskcd.spotlightsearch.designsystem.signature.foundation.SpMetrics
+import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpGlass
 import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpTheme
 import com.paraskcd.spotlightsearch.search.R
 import com.paraskcd.spotlightsearch.search.presentation.utils.SearchMetrics
@@ -79,9 +81,12 @@ fun SearchBarPill(
             },
             trailingIcon = {
                 AnimatedVisibility(visible = query.isNotEmpty(), enter = fadeIn(), exit = fadeOut()) {
-                    IconButton(onClick = { onQueryChange("") }, modifier = Modifier.size(SearchMetrics.ClearButtonSize)) {
+                    IconButton(onClick = { onQueryChange("") }) {
                         Box(
-                            modifier = Modifier.background(colors.glassStrongBg, CircleShape),
+                            modifier = Modifier
+                                .size(SearchMetrics.ClearButtonSize)
+                                .background(colors.glassBg, CircleShape)
+                                .border(SpGlass.borderWidth, colors.glassBorder, CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
