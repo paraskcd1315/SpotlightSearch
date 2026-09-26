@@ -1,0 +1,71 @@
+<resources>
+    <string name="search_placeholder">Поиск…</string>
+    <string name="filter_all">Все</string>
+    <string name="search_clear">Очистить поиск</string>
+    <string name="search_open_settings">Настройки</string>
+
+    <string name="section_frequent">Часто используемые</string>
+    <string name="section_top_hit">Лучший результат</string>
+    <string name="section_show_all">Показать все: %1$d</string>
+    <string name="section_settings">Настройки</string>
+    <string name="section_dictionary">Словарь</string>
+    <string name="section_permissions">Разрешения</string>
+    <string name="section_calculator">Калькулятор</string>
+    <string name="section_web">Интернет</string>
+    <string name="section_apps">Приложения</string>
+    <string name="section_contacts">Контакты</string>
+    <string name="section_translation">Перевод</string>
+    <string name="section_suggestions">Подсказки</string>
+    <string name="section_quick_search">Быстрый поиск</string>
+
+    <string name="hit_spelling_title">Возможно, вы имели в виду…?</string>
+    <string name="hit_permission_title">Разрешить доступ к контактам</string>
+    <string name="hit_permission_subtitle">Нужно для поиска контактов</string>
+    <string name="hit_web_title">Искать «%1$s» в интернете</string>
+    <string name="hit_web_subtitle">Поиск в интернете</string>
+    <string name="hit_suggestion_subtitle">Подсказка</string>
+    <string name="hit_translation_subtitle">Перевод (%1$s → %2$s)</string>
+    <string name="hit_setting_subtitle">Открыть: %1$s</string>
+    <string name="hit_calculation_arithmetic">Вычисление</string>
+    <string name="hit_calculation_unit">Перевод единиц</string>
+    <string name="hit_calculation_temperature">Перевод температуры</string>
+    <string name="hit_calculation_date">Найденная дата</string>
+    <string name="hit_calculation_web">Калькулятор</string>
+
+    <string name="action_app_info">О приложении</string>
+    <string name="action_call">Позвонить</string>
+    <string name="action_sms">SMS</string>
+
+    <string name="quick_search_google">Искать «%1$s» в Google</string>
+    <string name="quick_search_youtube">Искать «%1$s» на YouTube</string>
+    <string name="quick_search_youtube_music">Искать «%1$s» в YouTube Music</string>
+    <string name="quick_search_maps">Искать «%1$s» в Картах</string>
+    <string name="quick_search_play_store">Искать «%1$s» в Play Маркете</string>
+    <string name="quick_search_threads">Искать «%1$s» в Threads</string>
+    <string name="quick_search_linkedin">Искать «%1$s» в LinkedIn</string>
+    <string name="quick_search_x">Искать «%1$s» в X</string>
+    <string name="quick_search_facebook">Искать «%1$s» в Facebook</string>
+
+    <string name="setting_main">Настройки</string>
+    <string name="setting_airplane_mode">Режим полёта</string>
+    <string name="setting_wifi">Настройки Wi‑Fi</string>
+    <string name="setting_bluetooth">Настройки Bluetooth</string>
+    <string name="setting_display">Настройки экрана</string>
+    <string name="setting_sound">Настройки звука</string>
+    <string name="setting_date_time">Дата и время</string>
+    <string name="setting_language">Язык и ввод</string>
+    <string name="setting_wireless">Беспроводные сети</string>
+    <string name="setting_security">Настройки безопасности</string>
+    <string name="setting_apps">Настройки приложений</string>
+    <string name="setting_battery_saver">Настройки батареи</string>
+    <string name="setting_data_roaming">Настройки интернет-роуминга</string>
+    <string name="setting_location">Настройки местоположения</string>
+    <string name="setting_input_method">Настройки способа ввода</string>
+    <string name="setting_accessibility">Специальные возможности</string>
+    <string name="setting_nfc">Настройки NFC</string>
+    <string name="setting_privacy">Настройки конфиденциальности</string>
+    <string name="setting_battery_optimization">Не оптимизировать расход батареи</string>
+    <string name="setting_storage">Настройки хранилища</string>
+    <string name="setting_device_info">Об устройстве</string>
+    <string name="setting_notifications">Настройки уведомлений</string>
+</resources>

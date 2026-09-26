@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.paraskcd.spotlightsearch.designsystem.icons.PermDeviceInfo
+import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpTheme
 import com.paraskcd.spotlightsearch.search.R
 import com.paraskcd.spotlightsearch.search.infrastructure.icons.AppIconLoader
 import com.paraskcd.spotlightsearch.search.presentation.model.RowMenuItem
@@ -44,8 +47,9 @@ fun AppTile(
         Column(
             modifier = Modifier
                 .width(SearchMetrics.TileWidth)
-                .padding(SearchMetrics.TilePadding)
-                .combinedClickable(onClick = onClick, onLongClick = { menuOpen = true }),
+                .clip(RoundedCornerShape(SearchMetrics.TileCornerRadius))
+                .combinedClickable(onClick = onClick, onLongClick = { menuOpen = true })
+                .padding(SearchMetrics.TilePadding),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(SearchMetrics.TileSpacing)
         ) {
@@ -62,7 +66,7 @@ fun AppTile(
                 maxLines = SearchMetrics.TileLabelMaxLines,
                 lineHeight = SearchMetrics.TileLabelLineHeight.sp,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurface
+                color = SpTheme.colors.textPrimary
             )
         }
         RowContextMenu(expanded = menuOpen, items = menu, onDismiss = { menuOpen = false }, onAction = onAction)

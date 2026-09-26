@@ -16,19 +16,18 @@ import com.paraskcd.spotlightsearch.sources.domain.model.hits.SpellingHit
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.SuggestionHit
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.TranslationHit
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.WebSearchHit
-import com.paraskcd.spotlightsearch.sources.domain.translation.LanguageNames
 
 @Composable
 fun hitText(hit: SearchHit): HitText = when (hit) {
-    is AppHit -> HitText(hit.label, hit.packageName)
-    is ContactHit -> HitText(hit.name, hit.number)
+    is AppHit -> HitText(hit.label, hit.packageName, hit.matches)
+    is ContactHit -> HitText(hit.name, hit.number, hit.matches)
     is CalculationHit -> HitText(hit.answer, hit.detail ?: stringResource(hit.kind.subtitleRes()))
     is TranslationHit -> HitText(
         hit.translation,
         stringResource(
             R.string.hit_translation_subtitle,
-            LanguageNames.name(hit.sourceLanguage),
-            LanguageNames.name(hit.targetLanguage)
+            languageDisplayName(hit.sourceLanguage),
+            languageDisplayName(hit.targetLanguage)
         )
     )
     is SuggestionHit -> HitText(hit.text, stringResource(R.string.hit_suggestion_subtitle))

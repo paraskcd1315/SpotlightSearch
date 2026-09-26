@@ -1,0 +1,9 @@
+Spotlight Search 2.0
+• Nuovo design in vetro per ricerca e impostazioni
+• Risultati più intelligenti: il migliore per primo, le app che usi di più in alto, lettere trovate evidenziate
+• Filtra per tipo; «Mostra tutti» apre l'elenco completo
+• Trova le app dalle iniziali (gm → Google Maps) e ignora gli accenti
+• Filtro e Impostazioni subito sopra la barra, tutto si muove fluido con la tastiera
+• Nuova pagina Informazioni e versione nelle impostazioni
+• Ora in 12 lingue
+• Più veloce e fluido

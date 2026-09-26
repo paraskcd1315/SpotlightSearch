@@ -1,0 +1,80 @@
+<resources>
+    <string name="settings_title">Instellingen</string>
+    <string name="settings_back">Terug</string>
+    <string name="settings_open_failed">Kan de instellingen niet openen</string>
+    <string name="settings_go_to">Naar %1$s</string>
+    <string name="settings_no_results">Geen resultaten gevonden</string>
+
+    <string name="home_appearance_title">Uiterlijk en personalisatie</string>
+    <string name="home_appearance_subtitle">Pas het uiterlijk van Spotlight Search aan</string>
+    <string name="home_features_title">Functies</string>
+    <string name="home_features_subtitle">Beheer de functies van Spotlight Search</string>
+    <string name="home_about_title">Over</string>
+    <string name="home_about_subtitle">Meer over Spotlight Search</string>
+    <string name="about_description">Zoek je apps, contacten en het web vanaf één plek.</string>
+    <string name="about_links_section">Links</string>
+    <string name="about_rate">Beoordelen op Google Play</string>
+    <string name="about_source">Broncode</string>
+    <string name="about_source_caption">Bekijk het project op GitHub</string>
+    <string name="about_privacy">Privacybeleid</string>
+    <string name="about_developer">Gemaakt door %1$s</string>
+
+    <string name="features_header">Functies</string>
+    <string name="features_section">Functies</string>
+    <string name="features_shortcuts_section">Snelkoppelingen</string>
+    <string name="features_quick_search_title">Apps voor snel zoeken</string>
+    <string name="features_quick_search_subtitle">Tik om apps voor snel zoeken te kiezen</string>
+    <string name="features_manage_apps_title">Apps beheren</string>
+    <string name="features_manage_apps_subtitle">Tik om het zoeken naar apps te beheren en apps te verbergen</string>
+    <string name="features_web_title">Websuggesties beheren</string>
+    <string name="features_web_subtitle">Tik om de suggesties van Google te beheren</string>
+    <string name="features_contacts_title">Contacten beheren</string>
+    <string name="features_contacts_subtitle">Tik om contacten te beheren</string>
+    <string name="features_assistant_title">Digitale assistent</string>
+    <string name="features_assistant_subtitle">Stel Spotlight Search in als je digitale assistent</string>
+
+    <string name="apps_section">Apps beheren</string>
+    <string name="apps_enable">Apps inschakelen</string>
+    <string name="apps_blacklist">Verborgen apps</string>
+    <string name="blacklist_section">Verborgen apps</string>
+    <string name="blacklist_filter">Apps filteren</string>
+    <string name="blacklist_filter_clear">Filter wissen</string>
+    <string name="contacts_section">Contacten beheren</string>
+    <string name="contacts_enable">Contacten inschakelen</string>
+    <string name="web_section">Websuggesties beheren</string>
+    <string name="web_enable">Websuggesties inschakelen</string>
+    <string name="quick_search_help">Houd ingedrukt en sleep om de volgorde te wijzigen; zet de schakelaar uit om uit te schakelen. Een app zonder pictogram is niet geïnstalleerd en verschijnt niet in de zoekresultaten.</string>
+    <string name="quick_search_drag">Slepen</string>
+
+    <string name="appearance_header">Uiterlijk en personalisatie</string>
+    <string name="appearance_section">Uiterlijk</string>
+    <string name="appearance_select_theme">Thema kiezen</string>
+    <string name="appearance_enable_blur">Vervaging inschakelen</string>
+    <string name="appearance_show_branding">Logo en titel tonen</string>
+    <string name="personalization_section">Personalisatie</string>
+    <string name="personalization_reset_colors">Kleuren resetten</string>
+    <string name="theme_dialog_title">Themamodus</string>
+    <string name="theme_auto">Automatisch</string>
+    <string name="theme_light">Licht</string>
+    <string name="theme_dark">Donker</string>
+    <string name="reset_colors_title">Kleuren resetten</string>
+    <string name="reset_colors_message">Alle aangepaste kleuren wissen en teruggaan naar de dynamische kleuren?</string>
+    <string name="reset_colors_confirm">Resetten</string>
+    <string name="dialog_cancel">Annuleren</string>
+
+    <string name="color_background">Achtergrond</string>
+    <string name="color_surface_bright">Achtergrond van vakken</string>
+    <string name="color_surface_tint">Tint van vakken</string>
+    <string name="color_on_surface">Tekstkleur</string>
+    <string name="color_outline">Randkleur</string>
+    <string name="color_editing">Bewerken: %1$s. De zoekbalk is een invoerveld: je kunt je eigen hexcode typen.</string>
+    <string name="color_preview">Voorbeeld</string>
+    <string name="color_hue">Tint</string>
+    <string name="color_saturation">Verzadiging</string>
+    <string name="color_brightness">Helderheid</string>
+    <string name="color_save">Opslaan</string>
+    <string name="color_reset">Resetten</string>
+    <string name="color_reset_title">Kleur resetten</string>
+    <string name="color_reset_message">De kleur voor %1$s gaat terug naar de standaardwaarde. Dit kan niet ongedaan worden gemaakt. Doorgaan?</string>
+    <string name="color_reset_confirm">Bevestigen</string>
+</resources>

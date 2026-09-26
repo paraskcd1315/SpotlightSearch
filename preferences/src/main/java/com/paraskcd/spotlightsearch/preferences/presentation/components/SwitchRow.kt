@@ -1,22 +1,26 @@
 package com.paraskcd.spotlightsearch.preferences.presentation.components
 
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.paraskcd.spotlightsearch.designsystem.ds.molecules.BaseRowContainer
-import com.paraskcd.spotlightsearch.designsystem.ds.molecules.RowWithIcon
+import com.paraskcd.spotlightsearch.designsystem.signature.atoms.SpSwitch
+import com.paraskcd.spotlightsearch.designsystem.signature.molecules.SpSettingsRow
 
 @Composable
 fun SwitchRow(
     text: String,
-    icon: ImageVector,
     checked: Boolean,
-    shape: RoundedCornerShape,
-    onCheckedChange: (Boolean) -> Unit
+    onCheckedChange: (Boolean) -> Unit,
+    icon: ImageVector? = null,
+    caption: String? = null,
+    leading: (@Composable () -> Unit)? = null
 ) {
-    BaseRowContainer(shape = shape, onClick = { onCheckedChange(!checked) }) {
-        RowWithIcon(text = text, icon = icon)
-        Switch(checked = checked, onCheckedChange = onCheckedChange)
-    }
+    SpSettingsRow(
+        label = text,
+        icon = icon,
+        caption = caption,
+        leading = leading,
+        onClick = { onCheckedChange(!checked) },
+        trailing = { SpSwitch(checked = checked, onCheckedChange = onCheckedChange) },
+        trailingIcon = null
+    )
 }

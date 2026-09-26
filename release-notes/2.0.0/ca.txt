@@ -1,0 +1,9 @@
+Spotlight Search 2.0
+• Nou disseny de vidre a la cerca i als ajustos
+• Resultats més intel·ligents: el millor resultat primer, les apps que més fas servir a dalt i les lletres coincidents ressaltades
+• Filtra per tipus; «Mostra-ho tot» obre la llista completa
+• Troba apps per inicials (gm → Google Maps) i ignora els accents
+• Filtre i Ajustos just a sobre de la barra, tot es mou amb el teclat
+• Nova pàgina Quant a i versió als ajustos
+• Ara en 12 idiomes
+• Més ràpid i fluid

@@ -18,7 +18,7 @@ import com.paraskcd.spotlightsearch.preferences.infrastructure.room.entity.UserT
         GlobalSearchConfigEntity::class,
         BlacklistAppsEntity::class
     ],
-    version = 4,
+    version = 5,
     exportSchema = true
 )
 abstract class SettingsDatabase : RoomDatabase() {

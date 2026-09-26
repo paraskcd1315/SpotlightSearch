@@ -2,18 +2,23 @@ package com.paraskcd.spotlightsearch.search.presentation.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import com.paraskcd.spotlightsearch.search.presentation.utils.highlightedTitle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import com.paraskcd.spotlightsearch.designsystem.signature.foundation.SpMetrics
+import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpSpacing
+import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpTheme
 import com.paraskcd.spotlightsearch.search.presentation.model.HitText
-import com.paraskcd.spotlightsearch.search.presentation.utils.SearchMetrics
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -24,26 +29,35 @@ fun ResultRow(
     leading: @Composable () -> Unit,
     below: (@Composable () -> Unit)? = null
 ) {
+    val colors = SpTheme.colors
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .combinedClickable(onClick = onClick, onLongClick = onLongClick)
-            .padding(SearchMetrics.RowPadding)
+            .padding(horizontal = SpSpacing.s4, vertical = SpSpacing.s3)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Row(modifier = Modifier.padding(end = SearchMetrics.RowIconSpacing)) { leading() }
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(SpSpacing.s3)) {
+            leading()
             Column {
+                val highlight = colors.brandText
+                val title = remember(text.title, text.matches, highlight) {
+                    highlightedTitle(text.title, text.matches, highlight)
+                }
                 Text(
-                    text.title,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodyLarge
+                    title,
+                    color = colors.textPrimary,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = SpMetrics.settingsItemTextSize,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
                 text.subtitle?.let {
                     Text(
                         it,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = SearchMetrics.SubtitleAlpha),
-                        style = MaterialTheme.typography.labelMedium
+                        color = colors.textSecondary,
+                        fontSize = SpMetrics.settingsCaptionTextSize,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             }

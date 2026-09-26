@@ -1,0 +1,80 @@
+<resources>
+    <string name="settings_title">ترتیبات</string>
+    <string name="settings_back">واپس</string>
+    <string name="settings_open_failed">ترتیبات نہیں کھل سکیں</string>
+    <string name="settings_go_to">%1$s پر جائیں</string>
+    <string name="settings_no_results">کوئی نتیجہ نہیں ملا</string>
+
+    <string name="home_appearance_title">ظاہری شکل اور ذاتی ترتیب</string>
+    <string name="home_appearance_subtitle">Spotlight Search کی ظاہری شکل اپنی مرضی کے مطابق بنائیں</string>
+    <string name="home_features_title">خصوصیات</string>
+    <string name="home_features_subtitle">Spotlight Search کی خصوصیات کا نظم کریں</string>
+    <string name="home_about_title">تعارف</string>
+    <string name="home_about_subtitle">Spotlight Search کے بارے میں مزید جانیں</string>
+    <string name="about_description">ایپس، رابطے اور ویب ایک ہی جگہ سے تلاش کریں۔</string>
+    <string name="about_links_section">لنکس</string>
+    <string name="about_rate">Google Play پر ریٹنگ دیں</string>
+    <string name="about_source">سورس کوڈ</string>
+    <string name="about_source_caption">GitHub پر پروجیکٹ دیکھیں</string>
+    <string name="about_privacy">رازداری کی پالیسی</string>
+    <string name="about_developer">%1$s نے بنایا</string>
+
+    <string name="features_header">خصوصیات</string>
+    <string name="features_section">خصوصیات</string>
+    <string name="features_shortcuts_section">شارٹ کٹس</string>
+    <string name="features_quick_search_title">فوری تلاش کی ایپس</string>
+    <string name="features_quick_search_subtitle">فوری تلاش کی ایپس منتخب کرنے کے لیے تھپتھپائیں</string>
+    <string name="features_manage_apps_title">ایپس کا نظم کریں</string>
+    <string name="features_manage_apps_subtitle">ایپس کی تلاش کا نظم کرنے اور ایپس چھپانے کے لیے تھپتھپائیں</string>
+    <string name="features_web_title">ویب تجاویز کا نظم کریں</string>
+    <string name="features_web_subtitle">Google کی تجاویز کا نظم کرنے کے لیے تھپتھپائیں</string>
+    <string name="features_contacts_title">رابطوں کا نظم کریں</string>
+    <string name="features_contacts_subtitle">رابطوں کا نظم کرنے کے لیے تھپتھپائیں</string>
+    <string name="features_assistant_title">ڈیجیٹل اسسٹنٹ</string>
+    <string name="features_assistant_subtitle">Spotlight Search کو اپنا ڈیجیٹل اسسٹنٹ بنائیں</string>
+
+    <string name="apps_section">ایپس کا نظم کریں</string>
+    <string name="apps_enable">ایپس فعال کریں</string>
+    <string name="apps_blacklist">چھپی ہوئی ایپس</string>
+    <string name="blacklist_section">چھپی ہوئی ایپس</string>
+    <string name="blacklist_filter">ایپس فلٹر کریں</string>
+    <string name="blacklist_filter_clear">فلٹر صاف کریں</string>
+    <string name="contacts_section">رابطوں کا نظم کریں</string>
+    <string name="contacts_enable">رابطے فعال کریں</string>
+    <string name="web_section">ویب تجاویز کا نظم کریں</string>
+    <string name="web_enable">ویب تجاویز فعال کریں</string>
+    <string name="quick_search_help">ترتیب بدلنے کے لیے دبائے رکھیں اور گھسیٹیں؛ غیر فعال کرنے کے لیے سوئچ استعمال کریں۔ بغیر آئیکن والی ایپ انسٹال نہیں ہے اور تلاش میں نظر نہیں آئے گی۔</string>
+    <string name="quick_search_drag">گھسیٹیں</string>
+
+    <string name="appearance_header">ظاہری شکل اور ذاتی ترتیب</string>
+    <string name="appearance_section">ظاہری شکل</string>
+    <string name="appearance_select_theme">تھیم منتخب کریں</string>
+    <string name="appearance_enable_blur">دھندلاہٹ فعال کریں</string>
+    <string name="appearance_show_branding">لوگو اور عنوان دکھائیں</string>
+    <string name="personalization_section">ذاتی ترتیب</string>
+    <string name="personalization_reset_colors">رنگ ری سیٹ کریں</string>
+    <string name="theme_dialog_title">تھیم موڈ</string>
+    <string name="theme_auto">خودکار</string>
+    <string name="theme_light">ہلکا</string>
+    <string name="theme_dark">گہرا</string>
+    <string name="reset_colors_title">رنگ ری سیٹ کریں</string>
+    <string name="reset_colors_message">اپنے تمام رنگ مٹا کر متحرک رنگوں پر واپس جائیں؟</string>
+    <string name="reset_colors_confirm">ری سیٹ کریں</string>
+    <string name="dialog_cancel">منسوخ کریں</string>
+
+    <string name="color_background">پس منظر</string>
+    <string name="color_surface_bright">کارڈ کا پس منظر</string>
+    <string name="color_surface_tint">کارڈ کا رنگ</string>
+    <string name="color_on_surface">متن کا رنگ</string>
+    <string name="color_outline">بارڈر کا رنگ</string>
+    <string name="color_editing">ترمیم: %1$s۔ سرچ بار میں ترمیم کی جا سکتی ہے: آپ اپنا ہیکس کوڈ لکھ سکتے ہیں۔</string>
+    <string name="color_preview">پیش منظر</string>
+    <string name="color_hue">رنگت</string>
+    <string name="color_saturation">گہرائی</string>
+    <string name="color_brightness">چمک</string>
+    <string name="color_save">محفوظ کریں</string>
+    <string name="color_reset">ری سیٹ کریں</string>
+    <string name="color_reset_title">رنگ ری سیٹ کریں</string>
+    <string name="color_reset_message">%1$s کا رنگ ڈیفالٹ پر واپس چلا جائے گا۔ اسے واپس نہیں کیا جا سکتا۔ جاری رکھیں؟</string>
+    <string name="color_reset_confirm">تصدیق کریں</string>
+</resources>

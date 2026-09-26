@@ -1,15 +1,34 @@
 package com.paraskcd.spotlightsearch.search.infrastructure.window
 
 import android.graphics.Color
+import android.graphics.Outline
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.view.Window
 import android.view.WindowManager
 
 object DialogWindowSetup {
-    fun configure(window: Window, focusable: Boolean, widthPx: Int, cornerRadiusPx: Float, offsetYPx: Int) {
+    fun configure(
+        window: Window,
+        focusable: Boolean,
+        widthPx: Int,
+        cornerRadiusPx: Float,
+        offsetYPx: Int,
+        elevationPx: Float,
+        shadowAlpha: Float,
+        gravity: Int = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL,
+        offsetXPx: Int = 0
+    ) {
+        window.decorView.outlineProvider = object : ViewOutlineProvider() {
+            override fun getOutline(view: View, outline: Outline) {
+                outline.setRoundRect(0, 0, view.width, view.height, cornerRadiusPx)
+                outline.alpha = shadowAlpha
+            }
+        }
+        window.setElevation(elevationPx)
         window.setBackgroundDrawable(
             GradientDrawable().apply {
                 cornerRadius = cornerRadiusPx
@@ -32,9 +51,22 @@ object DialogWindowSetup {
             )
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         }
-        window.setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL)
+        window.setGravity(gravity)
         window.setLayout(widthPx, ViewGroup.LayoutParams.WRAP_CONTENT)
-        window.attributes = window.attributes.apply { y = offsetYPx }
+        window.attributes = window.attributes.apply {
+            x = offsetXPx
+            y = offsetYPx
+        }
+    }
+
+    fun place(window: Window, offsetYPx: Int, alpha: Float, heightPx: Int = ViewGroup.LayoutParams.WRAP_CONTENT) {
+        val attributes = window.attributes
+        if (attributes.y == offsetYPx && attributes.alpha == alpha && attributes.height == heightPx) return
+        window.attributes = attributes.apply {
+            y = offsetYPx
+            this.alpha = alpha
+            height = heightPx
+        }
     }
 
     fun setVisible(window: Window, visible: Boolean) {

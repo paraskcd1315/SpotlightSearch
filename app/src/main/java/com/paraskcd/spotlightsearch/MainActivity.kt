@@ -40,6 +40,7 @@ class MainActivity : ComponentActivity() {
                 SearchScreen(
                     viewModel = searchViewModel,
                     blurEnabled = blurEnabled,
+                    showBranding = theme.showBranding,
                     appName = stringResource(R.string.app_name),
                     onOpenSettings = { startActivity(Intent(this, SettingsActivity::class.java)) },
                     onClose = ::finish

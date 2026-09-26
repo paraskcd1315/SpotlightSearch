@@ -22,6 +22,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -39,6 +40,10 @@ abstract class SourcesModule {
     companion object {
         @Provides
         @Singleton
-        fun okHttpClient(): OkHttpClient = OkHttpClient()
+        fun okHttpClient(): OkHttpClient = OkHttpClient.Builder()
+            .callTimeout(NETWORK_CALL_TIMEOUT_S, TimeUnit.SECONDS)
+            .build()
+
+        private const val NETWORK_CALL_TIMEOUT_S = 3L
     }
 }

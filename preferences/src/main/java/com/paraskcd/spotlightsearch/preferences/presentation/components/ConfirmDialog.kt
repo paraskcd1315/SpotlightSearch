@@ -1,25 +1,44 @@
 package com.paraskcd.spotlightsearch.preferences.presentation.components
 
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.paraskcd.spotlightsearch.designsystem.signature.atoms.SpButton
+import com.paraskcd.spotlightsearch.designsystem.signature.atoms.SpButtonVariant
+import com.paraskcd.spotlightsearch.designsystem.signature.organisms.SpBottomSheet
+import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpTheme
 import com.paraskcd.spotlightsearch.preferences.R
 
 @Composable
 fun ConfirmDialog(
+    visible: Boolean,
     title: String,
     message: String,
     confirmLabel: String,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(title) },
-        text = { Text(message) },
-        confirmButton = { TextButton(onClick = onConfirm) { Text(confirmLabel) } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.dialog_cancel)) } }
-    )
+    SpBottomSheet(
+        visible = visible,
+        onDismiss = onDismiss,
+        title = title,
+        footer = {
+            SpButton(
+                text = stringResource(R.string.dialog_cancel),
+                onClick = onDismiss,
+                variant = SpButtonVariant.Secondary,
+                modifier = Modifier.weight(1f)
+            )
+            SpButton(
+                text = confirmLabel,
+                onClick = onConfirm,
+                variant = SpButtonVariant.Danger,
+                modifier = Modifier.weight(1f)
+            )
+        }
+    ) {
+        Text(text = message, style = MaterialTheme.typography.bodyLarge, color = SpTheme.colors.textSecondary)
+    }
 }

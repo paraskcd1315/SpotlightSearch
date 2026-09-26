@@ -1,18 +1,24 @@
 <resources>
     <string name="settings_title">Settings</string>
     <string name="settings_back">Back</string>
-    <string name="settings_coming_soon">Coming soon</string>
     <string name="settings_open_failed">Couldn\'t open settings</string>
     <string name="settings_go_to">Go to %1$s</string>
     <string name="settings_no_results">No results found</string>
 
-    <string name="home_header">Spotlight Search</string>
+    <string name="home_header" translatable="false">Spotlight Search</string>
     <string name="home_appearance_title">Appearance and Personalization</string>
     <string name="home_appearance_subtitle">Customize the look and feel of Spotlight Search</string>
     <string name="home_features_title">Features and Functionality</string>
     <string name="home_features_subtitle">Manage features and functionality of Spotlight Search</string>
     <string name="home_about_title">About</string>
     <string name="home_about_subtitle">Learn more about Spotlight Search</string>
+    <string name="about_description">Search your apps, contacts and the web from one place.</string>
+    <string name="about_links_section">Links</string>
+    <string name="about_rate">Rate on Google Play</string>
+    <string name="about_source">Source code</string>
+    <string name="about_source_caption">View the project on GitHub</string>
+    <string name="about_privacy">Privacy policy</string>
+    <string name="about_developer">Made by %1$s</string>
 
     <string name="features_header">Features and Functionality</string>
     <string name="features_section">Features</string>
@@ -32,6 +38,8 @@
     <string name="apps_enable">Enable apps</string>
     <string name="apps_blacklist">Blacklist apps</string>
     <string name="blacklist_section">Apps Blacklist</string>
+    <string name="blacklist_filter">Filter apps</string>
+    <string name="blacklist_filter_clear">Clear filter</string>
     <string name="contacts_section">Manage Contacts</string>
     <string name="contacts_enable">Enable contacts</string>
     <string name="web_section">Manage Web Suggestions</string>
@@ -43,6 +51,7 @@
     <string name="appearance_section">Appearance</string>
     <string name="appearance_select_theme">Select theme</string>
     <string name="appearance_enable_blur">Enable Blur</string>
+    <string name="appearance_show_branding">Show logo and title</string>
     <string name="personalization_section">Personalization</string>
     <string name="personalization_reset_colors">Reset colors</string>
     <string name="theme_dialog_title">Theme Mode</string>
@@ -64,7 +73,9 @@
     <string name="color_hue">Hue</string>
     <string name="color_saturation">Saturation</string>
     <string name="color_brightness">Brightness</string>
-    <string name="color_percent">%1$d%%</string>
+    <string name="color_percent" translatable="false">%1$d%%</string>
+    <string name="settings_version_line" translatable="false">v%1$s (%2$d)</string>
+    <string name="about_developer_name" translatable="false">Paras Khanchandani</string>
     <string name="color_save">Save</string>
     <string name="color_reset">Reset</string>
     <string name="color_reset_title">Reset color</string>

@@ -1,0 +1,71 @@
+<resources>
+    <string name="search_placeholder">Zoeken…</string>
+    <string name="filter_all">Alles</string>
+    <string name="search_clear">Zoekopdracht wissen</string>
+    <string name="search_open_settings">Instellingen</string>
+
+    <string name="section_frequent">Vaak gebruikt</string>
+    <string name="section_top_hit">Beste resultaat</string>
+    <string name="section_show_all">Alle %1$d tonen</string>
+    <string name="section_settings">Instellingen</string>
+    <string name="section_dictionary">Woordenboek</string>
+    <string name="section_permissions">Rechten</string>
+    <string name="section_calculator">Rekenmachine</string>
+    <string name="section_web">Web</string>
+    <string name="section_apps">Apps</string>
+    <string name="section_contacts">Contacten</string>
+    <string name="section_translation">Vertaling</string>
+    <string name="section_suggestions">Suggesties</string>
+    <string name="section_quick_search">Snel zoeken</string>
+
+    <string name="hit_spelling_title">Bedoelde je…?</string>
+    <string name="hit_permission_title">Toegang tot contacten toestaan</string>
+    <string name="hit_permission_subtitle">Nodig om contacten te zoeken</string>
+    <string name="hit_web_title">\"%1$s\" zoeken op het web</string>
+    <string name="hit_web_subtitle">Zoeken op het web</string>
+    <string name="hit_suggestion_subtitle">Suggestie</string>
+    <string name="hit_translation_subtitle">Vertaling (%1$s → %2$s)</string>
+    <string name="hit_setting_subtitle">%1$s openen</string>
+    <string name="hit_calculation_arithmetic">Berekening</string>
+    <string name="hit_calculation_unit">Eenheden omrekenen</string>
+    <string name="hit_calculation_temperature">Temperatuur omrekenen</string>
+    <string name="hit_calculation_date">Gevonden datum</string>
+    <string name="hit_calculation_web">Rekenmachine</string>
+
+    <string name="action_app_info">App-info</string>
+    <string name="action_call">Bellen</string>
+    <string name="action_sms">Sms</string>
+
+    <string name="quick_search_google">\"%1$s\" zoeken op Google</string>
+    <string name="quick_search_youtube">\"%1$s\" zoeken op YouTube</string>
+    <string name="quick_search_youtube_music">\"%1$s\" zoeken op YouTube Music</string>
+    <string name="quick_search_maps">\"%1$s\" zoeken in Maps</string>
+    <string name="quick_search_play_store">\"%1$s\" zoeken in de Play Store</string>
+    <string name="quick_search_threads">\"%1$s\" zoeken op Threads</string>
+    <string name="quick_search_linkedin">\"%1$s\" zoeken op LinkedIn</string>
+    <string name="quick_search_x">\"%1$s\" zoeken op X</string>
+    <string name="quick_search_facebook">\"%1$s\" zoeken op Facebook</string>
+
+    <string name="setting_main">Instellingen</string>
+    <string name="setting_airplane_mode">Instellingen voor vliegtuigmodus</string>
+    <string name="setting_wifi">Wifi-instellingen</string>
+    <string name="setting_bluetooth">Bluetooth-instellingen</string>
+    <string name="setting_display">Scherminstellingen</string>
+    <string name="setting_sound">Geluidsinstellingen</string>
+    <string name="setting_date_time">Datum en tijd</string>
+    <string name="setting_language">Taal en invoer</string>
+    <string name="setting_wireless">Draadloze instellingen</string>
+    <string name="setting_security">Beveiligingsinstellingen</string>
+    <string name="setting_apps">App-instellingen</string>
+    <string name="setting_battery_saver">Batterij-instellingen</string>
+    <string name="setting_data_roaming">Instellingen voor dataroaming</string>
+    <string name="setting_location">Locatie-instellingen</string>
+    <string name="setting_input_method">Instellingen voor invoermethode</string>
+    <string name="setting_accessibility">Toegankelijkheidsinstellingen</string>
+    <string name="setting_nfc">NFC-instellingen</string>
+    <string name="setting_privacy">Privacyinstellingen</string>
+    <string name="setting_battery_optimization">Batterijoptimalisatie negeren</string>
+    <string name="setting_storage">Opslaginstellingen</string>
+    <string name="setting_device_info">Apparaatinfo</string>
+    <string name="setting_notifications">Meldingsinstellingen</string>
+</resources>

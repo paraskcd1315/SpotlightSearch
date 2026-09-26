@@ -1,0 +1,71 @@
+<resources>
+    <string name="search_placeholder">Pesquisar…</string>
+    <string name="filter_all">Tudo</string>
+    <string name="search_clear">Limpar pesquisa</string>
+    <string name="search_open_settings">Definições</string>
+
+    <string name="section_frequent">Usadas com frequência</string>
+    <string name="section_top_hit">Melhor resultado</string>
+    <string name="section_show_all">Mostrar os %1$d</string>
+    <string name="section_settings">Definições</string>
+    <string name="section_dictionary">Dicionário</string>
+    <string name="section_permissions">Autorizações</string>
+    <string name="section_calculator">Calculadora</string>
+    <string name="section_web">Web</string>
+    <string name="section_apps">Apps</string>
+    <string name="section_contacts">Contactos</string>
+    <string name="section_translation">Tradução</string>
+    <string name="section_suggestions">Sugestões</string>
+    <string name="section_quick_search">Pesquisa rápida</string>
+
+    <string name="hit_spelling_title">Queria dizer…?</string>
+    <string name="hit_permission_title">Permitir acesso aos contactos</string>
+    <string name="hit_permission_subtitle">Necessário para pesquisar contactos</string>
+    <string name="hit_web_title">Pesquisar \"%1$s\" na Web</string>
+    <string name="hit_web_subtitle">Pesquisa na Web</string>
+    <string name="hit_suggestion_subtitle">Sugestão</string>
+    <string name="hit_translation_subtitle">Tradução (%1$s → %2$s)</string>
+    <string name="hit_setting_subtitle">Abrir %1$s</string>
+    <string name="hit_calculation_arithmetic">Cálculo</string>
+    <string name="hit_calculation_unit">Conversão de unidades</string>
+    <string name="hit_calculation_temperature">Conversão de temperatura</string>
+    <string name="hit_calculation_date">Data detetada</string>
+    <string name="hit_calculation_web">Calculadora</string>
+
+    <string name="action_app_info">Informações da app</string>
+    <string name="action_call">Ligar</string>
+    <string name="action_sms">SMS</string>
+
+    <string name="quick_search_google">Pesquisar \"%1$s\" no Google</string>
+    <string name="quick_search_youtube">Pesquisar \"%1$s\" no YouTube</string>
+    <string name="quick_search_youtube_music">Pesquisar \"%1$s\" no YouTube Music</string>
+    <string name="quick_search_maps">Pesquisar \"%1$s\" no Maps</string>
+    <string name="quick_search_play_store">Pesquisar \"%1$s\" na Play Store</string>
+    <string name="quick_search_threads">Pesquisar \"%1$s\" no Threads</string>
+    <string name="quick_search_linkedin">Pesquisar \"%1$s\" no LinkedIn</string>
+    <string name="quick_search_x">Pesquisar \"%1$s\" no X</string>
+    <string name="quick_search_facebook">Pesquisar \"%1$s\" no Facebook</string>
+
+    <string name="setting_main">Definições principais</string>
+    <string name="setting_airplane_mode">Definições do modo de voo</string>
+    <string name="setting_wifi">Definições de Wi‑Fi</string>
+    <string name="setting_bluetooth">Definições de Bluetooth</string>
+    <string name="setting_display">Definições de ecrã</string>
+    <string name="setting_sound">Definições de som</string>
+    <string name="setting_date_time">Data e hora</string>
+    <string name="setting_language">Idioma e introdução</string>
+    <string name="setting_wireless">Definições sem fios</string>
+    <string name="setting_security">Definições de segurança</string>
+    <string name="setting_apps">Definições das apps</string>
+    <string name="setting_battery_saver">Definições da bateria</string>
+    <string name="setting_data_roaming">Definições de roaming de dados</string>
+    <string name="setting_location">Definições de localização</string>
+    <string name="setting_input_method">Definições do método de introdução</string>
+    <string name="setting_accessibility">Definições de acessibilidade</string>
+    <string name="setting_nfc">Definições de NFC</string>
+    <string name="setting_privacy">Definições de privacidade</string>
+    <string name="setting_battery_optimization">Ignorar a otimização da bateria</string>
+    <string name="setting_storage">Definições de armazenamento</string>
+    <string name="setting_device_info">Informações do dispositivo</string>
+    <string name="setting_notifications">Definições de notificações</string>
+</resources>

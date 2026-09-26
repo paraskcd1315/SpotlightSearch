@@ -1,0 +1,80 @@
+<resources>
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_back">Zurück</string>
+    <string name="settings_open_failed">Einstellungen konnten nicht geöffnet werden</string>
+    <string name="settings_go_to">Zu %1$s</string>
+    <string name="settings_no_results">Keine Ergebnisse gefunden</string>
+
+    <string name="home_appearance_title">Darstellung und Personalisierung</string>
+    <string name="home_appearance_subtitle">Passe das Aussehen von Spotlight Search an</string>
+    <string name="home_features_title">Funktionen</string>
+    <string name="home_features_subtitle">Funktionen von Spotlight Search verwalten</string>
+    <string name="home_about_title">Über</string>
+    <string name="home_about_subtitle">Mehr über Spotlight Search erfahren</string>
+    <string name="about_description">Durchsuche Apps, Kontakte und das Web an einem Ort.</string>
+    <string name="about_links_section">Links</string>
+    <string name="about_rate">Bei Google Play bewerten</string>
+    <string name="about_source">Quellcode</string>
+    <string name="about_source_caption">Projekt auf GitHub ansehen</string>
+    <string name="about_privacy">Datenschutzerklärung</string>
+    <string name="about_developer">Entwickelt von %1$s</string>
+
+    <string name="features_header">Funktionen</string>
+    <string name="features_section">Funktionen</string>
+    <string name="features_shortcuts_section">Verknüpfungen</string>
+    <string name="features_quick_search_title">Schnellsuche-Apps</string>
+    <string name="features_quick_search_subtitle">Tippen, um Apps für die Schnellsuche auszuwählen</string>
+    <string name="features_manage_apps_title">Apps verwalten</string>
+    <string name="features_manage_apps_subtitle">Tippen, um die App-Suche zu verwalten und Apps auszublenden</string>
+    <string name="features_web_title">Webvorschläge verwalten</string>
+    <string name="features_web_subtitle">Tippen, um die Vorschläge von Google zu verwalten</string>
+    <string name="features_contacts_title">Kontakte verwalten</string>
+    <string name="features_contacts_subtitle">Tippen, um Kontakte zu verwalten</string>
+    <string name="features_assistant_title">Digitaler Assistent</string>
+    <string name="features_assistant_subtitle">Spotlight Search als digitalen Assistenten festlegen</string>
+
+    <string name="apps_section">Apps verwalten</string>
+    <string name="apps_enable">Apps aktivieren</string>
+    <string name="apps_blacklist">Ausgeblendete Apps</string>
+    <string name="blacklist_section">Ausgeblendete Apps</string>
+    <string name="blacklist_filter">Apps filtern</string>
+    <string name="blacklist_filter_clear">Filter löschen</string>
+    <string name="contacts_section">Kontakte verwalten</string>
+    <string name="contacts_enable">Kontakte aktivieren</string>
+    <string name="web_section">Webvorschläge verwalten</string>
+    <string name="web_enable">Webvorschläge aktivieren</string>
+    <string name="quick_search_help">Gedrückt halten und ziehen, um die Reihenfolge zu ändern; mit dem Schalter deaktivieren. Eine App ohne Symbol ist nicht installiert und erscheint nicht in der Suche.</string>
+    <string name="quick_search_drag">Ziehen</string>
+
+    <string name="appearance_header">Darstellung und Personalisierung</string>
+    <string name="appearance_section">Darstellung</string>
+    <string name="appearance_select_theme">Design auswählen</string>
+    <string name="appearance_enable_blur">Unschärfe aktivieren</string>
+    <string name="appearance_show_branding">Logo und Titel anzeigen</string>
+    <string name="personalization_section">Personalisierung</string>
+    <string name="personalization_reset_colors">Farben zurücksetzen</string>
+    <string name="theme_dialog_title">Designmodus</string>
+    <string name="theme_auto">Automatisch</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_dark">Dunkel</string>
+    <string name="reset_colors_title">Farben zurücksetzen</string>
+    <string name="reset_colors_message">Alle eigenen Farben löschen und zu den dynamischen Farben zurückkehren?</string>
+    <string name="reset_colors_confirm">Zurücksetzen</string>
+    <string name="dialog_cancel">Abbrechen</string>
+
+    <string name="color_background">Hintergrund</string>
+    <string name="color_surface_bright">Container-Hintergrund</string>
+    <string name="color_surface_tint">Container-Farbton</string>
+    <string name="color_on_surface">Textfarbe</string>
+    <string name="color_outline">Rahmenfarbe</string>
+    <string name="color_editing">Bearbeitung: %1$s. Die Suchleiste ist ein Eingabefeld: Du kannst einen eigenen Hex-Wert eingeben.</string>
+    <string name="color_preview">Vorschau</string>
+    <string name="color_hue">Farbton</string>
+    <string name="color_saturation">Sättigung</string>
+    <string name="color_brightness">Helligkeit</string>
+    <string name="color_save">Speichern</string>
+    <string name="color_reset">Zurücksetzen</string>
+    <string name="color_reset_title">Farbe zurücksetzen</string>
+    <string name="color_reset_message">Die Farbe für %1$s wird auf den Standard zurückgesetzt. Das kann nicht rückgängig gemacht werden. Fortfahren?</string>
+    <string name="color_reset_confirm">Bestätigen</string>
+</resources>

@@ -1,0 +1,80 @@
+<resources>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_back">Назад</string>
+    <string name="settings_open_failed">Не удалось открыть настройки</string>
+    <string name="settings_go_to">Перейти: %1$s</string>
+    <string name="settings_no_results">Ничего не найдено</string>
+
+    <string name="home_appearance_title">Внешний вид и персонализация</string>
+    <string name="home_appearance_subtitle">Настройте внешний вид Spotlight Search</string>
+    <string name="home_features_title">Функции</string>
+    <string name="home_features_subtitle">Управление функциями Spotlight Search</string>
+    <string name="home_about_title">О приложении</string>
+    <string name="home_about_subtitle">Подробнее о Spotlight Search</string>
+    <string name="about_description">Ищите приложения, контакты и в интернете из одного места.</string>
+    <string name="about_links_section">Ссылки</string>
+    <string name="about_rate">Оценить в Google Play</string>
+    <string name="about_source">Исходный код</string>
+    <string name="about_source_caption">Открыть проект на GitHub</string>
+    <string name="about_privacy">Политика конфиденциальности</string>
+    <string name="about_developer">Автор: %1$s</string>
+
+    <string name="features_header">Функции</string>
+    <string name="features_section">Функции</string>
+    <string name="features_shortcuts_section">Ярлыки</string>
+    <string name="features_quick_search_title">Приложения быстрого поиска</string>
+    <string name="features_quick_search_subtitle">Нажмите, чтобы выбрать приложения для быстрого поиска</string>
+    <string name="features_manage_apps_title">Управление приложениями</string>
+    <string name="features_manage_apps_subtitle">Нажмите, чтобы настроить поиск приложений и скрыть приложения</string>
+    <string name="features_web_title">Подсказки из интернета</string>
+    <string name="features_web_subtitle">Нажмите, чтобы настроить подсказки Google</string>
+    <string name="features_contacts_title">Управление контактами</string>
+    <string name="features_contacts_subtitle">Нажмите, чтобы настроить контакты</string>
+    <string name="features_assistant_title">Цифровой ассистент</string>
+    <string name="features_assistant_subtitle">Сделать Spotlight Search цифровым ассистентом</string>
+
+    <string name="apps_section">Управление приложениями</string>
+    <string name="apps_enable">Искать приложения</string>
+    <string name="apps_blacklist">Скрытые приложения</string>
+    <string name="blacklist_section">Скрытые приложения</string>
+    <string name="blacklist_filter">Фильтр приложений</string>
+    <string name="blacklist_filter_clear">Сбросить фильтр</string>
+    <string name="contacts_section">Управление контактами</string>
+    <string name="contacts_enable">Искать контакты</string>
+    <string name="web_section">Подсказки из интернета</string>
+    <string name="web_enable">Показывать подсказки из интернета</string>
+    <string name="quick_search_help">Нажмите и удерживайте, затем перетащите, чтобы изменить порядок; выключите переключатель, чтобы отключить. Приложение без значка не установлено и не появится в поиске.</string>
+    <string name="quick_search_drag">Перетащить</string>
+
+    <string name="appearance_header">Внешний вид и персонализация</string>
+    <string name="appearance_section">Внешний вид</string>
+    <string name="appearance_select_theme">Выбрать тему</string>
+    <string name="appearance_enable_blur">Включить размытие</string>
+    <string name="appearance_show_branding">Показывать логотип и название</string>
+    <string name="personalization_section">Персонализация</string>
+    <string name="personalization_reset_colors">Сбросить цвета</string>
+    <string name="theme_dialog_title">Режим темы</string>
+    <string name="theme_auto">Автоматически</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Тёмная</string>
+    <string name="reset_colors_title">Сбросить цвета</string>
+    <string name="reset_colors_message">Удалить все свои цвета и вернуться к динамическим цветам?</string>
+    <string name="reset_colors_confirm">Сбросить</string>
+    <string name="dialog_cancel">Отмена</string>
+
+    <string name="color_background">Фон</string>
+    <string name="color_surface_bright">Фон карточек</string>
+    <string name="color_surface_tint">Оттенок карточек</string>
+    <string name="color_on_surface">Цвет текста</string>
+    <string name="color_outline">Цвет рамки</string>
+    <string name="color_editing">Изменение: %1$s. Строку поиска можно редактировать: введите свой шестнадцатеричный код.</string>
+    <string name="color_preview">Предпросмотр</string>
+    <string name="color_hue">Оттенок</string>
+    <string name="color_saturation">Насыщенность</string>
+    <string name="color_brightness">Яркость</string>
+    <string name="color_save">Сохранить</string>
+    <string name="color_reset">Сбросить</string>
+    <string name="color_reset_title">Сбросить цвет</string>
+    <string name="color_reset_message">Цвет для «%1$s» вернётся к значению по умолчанию. Это действие нельзя отменить. Продолжить?</string>
+    <string name="color_reset_confirm">Подтвердить</string>
+</resources>

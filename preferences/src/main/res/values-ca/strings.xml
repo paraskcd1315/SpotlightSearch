@@ -1,0 +1,80 @@
+<resources>
+    <string name="settings_title">Configuració</string>
+    <string name="settings_back">Enrere</string>
+    <string name="settings_open_failed">No s\'ha pogut obrir la configuració</string>
+    <string name="settings_go_to">Ves a %1$s</string>
+    <string name="settings_no_results">No s\'ha trobat cap resultat</string>
+
+    <string name="home_appearance_title">Aparença i personalització</string>
+    <string name="home_appearance_subtitle">Personalitza l\'aspecte de Spotlight Search</string>
+    <string name="home_features_title">Funcions</string>
+    <string name="home_features_subtitle">Gestiona les funcions de Spotlight Search</string>
+    <string name="home_about_title">Quant a</string>
+    <string name="home_about_subtitle">Més informació sobre Spotlight Search</string>
+    <string name="about_description">Cerca aplicacions, contactes i el web en un sol lloc.</string>
+    <string name="about_links_section">Enllaços</string>
+    <string name="about_rate">Valora a Google Play</string>
+    <string name="about_source">Codi font</string>
+    <string name="about_source_caption">Mostra el projecte a GitHub</string>
+    <string name="about_privacy">Política de privadesa</string>
+    <string name="about_developer">Fet per %1$s</string>
+
+    <string name="features_header">Funcions</string>
+    <string name="features_section">Funcions</string>
+    <string name="features_shortcuts_section">Dreceres</string>
+    <string name="features_quick_search_title">Aplicacions de cerca ràpida</string>
+    <string name="features_quick_search_subtitle">Toca per triar les aplicacions de cerca ràpida</string>
+    <string name="features_manage_apps_title">Gestiona les aplicacions</string>
+    <string name="features_manage_apps_subtitle">Toca per gestionar la cerca d\'aplicacions i amagar aplicacions</string>
+    <string name="features_web_title">Gestiona els suggeriments web</string>
+    <string name="features_web_subtitle">Toca per gestionar els suggeriments de Google</string>
+    <string name="features_contacts_title">Gestiona els contactes</string>
+    <string name="features_contacts_subtitle">Toca per gestionar els contactes</string>
+    <string name="features_assistant_title">Assistent digital</string>
+    <string name="features_assistant_subtitle">Estableix Spotlight Search com a assistent digital</string>
+
+    <string name="apps_section">Gestiona les aplicacions</string>
+    <string name="apps_enable">Activa les aplicacions</string>
+    <string name="apps_blacklist">Aplicacions amagades</string>
+    <string name="blacklist_section">Aplicacions amagades</string>
+    <string name="blacklist_filter">Filtra les aplicacions</string>
+    <string name="blacklist_filter_clear">Esborra el filtre</string>
+    <string name="contacts_section">Gestiona els contactes</string>
+    <string name="contacts_enable">Activa els contactes</string>
+    <string name="web_section">Gestiona els suggeriments web</string>
+    <string name="web_enable">Activa els suggeriments web</string>
+    <string name="quick_search_help">Mantén premut i arrossega per reordenar; fes servir l\'interruptor per desactivar. Una aplicació sense icona no està instal·lada i no apareixerà a la cerca.</string>
+    <string name="quick_search_drag">Arrossega</string>
+
+    <string name="appearance_header">Aparença i personalització</string>
+    <string name="appearance_section">Aparença</string>
+    <string name="appearance_select_theme">Tria el tema</string>
+    <string name="appearance_enable_blur">Activa el desenfocament</string>
+    <string name="appearance_show_branding">Mostra el logotip i el títol</string>
+    <string name="personalization_section">Personalització</string>
+    <string name="personalization_reset_colors">Restableix els colors</string>
+    <string name="theme_dialog_title">Mode del tema</string>
+    <string name="theme_auto">Automàtic</string>
+    <string name="theme_light">Clar</string>
+    <string name="theme_dark">Fosc</string>
+    <string name="reset_colors_title">Restableix els colors</string>
+    <string name="reset_colors_message">Vols esborrar tots els colors personalitzats i tornar als colors dinàmics?</string>
+    <string name="reset_colors_confirm">Restableix</string>
+    <string name="dialog_cancel">Cancel·la</string>
+
+    <string name="color_background">Fons</string>
+    <string name="color_surface_bright">Fons dels contenidors</string>
+    <string name="color_surface_tint">To dels contenidors</string>
+    <string name="color_on_surface">Color del text</string>
+    <string name="color_outline">Color de la vora</string>
+    <string name="color_editing">Editant: %1$s. La barra de cerca és un camp editable: pots escriure el teu propi codi hexadecimal.</string>
+    <string name="color_preview">Previsualització</string>
+    <string name="color_hue">To</string>
+    <string name="color_saturation">Saturació</string>
+    <string name="color_brightness">Brillantor</string>
+    <string name="color_save">Desa</string>
+    <string name="color_reset">Restableix</string>
+    <string name="color_reset_title">Restableix el color</string>
+    <string name="color_reset_message">El color de %1$s tornarà al valor predeterminat. Aquesta acció no es pot desfer. Vols continuar?</string>
+    <string name="color_reset_confirm">Confirma</string>
+</resources>

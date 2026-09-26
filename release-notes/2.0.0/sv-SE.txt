@@ -1,0 +1,9 @@
+Spotlight Search 2.0
+• Ny glasdesign för sökning och inställningar
+• Smartare resultat: bästa träffen först, dina mest använda appar högre upp, matchade bokstäver markerade
+• Filtrera efter typ; ”Visa alla” öppnar hela listan
+• Hittar appar via initialer (gm → Google Maps) och bortser från accenter
+• Filter och Inställningar direkt ovanför sökfältet, allt följer tangentbordet mjukt
+• Ny Om-sida och version i Inställningar
+• Nu på 12 språk
+• Snabbare och smidigare

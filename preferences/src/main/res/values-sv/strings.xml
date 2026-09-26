@@ -1,0 +1,80 @@
+<resources>
+    <string name="settings_title">Inställningar</string>
+    <string name="settings_back">Tillbaka</string>
+    <string name="settings_open_failed">Det gick inte att öppna inställningarna</string>
+    <string name="settings_go_to">Gå till %1$s</string>
+    <string name="settings_no_results">Inga resultat hittades</string>
+
+    <string name="home_appearance_title">Utseende och anpassning</string>
+    <string name="home_appearance_subtitle">Anpassa utseendet på Spotlight Search</string>
+    <string name="home_features_title">Funktioner</string>
+    <string name="home_features_subtitle">Hantera funktionerna i Spotlight Search</string>
+    <string name="home_about_title">Om</string>
+    <string name="home_about_subtitle">Läs mer om Spotlight Search</string>
+    <string name="about_description">Sök bland appar, kontakter och webben från ett ställe.</string>
+    <string name="about_links_section">Länkar</string>
+    <string name="about_rate">Betygsätt på Google Play</string>
+    <string name="about_source">Källkod</string>
+    <string name="about_source_caption">Visa projektet på GitHub</string>
+    <string name="about_privacy">Integritetspolicy</string>
+    <string name="about_developer">Skapad av %1$s</string>
+
+    <string name="features_header">Funktioner</string>
+    <string name="features_section">Funktioner</string>
+    <string name="features_shortcuts_section">Genvägar</string>
+    <string name="features_quick_search_title">Appar för snabbsökning</string>
+    <string name="features_quick_search_subtitle">Tryck för att välja appar för snabbsökning</string>
+    <string name="features_manage_apps_title">Hantera appar</string>
+    <string name="features_manage_apps_subtitle">Tryck för att hantera appsökning och dölja appar</string>
+    <string name="features_web_title">Hantera webbförslag</string>
+    <string name="features_web_subtitle">Tryck för att hantera förslag från Google</string>
+    <string name="features_contacts_title">Hantera kontakter</string>
+    <string name="features_contacts_subtitle">Tryck för att hantera kontakter</string>
+    <string name="features_assistant_title">Digital assistent</string>
+    <string name="features_assistant_subtitle">Ange Spotlight Search som din digitala assistent</string>
+
+    <string name="apps_section">Hantera appar</string>
+    <string name="apps_enable">Aktivera appar</string>
+    <string name="apps_blacklist">Dolda appar</string>
+    <string name="blacklist_section">Dolda appar</string>
+    <string name="blacklist_filter">Filtrera appar</string>
+    <string name="blacklist_filter_clear">Rensa filter</string>
+    <string name="contacts_section">Hantera kontakter</string>
+    <string name="contacts_enable">Aktivera kontakter</string>
+    <string name="web_section">Hantera webbförslag</string>
+    <string name="web_enable">Aktivera webbförslag</string>
+    <string name="quick_search_help">Håll ned och dra för att ändra ordningen; använd reglaget för att inaktivera. En app utan ikon är inte installerad och visas inte i sökningen.</string>
+    <string name="quick_search_drag">Dra</string>
+
+    <string name="appearance_header">Utseende och anpassning</string>
+    <string name="appearance_section">Utseende</string>
+    <string name="appearance_select_theme">Välj tema</string>
+    <string name="appearance_enable_blur">Aktivera oskärpa</string>
+    <string name="appearance_show_branding">Visa logotyp och titel</string>
+    <string name="personalization_section">Anpassning</string>
+    <string name="personalization_reset_colors">Återställ färger</string>
+    <string name="theme_dialog_title">Temaläge</string>
+    <string name="theme_auto">Automatiskt</string>
+    <string name="theme_light">Ljust</string>
+    <string name="theme_dark">Mörkt</string>
+    <string name="reset_colors_title">Återställ färger</string>
+    <string name="reset_colors_message">Radera alla egna färger och gå tillbaka till de dynamiska färgerna?</string>
+    <string name="reset_colors_confirm">Återställ</string>
+    <string name="dialog_cancel">Avbryt</string>
+
+    <string name="color_background">Bakgrund</string>
+    <string name="color_surface_bright">Bakgrund för rutor</string>
+    <string name="color_surface_tint">Nyans för rutor</string>
+    <string name="color_on_surface">Textfärg</string>
+    <string name="color_outline">Kantfärg</string>
+    <string name="color_editing">Redigerar: %1$s. Sökfältet är redigerbart: du kan skriva din egen hexkod.</string>
+    <string name="color_preview">Förhandsvisning</string>
+    <string name="color_hue">Nyans</string>
+    <string name="color_saturation">Mättnad</string>
+    <string name="color_brightness">Ljusstyrka</string>
+    <string name="color_save">Spara</string>
+    <string name="color_reset">Återställ</string>
+    <string name="color_reset_title">Återställ färg</string>
+    <string name="color_reset_message">Färgen för %1$s återställs till standard. Det går inte att ångra. Vill du fortsätta?</string>
+    <string name="color_reset_confirm">Bekräfta</string>
+</resources>

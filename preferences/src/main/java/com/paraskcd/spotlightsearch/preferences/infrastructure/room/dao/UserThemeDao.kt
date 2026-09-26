@@ -46,6 +46,7 @@ interface UserThemeDao {
         mode: ThemeMode? = null,
         enableBlur: Boolean? = null,
         iconPack: String? = null,
+        showBranding: Boolean? = null,
         surfaceColor: Int? = null,
         surfaceBrightColor: Int? = null,
         backgroundColor: Int? = null,
@@ -64,6 +65,7 @@ interface UserThemeDao {
             theme = mode ?: current.theme,
             enableBlur = enableBlur ?: current.enableBlur,
             iconPack = iconPack ?: current.iconPack,
+            showBranding = showBranding ?: current.showBranding,
             surfaceColor = when {
                 clearSurface -> null
                 surfaceColor != null -> surfaceColor

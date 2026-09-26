@@ -1,0 +1,80 @@
+<resources>
+    <string name="settings_title">सेटिंग</string>
+    <string name="settings_back">वापस जाएं</string>
+    <string name="settings_open_failed">सेटिंग नहीं खोली जा सकी</string>
+    <string name="settings_go_to">%1$s पर जाएं</string>
+    <string name="settings_no_results">कोई नतीजा नहीं मिला</string>
+
+    <string name="home_appearance_title">रंग-रूप और मनमुताबिक बनाना</string>
+    <string name="home_appearance_subtitle">Spotlight Search का रंग-रूप बदलें</string>
+    <string name="home_features_title">सुविधाएं</string>
+    <string name="home_features_subtitle">Spotlight Search की सुविधाएं मैनेज करें</string>
+    <string name="home_about_title">जानकारी</string>
+    <string name="home_about_subtitle">Spotlight Search के बारे में ज़्यादा जानें</string>
+    <string name="about_description">ऐप्स, संपर्क और वेब एक ही जगह से खोजें।</string>
+    <string name="about_links_section">लिंक</string>
+    <string name="about_rate">Google Play पर रेटिंग दें</string>
+    <string name="about_source">सोर्स कोड</string>
+    <string name="about_source_caption">GitHub पर प्रोजेक्ट देखें</string>
+    <string name="about_privacy">गोपनीयता नीति</string>
+    <string name="about_developer">%1$s द्वारा बनाया गया</string>
+
+    <string name="features_header">सुविधाएं</string>
+    <string name="features_section">सुविधाएं</string>
+    <string name="features_shortcuts_section">शॉर्टकट</string>
+    <string name="features_quick_search_title">तुरंत खोज वाले ऐप्लिकेशन</string>
+    <string name="features_quick_search_subtitle">तुरंत खोज के लिए ऐप्लिकेशन चुनने के लिए टैप करें</string>
+    <string name="features_manage_apps_title">ऐप्लिकेशन मैनेज करें</string>
+    <string name="features_manage_apps_subtitle">ऐप्लिकेशन की खोज मैनेज करने और ऐप्लिकेशन छिपाने के लिए टैप करें</string>
+    <string name="features_web_title">वेब सुझाव मैनेज करें</string>
+    <string name="features_web_subtitle">Google के सुझाव मैनेज करने के लिए टैप करें</string>
+    <string name="features_contacts_title">संपर्क मैनेज करें</string>
+    <string name="features_contacts_subtitle">संपर्क मैनेज करने के लिए टैप करें</string>
+    <string name="features_assistant_title">डिजिटल असिस्टेंट</string>
+    <string name="features_assistant_subtitle">Spotlight Search को अपना डिजिटल असिस्टेंट बनाएं</string>
+
+    <string name="apps_section">ऐप्लिकेशन मैनेज करें</string>
+    <string name="apps_enable">ऐप्लिकेशन चालू करें</string>
+    <string name="apps_blacklist">छिपाए गए ऐप्लिकेशन</string>
+    <string name="blacklist_section">छिपाए गए ऐप्लिकेशन</string>
+    <string name="blacklist_filter">ऐप्लिकेशन फ़िल्टर करें</string>
+    <string name="blacklist_filter_clear">फ़िल्टर हटाएं</string>
+    <string name="contacts_section">संपर्क मैनेज करें</string>
+    <string name="contacts_enable">संपर्क चालू करें</string>
+    <string name="web_section">वेब सुझाव मैनेज करें</string>
+    <string name="web_enable">वेब सुझाव चालू करें</string>
+    <string name="quick_search_help">क्रम बदलने के लिए दबाकर रखें और खींचें; बंद करने के लिए स्विच का इस्तेमाल करें. बिना आइकॉन वाला ऐप्लिकेशन इंस्टॉल नहीं है और खोज में नहीं दिखेगा.</string>
+    <string name="quick_search_drag">खींचें</string>
+
+    <string name="appearance_header">रंग-रूप और मनमुताबिक बनाना</string>
+    <string name="appearance_section">रंग-रूप</string>
+    <string name="appearance_select_theme">थीम चुनें</string>
+    <string name="appearance_enable_blur">धुंधलापन चालू करें</string>
+    <string name="appearance_show_branding">लोगो और शीर्षक दिखाएँ</string>
+    <string name="personalization_section">मनमुताबिक बनाना</string>
+    <string name="personalization_reset_colors">रंग रीसेट करें</string>
+    <string name="theme_dialog_title">थीम मोड</string>
+    <string name="theme_auto">अपने-आप</string>
+    <string name="theme_light">हल्की</string>
+    <string name="theme_dark">गहरी</string>
+    <string name="reset_colors_title">रंग रीसेट करें</string>
+    <string name="reset_colors_message">अपने सभी रंग मिटाकर डाइनैमिक रंगों पर वापस जाना है?</string>
+    <string name="reset_colors_confirm">रीसेट करें</string>
+    <string name="dialog_cancel">रद्द करें</string>
+
+    <string name="color_background">बैकग्राउंड</string>
+    <string name="color_surface_bright">कार्ड का बैकग्राउंड</string>
+    <string name="color_surface_tint">कार्ड का रंग</string>
+    <string name="color_on_surface">टेक्स्ट का रंग</string>
+    <string name="color_outline">बॉर्डर का रंग</string>
+    <string name="color_editing">बदलाव: %1$s. खोज बार में बदलाव किया जा सकता है: आप अपना हेक्स कोड लिख सकते हैं.</string>
+    <string name="color_preview">झलक</string>
+    <string name="color_hue">रंगत</string>
+    <string name="color_saturation">गहराई</string>
+    <string name="color_brightness">चमक</string>
+    <string name="color_save">सेव करें</string>
+    <string name="color_reset">रीसेट करें</string>
+    <string name="color_reset_title">रंग रीसेट करें</string>
+    <string name="color_reset_message">%1$s का रंग डिफ़ॉल्ट पर वापस चला जाएगा. इसे पहले जैसा नहीं किया जा सकता. जारी रखना है?</string>
+    <string name="color_reset_confirm">पुष्टि करें</string>
+</resources>

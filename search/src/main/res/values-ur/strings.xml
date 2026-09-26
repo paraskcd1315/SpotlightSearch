@@ -1,0 +1,71 @@
+<resources>
+    <string name="search_placeholder">تلاش کریں…</string>
+    <string name="filter_all">سب</string>
+    <string name="search_clear">تلاش صاف کریں</string>
+    <string name="search_open_settings">ترتیبات</string>
+
+    <string name="section_frequent">اکثر استعمال ہونے والی</string>
+    <string name="section_top_hit">بہترین نتیجہ</string>
+    <string name="section_show_all">تمام %1$d دکھائیں</string>
+    <string name="section_settings">ترتیبات</string>
+    <string name="section_dictionary">لغت</string>
+    <string name="section_permissions">اجازتیں</string>
+    <string name="section_calculator">کیلکولیٹر</string>
+    <string name="section_web">ویب</string>
+    <string name="section_apps">ایپس</string>
+    <string name="section_contacts">رابطے</string>
+    <string name="section_translation">ترجمہ</string>
+    <string name="section_suggestions">تجاویز</string>
+    <string name="section_quick_search">فوری تلاش</string>
+
+    <string name="hit_spelling_title">کیا آپ کا مطلب تھا…؟</string>
+    <string name="hit_permission_title">رابطوں تک رسائی کی اجازت دیں</string>
+    <string name="hit_permission_subtitle">رابطے تلاش کرنے کے لیے ضروری ہے</string>
+    <string name="hit_web_title">ویب پر \"%1$s\" تلاش کریں</string>
+    <string name="hit_web_subtitle">ویب تلاش</string>
+    <string name="hit_suggestion_subtitle">تجویز</string>
+    <string name="hit_translation_subtitle">ترجمہ (%1$s ← %2$s)</string>
+    <string name="hit_setting_subtitle">%1$s کھولیں</string>
+    <string name="hit_calculation_arithmetic">حساب</string>
+    <string name="hit_calculation_unit">اکائی کی تبدیلی</string>
+    <string name="hit_calculation_temperature">درجۂ حرارت کی تبدیلی</string>
+    <string name="hit_calculation_date">پہچانی گئی تاریخ</string>
+    <string name="hit_calculation_web">کیلکولیٹر</string>
+
+    <string name="action_app_info">ایپ کی معلومات</string>
+    <string name="action_call">کال کریں</string>
+    <string name="action_sms">ایس ایم ایس</string>
+
+    <string name="quick_search_google">Google پر \"%1$s\" تلاش کریں</string>
+    <string name="quick_search_youtube">YouTube پر \"%1$s\" تلاش کریں</string>
+    <string name="quick_search_youtube_music">YouTube Music پر \"%1$s\" تلاش کریں</string>
+    <string name="quick_search_maps">Maps پر \"%1$s\" تلاش کریں</string>
+    <string name="quick_search_play_store">Play Store پر \"%1$s\" تلاش کریں</string>
+    <string name="quick_search_threads">Threads پر \"%1$s\" تلاش کریں</string>
+    <string name="quick_search_linkedin">LinkedIn پر \"%1$s\" تلاش کریں</string>
+    <string name="quick_search_x">X پر \"%1$s\" تلاش کریں</string>
+    <string name="quick_search_facebook">Facebook پر \"%1$s\" تلاش کریں</string>
+
+    <string name="setting_main">اہم ترتیبات</string>
+    <string name="setting_airplane_mode">ہوائی جہاز موڈ کی ترتیبات</string>
+    <string name="setting_wifi">Wi‑Fi کی ترتیبات</string>
+    <string name="setting_bluetooth">بلوٹوتھ کی ترتیبات</string>
+    <string name="setting_display">ڈسپلے کی ترتیبات</string>
+    <string name="setting_sound">آواز کی ترتیبات</string>
+    <string name="setting_date_time">تاریخ اور وقت</string>
+    <string name="setting_language">زبان اور ان پٹ</string>
+    <string name="setting_wireless">وائرلیس ترتیبات</string>
+    <string name="setting_security">سیکیورٹی کی ترتیبات</string>
+    <string name="setting_apps">ایپس کی ترتیبات</string>
+    <string name="setting_battery_saver">بیٹری کی ترتیبات</string>
+    <string name="setting_data_roaming">ڈیٹا رومنگ کی ترتیبات</string>
+    <string name="setting_location">مقام کی ترتیبات</string>
+    <string name="setting_input_method">ان پٹ کے طریقے کی ترتیبات</string>
+    <string name="setting_accessibility">ایکسیسبیلٹی کی ترتیبات</string>
+    <string name="setting_nfc">NFC کی ترتیبات</string>
+    <string name="setting_privacy">رازداری کی ترتیبات</string>
+    <string name="setting_battery_optimization">بیٹری کی بہتری کو نظر انداز کریں</string>
+    <string name="setting_storage">اسٹوریج کی ترتیبات</string>
+    <string name="setting_device_info">آلے کی معلومات</string>
+    <string name="setting_notifications">اطلاعات کی ترتیبات</string>
+</resources>

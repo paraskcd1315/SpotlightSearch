@@ -1,0 +1,4 @@
+<resources>
+    <string name="assistant_shortcut_label">Paramètres de l\'assistant</string>
+    <string name="assistant_shortcut_long_label">Définir comme assistant</string>
+</resources>

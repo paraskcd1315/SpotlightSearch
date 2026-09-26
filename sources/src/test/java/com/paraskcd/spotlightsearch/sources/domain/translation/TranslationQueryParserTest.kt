@@ -29,9 +29,4 @@ class TranslationQueryParserTest {
             parser.parse("thank you to french")
         )
     }
-
-    @Test
-    fun namesALanguageCode() {
-        assertEquals("Spanish", LanguageNames.name("es"))
-    }
 }

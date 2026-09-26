@@ -1,0 +1,71 @@
+<resources>
+    <string name="search_placeholder">Suchen…</string>
+    <string name="filter_all">Alle</string>
+    <string name="search_clear">Suche löschen</string>
+    <string name="search_open_settings">Einstellungen</string>
+
+    <string name="section_frequent">Häufig verwendet</string>
+    <string name="section_top_hit">Top-Treffer</string>
+    <string name="section_show_all">Alle %1$d anzeigen</string>
+    <string name="section_settings">Einstellungen</string>
+    <string name="section_dictionary">Wörterbuch</string>
+    <string name="section_permissions">Berechtigungen</string>
+    <string name="section_calculator">Rechner</string>
+    <string name="section_web">Web</string>
+    <string name="section_apps">Apps</string>
+    <string name="section_contacts">Kontakte</string>
+    <string name="section_translation">Übersetzung</string>
+    <string name="section_suggestions">Vorschläge</string>
+    <string name="section_quick_search">Schnellsuche</string>
+
+    <string name="hit_spelling_title">Meintest du…?</string>
+    <string name="hit_permission_title">Zugriff auf Kontakte erlauben</string>
+    <string name="hit_permission_subtitle">Erforderlich, um Kontakte zu suchen</string>
+    <string name="hit_web_title">Im Web nach \"%1$s\" suchen</string>
+    <string name="hit_web_subtitle">Websuche</string>
+    <string name="hit_suggestion_subtitle">Vorschlag</string>
+    <string name="hit_translation_subtitle">Übersetzung (%1$s → %2$s)</string>
+    <string name="hit_setting_subtitle">%1$s öffnen</string>
+    <string name="hit_calculation_arithmetic">Berechnung</string>
+    <string name="hit_calculation_unit">Einheitenumrechnung</string>
+    <string name="hit_calculation_temperature">Temperaturumrechnung</string>
+    <string name="hit_calculation_date">Erkanntes Datum</string>
+    <string name="hit_calculation_web">Rechner</string>
+
+    <string name="action_app_info">App-Info</string>
+    <string name="action_call">Anrufen</string>
+    <string name="action_sms">SMS</string>
+
+    <string name="quick_search_google">Auf Google nach \"%1$s\" suchen</string>
+    <string name="quick_search_youtube">Auf YouTube nach \"%1$s\" suchen</string>
+    <string name="quick_search_youtube_music">Auf YouTube Music nach \"%1$s\" suchen</string>
+    <string name="quick_search_maps">In Maps nach \"%1$s\" suchen</string>
+    <string name="quick_search_play_store">Im Play Store nach \"%1$s\" suchen</string>
+    <string name="quick_search_threads">Auf Threads nach \"%1$s\" suchen</string>
+    <string name="quick_search_linkedin">Auf LinkedIn nach \"%1$s\" suchen</string>
+    <string name="quick_search_x">Auf X nach \"%1$s\" suchen</string>
+    <string name="quick_search_facebook">Auf Facebook nach \"%1$s\" suchen</string>
+
+    <string name="setting_main">Einstellungen</string>
+    <string name="setting_airplane_mode">Flugmodus-Einstellungen</string>
+    <string name="setting_wifi">WLAN-Einstellungen</string>
+    <string name="setting_bluetooth">Bluetooth-Einstellungen</string>
+    <string name="setting_display">Display-Einstellungen</string>
+    <string name="setting_sound">Toneinstellungen</string>
+    <string name="setting_date_time">Datum &amp; Uhrzeit</string>
+    <string name="setting_language">Sprache &amp; Eingabe</string>
+    <string name="setting_wireless">Drahtlos-Einstellungen</string>
+    <string name="setting_security">Sicherheitseinstellungen</string>
+    <string name="setting_apps">App-Einstellungen</string>
+    <string name="setting_battery_saver">Akku-Einstellungen</string>
+    <string name="setting_data_roaming">Daten-Roaming-Einstellungen</string>
+    <string name="setting_location">Standorteinstellungen</string>
+    <string name="setting_input_method">Eingabemethoden</string>
+    <string name="setting_accessibility">Bedienungshilfen</string>
+    <string name="setting_nfc">NFC-Einstellungen</string>
+    <string name="setting_privacy">Datenschutzeinstellungen</string>
+    <string name="setting_battery_optimization">Akkuoptimierung ignorieren</string>
+    <string name="setting_storage">Speichereinstellungen</string>
+    <string name="setting_device_info">Geräteinformationen</string>
+    <string name="setting_notifications">Benachrichtigungseinstellungen</string>
+</resources>

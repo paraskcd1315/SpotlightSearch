@@ -9,6 +9,7 @@ interface ThemeRepository {
     fun settings(): Flow<ThemeSettings>
     suspend fun setMode(mode: ThemeMode)
     suspend fun setBlur(enabled: Boolean)
+    suspend fun setBranding(visible: Boolean)
     suspend fun setColor(key: ColorOverrideKey, argb: Int)
     suspend fun clearColor(key: ColorOverrideKey)
     suspend fun clearColors()
