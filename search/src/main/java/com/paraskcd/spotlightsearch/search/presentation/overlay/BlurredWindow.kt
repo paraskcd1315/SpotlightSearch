@@ -11,6 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import kotlinx.coroutines.android.awaitFrame
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.Dp
@@ -45,16 +47,22 @@ fun BlurredWindow(
         val blur = remember { Animatable(0f) }
         var configured by remember { mutableStateOf(focusable) }
 
-        LaunchedEffect(focusable, cornerRadiusPx, offsetY, offsetX, gravity, wrapWidth) {
+        val latestOffsetY by rememberUpdatedState(offsetY)
+        LaunchedEffect(focusable, cornerRadiusPx, offsetX, gravity, wrapWidth) {
             val width = if (wrapWidth) {
                 ViewGroup.LayoutParams.WRAP_CONTENT
             } else {
                 (DialogWindowSetup.displayWidth(window) * OverlayMetrics.WindowWidthFraction).toInt()
             }
-            DialogWindowSetup.configure(window, focusable, width, cornerRadiusPx, offsetY, gravity, offsetX)
+            DialogWindowSetup.configure(window, focusable, width, cornerRadiusPx, latestOffsetY, gravity, offsetX)
+            awaitFrame()
+            awaitFrame()
             configured = true
         }
-        SideEffect { DialogWindowSetup.setVisible(window, visible && configured) }
+        SideEffect {
+            if (configured) DialogWindowSetup.setOffsetY(window, offsetY)
+            DialogWindowSetup.setVisible(window, visible && configured)
+        }
         LaunchedEffect(blurEnabled, configured) {
             if (!configured) return@LaunchedEffect
             val target = if (blurEnabled) OverlayMetrics.BlurRadiusMax.toFloat() else 0f

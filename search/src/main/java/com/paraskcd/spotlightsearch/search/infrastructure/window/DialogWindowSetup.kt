@@ -48,6 +48,11 @@ object DialogWindowSetup {
         }
     }
 
+    fun setOffsetY(window: Window, offsetYPx: Int) {
+        if (window.attributes.y == offsetYPx) return
+        window.attributes = window.attributes.apply { y = offsetYPx }
+    }
+
     fun setVisible(window: Window, visible: Boolean) {
         window.decorView.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }

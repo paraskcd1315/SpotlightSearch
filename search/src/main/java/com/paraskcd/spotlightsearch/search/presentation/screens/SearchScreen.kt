@@ -44,7 +44,7 @@ fun SearchScreen(
     var visible by remember { mutableStateOf(false) }
     var barTop by remember { mutableStateOf<Int?>(null) }
     var settingsBottom by remember { mutableStateOf<Int?>(null) }
-    var frequentTop by remember { mutableStateOf<Int?>(null) }
+    var frequentHeight by remember { mutableStateOf<Int?>(null) }
     val view = LocalView.current
     val density = LocalDensity.current
     val displayHeightPx = LocalActivity.current?.window?.let(DialogWindowSetup::displayHeight) ?: 0
@@ -78,7 +78,7 @@ fun SearchScreen(
         appName = appName,
         icons = viewModel.icons.apps,
         topLimitPx = settingsBottom,
-        bottomLimitPx = frequentTop ?: barTop,
+        bottomLimitPx = barTop?.let { bar -> frequentHeight?.let { bar - gapPx - it } ?: bar },
         onClose = onClose
     )
 
@@ -102,8 +102,7 @@ fun SearchScreen(
     )
 
     val ceiling = (settingsBottom ?: statusBarPx) + gapPx
-    val available = with(density) { ((barTop ?: 0) - ceiling - gapPx).coerceAtLeast(0).toDp() }
-    val maxHeight by animateDpAsState(available, tween(OverlayMetrics.ResultsResizeMs), label = "resultsHeight")
+    val maxHeight = with(density) { ((barTop ?: 0) - ceiling - gapPx).coerceAtLeast(0).toDp() }
 
     val top = barTop ?: return
     val offsetY = displayHeightPx - top + gapPx
@@ -122,7 +121,7 @@ fun SearchScreen(
         icons = viewModel.icons,
         callbacks = callbacks,
         onClose = onClose,
-        onTopOnScreen = { frequentTop = it }
+        onHeight = { frequentHeight = it }
     )
 
     ResultsWindow(

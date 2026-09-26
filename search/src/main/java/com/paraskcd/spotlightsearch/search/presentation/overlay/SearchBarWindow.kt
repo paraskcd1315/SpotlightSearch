@@ -1,5 +1,6 @@
 package com.paraskcd.spotlightsearch.search.presentation.overlay
 
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,17 +43,19 @@ fun SearchBarWindow(
             awaitFrame()
             focusRequester.requestFocus()
         }
+        val tracker = remember(view) { KeyboardTracker(view, onTopOnScreen) }
+        DisposableEffect(tracker) {
+            val root = view.rootView
+            root.setWindowInsetsAnimationCallback(tracker)
+            onDispose { root.setWindowInsetsAnimationCallback(null) }
+        }
         Surface(
             shape = shape,
             color = MaterialTheme.colorScheme.surfaceBright.copy(alpha = surfaceAlpha(blurEnabled)),
             modifier = Modifier
                 .fillMaxWidth()
                 .border(DsMetrics.OutlineWidth, MaterialTheme.colorScheme.outline.copy(alpha = DsMetrics.OutlineAlpha), shape)
-                .onGloballyPositioned {
-                    val location = IntArray(2)
-                    view.getLocationOnScreen(location)
-                    onTopOnScreen(location[1])
-                }
+                .onGloballyPositioned { tracker.onRest() }
         ) {
             SearchBarPill(
                 query = query,
