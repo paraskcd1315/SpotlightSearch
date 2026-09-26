@@ -27,6 +27,7 @@ object SearchMetrics {
     const val SkeletonRows = 3
     const val LoadingMoreRows = 2
     const val SectionCap = 5
+    const val SheetListHeightFraction = 0.65f
     const val SkeletonTitleFraction = 0.6f
     const val SkeletonSubtitleFraction = 0.35f
     val SkeletonTitleHeight = 16.dp

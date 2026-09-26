@@ -7,7 +7,6 @@
     <string name="section_frequent">Används ofta</string>
     <string name="section_top_hit">Bästa träff</string>
     <string name="section_show_all">Visa alla %1$d</string>
-    <string name="section_show_less">Visa färre</string>
     <string name="section_settings">Inställningar</string>
     <string name="section_dictionary">Ordlista</string>
     <string name="section_permissions">Behörigheter</string>

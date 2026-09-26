@@ -18,17 +18,17 @@ import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpTheme
 import com.paraskcd.spotlightsearch.search.R
 
 @Composable
-fun SectionToggle(expanded: Boolean, total: Int, onToggle: () -> Unit) {
+fun SectionToggle(total: Int, onShowAll: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = SpMetrics.touchTargetMin)
-            .clickableQuiet(onToggle)
+            .clickableQuiet(onShowAll)
             .padding(horizontal = SpSpacing.s4),
         contentAlignment = Alignment.CenterEnd
     ) {
         Text(
-            text = if (expanded) stringResource(R.string.section_show_less) else stringResource(R.string.section_show_all, total),
+            text = stringResource(R.string.section_show_all, total),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             color = SpTheme.colors.brandText

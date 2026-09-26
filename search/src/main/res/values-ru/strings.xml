@@ -7,7 +7,6 @@
     <string name="section_frequent">Часто используемые</string>
     <string name="section_top_hit">Лучший результат</string>
     <string name="section_show_all">Показать все: %1$d</string>
-    <string name="section_show_less">Свернуть</string>
     <string name="section_settings">Настройки</string>
     <string name="section_dictionary">Словарь</string>
     <string name="section_permissions">Разрешения</string>

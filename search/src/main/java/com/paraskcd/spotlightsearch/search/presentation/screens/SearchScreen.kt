@@ -26,6 +26,8 @@ import com.paraskcd.spotlightsearch.search.presentation.overlay.OverlayMetrics
 import com.paraskcd.spotlightsearch.search.presentation.overlay.OverlayScrim
 import com.paraskcd.spotlightsearch.search.presentation.overlay.ResultsWindow
 import com.paraskcd.spotlightsearch.search.presentation.overlay.SearchBarWindow
+import com.paraskcd.spotlightsearch.search.presentation.overlay.SectionSheetWindow
+import com.paraskcd.spotlightsearch.search.domain.model.SearchSection
 import com.paraskcd.spotlightsearch.search.presentation.overlay.SettingsButtonWindow
 import com.paraskcd.spotlightsearch.search.presentation.overlay.FrequentAppsWindow
 import com.paraskcd.spotlightsearch.search.presentation.model.SearchResults
@@ -53,6 +55,7 @@ fun SearchScreen(
     var settingsSize by remember { mutableStateOf<IntSize?>(null) }
     var filterHeight by remember { mutableStateOf(0) }
     var filter by remember { mutableStateOf<SectionKind?>(null) }
+    var sheetSection by remember { mutableStateOf<SearchSection?>(null) }
     var frequentHeight by remember { mutableStateOf<Int?>(null) }
     var keyboardSettled by remember { mutableStateOf(false) }
     val view = LocalView.current
@@ -180,6 +183,15 @@ fun SearchScreen(
         blurEnabled = blurEnabled,
         icons = viewModel.icons,
         callbacks = callbacks,
+        onShowAll = { sheetSection = it },
         onClose = onClose
+    )
+
+    SectionSheetWindow(
+        section = sheetSection,
+        blurEnabled = blurEnabled,
+        icons = viewModel.icons,
+        callbacks = callbacks,
+        onDismiss = { sheetSection = null }
     )
 }
