@@ -1,5 +1,6 @@
 package com.paraskcd.spotlightsearch.preferences.presentation.navigation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -10,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.composables.icons.lucide.Contact
 import com.composables.icons.lucide.Globe
@@ -83,4 +85,7 @@ fun SettingsNavHost(themeViewModel: ThemeViewModel, onClose: () -> Unit) {
             )
         }
     }
+
+    val current by navController.currentBackStackEntryAsState()
+    BackHandler(enabled = current != null && navController.previousBackStackEntry != null) { back() }
 }
