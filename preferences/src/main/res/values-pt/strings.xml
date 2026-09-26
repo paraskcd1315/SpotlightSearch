@@ -45,7 +45,6 @@
     <string name="appearance_select_theme">Escolher tema</string>
     <string name="appearance_enable_blur">Ativar desfocagem</string>
     <string name="appearance_show_branding">Mostrar logótipo e título</string>
-    <string name="settings_version">Versão</string>
     <string name="personalization_section">Personalização</string>
     <string name="personalization_reset_colors">Repor cores</string>
     <string name="theme_dialog_title">Modo do tema</string>

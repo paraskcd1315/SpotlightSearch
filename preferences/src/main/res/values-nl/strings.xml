@@ -45,7 +45,6 @@
     <string name="appearance_select_theme">Thema kiezen</string>
     <string name="appearance_enable_blur">Vervaging inschakelen</string>
     <string name="appearance_show_branding">Logo en titel tonen</string>
-    <string name="settings_version">Versie</string>
     <string name="personalization_section">Personalisatie</string>
     <string name="personalization_reset_colors">Kleuren resetten</string>
     <string name="theme_dialog_title">Themamodus</string>

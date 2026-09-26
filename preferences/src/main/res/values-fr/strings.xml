@@ -45,7 +45,6 @@
     <string name="appearance_select_theme">Choisir le thème</string>
     <string name="appearance_enable_blur">Activer le flou</string>
     <string name="appearance_show_branding">Afficher le logo et le titre</string>
-    <string name="settings_version">Version</string>
     <string name="personalization_section">Personnalisation</string>
     <string name="personalization_reset_colors">Réinitialiser les couleurs</string>
     <string name="theme_dialog_title">Mode du thème</string>

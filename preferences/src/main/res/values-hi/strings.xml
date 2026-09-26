@@ -45,7 +45,6 @@
     <string name="appearance_select_theme">थीम चुनें</string>
     <string name="appearance_enable_blur">धुंधलापन चालू करें</string>
     <string name="appearance_show_branding">लोगो और शीर्षक दिखाएँ</string>
-    <string name="settings_version">संस्करण</string>
     <string name="personalization_section">मनमुताबिक बनाना</string>
     <string name="personalization_reset_colors">रंग रीसेट करें</string>
     <string name="theme_dialog_title">थीम मोड</string>

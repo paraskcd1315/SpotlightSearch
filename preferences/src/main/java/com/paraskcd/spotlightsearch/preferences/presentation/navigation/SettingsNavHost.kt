@@ -1,5 +1,8 @@
 package com.paraskcd.spotlightsearch.preferences.presentation.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -11,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.composables.icons.lucide.Contact
 import com.composables.icons.lucide.Globe
 import com.composables.icons.lucide.Lucide
+import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpMotion
 import com.paraskcd.spotlightsearch.preferences.R
 import com.paraskcd.spotlightsearch.preferences.domain.model.ColorOverrideKey
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.BlacklistAppsScreen
@@ -30,7 +34,16 @@ fun SettingsNavHost(themeViewModel: ThemeViewModel, onClose: () -> Unit) {
     val navigate: (String) -> Unit = { navController.navigate(it) }
     val back: () -> Unit = { navController.popBackStack() }
 
-    NavHost(navController = navController, startDestination = SettingsRoute.HOME) {
+    val crossfade = tween<Float>(SpMotion.durMorphMs, easing = SpMotion.easeIos)
+
+    NavHost(
+        navController = navController,
+        startDestination = SettingsRoute.HOME,
+        enterTransition = { fadeIn(crossfade) },
+        exitTransition = { fadeOut(crossfade) },
+        popEnterTransition = { fadeIn(crossfade) },
+        popExitTransition = { fadeOut(crossfade) }
+    ) {
         composable(SettingsRoute.HOME) { HomeScreen(navigate, onClose) }
         composable(SettingsRoute.PERSONALIZATION) { PersonalizationScreen(themeViewModel, navigate, back) }
         composable(SettingsRoute.COLOR_PICKER) { entry ->

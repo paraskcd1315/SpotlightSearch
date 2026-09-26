@@ -45,7 +45,6 @@
     <string name="appearance_select_theme">Tria el tema</string>
     <string name="appearance_enable_blur">Activa el desenfocament</string>
     <string name="appearance_show_branding">Mostra el logotip i el títol</string>
-    <string name="settings_version">Versió</string>
     <string name="personalization_section">Personalització</string>
     <string name="personalization_reset_colors">Restableix els colors</string>
     <string name="theme_dialog_title">Mode del tema</string>
