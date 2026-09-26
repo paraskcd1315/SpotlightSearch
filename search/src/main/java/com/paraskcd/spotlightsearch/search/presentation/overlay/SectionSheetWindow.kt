@@ -3,6 +3,9 @@ package com.paraskcd.spotlightsearch.search.presentation.overlay
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.lazy.LazyColumn
@@ -59,10 +62,18 @@ fun SectionSheetWindow(
         properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false)
     ) {
         val window = (LocalView.current.parent as DialogWindowProvider).window
+        val blur = remember { Animatable(0f) }
         SideEffect {
             window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             window.setDimAmount(0f)
+            window.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
+        }
+        LaunchedEffect(open, blurEnabled) {
+            val target = if (open && blurEnabled) OverlayMetrics.BlurRadiusMax.toFloat() else 0f
+            blur.animateTo(target, tween(SpMotion.durPushMs, easing = SpMotion.easeIos)) {
+                window.attributes = window.attributes.apply { blurBehindRadius = value.toInt() }
+            }
         }
         val maxListHeight = with(LocalDensity.current) {
             (LocalWindowInfo.current.containerSize.height * SearchMetrics.SheetListHeightFraction).toDp()
