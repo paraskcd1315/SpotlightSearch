@@ -67,8 +67,15 @@ fun SpCollapsingHeader(
         Box(
             modifier = Modifier
                 .matchParentSize()
-                .graphicsLayer { alpha = f }
-                .then(if (haze != null) Modifier.spHazeBlur(haze, colors) else Modifier.background(colors.glassStrongBg))
+                .then(
+                    if (haze != null) {
+                        Modifier.spHazeBlur(haze, colors, alpha = f)
+                    } else {
+                        Modifier
+                            .graphicsLayer { alpha = f }
+                            .background(colors.glassStrongBg)
+                    }
+                )
         )
         Box(
             modifier = Modifier

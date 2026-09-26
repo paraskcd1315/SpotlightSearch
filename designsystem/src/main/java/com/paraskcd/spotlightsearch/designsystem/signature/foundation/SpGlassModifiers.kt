@@ -21,14 +21,16 @@ import dev.chrisbanes.haze.blur.hazeBlur
 fun Modifier.spHazeBlur(
     state: HazeState,
     colors: SpColors,
+    alpha: Float = 1f,
     blurRadius: Dp = SpGlass.blurRadius
 ): Modifier = hazeBlur(
-    input = HazeInput.Sources(state),
+    input = HazeInput.Backdrop(state),
     style = HazeBlurStyle {
-        backgroundColor(Color.Transparent)
+        backgroundColor(colors.bgBase)
         colorEffects(listOf(HazeColorEffect.tint(colors.surfaceContainerHigh.copy(alpha = colors.glassBlurTintAlpha))))
         blurRadius(blurRadius)
         noiseFactor(SpGlass.noiseFactor)
+        alpha(alpha)
     }
 )
 
