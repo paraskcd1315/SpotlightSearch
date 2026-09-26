@@ -64,7 +64,7 @@ fun SpScreenScaffold(
             modifier = Modifier
                 .fillMaxSize()
                 .hazeSource(haze),
-            contentPadding = PaddingValues(top = headerHeight, bottom = SpMetrics.bottomSpacer),
+            contentPadding = PaddingValues(top = headerHeight + SpMetrics.headerBodyGap, bottom = SpMetrics.bottomSpacer),
             content = content
         )
         CompositionLocalProvider(LocalSpHazeState provides haze) {

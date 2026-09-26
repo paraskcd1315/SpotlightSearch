@@ -41,6 +41,7 @@ object SpMetrics {
     val sheetHandleHeight = 5.dp
     val headerIconSize = 24.dp
     val bottomSpacer = 32.dp
+    val headerBodyGap = SpSpacing.s4
     const val panelAlphaBlurred = 0.45f
     const val panelAlphaSolid = 0.94f
 }
