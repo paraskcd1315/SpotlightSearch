@@ -12,6 +12,7 @@ object SearchMetrics {
     val ActionIconSize = 25.dp
     val TileWidth = 72.dp
     val TilePadding = 8.dp
+    val TileCornerRadius = 16.dp
     val TileIconSize = 54.dp
     val TileIconInset = 6.dp
     val TileSpacing = 6.dp

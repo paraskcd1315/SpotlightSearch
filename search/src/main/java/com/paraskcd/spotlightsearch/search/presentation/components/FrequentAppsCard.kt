@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.FlowRowScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,7 +39,14 @@ fun FrequentAppsCard(
             )
     ) {
         Column(modifier = Modifier.padding(bottom = SearchMetrics.ListPadding)) {
-            SectionHeader(SectionKind.FREQUENT)
+            SectionHeader(
+                SectionKind.FREQUENT,
+                PaddingValues(
+                    start = SearchMetrics.SectionHeaderPadding,
+                    top = SearchMetrics.SectionHeaderPadding,
+                    end = SearchMetrics.SectionHeaderPadding
+                )
+            )
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 maxItemsInEachRow = SearchMetrics.TilesPerRow,
