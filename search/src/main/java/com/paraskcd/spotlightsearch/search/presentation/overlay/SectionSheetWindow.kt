@@ -28,6 +28,7 @@ import androidx.compose.ui.window.DialogWindowProvider
 import com.paraskcd.spotlightsearch.designsystem.signature.organisms.SpBottomSheet
 import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpMotion
 import com.paraskcd.spotlightsearch.search.domain.model.SearchSection
+import com.paraskcd.spotlightsearch.search.infrastructure.window.DialogWindowSetup
 import com.paraskcd.spotlightsearch.search.presentation.components.GlassRow
 import com.paraskcd.spotlightsearch.search.presentation.components.HitContent
 import com.paraskcd.spotlightsearch.search.presentation.model.HitCallbacks
@@ -64,15 +65,20 @@ fun SectionSheetWindow(
         val window = (LocalView.current.parent as DialogWindowProvider).window
         val blur = remember { Animatable(0f) }
         SideEffect {
-            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             window.setDimAmount(0f)
-            window.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
+            window.addFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+            )
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            window.attributes = window.attributes.apply {
+                layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
+            }
         }
         LaunchedEffect(open, blurEnabled) {
             val target = if (open && blurEnabled) OverlayMetrics.BlurRadiusMax.toFloat() else 0f
             blur.animateTo(target, tween(SpMotion.durPushMs, easing = SpMotion.easeIos)) {
-                window.attributes = window.attributes.apply { blurBehindRadius = value.toInt() }
+                DialogWindowSetup.setBlur(window, value.toInt())
             }
         }
         val maxListHeight = with(LocalDensity.current) {
