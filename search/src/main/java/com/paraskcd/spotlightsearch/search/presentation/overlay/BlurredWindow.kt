@@ -11,7 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import kotlinx.coroutines.android.awaitFrame
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
@@ -53,12 +52,11 @@ fun BlurredWindow(
         val elevationPx = with(density) { OverlayMetrics.WindowElevation.toPx() }
         val blur = remember { Animatable(0f) }
         val reveal = remember { Animatable(if (animateIn) 0f else 1f) }
-        var configured by remember { mutableStateOf(focusable) }
+        var configured by remember { mutableStateOf(false) }
         var laidOut by remember { mutableStateOf(!animateIn) }
         val shown = configured && laidOut && (visible || animateIn)
 
-        val latestOffsetY by rememberUpdatedState(offsetY)
-        LaunchedEffect(focusable, cornerRadiusPx, offsetX, gravity, wrapWidth) {
+        remember(focusable, cornerRadiusPx, offsetX, gravity, wrapWidth) {
             val width = if (wrapWidth) {
                 ViewGroup.LayoutParams.WRAP_CONTENT
             } else {
@@ -69,12 +67,15 @@ fun BlurredWindow(
                 focusable = focusable,
                 widthPx = width,
                 cornerRadiusPx = cornerRadiusPx,
-                offsetYPx = latestOffsetY,
+                offsetYPx = offsetY,
                 elevationPx = elevationPx,
                 shadowAlpha = OverlayMetrics.WindowShadowAlpha,
                 gravity = gravity,
                 offsetXPx = offsetX
             )
+            DialogWindowSetup.place(window, offsetY, alpha = 0f)
+        }
+        LaunchedEffect(Unit) {
             awaitFrame()
             awaitFrame()
             configured = true
@@ -94,15 +95,13 @@ fun BlurredWindow(
         }
         val progress = reveal.value
         SideEffect {
-            if (configured) {
-                DialogWindowSetup.place(
-                    window = window,
-                    offsetYPx = offsetY - (risePx * (1f - progress)).roundToInt(),
-                    alpha = progress,
-                    heightPx = heightPx ?: ViewGroup.LayoutParams.WRAP_CONTENT
-                )
-            }
-            DialogWindowSetup.setVisible(window, shown)
+            DialogWindowSetup.place(
+                window = window,
+                offsetYPx = offsetY - (risePx * (1f - progress)).roundToInt(),
+                alpha = if (configured) progress else 0f,
+                heightPx = heightPx ?: ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            DialogWindowSetup.setVisible(window, shown || focusable)
         }
         LaunchedEffect(blurEnabled, shown) {
             if (!shown) {

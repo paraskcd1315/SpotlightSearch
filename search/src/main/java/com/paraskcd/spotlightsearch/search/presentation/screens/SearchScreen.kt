@@ -93,7 +93,7 @@ fun SearchScreen(
     )
 
     OverlayScrim(
-        visible = visible && barTop != null && settingsSize != null,
+        visible = visible && keyboardSettled && barTop != null && settingsSize != null,
         showBranding = showBranding,
         appName = appName,
         icons = viewModel.icons.apps,
@@ -123,6 +123,7 @@ fun SearchScreen(
     LaunchedEffect(idle) { if (idle) filter = null }
 
     SettingsButtonWindow(
+        visible = keyboardSettled,
         blurEnabled = blurEnabled,
         offsetX = sideMarginPx,
         offsetY = toolbarOffsetY,
@@ -148,7 +149,8 @@ fun SearchScreen(
         onHeight = { filterHeight = it }
     )
 
-    val frequentApps = if (idle && keyboardSettled) {
+    val toolbarReady = keyboardSettled && settingsSize != null
+    val frequentApps = if (idle && toolbarReady) {
         results.sections.firstOrNull { it.kind == SectionKind.FREQUENT }?.hits?.filterIsInstance<AppHit>().orEmpty()
     } else {
         emptyList()
@@ -156,7 +158,7 @@ fun SearchScreen(
 
     FrequentAppsWindow(
         apps = frequentApps,
-        loading = idle && keyboardSettled && results.loading && frequentApps.isEmpty(),
+        loading = idle && toolbarReady && results.loading && frequentApps.isEmpty(),
         offsetY = panelOffsetY,
         blurEnabled = blurEnabled,
         icons = viewModel.icons,

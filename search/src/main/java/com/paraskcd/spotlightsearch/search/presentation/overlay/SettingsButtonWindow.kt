@@ -13,6 +13,7 @@ import com.paraskcd.spotlightsearch.search.presentation.components.SettingsPill
 
 @Composable
 fun SettingsButtonWindow(
+    visible: Boolean,
     blurEnabled: Boolean,
     offsetX: Int,
     offsetY: Int,
@@ -28,7 +29,9 @@ fun SettingsButtonWindow(
         onDismissRequest = onClose,
         gravity = Gravity.BOTTOM or Gravity.END,
         offsetX = offsetX,
-        wrapWidth = true
+        wrapWidth = true,
+        visible = visible,
+        animateIn = true
     ) {
         Box(
             modifier = Modifier
