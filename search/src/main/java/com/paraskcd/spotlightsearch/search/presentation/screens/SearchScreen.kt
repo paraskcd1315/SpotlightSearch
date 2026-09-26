@@ -24,6 +24,10 @@ import com.paraskcd.spotlightsearch.search.presentation.overlay.OverlayScrim
 import com.paraskcd.spotlightsearch.search.presentation.overlay.ResultsWindow
 import com.paraskcd.spotlightsearch.search.presentation.overlay.SearchBarWindow
 import com.paraskcd.spotlightsearch.search.presentation.overlay.SettingsButtonWindow
+import com.paraskcd.spotlightsearch.search.presentation.overlay.FrequentAppsWindow
+import com.paraskcd.spotlightsearch.search.presentation.model.SearchResults
+import com.paraskcd.spotlightsearch.search.domain.model.SectionKind
+import com.paraskcd.spotlightsearch.sources.domain.model.hits.AppHit
 import com.paraskcd.spotlightsearch.search.presentation.viewmodels.SearchViewModel
 import kotlinx.coroutines.delay
 
@@ -40,6 +44,7 @@ fun SearchScreen(
     var visible by remember { mutableStateOf(false) }
     var barTop by remember { mutableStateOf<Int?>(null) }
     var settingsBottom by remember { mutableStateOf<Int?>(null) }
+    var frequentTop by remember { mutableStateOf<Int?>(null) }
     val view = LocalView.current
     val density = LocalDensity.current
     val displayHeightPx = LocalActivity.current?.window?.let(DialogWindowSetup::displayHeight) ?: 0
@@ -68,7 +73,14 @@ fun SearchScreen(
         visible = true
     }
 
-    OverlayScrim(visible = visible, appName = appName, icons = viewModel.icons.apps, onClose = onClose)
+    OverlayScrim(
+        visible = visible,
+        appName = appName,
+        icons = viewModel.icons.apps,
+        topLimitPx = settingsBottom,
+        bottomLimitPx = frequentTop ?: barTop,
+        onClose = onClose
+    )
 
     if (!visible) return
 
@@ -94,9 +106,28 @@ fun SearchScreen(
     val maxHeight by animateDpAsState(available, tween(OverlayMetrics.ResultsResizeMs), label = "resultsHeight")
 
     val top = barTop ?: return
+    val offsetY = displayHeightPx - top + gapPx
+    val idle = text.isBlank()
+    val frequentApps = if (idle) {
+        results.sections.firstOrNull { it.kind == SectionKind.FREQUENT }?.hits?.filterIsInstance<AppHit>().orEmpty()
+    } else {
+        emptyList()
+    }
+
+    FrequentAppsWindow(
+        apps = frequentApps,
+        loading = idle && results.loading && frequentApps.isEmpty(),
+        offsetY = offsetY,
+        blurEnabled = blurEnabled,
+        icons = viewModel.icons,
+        callbacks = callbacks,
+        onClose = onClose,
+        onTopOnScreen = { frequentTop = it }
+    )
+
     ResultsWindow(
-        results = results,
-        offsetY = displayHeightPx - top + gapPx,
+        results = if (idle) SearchResults(loading = false) else results.copy(sections = results.sections.filterNot { it.kind == SectionKind.FREQUENT }),
+        offsetY = offsetY,
         maxHeight = maxHeight,
         blurEnabled = blurEnabled,
         icons = viewModel.icons,

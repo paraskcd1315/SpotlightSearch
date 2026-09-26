@@ -13,7 +13,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,8 +42,21 @@ fun OverlayScrim(
     visible: Boolean,
     appName: String,
     icons: AppIconLoader,
+    topLimitPx: Int?,
+    bottomLimitPx: Int?,
     onClose: () -> Unit
 ) {
+    val density = LocalDensity.current
+    val band = if (topLimitPx != null && bottomLimitPx != null && bottomLimitPx > topLimitPx) {
+        with(density) {
+            Modifier
+                .fillMaxWidth()
+                .padding(top = topLimitPx.toDp())
+                .height((bottomLimitPx - topLimitPx).toDp())
+        }
+    } else {
+        Modifier.fillMaxSize()
+    }
     var dragOffset by remember { mutableFloatStateOf(0f) }
     val packageName = LocalContext.current.packageName
     val scrim = Brush.verticalGradient(
@@ -66,27 +83,29 @@ fun OverlayScrim(
                     }
                 )
             },
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.TopCenter
     ) {
-        AnimatedVisibility(
-            visible = visible,
-            enter = fadeIn(tween(OverlayMetrics.EntryFadeMs)) + scaleIn(
-                initialScale = OverlayMetrics.EntryInitialScale,
-                animationSpec = tween(OverlayMetrics.EntryFadeMs, easing = FastOutSlowInEasing)
-            ),
-            modifier = Modifier.offset { IntOffset(0, dragOffset.roundToInt()) }
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(OverlayMetrics.LogoSpacing)
+        Box(modifier = band, contentAlignment = Alignment.Center) {
+            AnimatedVisibility(
+                visible = visible,
+                enter = fadeIn(tween(OverlayMetrics.EntryFadeMs)) + scaleIn(
+                    initialScale = OverlayMetrics.EntryInitialScale,
+                    animationSpec = tween(OverlayMetrics.EntryFadeMs, easing = FastOutSlowInEasing)
+                ),
+                modifier = Modifier.offset { IntOffset(0, dragOffset.roundToInt()) }
             ) {
-                AppIconImage(packageName, icons, themed = false, size = OverlayMetrics.LogoSize)
-                Text(
-                    text = appName,
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Black,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(OverlayMetrics.LogoSpacing)
+                ) {
+                    AppIconImage(packageName, icons, themed = false, size = OverlayMetrics.LogoSize)
+                    Text(
+                        text = appName,
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Black,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
             }
         }
     }

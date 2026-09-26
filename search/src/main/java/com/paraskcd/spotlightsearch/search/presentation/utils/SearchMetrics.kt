@@ -31,5 +31,6 @@ object SearchMetrics {
     const val SkeletonSubtitleFraction = 0.35f
     val SkeletonTitleHeight = 16.dp
     val SkeletonSubtitleHeight = 12.dp
+    const val SkeletonTileLabelFraction = 0.8f
     val SkeletonLineSpacing = 6.dp
 }

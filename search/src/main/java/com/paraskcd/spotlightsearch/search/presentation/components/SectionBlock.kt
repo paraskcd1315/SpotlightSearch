@@ -11,21 +11,15 @@ import androidx.compose.ui.Modifier
 import com.paraskcd.spotlightsearch.designsystem.ds.foundation.DsMetrics
 import com.paraskcd.spotlightsearch.designsystem.ds.foundation.groupShape
 import com.paraskcd.spotlightsearch.search.domain.model.SearchSection
-import com.paraskcd.spotlightsearch.search.domain.model.SectionKind
 import com.paraskcd.spotlightsearch.search.presentation.model.HitCallbacks
 import com.paraskcd.spotlightsearch.search.presentation.model.IconSources
 import com.paraskcd.spotlightsearch.search.presentation.utils.SearchMetrics
 import com.paraskcd.spotlightsearch.search.presentation.utils.surfaceAlpha
-import com.paraskcd.spotlightsearch.sources.domain.model.hits.AppHit
 
 @Composable
 fun SectionBlock(section: SearchSection, blurEnabled: Boolean, icons: IconSources, callbacks: HitCallbacks) {
     Column {
         SectionHeader(section.kind)
-        if (section.kind == SectionKind.FREQUENT) {
-            FrequentAppsGrid(section.hits.filterIsInstance<AppHit>(), blurEnabled, icons, callbacks)
-            return@Column
-        }
         section.hits.forEachIndexed { index, hit ->
             val shape = groupShape(index, section.hits.size)
             Surface(
