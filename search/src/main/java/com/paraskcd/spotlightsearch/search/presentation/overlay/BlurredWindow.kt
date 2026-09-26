@@ -35,6 +35,7 @@ fun BlurredWindow(
     offsetX: Int = 0,
     wrapWidth: Boolean = false,
     animateIn: Boolean = false,
+    heightPx: Int? = null,
     content: @Composable () -> Unit
 ) {
     Dialog(
@@ -94,7 +95,12 @@ fun BlurredWindow(
         val progress = reveal.value
         SideEffect {
             if (configured) {
-                DialogWindowSetup.place(window, offsetY - (risePx * (1f - progress)).roundToInt(), progress)
+                DialogWindowSetup.place(
+                    window = window,
+                    offsetYPx = offsetY - (risePx * (1f - progress)).roundToInt(),
+                    alpha = progress,
+                    heightPx = heightPx ?: ViewGroup.LayoutParams.WRAP_CONTENT
+                )
             }
             DialogWindowSetup.setVisible(window, shown)
         }

@@ -59,12 +59,13 @@ object DialogWindowSetup {
         }
     }
 
-    fun place(window: Window, offsetYPx: Int, alpha: Float) {
+    fun place(window: Window, offsetYPx: Int, alpha: Float, heightPx: Int = ViewGroup.LayoutParams.WRAP_CONTENT) {
         val attributes = window.attributes
-        if (attributes.y == offsetYPx && attributes.alpha == alpha) return
+        if (attributes.y == offsetYPx && attributes.alpha == alpha && attributes.height == heightPx) return
         window.attributes = attributes.apply {
             y = offsetYPx
             this.alpha = alpha
+            height = heightPx
         }
     }
 

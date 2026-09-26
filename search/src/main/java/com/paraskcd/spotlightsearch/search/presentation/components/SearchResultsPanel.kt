@@ -1,14 +1,12 @@
 package com.paraskcd.spotlightsearch.search.presentation.components
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
 import com.paraskcd.spotlightsearch.designsystem.ds.foundation.fadingEdges
 import com.paraskcd.spotlightsearch.search.domain.model.SearchSection
 import com.paraskcd.spotlightsearch.search.presentation.model.HitCallbacks
@@ -18,7 +16,6 @@ import com.paraskcd.spotlightsearch.search.presentation.utils.SearchMetrics
 @Composable
 fun SearchResultsPanel(
     sections: List<SearchSection>,
-    maxHeight: Dp,
     blurEnabled: Boolean,
     icons: IconSources,
     callbacks: HitCallbacks
@@ -26,8 +23,7 @@ fun SearchResultsPanel(
     val listState = rememberLazyListState()
     LazyColumn(
         modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(max = maxHeight)
+            .fillMaxSize()
             .fadingEdges(listState),
         state = listState,
         reverseLayout = true,

@@ -118,7 +118,7 @@ fun SearchScreen(
     val toolbarOffsetY = displayHeightPx - top + gapPx
     val panelOffsetY = toolbarOffsetY + toolbarPx + gapPx
     val ceiling = statusBarPx + gapPx
-    val maxHeight = with(density) { (top - gapPx - toolbarPx - gapPx - ceiling).coerceAtLeast(0).toDp() }
+    val panelHeightPx = (top - gapPx - toolbarPx - gapPx - ceiling).coerceAtLeast(0)
     val idle = text.isBlank()
     LaunchedEffect(idle) { if (idle) filter = null }
 
@@ -172,7 +172,7 @@ fun SearchScreen(
             results.copy(sections = if (active == null) sections else sections.filter { it.kind == active })
         },
         offsetY = panelOffsetY,
-        maxHeight = maxHeight,
+        heightPx = panelHeightPx,
         blurEnabled = blurEnabled,
         icons = viewModel.icons,
         callbacks = callbacks,

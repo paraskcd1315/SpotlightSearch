@@ -1,7 +1,8 @@
 package com.paraskcd.spotlightsearch.search.presentation.overlay
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -10,7 +11,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
 import com.paraskcd.spotlightsearch.designsystem.signature.foundation.spPanelSurface
 import com.paraskcd.spotlightsearch.search.presentation.components.ResultsSkeleton
 import com.paraskcd.spotlightsearch.search.presentation.components.SearchResultsPanel
@@ -22,7 +22,7 @@ import com.paraskcd.spotlightsearch.search.presentation.model.SearchResults
 fun ResultsWindow(
     results: SearchResults,
     offsetY: Int,
-    maxHeight: Dp,
+    heightPx: Int,
     blurEnabled: Boolean,
     icons: IconSources,
     callbacks: HitCallbacks,
@@ -39,17 +39,19 @@ fun ResultsWindow(
         cornerRadius = OverlayMetrics.WindowCornerRadius,
         onDismissRequest = onClose,
         visible = hasContent,
-        animateIn = true
+        animateIn = true,
+        heightPx = heightPx
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .spPanelSurface(RoundedCornerShape(OverlayMetrics.WindowCornerRadius), blurred = blurEnabled)
+                .fillMaxSize()
+                .spPanelSurface(RoundedCornerShape(OverlayMetrics.WindowCornerRadius), blurred = blurEnabled),
+            verticalArrangement = Arrangement.Bottom
         ) {
             if (shown.sections.isEmpty()) {
                 ResultsSkeleton(blurEnabled)
             } else {
-                SearchResultsPanel(shown.sections, maxHeight, blurEnabled, icons, callbacks)
+                SearchResultsPanel(shown.sections, blurEnabled, icons, callbacks)
             }
         }
     }
