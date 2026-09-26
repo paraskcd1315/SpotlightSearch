@@ -7,7 +7,7 @@ permalink: /privacy-policy/
 # Privacy Policy for SpotlightSearch
 
 **Effective Date:** 14/08/2025  
-**Last Updated:** 14/08/2025
+**Last Updated:** 26/09/2026
 
 ## 1. Introduction
 SpotlightSearch ("we", "our", or "us") values your privacy. This Privacy Policy explains how the app works, what information it handles, and how your data is used.
@@ -19,19 +19,24 @@ By using SpotlightSearch, you agree to this policy.
 ## 2. Data Collection
 
 ### 2.1 Local Processing
-- All searches, app launches, contact lookups, file searches, and calculations happen entirely on your device.
+- All searches, app launches, contact lookups, calculations, and translations happen entirely on your device.
 - We do **not** collect, store, or transmit this data to any servers we control.
 
 ### 2.2 Google Suggestions
-- When you type in the search bar, SpotlightSearch automatically sends your query to Google to fetch search suggestions.
-- This is the **only** internet-connected feature in SpotlightSearch.
+- When Google suggestions are on, SpotlightSearch sends what you type in the search bar to Google to fetch search suggestions.
+- You can turn Google suggestions off in Settings → Features and Functionality → Manage web suggestions. When they are off, SpotlightSearch sends nothing you type to Google.
 - Google’s handling of this data is governed by [Google’s Privacy Policy](https://policies.google.com/privacy).
+
+### 2.3 Translation Models
+- Translation runs on your device with Google ML Kit. The text you translate never leaves your device.
+- The first time you translate to or from a language, ML Kit downloads that language model from Google.
+- Google’s handling of ML Kit is governed by [Google’s Privacy Policy](https://policies.google.com/privacy).
 
 ---
 
 ## 3. Data Sharing
 - We do not sell, rent, or share your personal data with any third parties.
-- The only external data transmission is between your device and Google for the purpose of providing search suggestions.
+- The only external data transmissions are between your device and Google: search suggestions (when they are on) and translation model downloads.
 
 ---
 
@@ -69,4 +74,4 @@ If you have any questions about this Privacy Policy, you can contact us at:
 - **Data shared:** Search queries are sent directly to Google to provide suggestions.
 - **Data stored:** No personal data is stored by SpotlightSearch.
 - **Security:** All other operations are performed locally on your device.
-- **Opt-out:** Google Suggestions is a core feature and cannot be disabled.
+- **Opt-out:** Google Suggestions can be turned off in Settings → Features and Functionality → Manage web suggestions.

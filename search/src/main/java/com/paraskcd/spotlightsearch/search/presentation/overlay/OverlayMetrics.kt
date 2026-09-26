@@ -1,0 +1,24 @@
+package com.paraskcd.spotlightsearch.search.presentation.overlay
+
+import androidx.compose.ui.unit.dp
+
+object OverlayMetrics {
+    const val WindowWidthFraction = 0.95f
+    const val ResultsResizeMs = 250
+    val WindowCornerRadius = 24.dp
+    val BarCornerRadius = 32.dp
+    val BarBottomMargin = 24.dp
+    val ResultsGap = 8.dp
+    val LogoSize = 96.dp
+    val LogoSpacing = 16.dp
+    const val BlurRadiusMax = 100
+    const val BlurRampMs = 250
+    const val EntryDelayMs = 250L
+    const val EntryFadeMs = 400
+    const val EntryInitialScale = 0.95f
+    const val DismissDragPx = 100f
+    const val DragFadeDistancePx = 300f
+    const val ScrimAlpha = 0.5f
+    const val PanelAlphaWithBlur = 0.5f
+    const val PanelAlphaWithoutBlur = 0.9f
+}

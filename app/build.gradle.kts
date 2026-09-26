@@ -1,106 +1,100 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import com.android.build.api.artifact.SingleArtifact
 import java.text.SimpleDateFormat
 import java.util.Date
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.spotlight.android.application)
+    alias(libs.plugins.spotlight.android.compose)
+    alias(libs.plugins.spotlight.hilt)
 }
+
+val benchSuffix = ".bench"
 
 android {
     namespace = "com.paraskcd.spotlightsearch"
-    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.paraskcd.spotlightsearch"
-        minSdk = 34
-        targetSdk = 36
-        versionCode = 17
-        versionName = "1.2.5"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        versionCode = 18
+        versionName = "2.0.0"
+        resValue("string", "app_name", "Spotlight Search")
     }
 
-    applicationVariants.all {
-        val variant = this
-        outputs.all {
-            val output = this as com.android.build.gradle.internal.api.ApkVariantOutputImpl
-            val appName = variant.applicationId
-            val formatter = SimpleDateFormat("yyyy-MM-dd-HH'h'mm'm'")
-            val timestamp = formatter.format(Date())
-
-            output.outputFileName = "$appName-v-$timestamp.apk"
-        }
+    buildFeatures {
+        resValues = true
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+            resValue("string", "app_name", "Spotlight Search Dev")
+        }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    buildFeatures {
-        compose = true
+        create("benchmark") {
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            applicationIdSuffix = benchSuffix
+            resValue("string", "app_name", "Spotlight Search Bench")
+        }
+        create("nonMinified") {
+            initWith(getByName("benchmark"))
+            isMinifyEnabled = false
+            isShrinkResources = false
+        }
     }
 }
 
-kotlin {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_11)
+androidComponents {
+    onVariants { variant ->
+        val taskSuffix = variant.name.replaceFirstChar { it.uppercase() }
+        val apkFolder = variant.artifacts.get(SingleArtifact.APK)
+        val loader = variant.artifacts.getBuiltArtifactsLoader()
+        val appId = variant.applicationId
+        val namedFolder = layout.buildDirectory.dir("outputs/named-apk/${variant.name}")
+        val copyTask = tasks.register("copyNamed${taskSuffix}Apk") {
+            inputs.files(apkFolder)
+            outputs.dir(namedFolder)
+            doLast {
+                val timestamp = SimpleDateFormat("yyyy-MM-dd-HH'h'mm'm'").format(Date())
+                val target = namedFolder.get().asFile
+                loader.load(apkFolder.get())?.elements?.forEach { element ->
+                    file(element.outputFile).copyTo(target.resolve("${appId.get()}-v-$timestamp.apk"), overwrite = true)
+                }
+            }
+        }
+        tasks.matching { it.name == "assemble$taskSuffix" }.configureEach { finalizedBy(copyTask) }
     }
 }
 
 dependencies {
+    implementation(project(":designsystem"))
+    implementation(project(":sources"))
+    implementation(project(":search"))
+    implementation(project(":preferences"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.profileinstaller)
 
-    // Coroutines
     implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.play.services)
 
-    // Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.androidx.hilt.compiler)
 
-    // Otros
-    implementation(libs.accompanist.drawablepainter)
-    implementation(libs.okhttp)
-    implementation(libs.mlkit.translate)
-    implementation(libs.mlkit.language.id)
-    implementation(libs.symspellkt)
-    implementation(libs.symspellkt.fdic.android)
-    implementation(libs.burnoutcrew.reorderable)
-
-    // Room
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
-
-    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

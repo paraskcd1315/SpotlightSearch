@@ -1,0 +1,79 @@
+<resources>
+    <string name="search_placeholder">Search…</string>
+    <string name="search_clear">Remove query</string>
+    <string name="search_open_settings">Settings</string>
+    <string name="search_close">Exit</string>
+
+    <string name="section_frequent">Frequently used</string>
+    <string name="section_settings">Settings</string>
+    <string name="section_dictionary">Dictionary</string>
+    <string name="section_permissions">Permissions</string>
+    <string name="section_calculator">Calculator</string>
+    <string name="section_web">Web</string>
+    <string name="section_apps">Apps</string>
+    <string name="section_contacts">Contacts</string>
+    <string name="section_translation">Translation</string>
+    <string name="section_suggestions">Suggestions</string>
+    <string name="section_quick_search">Quick search</string>
+
+    <string name="hit_spelling_title">Did you mean…?</string>
+    <string name="hit_permission_title">Allow contact access</string>
+    <string name="hit_permission_subtitle">Required to search contacts</string>
+    <string name="hit_web_title">Search \"%1$s\" on the web</string>
+    <string name="hit_web_subtitle">Web Search</string>
+    <string name="hit_suggestion_subtitle">Suggestion</string>
+    <string name="hit_translation_subtitle">Translation (%1$s → %2$s)</string>
+    <string name="hit_setting_subtitle">Open %1$s</string>
+    <string name="hit_calculation_arithmetic">Calculation</string>
+    <string name="hit_calculation_unit">Unit conversion</string>
+    <string name="hit_calculation_temperature">Temperature conversion</string>
+    <string name="hit_calculation_date">Detected date</string>
+    <string name="hit_calculation_web">Calculator</string>
+
+    <string name="action_app_info">App Info</string>
+    <string name="action_call">Call</string>
+    <string name="action_sms">SMS</string>
+    <string name="action_whatsapp">WhatsApp</string>
+
+    <string name="quick_search_google">Search \"%1$s\" on Google</string>
+    <string name="quick_search_youtube">Search \"%1$s\" on YouTube</string>
+    <string name="quick_search_youtube_music">Search \"%1$s\" on YouTube Music</string>
+    <string name="quick_search_maps">Search \"%1$s\" on Maps</string>
+    <string name="quick_search_play_store">Search \"%1$s\" on the Play Store</string>
+    <string name="quick_search_threads">Search \"%1$s\" on Threads</string>
+    <string name="quick_search_linkedin">Search \"%1$s\" on LinkedIn</string>
+    <string name="quick_search_x">Search \"%1$s\" on X</string>
+    <string name="quick_search_facebook">Search \"%1$s\" on Facebook</string>
+    <string name="service_google">Google</string>
+    <string name="service_youtube">YouTube</string>
+    <string name="service_youtube_music">YouTube Music</string>
+    <string name="service_maps">Google Maps</string>
+    <string name="service_play_store">Play Store</string>
+    <string name="service_threads">Threads</string>
+    <string name="service_linkedin">LinkedIn</string>
+    <string name="service_x">X (Twitter)</string>
+    <string name="service_facebook">Facebook</string>
+
+    <string name="setting_main">Main settings</string>
+    <string name="setting_airplane_mode">Airplane mode settings</string>
+    <string name="setting_wifi">Wi‑Fi settings</string>
+    <string name="setting_bluetooth">Bluetooth settings</string>
+    <string name="setting_display">Display settings</string>
+    <string name="setting_sound">Sound settings</string>
+    <string name="setting_date_time">Date &amp; time settings</string>
+    <string name="setting_language">Language &amp; input settings</string>
+    <string name="setting_wireless">Wireless Settings</string>
+    <string name="setting_security">Security Settings</string>
+    <string name="setting_apps">Apps Settings</string>
+    <string name="setting_battery_saver">Battery Settings</string>
+    <string name="setting_data_roaming">Data roaming settings</string>
+    <string name="setting_location">Location Settings</string>
+    <string name="setting_input_method">Input method settings</string>
+    <string name="setting_accessibility">Accessibility settings</string>
+    <string name="setting_nfc">NFC settings</string>
+    <string name="setting_privacy">Privacy settings</string>
+    <string name="setting_battery_optimization">Ignore battery optimization</string>
+    <string name="setting_storage">Storage settings</string>
+    <string name="setting_device_info">Device info</string>
+    <string name="setting_notifications">Notification settings</string>
+</resources>
