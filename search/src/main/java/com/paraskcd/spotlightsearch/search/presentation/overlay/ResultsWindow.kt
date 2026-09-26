@@ -61,7 +61,7 @@ fun ResultsWindow(
                 if (shown.sections.isEmpty()) {
                     ResultsSkeleton(blurEnabled)
                 } else {
-                    SearchResultsPanel(shown.sections, blurEnabled, icons, callbacks)
+                    SearchResultsPanel(shown.sections, shown.loading, blurEnabled, icons, callbacks)
                 }
             }
         }

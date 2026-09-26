@@ -25,6 +25,7 @@ object SearchMetrics {
     const val TileLabelMaxLines = 2
     const val SubtitleAlpha = 0.5f
     const val SkeletonRows = 3
+    const val LoadingMoreRows = 2
     const val SkeletonTitleFraction = 0.6f
     const val SkeletonSubtitleFraction = 0.35f
     val SkeletonTitleHeight = 16.dp
