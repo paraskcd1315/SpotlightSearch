@@ -1,14 +1,12 @@
 package com.paraskcd.spotlightsearch.search.presentation.overlay
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import com.paraskcd.spotlightsearch.designsystem.ds.foundation.DsMetrics
+import com.paraskcd.spotlightsearch.designsystem.signature.foundation.spPanelSurface
 import com.paraskcd.spotlightsearch.search.presentation.components.ResultsSkeleton
 import com.paraskcd.spotlightsearch.search.presentation.components.SearchResultsPanel
 import com.paraskcd.spotlightsearch.search.presentation.model.HitCallbacks
@@ -35,14 +33,10 @@ fun ResultsWindow(
         visible = hasContent
     ) {
         if (!hasContent) return@BlurredWindow
-        val shape = RoundedCornerShape(OverlayMetrics.WindowCornerRadius)
-        val alpha = if (blurEnabled) OverlayMetrics.PanelAlphaWithBlur else OverlayMetrics.PanelAlphaWithoutBlur
-        Surface(
-            shape = shape,
-            color = MaterialTheme.colorScheme.surface.copy(alpha = alpha),
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .border(DsMetrics.OutlineWidth, MaterialTheme.colorScheme.outline.copy(alpha = DsMetrics.OutlineAlpha), shape)
+                .spPanelSurface(RoundedCornerShape(OverlayMetrics.WindowCornerRadius), blurred = blurEnabled)
         ) {
             if (results.sections.isEmpty()) {
                 ResultsSkeleton(blurEnabled)

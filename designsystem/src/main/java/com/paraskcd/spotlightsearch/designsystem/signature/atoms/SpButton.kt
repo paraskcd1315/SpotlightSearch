@@ -7,7 +7,13 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpSpacing
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -32,7 +38,8 @@ fun SpButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     variant: SpButtonVariant = SpButtonVariant.Primary,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    icon: ImageVector? = null
 ) {
     val colors = SpTheme.colors
     val interaction = remember { MutableInteractionSource() }
@@ -72,6 +79,12 @@ fun SpButton(
             .padding(horizontal = SpMetrics.buttonHorizontalPadding),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = text, color = content, style = MaterialTheme.typography.labelLarge)
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(SpSpacing.s2, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            icon?.let { Icon(it, contentDescription = null, tint = content, modifier = Modifier.size(SpMetrics.buttonIconSize)) }
+            Text(text = text, color = content, style = MaterialTheme.typography.labelLarge, maxLines = 1)
+        }
     }
 }

@@ -12,12 +12,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -29,7 +25,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import com.paraskcd.spotlightsearch.designsystem.ds.foundation.DsMetrics
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.Search
+import com.composables.icons.lucide.X
+import com.paraskcd.spotlightsearch.designsystem.signature.foundation.SpMetrics
+import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpTheme
 import com.paraskcd.spotlightsearch.search.R
 import com.paraskcd.spotlightsearch.search.presentation.utils.SearchMetrics
 
@@ -41,6 +41,7 @@ fun SearchBarPill(
     onSubmit: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val colors = SpTheme.colors
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -61,30 +62,32 @@ fun SearchBarPill(
                 unfocusedContainerColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                cursorColor = MaterialTheme.colorScheme.onSurface,
-                focusedTextColor = MaterialTheme.colorScheme.onSurface,
-                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-                focusedPlaceholderColor = MaterialTheme.colorScheme.onSurface,
-                unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurface
+                cursorColor = colors.brandText,
+                focusedTextColor = colors.textPrimary,
+                unfocusedTextColor = colors.textPrimary,
+                focusedPlaceholderColor = colors.textTertiary,
+                unfocusedPlaceholderColor = colors.textTertiary
             ),
             placeholder = { Text(stringResource(R.string.search_placeholder)) },
             leadingIcon = {
-                Icon(Icons.Filled.Search, contentDescription = null, tint = MaterialTheme.colorScheme.onSurface)
+                Icon(
+                    Lucide.Search,
+                    contentDescription = null,
+                    tint = colors.textSecondary,
+                    modifier = Modifier.size(SpMetrics.headerIconSize)
+                )
             },
             trailingIcon = {
                 AnimatedVisibility(visible = query.isNotEmpty(), enter = fadeIn(), exit = fadeOut()) {
                     IconButton(onClick = { onQueryChange("") }, modifier = Modifier.size(SearchMetrics.ClearButtonSize)) {
                         Box(
-                            modifier = Modifier.background(
-                                MaterialTheme.colorScheme.outline.copy(alpha = DsMetrics.OutlineAlpha),
-                                CircleShape
-                            ),
+                            modifier = Modifier.background(colors.glassStrongBg, CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
-                                Icons.Default.Close,
+                                Lucide.X,
                                 contentDescription = stringResource(R.string.search_clear),
-                                tint = MaterialTheme.colorScheme.onSurface,
+                                tint = colors.textPrimary,
                                 modifier = Modifier.size(SearchMetrics.ClearIconSize)
                             )
                         }

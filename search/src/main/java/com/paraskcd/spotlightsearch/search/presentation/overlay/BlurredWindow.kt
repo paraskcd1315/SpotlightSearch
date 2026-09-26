@@ -19,7 +19,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
+import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpMotion
 import com.paraskcd.spotlightsearch.search.infrastructure.window.DialogWindowSetup
+import kotlin.math.roundToInt
 
 @Composable
 fun BlurredWindow(
@@ -32,6 +34,7 @@ fun BlurredWindow(
     gravity: Int = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL,
     offsetX: Int = 0,
     wrapWidth: Boolean = false,
+    animateIn: Boolean = false,
     content: @Composable () -> Unit
 ) {
     Dialog(
@@ -43,9 +46,14 @@ fun BlurredWindow(
         )
     ) {
         val window = (LocalView.current.parent as DialogWindowProvider).window
-        val cornerRadiusPx = with(LocalDensity.current) { cornerRadius.toPx() }
+        val density = LocalDensity.current
+        val cornerRadiusPx = with(density) { cornerRadius.toPx() }
+        val risePx = with(density) { OverlayMetrics.RevealRise.toPx() }
         val blur = remember { Animatable(0f) }
+        val reveal = remember { Animatable(if (animateIn) 0f else 1f) }
         var configured by remember { mutableStateOf(focusable) }
+        var laidOut by remember { mutableStateOf(!animateIn) }
+        val shown = visible && configured && laidOut
 
         val latestOffsetY by rememberUpdatedState(offsetY)
         LaunchedEffect(focusable, cornerRadiusPx, offsetX, gravity, wrapWidth) {
@@ -59,12 +67,27 @@ fun BlurredWindow(
             awaitFrame()
             configured = true
         }
-        SideEffect {
-            if (configured) DialogWindowSetup.setOffsetY(window, offsetY)
-            DialogWindowSetup.setVisible(window, visible && configured)
+        LaunchedEffect(visible && configured, animateIn) {
+            if (!animateIn) return@LaunchedEffect
+            if (!(visible && configured)) {
+                laidOut = false
+                reveal.snapTo(0f)
+                return@LaunchedEffect
+            }
+            awaitFrame()
+            awaitFrame()
+            laidOut = true
+            reveal.animateTo(1f, tween(SpMotion.durAutoHeightMs, easing = SpMotion.easeIos))
         }
-        LaunchedEffect(blurEnabled, configured) {
-            if (!configured) return@LaunchedEffect
+        SideEffect {
+            if (configured) {
+                val progress = reveal.value
+                DialogWindowSetup.place(window, offsetY - (risePx * (1f - progress)).roundToInt(), progress)
+            }
+            DialogWindowSetup.setVisible(window, shown)
+        }
+        LaunchedEffect(blurEnabled, shown) {
+            if (!shown) return@LaunchedEffect
             val target = if (blurEnabled) OverlayMetrics.BlurRadiusMax.toFloat() else 0f
             blur.animateTo(target, tween(OverlayMetrics.BlurRampMs)) {
                 DialogWindowSetup.setBlur(window, value.toInt())

@@ -1,12 +1,15 @@
 package com.paraskcd.spotlightsearch.search.presentation.overlay
 
 import androidx.compose.ui.unit.dp
+import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpRadii
 
 object OverlayMetrics {
     const val WindowWidthFraction = 0.95f
     const val ResultsResizeMs = 250
-    val WindowCornerRadius = 24.dp
+    val WindowCornerRadius = SpRadii.xl
     val BarCornerRadius = 32.dp
+    val RevealRise = 24.dp
+    const val KeyboardSettleTimeoutMs = 700L
     val BarBottomMargin = 24.dp
     val ResultsGap = 8.dp
     val SettingsButtonMargin = 16.dp
@@ -27,6 +30,4 @@ object OverlayMetrics {
     const val DismissDragPx = 100f
     const val DragFadeDistancePx = 300f
     const val ScrimAlpha = 0.5f
-    const val PanelAlphaWithBlur = 0.5f
-    const val PanelAlphaWithoutBlur = 0.9f
 }

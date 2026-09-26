@@ -7,7 +7,8 @@ import kotlin.math.roundToInt
 
 class KeyboardTracker(
     private val view: View,
-    private val onTopOnScreen: (Int) -> Unit
+    private val onTopOnScreen: (Int) -> Unit,
+    private val onKeyboardShown: () -> Unit
 ) : WindowInsetsAnimation.Callback(DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
     private var hiddenTop: Int? = null
     private var shownTop: Int? = null
@@ -59,6 +60,7 @@ class KeyboardTracker(
         animating = false
         val top = if (showing) shownTop else hiddenTop
         top?.let(onTopOnScreen)
+        if (showing) onKeyboardShown()
     }
 
     private fun topOnScreen(): Int {

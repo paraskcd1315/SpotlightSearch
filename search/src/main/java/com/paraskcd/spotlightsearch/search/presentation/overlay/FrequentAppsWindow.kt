@@ -28,7 +28,8 @@ fun FrequentAppsWindow(
         offsetY = offsetY,
         cornerRadius = OverlayMetrics.WindowCornerRadius,
         onDismissRequest = onClose,
-        visible = visible
+        visible = visible,
+        animateIn = true
     ) {
         if (!visible) {
             SideEffect { onHeight(null) }

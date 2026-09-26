@@ -1,18 +1,16 @@
 package com.paraskcd.spotlightsearch.search.presentation.overlay
 
 import android.view.Gravity
-import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
-import com.paraskcd.spotlightsearch.designsystem.ds.foundation.DsMetrics
+import com.paraskcd.spotlightsearch.designsystem.signature.foundation.clickableQuiet
+import com.paraskcd.spotlightsearch.designsystem.signature.foundation.spPanelSurface
 import com.paraskcd.spotlightsearch.search.presentation.components.SettingsPill
-import com.paraskcd.spotlightsearch.search.presentation.utils.surfaceAlpha
 
 @Composable
 fun SettingsButtonWindow(
@@ -36,13 +34,10 @@ fun SettingsButtonWindow(
         wrapWidth = true
     ) {
         val view = LocalView.current
-        val shape = RoundedCornerShape(OverlayMetrics.SettingsButtonCornerRadius)
-        Surface(
-            onClick = onOpenSettings,
-            shape = shape,
-            color = MaterialTheme.colorScheme.surfaceBright.copy(alpha = surfaceAlpha(blurEnabled)),
+        Box(
             modifier = Modifier
-                .border(DsMetrics.OutlineWidth, MaterialTheme.colorScheme.outline.copy(alpha = DsMetrics.OutlineAlpha), shape)
+                .spPanelSurface(RoundedCornerShape(OverlayMetrics.SettingsButtonCornerRadius), blurred = blurEnabled)
+                .clickableQuiet(onOpenSettings)
                 .onGloballyPositioned { coordinates ->
                     val location = IntArray(2)
                     view.getLocationOnScreen(location)

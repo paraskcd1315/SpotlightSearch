@@ -22,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.paraskcd.spotlightsearch.designsystem.icons.PermDeviceInfo
+import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpTheme
 import com.paraskcd.spotlightsearch.search.R
 import com.paraskcd.spotlightsearch.search.infrastructure.icons.AppIconLoader
 import com.paraskcd.spotlightsearch.search.presentation.model.RowMenuItem
@@ -65,7 +66,7 @@ fun AppTile(
                 maxLines = SearchMetrics.TileLabelMaxLines,
                 lineHeight = SearchMetrics.TileLabelLineHeight.sp,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurface
+                color = SpTheme.colors.textPrimary
             )
         }
         RowContextMenu(expanded = menuOpen, items = menu, onDismiss = { menuOpen = false }, onAction = onAction)

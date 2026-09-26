@@ -45,6 +45,7 @@ fun SearchScreen(
     var barTop by remember { mutableStateOf<Int?>(null) }
     var settingsBottom by remember { mutableStateOf<Int?>(null) }
     var frequentHeight by remember { mutableStateOf<Int?>(null) }
+    var keyboardSettled by remember { mutableStateOf(false) }
     val view = LocalView.current
     val density = LocalDensity.current
     val displayHeightPx = LocalActivity.current?.window?.let(DialogWindowSetup::displayHeight) ?: 0
@@ -71,6 +72,8 @@ fun SearchScreen(
         delay(OverlayMetrics.EntryDelayMs)
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
         visible = true
+        delay(OverlayMetrics.KeyboardSettleTimeoutMs)
+        keyboardSettled = true
     }
 
     OverlayScrim(
@@ -98,7 +101,8 @@ fun SearchScreen(
         onQueryChange = onQueryChange,
         onSubmit = { handle(viewModel.submit()) },
         onClose = onClose,
-        onTopOnScreen = { barTop = it }
+        onTopOnScreen = { barTop = it },
+        onKeyboardShown = { keyboardSettled = true }
     )
 
     val ceiling = (settingsBottom ?: statusBarPx) + gapPx
@@ -107,7 +111,7 @@ fun SearchScreen(
     val top = barTop ?: return
     val offsetY = displayHeightPx - top + gapPx
     val idle = text.isBlank()
-    val frequentApps = if (idle) {
+    val frequentApps = if (idle && keyboardSettled) {
         results.sections.firstOrNull { it.kind == SectionKind.FREQUENT }?.hits?.filterIsInstance<AppHit>().orEmpty()
     } else {
         emptyList()
@@ -115,7 +119,7 @@ fun SearchScreen(
 
     FrequentAppsWindow(
         apps = frequentApps,
-        loading = idle && results.loading && frequentApps.isEmpty(),
+        loading = idle && keyboardSettled && results.loading && frequentApps.isEmpty(),
         offsetY = offsetY,
         blurEnabled = blurEnabled,
         icons = viewModel.icons,

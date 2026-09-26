@@ -4,7 +4,6 @@ import androidx.compose.ui.unit.dp
 
 object SearchMetrics {
     val RowPadding = 16.dp
-    val RowGap = 1.dp
     val RowIconSize = 40.dp
     val RowIconSpacing = 8.dp
     val ActionSpacing = 8.dp
@@ -23,8 +22,6 @@ object SearchMetrics {
     val PillPadding = 8.dp
     val ClearButtonSize = 24.dp
     val ClearIconSize = 16.dp
-    const val SurfaceAlphaWithBlur = 0.65f
-    const val SurfaceAlphaWithoutBlur = 1f
     const val TileLabelMaxLines = 2
     const val SubtitleAlpha = 0.5f
     const val SkeletonRows = 3

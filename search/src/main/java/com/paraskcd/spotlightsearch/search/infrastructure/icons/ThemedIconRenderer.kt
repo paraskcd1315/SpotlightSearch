@@ -19,7 +19,7 @@ import androidx.core.graphics.scale
 internal object ThemedIconRenderer {
     private const val SIZE = 128
     private const val PLAIN_ICON_SCALE = 0.65f
-    private const val CIRCLE_SCALE = 0.9f
+    private const val CIRCLE_SCALE = 1f
     private const val GRADIENT_INNER_ALPHA = 0x30000000
     private const val GRADIENT_OUTER_ALPHA = 0x60000000
 

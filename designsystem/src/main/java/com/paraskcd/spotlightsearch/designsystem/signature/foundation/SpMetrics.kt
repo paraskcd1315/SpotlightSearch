@@ -31,6 +31,7 @@ object SpMetrics {
     const val disabledAlpha = 0.5f
     val buttonHeight = 44.dp
     val buttonHorizontalPadding = 20.dp
+    val buttonIconSize = 18.dp
     const val dangerFillAlpha = 0.16f
     const val dangerBorderAlpha = 0.40f
     val searchHeight = 44.dp
@@ -40,4 +41,6 @@ object SpMetrics {
     val sheetHandleHeight = 5.dp
     val headerIconSize = 24.dp
     val bottomSpacer = 32.dp
+    const val panelAlphaBlurred = 0.45f
+    const val panelAlphaSolid = 0.94f
 }

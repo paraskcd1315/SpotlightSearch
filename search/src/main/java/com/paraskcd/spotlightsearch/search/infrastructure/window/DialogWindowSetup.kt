@@ -48,9 +48,13 @@ object DialogWindowSetup {
         }
     }
 
-    fun setOffsetY(window: Window, offsetYPx: Int) {
-        if (window.attributes.y == offsetYPx) return
-        window.attributes = window.attributes.apply { y = offsetYPx }
+    fun place(window: Window, offsetYPx: Int, alpha: Float) {
+        val attributes = window.attributes
+        if (attributes.y == offsetYPx && attributes.alpha == alpha) return
+        window.attributes = attributes.apply {
+            y = offsetYPx
+            this.alpha = alpha
+        }
     }
 
     fun setVisible(window: Window, visible: Boolean) {
