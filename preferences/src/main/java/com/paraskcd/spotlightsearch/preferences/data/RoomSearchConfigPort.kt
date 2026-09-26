@@ -12,11 +12,6 @@ class RoomSearchConfigPort @Inject constructor(
     private val dao: GlobalSearchConfigDao
 ) : SearchConfigPort {
     override fun config(): Flow<SearchConfig> = dao.observe().map { row ->
-        val config = row ?: GlobalSearchConfigEntity()
-        SearchConfig(
-            appsEnabled = config.appsEnabled,
-            contactsEnabled = config.contactsEnabled,
-            webSuggestionsEnabled = config.webSuggestionsEnabled
-        )
+        (row ?: GlobalSearchConfigEntity()).toSearchConfig()
     }
 }

@@ -14,7 +14,7 @@ import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpTheme
 @Composable
 fun Modifier.spPanelSurface(shape: Shape, blurred: Boolean): Modifier {
     val colors = SpTheme.colors
-    val alpha = if (blurred) SpMetrics.panelAlphaBlurred else SpMetrics.panelAlphaSolid
+    val alpha = if (blurred) LocalSpPanelAlpha.current else SpMetrics.panelAlphaSolid
     return this
         .clip(shape)
         .background(colors.bgBase.copy(alpha = alpha))

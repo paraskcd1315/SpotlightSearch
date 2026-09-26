@@ -8,5 +8,10 @@ data class GlobalSearchConfigEntity(
     @PrimaryKey val id: Int = 0,
     val appsEnabled: Boolean = true,
     val contactsEnabled: Boolean = true,
-    val webSuggestionsEnabled: Boolean = true
+    val webSuggestionsEnabled: Boolean = true,
+    val sectionOrder: String? = null,
+    val hiddenSections: String? = null,
+    val rowsPerSection: Int? = null,
+    val frequentRows: Int? = null,
+    val searchEngine: String? = null
 )

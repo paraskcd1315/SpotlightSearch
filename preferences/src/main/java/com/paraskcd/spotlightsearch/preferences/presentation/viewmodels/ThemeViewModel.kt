@@ -4,6 +4,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.paraskcd.spotlightsearch.preferences.domain.model.ColorOverrideKey
+import com.paraskcd.spotlightsearch.preferences.domain.model.GlassStrength
+import com.paraskcd.spotlightsearch.preferences.domain.model.TextSize
+import com.paraskcd.spotlightsearch.search.domain.model.AppResultsLayout
 import com.paraskcd.spotlightsearch.preferences.domain.model.ThemeMode
 import com.paraskcd.spotlightsearch.preferences.domain.repository.ThemeRepository
 import com.paraskcd.spotlightsearch.preferences.presentation.model.ThemeUi
@@ -25,6 +28,9 @@ class ThemeViewModel @Inject constructor(
                 mode = settings.mode,
                 enableBlur = settings.blurEnabled,
                 showBranding = settings.showBranding,
+                glassStrength = settings.glassStrength,
+                textSize = settings.textSize,
+                appLayout = settings.appLayout,
                 colors = settings.colors.mapValues { Color(it.value) }
             )
         }
@@ -35,6 +41,12 @@ class ThemeViewModel @Inject constructor(
     fun setBlur(enabled: Boolean) = viewModelScope.launch { repository.setBlur(enabled) }
 
     fun setBranding(visible: Boolean) = viewModelScope.launch { repository.setBranding(visible) }
+
+    fun setGlassStrength(strength: GlassStrength) = viewModelScope.launch { repository.setGlassStrength(strength) }
+
+    fun setTextSize(size: TextSize) = viewModelScope.launch { repository.setTextSize(size) }
+
+    fun setAppLayout(layout: AppResultsLayout) = viewModelScope.launch { repository.setAppLayout(layout) }
 
     fun setColor(key: ColorOverrideKey, argb: Int) = viewModelScope.launch { repository.setColor(key, argb) }
 

@@ -1,6 +1,9 @@
 package com.paraskcd.spotlightsearch.preferences.data
 
 import com.paraskcd.spotlightsearch.preferences.domain.model.ColorOverrideKey
+import com.paraskcd.spotlightsearch.preferences.domain.model.GlassStrength
+import com.paraskcd.spotlightsearch.preferences.domain.model.TextSize
+import com.paraskcd.spotlightsearch.search.domain.model.AppResultsLayout
 import com.paraskcd.spotlightsearch.preferences.domain.model.ThemeMode
 import com.paraskcd.spotlightsearch.preferences.domain.model.ThemeSettings
 import com.paraskcd.spotlightsearch.preferences.domain.repository.ThemeRepository
@@ -18,6 +21,12 @@ class RoomThemeRepository @Inject constructor(private val dao: UserThemeDao) : T
     override suspend fun setBlur(enabled: Boolean) = dao.merge(enableBlur = enabled)
 
     override suspend fun setBranding(visible: Boolean) = dao.merge(showBranding = visible)
+
+    override suspend fun setGlassStrength(strength: GlassStrength) = dao.merge(glassStrength = strength.name)
+
+    override suspend fun setTextSize(size: TextSize) = dao.merge(textSize = size.name)
+
+    override suspend fun setAppLayout(layout: AppResultsLayout) = dao.merge(appLayout = layout.name)
 
     override suspend fun setColor(key: ColorOverrideKey, argb: Int) = when (key) {
         ColorOverrideKey.background -> dao.merge(backgroundColor = argb)
@@ -52,6 +61,9 @@ class RoomThemeRepository @Inject constructor(private val dao: UserThemeDao) : T
             mode = theme,
             blurEnabled = enableBlur ?: true,
             showBranding = showBranding ?: true,
+            glassStrength = GlassStrength.entries.firstOrNull { it.name == glassStrength } ?: GlassStrength.MEDIUM,
+            textSize = TextSize.entries.firstOrNull { it.name == textSize } ?: TextSize.DEFAULT,
+            appLayout = AppResultsLayout.entries.firstOrNull { it.name == appLayout } ?: AppResultsLayout.LIST,
             colors = colors
         )
     }

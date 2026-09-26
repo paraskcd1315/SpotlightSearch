@@ -44,7 +44,7 @@ fun Modifier.spGlassSurface(
 ): Modifier {
     val colors = SpTheme.colors
     val fill = when {
-        panel -> colors.bgBase.copy(alpha = SpMetrics.panelAlphaBlurred)
+        panel -> colors.bgBase.copy(alpha = LocalSpPanelAlpha.current)
         strong -> colors.glassStrongBg
         else -> colors.glassBg
     }

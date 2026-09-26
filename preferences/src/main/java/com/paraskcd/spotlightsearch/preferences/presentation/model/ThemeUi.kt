@@ -3,12 +3,18 @@ package com.paraskcd.spotlightsearch.preferences.presentation.model
 import androidx.compose.ui.graphics.Color
 import com.paraskcd.spotlightsearch.designsystem.theme.ColorOverrides
 import com.paraskcd.spotlightsearch.preferences.domain.model.ColorOverrideKey
+import com.paraskcd.spotlightsearch.preferences.domain.model.GlassStrength
+import com.paraskcd.spotlightsearch.preferences.domain.model.TextSize
+import com.paraskcd.spotlightsearch.search.domain.model.AppResultsLayout
 import com.paraskcd.spotlightsearch.preferences.domain.model.ThemeMode
 
 data class ThemeUi(
     val mode: ThemeMode = ThemeMode.AUTO,
     val enableBlur: Boolean = true,
     val showBranding: Boolean = true,
+    val glassStrength: GlassStrength = GlassStrength.MEDIUM,
+    val textSize: TextSize = TextSize.DEFAULT,
+    val appLayout: AppResultsLayout = AppResultsLayout.LIST,
     val colors: Map<ColorOverrideKey, Color> = emptyMap()
 ) {
     val colorOverrides: ColorOverrides

@@ -3,20 +3,28 @@ package com.paraskcd.spotlightsearch.search.presentation.components
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.paraskcd.spotlightsearch.designsystem.ds.foundation.fadingEdges
+import com.paraskcd.spotlightsearch.search.domain.model.AppResultsLayout
+import com.paraskcd.spotlightsearch.search.domain.model.SearchLimits
 import com.paraskcd.spotlightsearch.search.domain.model.SearchSection
+import com.paraskcd.spotlightsearch.search.domain.model.SectionKind
 import com.paraskcd.spotlightsearch.search.presentation.model.HitCallbacks
 import com.paraskcd.spotlightsearch.search.presentation.model.IconSources
 import com.paraskcd.spotlightsearch.search.presentation.utils.SearchMetrics
+import com.paraskcd.spotlightsearch.sources.domain.model.hits.AppHit
+import com.paraskcd.spotlightsearch.sources.domain.model.hits.SearchHit
 
 @Composable
 fun SearchResultsPanel(
     sections: List<SearchSection>,
     loading: Boolean,
+    rowsPerSection: Int,
+    appLayout: AppResultsLayout,
     blurEnabled: Boolean,
     icons: IconSources,
     callbacks: HitCallbacks,
@@ -35,25 +43,22 @@ fun SearchResultsPanel(
         contentPadding = PaddingValues(SearchMetrics.ListPadding)
     ) {
         sections.forEach { section ->
-            val kind = section.kind
-            val capped = !single && section.hits.size > SearchMetrics.SectionCap
-            val shown = if (capped) section.hits.take(SearchMetrics.SectionCap) else section.hits
+            val grid = appLayout == AppResultsLayout.GRID && section.kind == SectionKind.APPS
+            val cap = if (grid) gridCap(rowsPerSection) else rowsPerSection
+            val capped = !single && section.hits.size > cap
+            val shown = if (capped) section.hits.take(cap) else section.hits
             if (capped) {
-                item(key = "$kind:toggle", contentType = ToggleRow) {
+                item(key = "${section.kind}:toggle", contentType = ToggleRow) {
                     SectionToggle(total = section.hits.size) { onShowAll(section) }
                 }
             }
-            val count = shown.size
-            for (index in count - 1 downTo 0) {
-                val hit = shown[index]
-                item(key = "$kind:$index", contentType = hit::class) {
-                    GlassRow(index = index, count = count, blurEnabled = blurEnabled) {
-                        HitContent(hit, icons, callbacks)
-                    }
-                }
+            if (grid) {
+                gridRows(section.kind, shown.filterIsInstance<AppHit>(), blurEnabled, icons, callbacks)
+            } else {
+                listRows(section, shown, blurEnabled, icons, callbacks)
             }
-            item(key = "$kind:header", contentType = HeaderRow) {
-                SectionHeader(kind)
+            item(key = "${section.kind}:header", contentType = HeaderRow) {
+                SectionHeader(section.kind)
             }
         }
         if (loading) {
@@ -67,6 +72,48 @@ fun SearchResultsPanel(
     }
 }
 
+private fun LazyListScope.listRows(
+    section: SearchSection,
+    shown: List<SearchHit>,
+    blurEnabled: Boolean,
+    icons: IconSources,
+    callbacks: HitCallbacks
+) {
+    val count = shown.size
+    for (index in count - 1 downTo 0) {
+        val hit = shown[index]
+        item(key = "${section.kind}:$index", contentType = hit::class) {
+            GlassRow(index = index, count = count, blurEnabled = blurEnabled) {
+                HitContent(hit, icons, callbacks)
+            }
+        }
+    }
+}
+
+private fun LazyListScope.gridRows(
+    kind: SectionKind,
+    apps: List<AppHit>,
+    blurEnabled: Boolean,
+    icons: IconSources,
+    callbacks: HitCallbacks
+) {
+    val rows = apps.chunked(SearchLimits.APPS_PER_ROW)
+    val count = rows.size
+    for (index in count - 1 downTo 0) {
+        item(key = "$kind:grid:$index", contentType = GridRow) {
+            GlassRow(index = index, count = count, blurEnabled = blurEnabled) {
+                AppTileRow(rows[index], icons, callbacks)
+            }
+        }
+    }
+}
+
+private fun gridCap(rowsPerSection: Int): Int {
+    val perRow = SearchLimits.APPS_PER_ROW
+    return ((rowsPerSection + perRow - 1) / perRow) * perRow
+}
+
 private const val HeaderRow = "header"
 private const val ToggleRow = "toggle"
 private const val LoadingRow = "loading"
+private const val GridRow = "grid"

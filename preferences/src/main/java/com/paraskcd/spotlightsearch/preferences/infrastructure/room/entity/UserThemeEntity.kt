@@ -16,5 +16,8 @@ data class UserThemeEntity(
     val onSurfaceColor: Int? = null,
     val outlineColor: Int? = null,
     val iconPack: String? = null,
-    val showBranding: Boolean? = null
+    val showBranding: Boolean? = null,
+    val glassStrength: String? = null,
+    val textSize: String? = null,
+    val appLayout: String? = null
 )

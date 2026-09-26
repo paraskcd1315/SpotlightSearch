@@ -1,6 +1,7 @@
 package com.paraskcd.spotlightsearch.search.presentation.utils
 
 import androidx.compose.ui.unit.dp
+import com.paraskcd.spotlightsearch.search.domain.model.SearchLimits
 
 object SearchMetrics {
     val RowPadding = 16.dp
@@ -16,7 +17,7 @@ object SearchMetrics {
     val TileIconInset = 6.dp
     val TileSpacing = 6.dp
     val TileLabelLineHeight = 12
-    const val TilesPerRow = 5
+    const val TilesPerRow = SearchLimits.APPS_PER_ROW
     val SectionHeaderPadding = 16.dp
     val ListPadding = 8.dp
     val PillPadding = 8.dp
@@ -26,7 +27,6 @@ object SearchMetrics {
     const val SubtitleAlpha = 0.5f
     const val SkeletonRows = 3
     const val LoadingMoreRows = 2
-    const val SectionCap = 5
     const val SheetListHeightFraction = 0.65f
     const val SkeletonTitleFraction = 0.6f
     const val SkeletonSubtitleFraction = 0.35f

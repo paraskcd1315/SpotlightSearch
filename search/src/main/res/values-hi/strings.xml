@@ -1,6 +1,7 @@
 <resources>
     <string name="search_placeholder">खोजें…</string>
     <string name="filter_all">सभी</string>
+    <string name="engine_system">डिफ़ॉल्ट सर्च ऐप</string>
     <string name="search_clear">खोज मिटाएं</string>
     <string name="search_open_settings">सेटिंग</string>
 

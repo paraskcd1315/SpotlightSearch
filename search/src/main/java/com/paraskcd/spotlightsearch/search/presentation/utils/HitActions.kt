@@ -1,6 +1,7 @@
 package com.paraskcd.spotlightsearch.search.presentation.utils
 
 import com.paraskcd.spotlightsearch.sources.domain.model.CalculationKind
+import com.paraskcd.spotlightsearch.sources.domain.model.WebSearchEngine
 import com.paraskcd.spotlightsearch.sources.domain.model.actions.HitAction
 import com.paraskcd.spotlightsearch.sources.domain.model.actions.LaunchApp
 import com.paraskcd.spotlightsearch.sources.domain.model.actions.OpenContact
@@ -22,15 +23,15 @@ import com.paraskcd.spotlightsearch.sources.domain.model.hits.TranslationHit
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.WebSearchHit
 
 object HitActions {
-    fun primary(hit: SearchHit, query: String): HitAction? = when (hit) {
+    fun primary(hit: SearchHit, query: String, engine: WebSearchEngine): HitAction? = when (hit) {
         is AppHit -> LaunchApp(hit.packageName)
         is ContactHit -> OpenContact(hit.number)
-        is CalculationHit -> if (hit.kind == CalculationKind.WEB) SearchWeb(query) else null
+        is CalculationHit -> if (hit.kind == CalculationKind.WEB) SearchWeb(query, engine) else null
         is TranslationHit -> OpenTranslator(hit.text, hit.sourceLanguage, hit.targetLanguage)
-        is SuggestionHit -> SearchWeb(hit.text)
+        is SuggestionHit -> SearchWeb(hit.text, engine)
         is DeviceSettingHit -> OpenDeviceSetting(hit.setting)
         is QuickSearchHit -> SearchWith(hit.service, hit.query)
-        is WebSearchHit -> SearchWeb(hit.query)
+        is WebSearchHit -> SearchWeb(hit.query, hit.engine)
         ContactsPermissionHit -> OpenContactsPermission
         is SpellingHit -> null
     }

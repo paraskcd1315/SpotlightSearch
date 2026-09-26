@@ -5,6 +5,7 @@ import androidx.compose.ui.res.stringResource
 import com.paraskcd.spotlightsearch.search.R
 import com.paraskcd.spotlightsearch.search.presentation.model.HitText
 import com.paraskcd.spotlightsearch.sources.domain.model.CalculationKind
+import com.paraskcd.spotlightsearch.sources.domain.model.WebSearchEngine
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.AppHit
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.CalculationHit
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.ContactHit
@@ -42,7 +43,7 @@ fun hitText(hit: SearchHit): HitText = when (hit) {
     )
     is WebSearchHit -> HitText(
         stringResource(R.string.hit_web_title, hit.query),
-        stringResource(R.string.hit_web_subtitle)
+        if (hit.engine == WebSearchEngine.SYSTEM) stringResource(R.string.hit_web_subtitle) else stringResource(hit.engine.nameRes())
     )
     ContactsPermissionHit -> HitText(
         stringResource(R.string.hit_permission_title),

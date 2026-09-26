@@ -1,7 +1,10 @@
 package com.paraskcd.spotlightsearch.search.domain.usecase
 
+import com.paraskcd.spotlightsearch.search.domain.model.RankedHits
+import com.paraskcd.spotlightsearch.search.domain.model.SearchConfig
 import com.paraskcd.spotlightsearch.search.domain.model.SearchSection
 import com.paraskcd.spotlightsearch.search.domain.model.SectionKind
+import com.paraskcd.spotlightsearch.search.domain.model.SectionOrder
 import com.paraskcd.spotlightsearch.search.domain.ports.SearchConfigPort
 import com.paraskcd.spotlightsearch.search.domain.ports.UsagePort
 import com.paraskcd.spotlightsearch.sources.domain.calculator.Calculator
@@ -51,42 +54,58 @@ class SearchUseCase @Inject constructor(
         }
         val short = query.length < SearchThresholds.SHORT_QUERY_LENGTH
         val settings = config.config().first()
-        val board = SectionBoard { send(it) }
+        val board = SectionBoard(SectionOrder.normalize(settings.sectionOrder), settings.hiddenSections) { send(it) }
+        val wantsTopHit = settings.shows(SectionKind.TOP_HIT)
 
-        board.put(SectionKind.WEB, listOf(WebSearchHit(query)))
+        board.put(SectionKind.WEB, listOf(WebSearchHit(query, settings.searchEngine)))
         if (!contacts.hasPermission()) board.put(SectionKind.PERMISSIONS, listOf(ContactsPermissionHit))
 
         val appHits = async {
-            if (!settings.appsEnabled) return@async emptyList()
+            if (!settings.appsEnabled || !(settings.shows(SectionKind.APPS) || wantsTopHit)) return@async emptyList()
             val ranks = usage.mostUsedPackages(USAGE_WINDOW).first().withIndex().associate { it.value to it.index }
             apps.search(query).sortedWith(compareBy<AppHit> { it.tier }.thenBy { ranks[it.packageName] ?: Int.MAX_VALUE })
         }
-        val contactHits = async { if (settings.contactsEnabled) contacts.search(query) else emptyList() }
+        val contactHits = async {
+            if (!settings.contactsEnabled || !(settings.shows(SectionKind.CONTACTS) || wantsTopHit)) return@async emptyList()
+            contacts.search(query)
+        }
 
-        val localSources = listOf(
+        val localSources = listOfNotNull(
             launch {
-                val ranked = TopHit.pick(appHits.await(), contactHits.await())
+                val found = appHits.await() to contactHits.await()
+                val ranked = if (wantsTopHit) TopHit.pick(found.first, found.second) else RankedHits(null, found.first, found.second)
                 board.put(SectionKind.TOP_HIT, listOfNotNull(ranked.top))
                 board.put(SectionKind.APPS, ranked.apps)
                 board.put(SectionKind.CONTACTS, ranked.contacts)
             },
-            launch { board.put(SectionKind.SETTINGS, deviceSettings.search(query)) },
-            launch {
-                val targets = quickSearch.targets(query)
-                board.put(SectionKind.QUICK_SEARCH, if (short) targets.take(1) else targets)
+            settings.whenShown(SectionKind.SETTINGS) {
+                launch { board.put(SectionKind.SETTINGS, deviceSettings.search(query)) }
             },
-            launch {
-                if (query.length < SearchThresholds.SPELLING_MIN_LENGTH) return@launch
-                spelling.correction(query)?.let { board.put(SectionKind.DICTIONARY, listOf(SpellingHit(it))) }
+            settings.whenShown(SectionKind.QUICK_SEARCH) {
+                launch {
+                    val targets = quickSearch.targets(query)
+                    board.put(SectionKind.QUICK_SEARCH, if (short) targets.take(1) else targets)
+                }
             },
-            launch {
-                val local = withContext(Dispatchers.Default) { calculator.evaluate(query) } ?: return@launch
-                board.update(SectionKind.CALCULATOR) { current -> if (current.isWebCalculation()) current else listOf(local) }
+            settings.whenShown(SectionKind.DICTIONARY) {
+                launch {
+                    if (query.length < SearchThresholds.SPELLING_MIN_LENGTH) return@launch
+                    spelling.correction(query)?.let { board.put(SectionKind.DICTIONARY, listOf(SpellingHit(it))) }
+                }
+            },
+            settings.whenShown(SectionKind.CALCULATOR) {
+                launch {
+                    val local = withContext(Dispatchers.Default) { calculator.evaluate(query) } ?: return@launch
+                    board.update(SectionKind.CALCULATOR) { current -> if (current.isWebCalculation()) current else listOf(local) }
+                }
             }
         )
 
-        launch { translation.translate(query)?.let { board.put(SectionKind.TRANSLATION, listOf(it)) } }
-        if (settings.webSuggestionsEnabled && query.length >= SearchThresholds.WEB_SUGGESTIONS_MIN_LENGTH) launch {
+        if (settings.shows(SectionKind.TRANSLATION)) launch {
+            translation.translate(query)?.let { board.put(SectionKind.TRANSLATION, listOf(it)) }
+        }
+        val wantsWebAnswers = settings.shows(SectionKind.SUGGESTIONS) || settings.shows(SectionKind.CALCULATOR)
+        if (settings.webSuggestionsEnabled && wantsWebAnswers && query.length >= SearchThresholds.WEB_SUGGESTIONS_MIN_LENGTH) launch {
             val found = suggestions.suggest(query)
             val webAnswer = found.firstOrNull { it.trim().startsWith(WEB_ANSWER_PREFIX) }
             if (webAnswer != null) {
@@ -99,6 +118,9 @@ class SearchUseCase @Inject constructor(
         withTimeoutOrNull(LOCAL_SOURCES_WAIT_MS) { localSources.joinAll() }
         board.release()
     }
+
+    private inline fun <T> SearchConfig.whenShown(kind: SectionKind, block: () -> T): T? =
+        if (shows(kind)) block() else null
 
     private fun List<*>?.isWebCalculation() =
         this?.any { it is CalculationHit && it.kind == CalculationKind.WEB } == true
