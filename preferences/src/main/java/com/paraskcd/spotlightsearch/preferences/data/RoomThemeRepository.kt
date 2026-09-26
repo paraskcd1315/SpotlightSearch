@@ -17,6 +17,8 @@ class RoomThemeRepository @Inject constructor(private val dao: UserThemeDao) : T
 
     override suspend fun setBlur(enabled: Boolean) = dao.merge(enableBlur = enabled)
 
+    override suspend fun setBranding(visible: Boolean) = dao.merge(showBranding = visible)
+
     override suspend fun setColor(key: ColorOverrideKey, argb: Int) = when (key) {
         ColorOverrideKey.background -> dao.merge(backgroundColor = argb)
         ColorOverrideKey.surfaceBright -> dao.merge(surfaceBrightColor = argb)
@@ -46,6 +48,11 @@ class RoomThemeRepository @Inject constructor(private val dao: UserThemeDao) : T
             onSurfaceColor?.let { put(ColorOverrideKey.onSurface, it) }
             outlineColor?.let { put(ColorOverrideKey.outline, it) }
         }
-        return ThemeSettings(mode = theme, blurEnabled = enableBlur ?: true, colors = colors)
+        return ThemeSettings(
+            mode = theme,
+            blurEnabled = enableBlur ?: true,
+            showBranding = showBranding ?: true,
+            colors = colors
+        )
     }
 }

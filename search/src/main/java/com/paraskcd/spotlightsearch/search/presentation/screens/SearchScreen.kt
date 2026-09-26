@@ -35,6 +35,7 @@ import kotlinx.coroutines.delay
 fun SearchScreen(
     viewModel: SearchViewModel,
     blurEnabled: Boolean,
+    showBranding: Boolean,
     appName: String,
     onOpenSettings: () -> Unit,
     onClose: () -> Unit
@@ -78,6 +79,7 @@ fun SearchScreen(
 
     OverlayScrim(
         visible = visible,
+        showBranding = showBranding,
         appName = appName,
         icons = viewModel.icons.apps,
         topLimitPx = settingsBottom,

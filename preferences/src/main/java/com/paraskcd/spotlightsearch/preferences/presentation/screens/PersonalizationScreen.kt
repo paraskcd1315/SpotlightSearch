@@ -16,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import com.composables.icons.lucide.BadgeCheck
 import com.composables.icons.lucide.Droplets
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Paintbrush
@@ -57,9 +58,9 @@ fun PersonalizationScreen(viewModel: ThemeViewModel, onNavigate: (String) -> Uni
         ) {
             item { SpSectionHeader(stringResource(R.string.appearance_section)) }
             item {
-                SpGroupedList(count = if (supportsBlur) 2 else 1) { index ->
-                    if (index == 0) {
-                        SpSettingsRow(
+                SpGroupedList(count = if (supportsBlur) 3 else 2) { index ->
+                    when {
+                        index == 0 -> SpSettingsRow(
                             label = stringResource(R.string.appearance_select_theme),
                             icon = Lucide.SunMoon,
                             onClick = { showThemeDialog = true },
@@ -71,8 +72,13 @@ fun PersonalizationScreen(viewModel: ThemeViewModel, onNavigate: (String) -> Uni
                                 )
                             }
                         )
-                    } else {
-                        SwitchRow(
+                        index == 1 -> SwitchRow(
+                            text = stringResource(R.string.appearance_show_branding),
+                            icon = Lucide.BadgeCheck,
+                            checked = state.showBranding,
+                            onCheckedChange = viewModel::setBranding
+                        )
+                        else -> SwitchRow(
                             text = stringResource(R.string.appearance_enable_blur),
                             icon = Lucide.Droplets,
                             checked = state.enableBlur,

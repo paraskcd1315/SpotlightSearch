@@ -24,6 +24,7 @@ class ThemeViewModel @Inject constructor(
             ThemeUi(
                 mode = settings.mode,
                 enableBlur = settings.blurEnabled,
+                showBranding = settings.showBranding,
                 colors = settings.colors.mapValues { Color(it.value) }
             )
         }
@@ -32,6 +33,8 @@ class ThemeViewModel @Inject constructor(
     fun setMode(mode: ThemeMode) = viewModelScope.launch { repository.setMode(mode) }
 
     fun setBlur(enabled: Boolean) = viewModelScope.launch { repository.setBlur(enabled) }
+
+    fun setBranding(visible: Boolean) = viewModelScope.launch { repository.setBranding(visible) }
 
     fun setColor(key: ColorOverrideKey, argb: Int) = viewModelScope.launch { repository.setColor(key, argb) }
 

@@ -44,6 +44,8 @@
     <string name="appearance_section">Darstellung</string>
     <string name="appearance_select_theme">Design auswählen</string>
     <string name="appearance_enable_blur">Unschärfe aktivieren</string>
+    <string name="appearance_show_branding">Logo und Titel anzeigen</string>
+    <string name="settings_version">Version</string>
     <string name="personalization_section">Personalisierung</string>
     <string name="personalization_reset_colors">Farben zurücksetzen</string>
     <string name="theme_dialog_title">Designmodus</string>

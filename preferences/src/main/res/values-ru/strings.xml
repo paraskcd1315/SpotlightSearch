@@ -44,6 +44,8 @@
     <string name="appearance_section">Внешний вид</string>
     <string name="appearance_select_theme">Выбрать тему</string>
     <string name="appearance_enable_blur">Включить размытие</string>
+    <string name="appearance_show_branding">Показывать логотип и название</string>
+    <string name="settings_version">Версия</string>
     <string name="personalization_section">Персонализация</string>
     <string name="personalization_reset_colors">Сбросить цвета</string>
     <string name="theme_dialog_title">Режим темы</string>

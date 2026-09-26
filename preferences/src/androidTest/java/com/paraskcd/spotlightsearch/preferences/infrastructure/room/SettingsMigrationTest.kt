@@ -68,6 +68,7 @@ class SettingsMigrationTest {
         assertEquals(ThemeMode.DARK, theme?.theme)
         assertEquals(true, theme?.enableBlur)
         assertEquals(-16777216, theme?.surfaceColor)
+        assertEquals(null, theme?.showBranding)
         assertEquals(9, quickSearch.size)
         assertTrue(quickSearch.all { it.enabled })
         assertEquals(

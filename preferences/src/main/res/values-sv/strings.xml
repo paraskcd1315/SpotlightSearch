@@ -44,6 +44,8 @@
     <string name="appearance_section">Utseende</string>
     <string name="appearance_select_theme">Välj tema</string>
     <string name="appearance_enable_blur">Aktivera oskärpa</string>
+    <string name="appearance_show_branding">Visa logotyp och titel</string>
+    <string name="settings_version">Version</string>
     <string name="personalization_section">Anpassning</string>
     <string name="personalization_reset_colors">Återställ färger</string>
     <string name="theme_dialog_title">Temaläge</string>

@@ -8,6 +8,7 @@ import com.paraskcd.spotlightsearch.preferences.domain.model.ThemeMode
 data class ThemeUi(
     val mode: ThemeMode = ThemeMode.AUTO,
     val enableBlur: Boolean = true,
+    val showBranding: Boolean = true,
     val colors: Map<ColorOverrideKey, Color> = emptyMap()
 ) {
     val colorOverrides: ColorOverrides

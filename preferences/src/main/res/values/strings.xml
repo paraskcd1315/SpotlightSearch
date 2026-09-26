@@ -45,6 +45,8 @@
     <string name="appearance_section">Appearance</string>
     <string name="appearance_select_theme">Select theme</string>
     <string name="appearance_enable_blur">Enable Blur</string>
+    <string name="appearance_show_branding">Show logo and title</string>
+    <string name="settings_version">Version</string>
     <string name="personalization_section">Personalization</string>
     <string name="personalization_reset_colors">Reset colors</string>
     <string name="theme_dialog_title">Theme Mode</string>

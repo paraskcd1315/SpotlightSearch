@@ -40,6 +40,7 @@ import kotlin.math.roundToInt
 @Composable
 fun OverlayScrim(
     visible: Boolean,
+    showBranding: Boolean,
     appName: String,
     icons: AppIconLoader,
     topLimitPx: Int?,
@@ -87,7 +88,7 @@ fun OverlayScrim(
     ) {
         Box(modifier = band, contentAlignment = Alignment.Center) {
             AnimatedVisibility(
-                visible = visible,
+                visible = visible && showBranding,
                 enter = fadeIn(tween(OverlayMetrics.EntryFadeMs)) + scaleIn(
                     initialScale = OverlayMetrics.EntryInitialScale,
                     animationSpec = tween(OverlayMetrics.EntryFadeMs, easing = FastOutSlowInEasing)

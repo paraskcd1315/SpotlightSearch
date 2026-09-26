@@ -44,6 +44,8 @@
     <string name="appearance_section">Aspetto</string>
     <string name="appearance_select_theme">Scegli il tema</string>
     <string name="appearance_enable_blur">Attiva la sfocatura</string>
+    <string name="appearance_show_branding">Mostra logo e titolo</string>
+    <string name="settings_version">Versione</string>
     <string name="personalization_section">Personalizzazione</string>
     <string name="personalization_reset_colors">Ripristina i colori</string>
     <string name="theme_dialog_title">Modalità tema</string>
