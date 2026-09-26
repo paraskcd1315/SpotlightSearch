@@ -11,7 +11,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import kotlinx.coroutines.launch
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
@@ -60,6 +62,17 @@ fun SearchScreen(
     var frequentHeight by remember { mutableStateOf<Int?>(null) }
     var keyboardSettled by remember { mutableStateOf(false) }
     var keyboardVisible by remember { mutableStateOf(false) }
+    var closing by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    val dismiss: () -> Unit = {
+        if (!closing) {
+            closing = true
+            scope.launch {
+                delay(OverlayMetrics.ExitFadeMs)
+                onClose()
+            }
+        }
+    }
     val view = LocalView.current
     val density = LocalDensity.current
     val activityWindow = LocalActivity.current?.window
@@ -100,24 +113,27 @@ fun SearchScreen(
     )
 
     OverlayScrim(
-        visible = visible && keyboardSettled && barTop != null && settingsSize != null,
+        visible = visible && !closing && keyboardSettled && barTop != null && settingsSize != null,
         showBranding = showBranding,
-        tinted = keyboardVisible,
+        tinted = keyboardVisible && !closing,
         appName = appName,
         icons = viewModel.icons.apps,
         topLimitPx = statusBarPx,
         bottomLimitPx = barTop?.let { it - gapPx - toolbarPx - frequentReserve },
-        onClose = onClose
+        onClose = dismiss
     )
 
     if (!visible) return
 
+    BackHandler(enabled = sheetSection == null, onBack = dismiss)
+
     SearchBarWindow(
+        visible = !closing,
         query = text,
         blurEnabled = blurEnabled,
         onQueryChange = onQueryChange,
         onSubmit = { handle(viewModel.submit()) },
-        onClose = onClose,
+        onClose = dismiss,
         onTopOnScreen = { barTop = it },
         onKeyboardShown = { keyboardSettled = true },
         onKeyboardVisibility = { keyboardVisible = it }
@@ -132,16 +148,16 @@ fun SearchScreen(
     LaunchedEffect(idle) { if (idle) filter = null }
 
     SettingsButtonWindow(
-        visible = keyboardSettled,
+        visible = keyboardSettled && !closing,
         blurEnabled = blurEnabled,
         offsetX = sideMarginPx,
         offsetY = toolbarOffsetY,
         onOpenSettings = onOpenSettings,
-        onClose = onClose,
+        onClose = dismiss,
         onSize = { settingsSize = it }
     )
 
-    val sections = if (idle) emptyList() else results.sections.filterNot { it.kind == SectionKind.FREQUENT }
+    val sections = if (idle || closing) emptyList() else results.sections.filterNot { it.kind == SectionKind.FREQUENT }
     val kinds = sections.filterKinds()
     val active = filter?.takeIf { it in kinds }
     val filterMaxWidthPx = displayWidthPx - 2 * sideMarginPx - (settingsSize?.width ?: 0) - gapPx
@@ -154,11 +170,11 @@ fun SearchScreen(
         offsetY = toolbarOffsetY + ((toolbarPx - filterHeight) / 2).coerceAtLeast(0),
         maxWidth = with(density) { filterMaxWidthPx.coerceAtLeast(0).toDp() },
         blurEnabled = blurEnabled,
-        onClose = onClose,
+        onClose = dismiss,
         onHeight = { filterHeight = it }
     )
 
-    val toolbarReady = keyboardSettled && settingsSize != null
+    val toolbarReady = keyboardSettled && settingsSize != null && !closing
     val frequentApps = if (idle && toolbarReady) {
         results.sections.firstOrNull { it.kind == SectionKind.FREQUENT }?.hits?.filterIsInstance<AppHit>().orEmpty()
     } else {
@@ -172,12 +188,12 @@ fun SearchScreen(
         blurEnabled = blurEnabled,
         icons = viewModel.icons,
         callbacks = callbacks,
-        onClose = onClose,
+        onClose = dismiss,
         onHeight = { frequentHeight = it }
     )
 
     ResultsWindow(
-        results = if (idle) {
+        results = if (idle || closing) {
             SearchResults(loading = false)
         } else {
             results.copy(sections = sections.filteredBy(active))
@@ -189,7 +205,7 @@ fun SearchScreen(
         callbacks = callbacks,
         scrollKey = active,
         onShowAll = { sheetSection = it },
-        onClose = onClose
+        onClose = dismiss
     )
 
     BackHandler(enabled = sheetSection != null) { sheetSection = null }

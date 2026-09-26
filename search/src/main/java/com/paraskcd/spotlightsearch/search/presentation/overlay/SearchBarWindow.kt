@@ -18,6 +18,7 @@ import kotlinx.coroutines.android.awaitFrame
 
 @Composable
 fun SearchBarWindow(
+    visible: Boolean,
     query: String,
     blurEnabled: Boolean,
     onQueryChange: (String) -> Unit,
@@ -33,7 +34,9 @@ fun SearchBarWindow(
         blurEnabled = blurEnabled,
         offsetY = offsetY,
         cornerRadius = OverlayMetrics.BarCornerRadius,
-        onDismissRequest = onClose
+        onDismissRequest = onClose,
+        visible = visible,
+        animateIn = true
     ) {
         val view = LocalView.current
         val focusRequester = remember { FocusRequester() }
