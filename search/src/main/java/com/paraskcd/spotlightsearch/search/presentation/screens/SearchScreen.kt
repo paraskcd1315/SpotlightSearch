@@ -172,7 +172,7 @@ fun SearchScreen(
             results.copy(sections = if (active == null) sections else sections.filter { it.kind == active })
         },
         offsetY = panelOffsetY,
-        heightPx = panelHeightPx,
+        maxHeightPx = panelHeightPx,
         blurEnabled = blurEnabled,
         icons = viewModel.icons,
         callbacks = callbacks,

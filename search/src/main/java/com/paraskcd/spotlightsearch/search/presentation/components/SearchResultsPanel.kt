@@ -1,7 +1,7 @@
 package com.paraskcd.spotlightsearch.search.presentation.components
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -23,7 +23,7 @@ fun SearchResultsPanel(
     val listState = rememberLazyListState()
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .fadingEdges(listState),
         state = listState,
         reverseLayout = true,
