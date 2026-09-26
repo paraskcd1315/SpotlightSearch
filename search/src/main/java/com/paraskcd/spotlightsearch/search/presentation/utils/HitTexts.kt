@@ -19,8 +19,8 @@ import com.paraskcd.spotlightsearch.sources.domain.model.hits.WebSearchHit
 
 @Composable
 fun hitText(hit: SearchHit): HitText = when (hit) {
-    is AppHit -> HitText(hit.label, hit.packageName)
-    is ContactHit -> HitText(hit.name, hit.number)
+    is AppHit -> HitText(hit.label, hit.packageName, hit.matches)
+    is ContactHit -> HitText(hit.name, hit.number, hit.matches)
     is CalculationHit -> HitText(hit.answer, hit.detail ?: stringResource(hit.kind.subtitleRes()))
     is TranslationHit -> HitText(
         hit.translation,

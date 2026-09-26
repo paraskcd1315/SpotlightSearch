@@ -5,6 +5,9 @@
     <string name="search_open_settings">Paramètres</string>
 
     <string name="section_frequent">Utilisées fréquemment</string>
+    <string name="section_top_hit">Meilleur résultat</string>
+    <string name="section_show_all">Afficher les %1$d</string>
+    <string name="section_show_less">Afficher moins</string>
     <string name="section_settings">Paramètres</string>
     <string name="section_dictionary">Dictionnaire</string>
     <string name="section_permissions">Autorisations</string>

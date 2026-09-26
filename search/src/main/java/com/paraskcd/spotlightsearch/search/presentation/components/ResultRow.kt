@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import com.paraskcd.spotlightsearch.search.presentation.utils.highlightedTitle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -37,8 +39,12 @@ fun ResultRow(
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(SpSpacing.s3)) {
             leading()
             Column {
+                val highlight = colors.brandText
+                val title = remember(text.title, text.matches, highlight) {
+                    highlightedTitle(text.title, text.matches, highlight)
+                }
                 Text(
-                    text.title,
+                    title,
                     color = colors.textPrimary,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = SpMetrics.settingsItemTextSize,

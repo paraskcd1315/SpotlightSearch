@@ -5,10 +5,12 @@ import com.paraskcd.spotlightsearch.sources.domain.model.QuickSearchService
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.QuickSearchHit
 import com.paraskcd.spotlightsearch.sources.domain.ports.QuickSearchOrderPort
 import com.paraskcd.spotlightsearch.sources.domain.repository.QuickSearchRepository
+import com.paraskcd.spotlightsearch.sources.infrastructure.apps.PackageChangeReceiver
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,7 +20,12 @@ class QuickSearchRepositoryImpl @Inject constructor(
     private val order: QuickSearchOrderPort
 ) : QuickSearchRepository {
     private val defaults = QuickSearchService.entries.map { it.packageName }
+    private val installed = ConcurrentHashMap<String, Boolean>()
     @Volatile private var defaultsEnsured = false
+
+    init {
+        PackageChangeReceiver { installed.clear() }.register(context)
+    }
 
     override suspend fun targets(query: String): List<QuickSearchHit> {
         if (query.isBlank()) return emptyList()
@@ -36,6 +43,7 @@ class QuickSearchRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun isInstalled(packageName: String): Boolean =
+    private fun isInstalled(packageName: String): Boolean = installed.getOrPut(packageName) {
         runCatching { context.packageManager.getApplicationInfo(packageName, 0) }.isSuccess
+    }
 }

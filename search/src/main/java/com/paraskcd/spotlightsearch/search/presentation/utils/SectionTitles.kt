@@ -7,6 +7,7 @@ import com.paraskcd.spotlightsearch.search.domain.model.SectionKind
 @StringRes
 fun SectionKind.titleRes(): Int = when (this) {
     SectionKind.FREQUENT -> R.string.section_frequent
+    SectionKind.TOP_HIT -> R.string.section_top_hit
     SectionKind.SETTINGS -> R.string.section_settings
     SectionKind.DICTIONARY -> R.string.section_dictionary
     SectionKind.PERMISSIONS -> R.string.section_permissions

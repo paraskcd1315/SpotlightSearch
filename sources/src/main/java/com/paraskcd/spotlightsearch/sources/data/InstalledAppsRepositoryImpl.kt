@@ -1,6 +1,9 @@
 package com.paraskcd.spotlightsearch.sources.data
 
 import android.content.Context
+import com.paraskcd.spotlightsearch.sources.domain.matching.NameMatch
+import com.paraskcd.spotlightsearch.sources.domain.matching.NameMatcher
+import com.paraskcd.spotlightsearch.sources.domain.matching.foldForSearch
 import com.paraskcd.spotlightsearch.sources.domain.model.InstalledApp
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.AppHit
 import com.paraskcd.spotlightsearch.sources.domain.ports.BlacklistPort
@@ -55,17 +58,24 @@ class InstalledAppsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun search(query: String): List<AppHit> {
-        if (query.isBlank()) return emptyList()
+        val folded = query.trim().foldForSearch()
+        if (folded.isEmpty()) return emptyList()
         warmUp()
         val apps = visible.first()
         return withContext(Dispatchers.Default) {
-            apps.filter { app -> app.label.contains(query, ignoreCase = true) || matchesAlias(app, query) }
-                .map { AppHit(it.packageName, it.label) }
+            apps.mapNotNull { app -> bestMatch(app, folded)?.let { AppHit(app.packageName, app.label, it.tier, it.ranges) } }
+                .sortedWith(compareBy<AppHit> { it.tier }.thenBy { it.label.foldForSearch() })
         }
     }
 
-    private fun matchesAlias(app: InstalledApp, query: String): Boolean =
-        AppAliases.byPackage[app.packageName]?.any { it.contains(query, ignoreCase = true) } == true
+    private fun bestMatch(app: InstalledApp, folded: String): NameMatch? {
+        val byLabel = NameMatcher.match(app.label, folded)
+        val byAlias = AppAliases.byPackage[app.packageName]
+            ?.mapNotNull { NameMatcher.match(it, folded) }
+            ?.minByOrNull { it.tier }
+            ?.copy(ranges = emptyList())
+        return listOfNotNull(byLabel, byAlias).minByOrNull { it.tier }
+    }
 
     private fun reload() {
         scope.launch { installed.value = source.load() }

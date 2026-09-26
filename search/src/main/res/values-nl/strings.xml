@@ -5,6 +5,9 @@
     <string name="search_open_settings">Instellingen</string>
 
     <string name="section_frequent">Vaak gebruikt</string>
+    <string name="section_top_hit">Beste resultaat</string>
+    <string name="section_show_all">Alle %1$d tonen</string>
+    <string name="section_show_less">Minder tonen</string>
     <string name="section_settings">Instellingen</string>
     <string name="section_dictionary">Woordenboek</string>
     <string name="section_permissions">Rechten</string>

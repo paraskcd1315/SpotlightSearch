@@ -8,10 +8,16 @@ import com.google.mlkit.nl.translate.TranslatorOptions
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.TranslationHit
 import com.paraskcd.spotlightsearch.sources.domain.translation.TranslationRequest
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeoutOrNull
 import javax.inject.Inject
 
 class MlKitTranslator @Inject constructor() {
-    suspend fun translate(request: TranslationRequest): TranslationHit? {
+    private val identifier by lazy { LanguageIdentification.getClient() }
+
+    suspend fun translate(request: TranslationRequest): TranslationHit? =
+        withTimeoutOrNull(TRANSLATE_TIMEOUT_MS) { translateNow(request) }
+
+    private suspend fun translateNow(request: TranslationRequest): TranslationHit? {
         val target = TranslateLanguage.fromLanguageTag(request.targetLanguage) ?: return null
         val sourceTag = request.sourceLanguage ?: identify(request.text) ?: return null
         val source = TranslateLanguage.fromLanguageTag(sourceTag) ?: return null
@@ -36,7 +42,7 @@ class MlKitTranslator @Inject constructor() {
     }
 
     private suspend fun identify(text: String): String? = try {
-        LanguageIdentification.getClient().identifyLanguage(text).await()
+        identifier.identifyLanguage(text).await()
     } catch (e: Exception) {
         Log.w(TAG, "Language detection failed", e)
         null
@@ -44,5 +50,6 @@ class MlKitTranslator @Inject constructor() {
 
     private companion object {
         const val TAG = "MlKitTranslator"
+        const val TRANSLATE_TIMEOUT_MS = 3_000L
     }
 }

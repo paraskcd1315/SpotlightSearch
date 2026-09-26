@@ -22,7 +22,10 @@ import com.paraskcd.spotlightsearch.sources.domain.repository.InstalledAppsRepos
 import com.paraskcd.spotlightsearch.sources.domain.repository.SpellingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -33,7 +36,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val search: SearchUseCase,
@@ -49,6 +52,9 @@ class SearchViewModel @Inject constructor(
     val icons = IconSources(appIcons, contactPhotos)
 
     val results: StateFlow<SearchResults> = _query
+        .map { it.trim() }
+        .debounce { if (it.isEmpty()) 0L else QUERY_DEBOUNCE_MS }
+        .distinctUntilChanged()
         .flatMapLatest { query ->
             val sections = if (query.isBlank()) frequentSections() else search(query)
             sections.map { SearchResults(it, loading = false) }.onStart { emit(SearchResults(loading = true)) }
@@ -96,6 +102,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private companion object {
-        val SUBMITTABLE = setOf(SectionKind.SETTINGS, SectionKind.APPS, SectionKind.CONTACTS)
+        val SUBMITTABLE = setOf(SectionKind.TOP_HIT, SectionKind.SETTINGS, SectionKind.APPS, SectionKind.CONTACTS)
+        const val QUERY_DEBOUNCE_MS = 100L
     }
 }

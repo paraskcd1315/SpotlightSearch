@@ -1,5 +1,8 @@
 package com.paraskcd.spotlightsearch.sources.data
 
+import com.paraskcd.spotlightsearch.sources.domain.matching.NameMatch
+import com.paraskcd.spotlightsearch.sources.domain.matching.NameMatcher
+import com.paraskcd.spotlightsearch.sources.domain.matching.foldForSearch
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.ContactHit
 import com.paraskcd.spotlightsearch.sources.domain.repository.ContactsRepository
 import com.paraskcd.spotlightsearch.sources.infrastructure.contacts.ContactsSource
@@ -22,12 +25,17 @@ class ContactsRepositoryImpl @Inject constructor(
     override fun hasPermission(): Boolean = source.hasPermission()
 
     override suspend fun search(query: String): List<ContactHit> {
-        if (query.isBlank() || !source.hasPermission()) return emptyList()
+        val folded = query.trim().foldForSearch()
+        if (folded.isEmpty() || !source.hasPermission()) return emptyList()
         return withContext(Dispatchers.IO) {
-            val matches = contacts().filter { it.name.contains(query, ignoreCase = true) }
+            val matches = contacts().mapNotNull { contact -> NameMatcher.match(contact.name, folded)?.let { contact to it } }
             if (matches.isEmpty()) return@withContext emptyList()
             val hasWhatsApp = source.hasWhatsApp()
-            matches.map { ContactHit(it.name, it.number, it.photoUri, hasWhatsApp) }
+            matches
+                .sortedWith(compareBy<Pair<PhoneContact, NameMatch>> { it.second.tier }.thenBy { it.first.name.foldForSearch() })
+                .map { (contact, match) ->
+                    ContactHit(contact.name, contact.number, contact.photoUri, hasWhatsApp, match.tier, match.ranges)
+                }
         }
     }
 

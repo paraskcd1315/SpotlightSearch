@@ -31,6 +31,8 @@ import com.paraskcd.spotlightsearch.search.presentation.overlay.FrequentAppsWind
 import com.paraskcd.spotlightsearch.search.presentation.model.SearchResults
 import com.paraskcd.spotlightsearch.search.domain.model.SectionKind
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.AppHit
+import com.paraskcd.spotlightsearch.search.presentation.utils.filterKinds
+import com.paraskcd.spotlightsearch.search.presentation.utils.filteredBy
 import com.paraskcd.spotlightsearch.search.presentation.viewmodels.SearchViewModel
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
@@ -133,7 +135,7 @@ fun SearchScreen(
     )
 
     val sections = if (idle) emptyList() else results.sections.filterNot { it.kind == SectionKind.FREQUENT }
-    val kinds = sections.map { it.kind }
+    val kinds = sections.filterKinds()
     val active = filter?.takeIf { it in kinds }
     val filterMaxWidthPx = displayWidthPx - 2 * sideMarginPx - (settingsSize?.width ?: 0) - gapPx
 
@@ -171,7 +173,7 @@ fun SearchScreen(
         results = if (idle) {
             SearchResults(loading = false)
         } else {
-            results.copy(sections = if (active == null) sections else sections.filter { it.kind == active })
+            results.copy(sections = sections.filteredBy(active))
         },
         offsetY = panelOffsetY,
         maxHeightPx = panelHeightPx,
