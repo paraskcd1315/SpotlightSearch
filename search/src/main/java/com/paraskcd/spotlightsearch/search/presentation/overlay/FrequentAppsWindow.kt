@@ -2,6 +2,10 @@ package com.paraskcd.spotlightsearch.search.presentation.overlay
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import com.paraskcd.spotlightsearch.search.presentation.components.FrequentAppsGrid
@@ -22,6 +26,12 @@ fun FrequentAppsWindow(
     onHeight: (Int?) -> Unit
 ) {
     val visible = apps.isNotEmpty() || loading
+    var retained by remember { mutableStateOf(apps) }
+    SideEffect {
+        if (visible) retained = apps
+        if (!visible) onHeight(null)
+    }
+    val shownApps = if (visible) apps else retained
     BlurredWindow(
         focusable = false,
         blurEnabled = blurEnabled,
@@ -31,15 +41,11 @@ fun FrequentAppsWindow(
         visible = visible,
         animateIn = true
     ) {
-        if (!visible) {
-            SideEffect { onHeight(null) }
-            return@BlurredWindow
-        }
-        val reportHeight = Modifier.onSizeChanged { onHeight(it.height) }
-        if (apps.isEmpty()) {
+        val reportHeight = Modifier.onSizeChanged { if (visible) onHeight(it.height) }
+        if (shownApps.isEmpty()) {
             FrequentAppsSkeleton(blurEnabled, reportHeight)
         } else {
-            FrequentAppsGrid(apps, blurEnabled, icons, callbacks, reportHeight)
+            FrequentAppsGrid(shownApps, blurEnabled, icons, callbacks, reportHeight)
         }
     }
 }

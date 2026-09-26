@@ -3,6 +3,11 @@ package com.paraskcd.spotlightsearch.search.presentation.overlay
 import android.view.Gravity
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.Dp
@@ -23,6 +28,9 @@ fun FilterWindow(
     onHeight: (Int) -> Unit
 ) {
     val visible = kinds.size > 1
+    var retained by remember { mutableStateOf(kinds) }
+    SideEffect { if (visible) retained = kinds }
+    val shownKinds = if (visible) kinds else retained
     BlurredWindow(
         focusable = false,
         blurEnabled = blurEnabled,
@@ -35,9 +43,9 @@ fun FilterWindow(
         wrapWidth = true,
         animateIn = true
     ) {
-        if (!visible) return@BlurredWindow
+        if (shownKinds.size < 2) return@BlurredWindow
         ResultsFilter(
-            kinds = kinds,
+            kinds = shownKinds,
             active = active,
             onSelect = onSelect,
             modifier = Modifier

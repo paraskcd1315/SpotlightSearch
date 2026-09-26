@@ -54,7 +54,7 @@ fun BlurredWindow(
         val reveal = remember { Animatable(if (animateIn) 0f else 1f) }
         var configured by remember { mutableStateOf(focusable) }
         var laidOut by remember { mutableStateOf(!animateIn) }
-        val shown = visible && configured && laidOut
+        val shown = configured && laidOut && (visible || animateIn)
 
         val latestOffsetY by rememberUpdatedState(offsetY)
         LaunchedEffect(focusable, cornerRadiusPx, offsetX, gravity, wrapWidth) {
@@ -81,6 +81,7 @@ fun BlurredWindow(
         LaunchedEffect(visible && configured, animateIn) {
             if (!animateIn) return@LaunchedEffect
             if (!(visible && configured)) {
+                if (laidOut) reveal.animateTo(0f, tween(SpMotion.durMorphMs, easing = SpMotion.easeIos))
                 laidOut = false
                 reveal.snapTo(0f)
                 return@LaunchedEffect
