@@ -1,0 +1,5 @@
+Spotlight Search 2.1
+• New Results and sections settings: reorder or hide any section, pick how many rows each shows, and size or turn off Frequently used
+• Choose your web search engine: Google, DuckDuckGo, Bing, Brave, Ecosia, Startpage or your default app
+• Appearance: glass strength, text size, and apps as a list or a grid
+• Results no longer jump when apps load in

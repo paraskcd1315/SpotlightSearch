@@ -1,0 +1,5 @@
+Spotlight Search 2.1
+• Nouveaux réglages Résultats et sections : réorganisez ou masquez chaque section, choisissez le nombre de lignes, réglez ou désactivez les plus utilisées
+• Choisissez votre moteur : Google, DuckDuckGo, Bing, Brave, Ecosia, Startpage ou l’appli par défaut
+• Apparence : intensité du verre, taille du texte, applis en liste ou en grille
+• Les résultats ne sautent plus au chargement des applis

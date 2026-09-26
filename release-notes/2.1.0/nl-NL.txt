@@ -1,0 +1,5 @@
+Spotlight Search 2.1
+• Nieuwe instellingen Resultaten en secties: secties ordenen of verbergen, rijen per sectie kiezen en veelgebruikt aanpassen of uitzetten
+• Kies je zoekmachine: Google, DuckDuckGo, Bing, Brave, Ecosia, Startpage of je standaardapp
+• Uiterlijk: glassterkte, tekstgrootte en apps als lijst of raster
+• Resultaten springen niet meer als apps laden

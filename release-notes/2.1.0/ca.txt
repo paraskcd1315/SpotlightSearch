@@ -1,0 +1,5 @@
+Spotlight Search 2.1
+• Nous ajustos de Resultats i seccions: reordena o amaga qualsevol secció, tria quantes files mostra i ajusta o desactiva Més usades
+• Tria el teu cercador: Google, DuckDuckGo, Bing, Brave, Ecosia, Startpage o l’app predeterminada
+• Aparença: intensitat del vidre, mida del text i apps en llista o quadrícula
+• Els resultats ja no salten en carregar les apps
