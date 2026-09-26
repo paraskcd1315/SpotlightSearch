@@ -12,7 +12,6 @@ fun SectionKind.titleRes(): Int = when (this) {
     SectionKind.DICTIONARY -> R.string.section_dictionary
     SectionKind.PERMISSIONS -> R.string.section_permissions
     SectionKind.CALCULATOR -> R.string.section_calculator
-    SectionKind.WEB -> R.string.section_web
     SectionKind.APPS -> R.string.section_apps
     SectionKind.CONTACTS -> R.string.section_contacts
     SectionKind.TRANSLATION -> R.string.section_translation
