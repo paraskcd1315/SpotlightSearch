@@ -1,0 +1,9 @@
+Spotlight Search 2.0
+• Nieuw glasontwerp voor zoeken en instellingen
+• Slimmere resultaten: beste resultaat eerst, je meestgebruikte apps hoger, gevonden letters gemarkeerd
+• Filter op type; „Alle tonen” opent de volledige lijst
+• Vindt apps via initialen (gm → Google Maps) en negeert accenten
+• Filter en Instellingen direct boven de zoekbalk, alles beweegt soepel mee met het toetsenbord
+• Nieuwe Over-pagina en versie in Instellingen
+• Nu in 12 talen
+• Sneller en soepeler

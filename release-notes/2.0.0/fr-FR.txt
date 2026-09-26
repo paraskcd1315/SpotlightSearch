@@ -1,0 +1,9 @@
+Spotlight Search 2.0
+• Nouveau design en verre pour la recherche et les paramètres
+• Résultats plus pertinents : meilleur résultat en premier, applis favorites en haut, lettres trouvées en gras
+• Filtrez par type ; « Afficher tout » ouvre la liste complète
+• Trouve les applis par initiales (gm → Google Maps) et ignore les accents
+• Filtre et Paramètres juste au-dessus de la barre
+• Nouvelle page À propos et version dans les paramètres
+• Disponible en 12 langues
+• Plus rapide et plus fluide
