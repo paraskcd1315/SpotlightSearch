@@ -33,12 +33,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import com.paraskcd.spotlightsearch.search.infrastructure.icons.AppIconLoader
 import com.paraskcd.spotlightsearch.search.presentation.components.AppIconImage
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.ui.draw.drawBehind
+import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpMotion
+import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpTheme
 import kotlin.math.roundToInt
 
 @Composable
 fun OverlayScrim(
     visible: Boolean,
     showBranding: Boolean,
+    tinted: Boolean,
     appName: String,
     icons: AppIconLoader,
     topLimitPx: Int?,
@@ -46,6 +51,12 @@ fun OverlayScrim(
     onClose: () -> Unit
 ) {
     val density = LocalDensity.current
+    val tintColor = SpTheme.colors.bgBase
+    val tint by animateFloatAsState(
+        targetValue = if (tinted) OverlayMetrics.KeyboardTintAlpha else 0f,
+        animationSpec = tween(SpMotion.durPushMs, easing = SpMotion.easeIos),
+        label = "keyboardTint"
+    )
     val band = if (topLimitPx != null && bottomLimitPx != null && bottomLimitPx > topLimitPx) {
         with(density) {
             Modifier
@@ -63,6 +74,7 @@ fun OverlayScrim(
         modifier = Modifier
             .fillMaxSize()
             .graphicsLayer { alpha = (1f - dragOffset / OverlayMetrics.DragFadeDistancePx).coerceIn(0f, 1f) }
+            .drawBehind { drawRect(tintColor.copy(alpha = tint)) }
             .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null, onClick = onClose)
             .pointerInput(Unit) {
                 detectVerticalDragGestures(

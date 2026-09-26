@@ -9,6 +9,7 @@ object OverlayMetrics {
     val WindowCornerRadius = SpRadii.xl
     val BarCornerRadius = 32.dp
     val WindowElevation = 16.dp
+    const val KeyboardTintAlpha = 0.35f
     const val WindowShadowAlpha = 0.6f
     const val KeyboardSettleTimeoutMs = 700L
     val BarBottomMargin = 24.dp

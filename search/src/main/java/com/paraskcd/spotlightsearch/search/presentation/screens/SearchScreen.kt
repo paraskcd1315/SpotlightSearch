@@ -59,6 +59,7 @@ fun SearchScreen(
     var sheetSection by remember { mutableStateOf<SearchSection?>(null) }
     var frequentHeight by remember { mutableStateOf<Int?>(null) }
     var keyboardSettled by remember { mutableStateOf(false) }
+    var keyboardVisible by remember { mutableStateOf(false) }
     val view = LocalView.current
     val density = LocalDensity.current
     val activityWindow = LocalActivity.current?.window
@@ -101,6 +102,7 @@ fun SearchScreen(
     OverlayScrim(
         visible = visible && keyboardSettled && barTop != null && settingsSize != null,
         showBranding = showBranding,
+        tinted = keyboardVisible,
         appName = appName,
         icons = viewModel.icons.apps,
         topLimitPx = statusBarPx,
@@ -117,7 +119,8 @@ fun SearchScreen(
         onSubmit = { handle(viewModel.submit()) },
         onClose = onClose,
         onTopOnScreen = { barTop = it },
-        onKeyboardShown = { keyboardSettled = true }
+        onKeyboardShown = { keyboardSettled = true },
+        onKeyboardVisibility = { keyboardVisible = it }
     )
 
     val top = barTop ?: return
