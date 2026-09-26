@@ -9,6 +9,7 @@ import com.composables.icons.lucide.Contact
 import com.composables.icons.lucide.ExternalLink
 import com.composables.icons.lucide.Globe
 import com.composables.icons.lucide.LayoutGrid
+import com.composables.icons.lucide.ListOrdered
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Search
 import com.paraskcd.spotlightsearch.designsystem.signature.layouts.SpScreenScaffold
@@ -26,6 +27,7 @@ fun FeaturesScreen(onNavigate: (String) -> Unit, onBack: () -> Unit) {
     val context = LocalContext.current
     val openFailed = stringResource(R.string.settings_open_failed)
     val features = listOf(
+        SettingPageItem(R.string.features_results_title, R.string.features_results_subtitle, Lucide.ListOrdered, SettingsRoute.RESULTS),
         SettingPageItem(R.string.features_quick_search_title, R.string.features_quick_search_subtitle, Lucide.Search, SettingsRoute.QUICK_SEARCH),
         SettingPageItem(R.string.features_manage_apps_title, R.string.features_manage_apps_subtitle, Lucide.LayoutGrid, SettingsRoute.MANAGE_APPS),
         SettingPageItem(R.string.features_web_title, R.string.features_web_subtitle, Lucide.Globe, SettingsRoute.WEB_SUGGESTIONS),

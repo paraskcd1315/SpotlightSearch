@@ -28,6 +28,7 @@ import com.paraskcd.spotlightsearch.preferences.presentation.screens.HomeScreen
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.ManageAppsScreen
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.PersonalizationScreen
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.QuickSearchScreen
+import com.paraskcd.spotlightsearch.preferences.presentation.screens.ResultsSettingsScreen
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.ToggleScreen
 import com.paraskcd.spotlightsearch.preferences.presentation.viewmodels.SearchSourcesViewModel
 import com.paraskcd.spotlightsearch.preferences.presentation.viewmodels.ThemeViewModel
@@ -61,6 +62,7 @@ fun SettingsNavHost(themeViewModel: ThemeViewModel, onClose: () -> Unit) {
         }
         composable(SettingsRoute.FEATURES) { FeaturesScreen(navigate, back) }
         composable(SettingsRoute.ABOUT) { AboutScreen(back) }
+        composable(SettingsRoute.RESULTS) { ResultsSettingsScreen(hiltViewModel(), back) }
         composable(SettingsRoute.QUICK_SEARCH) { QuickSearchScreen(hiltViewModel(), back) }
         composable(SettingsRoute.MANAGE_APPS) { ManageAppsScreen(hiltViewModel(), navigate, back) }
         composable(SettingsRoute.APPS_BLACKLIST) { BlacklistAppsScreen(hiltViewModel(), back) }

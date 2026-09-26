@@ -4,9 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import com.paraskcd.spotlightsearch.designsystem.signature.foundation.SpMetrics
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -18,26 +16,35 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.composables.icons.lucide.BadgeCheck
 import com.composables.icons.lucide.Droplets
+import com.composables.icons.lucide.LayoutGrid
+import com.composables.icons.lucide.Layers
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Paintbrush
 import com.composables.icons.lucide.RotateCcw
 import com.composables.icons.lucide.SunMoon
+import com.composables.icons.lucide.Type
+import com.paraskcd.spotlightsearch.designsystem.signature.foundation.SpMetrics
 import com.paraskcd.spotlightsearch.designsystem.signature.layouts.SpScreenScaffold
 import com.paraskcd.spotlightsearch.designsystem.signature.molecules.SpSectionHeader
 import com.paraskcd.spotlightsearch.designsystem.signature.molecules.SpSettingsRow
 import com.paraskcd.spotlightsearch.designsystem.signature.organisms.SpGroupedList
-import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpTheme
 import com.paraskcd.spotlightsearch.preferences.R
 import com.paraskcd.spotlightsearch.preferences.domain.model.ColorOverrideKey
+import com.paraskcd.spotlightsearch.preferences.domain.model.GlassStrength
+import com.paraskcd.spotlightsearch.preferences.domain.model.TextSize
 import com.paraskcd.spotlightsearch.preferences.presentation.components.ColorSwatch
 import com.paraskcd.spotlightsearch.preferences.presentation.components.ConfirmDialog
+import com.paraskcd.spotlightsearch.preferences.presentation.components.OptionSheet
 import com.paraskcd.spotlightsearch.preferences.presentation.components.SwitchRow
 import com.paraskcd.spotlightsearch.preferences.presentation.components.ThemeModeDialog
+import com.paraskcd.spotlightsearch.preferences.presentation.components.ValueText
+import com.paraskcd.spotlightsearch.preferences.presentation.model.AppearanceSheet
 import com.paraskcd.spotlightsearch.preferences.presentation.navigation.SettingsRoute
 import com.paraskcd.spotlightsearch.preferences.presentation.utils.labelRes
 import com.paraskcd.spotlightsearch.preferences.presentation.utils.swatchFallback
 import com.paraskcd.spotlightsearch.preferences.presentation.utils.titleRes
 import com.paraskcd.spotlightsearch.preferences.presentation.viewmodels.ThemeViewModel
+import com.paraskcd.spotlightsearch.search.domain.model.AppResultsLayout
 import com.paraskcd.spotlightsearch.search.infrastructure.window.WindowBlur
 
 @Composable
@@ -45,10 +52,59 @@ fun PersonalizationScreen(viewModel: ThemeViewModel, onNavigate: (String) -> Uni
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
     val supportsBlur = remember { WindowBlur.isAvailable(context, userEnabled = true) }
-    var showThemeDialog by remember { mutableStateOf(false) }
-    var showResetDialog by remember { mutableStateOf(false) }
+    var sheet by remember { mutableStateOf(AppearanceSheet.NONE) }
     val keys = ColorOverrideKey.entries
     val scheme = MaterialTheme.colorScheme
+    val appearanceRows = buildList<@Composable () -> Unit> {
+        add {
+            SpSettingsRow(
+                label = stringResource(R.string.appearance_select_theme),
+                icon = Lucide.SunMoon,
+                onClick = { sheet = AppearanceSheet.THEME },
+                trailing = { ValueText(stringResource(state.mode.labelRes())) }
+            )
+        }
+        add {
+            SwitchRow(
+                text = stringResource(R.string.appearance_show_branding),
+                icon = Lucide.BadgeCheck,
+                checked = state.showBranding,
+                onCheckedChange = viewModel::setBranding
+            )
+        }
+        if (supportsBlur) add {
+            SwitchRow(
+                text = stringResource(R.string.appearance_enable_blur),
+                icon = Lucide.Droplets,
+                checked = state.enableBlur,
+                onCheckedChange = viewModel::setBlur
+            )
+        }
+        add {
+            SpSettingsRow(
+                label = stringResource(R.string.appearance_glass),
+                icon = Lucide.Layers,
+                onClick = { sheet = AppearanceSheet.GLASS },
+                trailing = { ValueText(stringResource(state.glassStrength.labelRes())) }
+            )
+        }
+        add {
+            SpSettingsRow(
+                label = stringResource(R.string.appearance_text_size),
+                icon = Lucide.Type,
+                onClick = { sheet = AppearanceSheet.TEXT },
+                trailing = { ValueText(stringResource(state.textSize.labelRes())) }
+            )
+        }
+        add {
+            SpSettingsRow(
+                label = stringResource(R.string.appearance_app_layout),
+                icon = Lucide.LayoutGrid,
+                onClick = { sheet = AppearanceSheet.LAYOUT },
+                trailing = { ValueText(stringResource(state.appLayout.labelRes())) }
+            )
+        }
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         SpScreenScaffold(
@@ -57,36 +113,7 @@ fun PersonalizationScreen(viewModel: ThemeViewModel, onNavigate: (String) -> Uni
             onBack = onBack
         ) {
             item { SpSectionHeader(stringResource(R.string.appearance_section)) }
-            item {
-                SpGroupedList(count = if (supportsBlur) 3 else 2) { index ->
-                    when {
-                        index == 0 -> SpSettingsRow(
-                            label = stringResource(R.string.appearance_select_theme),
-                            icon = Lucide.SunMoon,
-                            onClick = { showThemeDialog = true },
-                            trailing = {
-                                Text(
-                                    stringResource(state.mode.labelRes()),
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = SpTheme.colors.textSecondary
-                                )
-                            }
-                        )
-                        index == 1 -> SwitchRow(
-                            text = stringResource(R.string.appearance_show_branding),
-                            icon = Lucide.BadgeCheck,
-                            checked = state.showBranding,
-                            onCheckedChange = viewModel::setBranding
-                        )
-                        else -> SwitchRow(
-                            text = stringResource(R.string.appearance_enable_blur),
-                            icon = Lucide.Droplets,
-                            checked = state.enableBlur,
-                            onCheckedChange = viewModel::setBlur
-                        )
-                    }
-                }
-            }
+            item { SpGroupedList(count = appearanceRows.size) { index -> appearanceRows[index]() } }
             item { SpSectionHeader(stringResource(R.string.personalization_section)) }
             item {
                 SpGroupedList(count = keys.size) { index ->
@@ -106,30 +133,66 @@ fun PersonalizationScreen(viewModel: ThemeViewModel, onNavigate: (String) -> Uni
                     SpSettingsRow(
                         label = stringResource(R.string.personalization_reset_colors),
                         icon = Lucide.RotateCcw,
-                        onClick = { showResetDialog = true }
+                        onClick = { sheet = AppearanceSheet.RESET }
                     )
                 }
             }
         }
         ThemeModeDialog(
-            visible = showThemeDialog,
+            visible = sheet == AppearanceSheet.THEME,
             selected = state.mode,
             onSelect = {
-                showThemeDialog = false
+                sheet = AppearanceSheet.NONE
                 viewModel.setMode(it)
             },
-            onDismiss = { showThemeDialog = false }
+            onDismiss = { sheet = AppearanceSheet.NONE }
+        )
+        OptionSheet(
+            visible = sheet == AppearanceSheet.GLASS,
+            title = stringResource(R.string.appearance_glass),
+            options = GlassStrength.entries,
+            selected = state.glassStrength,
+            label = { stringResource(it.labelRes()) },
+            onSelect = {
+                sheet = AppearanceSheet.NONE
+                viewModel.setGlassStrength(it)
+            },
+            onDismiss = { sheet = AppearanceSheet.NONE }
+        )
+        OptionSheet(
+            visible = sheet == AppearanceSheet.TEXT,
+            title = stringResource(R.string.appearance_text_size),
+            options = TextSize.entries,
+            selected = state.textSize,
+            label = { stringResource(it.labelRes()) },
+            onSelect = {
+                sheet = AppearanceSheet.NONE
+                viewModel.setTextSize(it)
+            },
+            onDismiss = { sheet = AppearanceSheet.NONE }
+        )
+        OptionSheet(
+            visible = sheet == AppearanceSheet.LAYOUT,
+            title = stringResource(R.string.appearance_app_layout),
+            options = AppResultsLayout.entries,
+            selected = state.appLayout,
+            label = { stringResource(it.labelRes()) },
+            onSelect = {
+                sheet = AppearanceSheet.NONE
+                viewModel.setAppLayout(it)
+            },
+            onDismiss = { sheet = AppearanceSheet.NONE }
         )
         ConfirmDialog(
-            visible = showResetDialog,
+            visible = sheet == AppearanceSheet.RESET,
             title = stringResource(R.string.reset_colors_title),
             message = stringResource(R.string.reset_colors_message),
             confirmLabel = stringResource(R.string.reset_colors_confirm),
             onConfirm = {
-                showResetDialog = false
+                sheet = AppearanceSheet.NONE
                 viewModel.clearColors()
             },
-            onDismiss = { showResetDialog = false }
+            onDismiss = { sheet = AppearanceSheet.NONE }
         )
     }
 }
