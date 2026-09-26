@@ -1,0 +1,4 @@
+<resources>
+    <string name="assistant_shortcut_label">असिस्टेंट सेटिंग</string>
+    <string name="assistant_shortcut_long_label">असिस्टेंट के तौर पर सेट करें</string>
+</resources>

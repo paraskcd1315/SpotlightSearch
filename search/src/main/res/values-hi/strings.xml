@@ -1,0 +1,68 @@
+<resources>
+    <string name="search_placeholder">खोजें…</string>
+    <string name="search_clear">खोज मिटाएं</string>
+    <string name="search_open_settings">सेटिंग</string>
+
+    <string name="section_frequent">अक्सर इस्तेमाल किए गए</string>
+    <string name="section_settings">सेटिंग</string>
+    <string name="section_dictionary">शब्दकोश</string>
+    <string name="section_permissions">अनुमतियां</string>
+    <string name="section_calculator">कैलकुलेटर</string>
+    <string name="section_web">वेब</string>
+    <string name="section_apps">ऐप्लिकेशन</string>
+    <string name="section_contacts">संपर्क</string>
+    <string name="section_translation">अनुवाद</string>
+    <string name="section_suggestions">सुझाव</string>
+    <string name="section_quick_search">तुरंत खोज</string>
+
+    <string name="hit_spelling_title">क्या आपका मतलब था…?</string>
+    <string name="hit_permission_title">संपर्कों का ऐक्सेस दें</string>
+    <string name="hit_permission_subtitle">संपर्क खोजने के लिए ज़रूरी है</string>
+    <string name="hit_web_title">वेब पर \"%1$s\" खोजें</string>
+    <string name="hit_web_subtitle">वेब खोज</string>
+    <string name="hit_suggestion_subtitle">सुझाव</string>
+    <string name="hit_translation_subtitle">अनुवाद (%1$s → %2$s)</string>
+    <string name="hit_setting_subtitle">%1$s खोलें</string>
+    <string name="hit_calculation_arithmetic">हिसाब</string>
+    <string name="hit_calculation_unit">इकाई बदलना</string>
+    <string name="hit_calculation_temperature">तापमान बदलना</string>
+    <string name="hit_calculation_date">पहचानी गई तारीख</string>
+    <string name="hit_calculation_web">कैलकुलेटर</string>
+
+    <string name="action_app_info">ऐप्लिकेशन की जानकारी</string>
+    <string name="action_call">कॉल करें</string>
+    <string name="action_sms">एसएमएस</string>
+
+    <string name="quick_search_google">Google पर \"%1$s\" खोजें</string>
+    <string name="quick_search_youtube">YouTube पर \"%1$s\" खोजें</string>
+    <string name="quick_search_youtube_music">YouTube Music पर \"%1$s\" खोजें</string>
+    <string name="quick_search_maps">Maps पर \"%1$s\" खोजें</string>
+    <string name="quick_search_play_store">Play Store पर \"%1$s\" खोजें</string>
+    <string name="quick_search_threads">Threads पर \"%1$s\" खोजें</string>
+    <string name="quick_search_linkedin">LinkedIn पर \"%1$s\" खोजें</string>
+    <string name="quick_search_x">X पर \"%1$s\" खोजें</string>
+    <string name="quick_search_facebook">Facebook पर \"%1$s\" खोजें</string>
+
+    <string name="setting_main">मुख्य सेटिंग</string>
+    <string name="setting_airplane_mode">हवाई जहाज़ मोड की सेटिंग</string>
+    <string name="setting_wifi">वाई-फ़ाई सेटिंग</string>
+    <string name="setting_bluetooth">ब्लूटूथ सेटिंग</string>
+    <string name="setting_display">डिसप्ले सेटिंग</string>
+    <string name="setting_sound">साउंड सेटिंग</string>
+    <string name="setting_date_time">तारीख और समय</string>
+    <string name="setting_language">भाषा और इनपुट</string>
+    <string name="setting_wireless">वायरलेस सेटिंग</string>
+    <string name="setting_security">सुरक्षा सेटिंग</string>
+    <string name="setting_apps">ऐप्लिकेशन सेटिंग</string>
+    <string name="setting_battery_saver">बैटरी सेटिंग</string>
+    <string name="setting_data_roaming">डेटा रोमिंग सेटिंग</string>
+    <string name="setting_location">जगह की सेटिंग</string>
+    <string name="setting_input_method">इनपुट का तरीका</string>
+    <string name="setting_accessibility">सुलभता सेटिंग</string>
+    <string name="setting_nfc">एनएफ़सी सेटिंग</string>
+    <string name="setting_privacy">निजता सेटिंग</string>
+    <string name="setting_battery_optimization">बैटरी ऑप्टिमाइज़ेशन को अनदेखा करें</string>
+    <string name="setting_storage">स्टोरेज सेटिंग</string>
+    <string name="setting_device_info">डिवाइस की जानकारी</string>
+    <string name="setting_notifications">सूचना सेटिंग</string>
+</resources>

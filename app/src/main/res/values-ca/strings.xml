@@ -1,0 +1,4 @@
+<resources>
+    <string name="assistant_shortcut_label">Configuració de l\'assistent</string>
+    <string name="assistant_shortcut_long_label">Estableix com a assistent</string>
+</resources>

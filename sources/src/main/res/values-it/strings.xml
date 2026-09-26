@@ -1,0 +1,4 @@
+<resources>
+    <string name="sources_phone_number_copied">Numero di telefono copiato</string>
+    <string name="sources_phone_number_clip_label">Numero di telefono</string>
+</resources>

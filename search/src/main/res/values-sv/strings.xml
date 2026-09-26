@@ -1,0 +1,68 @@
+<resources>
+    <string name="search_placeholder">Sök…</string>
+    <string name="search_clear">Rensa sökningen</string>
+    <string name="search_open_settings">Inställningar</string>
+
+    <string name="section_frequent">Används ofta</string>
+    <string name="section_settings">Inställningar</string>
+    <string name="section_dictionary">Ordlista</string>
+    <string name="section_permissions">Behörigheter</string>
+    <string name="section_calculator">Kalkylator</string>
+    <string name="section_web">Webb</string>
+    <string name="section_apps">Appar</string>
+    <string name="section_contacts">Kontakter</string>
+    <string name="section_translation">Översättning</string>
+    <string name="section_suggestions">Förslag</string>
+    <string name="section_quick_search">Snabbsökning</string>
+
+    <string name="hit_spelling_title">Menade du…?</string>
+    <string name="hit_permission_title">Tillåt åtkomst till kontakter</string>
+    <string name="hit_permission_subtitle">Krävs för att söka efter kontakter</string>
+    <string name="hit_web_title">Sök efter \"%1$s\" på webben</string>
+    <string name="hit_web_subtitle">Webbsökning</string>
+    <string name="hit_suggestion_subtitle">Förslag</string>
+    <string name="hit_translation_subtitle">Översättning (%1$s → %2$s)</string>
+    <string name="hit_setting_subtitle">Öppna %1$s</string>
+    <string name="hit_calculation_arithmetic">Beräkning</string>
+    <string name="hit_calculation_unit">Enhetsomvandling</string>
+    <string name="hit_calculation_temperature">Temperaturomvandling</string>
+    <string name="hit_calculation_date">Hittat datum</string>
+    <string name="hit_calculation_web">Kalkylator</string>
+
+    <string name="action_app_info">Appinfo</string>
+    <string name="action_call">Ring</string>
+    <string name="action_sms">Sms</string>
+
+    <string name="quick_search_google">Sök efter \"%1$s\" på Google</string>
+    <string name="quick_search_youtube">Sök efter \"%1$s\" på YouTube</string>
+    <string name="quick_search_youtube_music">Sök efter \"%1$s\" på YouTube Music</string>
+    <string name="quick_search_maps">Sök efter \"%1$s\" i Maps</string>
+    <string name="quick_search_play_store">Sök efter \"%1$s\" i Play Butik</string>
+    <string name="quick_search_threads">Sök efter \"%1$s\" på Threads</string>
+    <string name="quick_search_linkedin">Sök efter \"%1$s\" på LinkedIn</string>
+    <string name="quick_search_x">Sök efter \"%1$s\" på X</string>
+    <string name="quick_search_facebook">Sök efter \"%1$s\" på Facebook</string>
+
+    <string name="setting_main">Inställningar</string>
+    <string name="setting_airplane_mode">Inställningar för flygplansläge</string>
+    <string name="setting_wifi">Wi‑Fi-inställningar</string>
+    <string name="setting_bluetooth">Bluetooth-inställningar</string>
+    <string name="setting_display">Skärminställningar</string>
+    <string name="setting_sound">Ljudinställningar</string>
+    <string name="setting_date_time">Datum och tid</string>
+    <string name="setting_language">Språk och inmatning</string>
+    <string name="setting_wireless">Trådlösa inställningar</string>
+    <string name="setting_security">Säkerhetsinställningar</string>
+    <string name="setting_apps">Appinställningar</string>
+    <string name="setting_battery_saver">Batteriinställningar</string>
+    <string name="setting_data_roaming">Inställningar för dataroaming</string>
+    <string name="setting_location">Platsinställningar</string>
+    <string name="setting_input_method">Inställningar för inmatningsmetod</string>
+    <string name="setting_accessibility">Tillgänglighetsinställningar</string>
+    <string name="setting_nfc">NFC-inställningar</string>
+    <string name="setting_privacy">Integritetsinställningar</string>
+    <string name="setting_battery_optimization">Ignorera batterioptimering</string>
+    <string name="setting_storage">Lagringsinställningar</string>
+    <string name="setting_device_info">Enhetsinformation</string>
+    <string name="setting_notifications">Aviseringsinställningar</string>
+</resources>

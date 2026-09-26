@@ -1,0 +1,68 @@
+<resources>
+    <string name="search_placeholder">Cerca…</string>
+    <string name="search_clear">Esborra la cerca</string>
+    <string name="search_open_settings">Configuració</string>
+
+    <string name="section_frequent">Utilitzades sovint</string>
+    <string name="section_settings">Configuració</string>
+    <string name="section_dictionary">Diccionari</string>
+    <string name="section_permissions">Permisos</string>
+    <string name="section_calculator">Calculadora</string>
+    <string name="section_web">Web</string>
+    <string name="section_apps">Aplicacions</string>
+    <string name="section_contacts">Contactes</string>
+    <string name="section_translation">Traducció</string>
+    <string name="section_suggestions">Suggeriments</string>
+    <string name="section_quick_search">Cerca ràpida</string>
+
+    <string name="hit_spelling_title">Volies dir…?</string>
+    <string name="hit_permission_title">Permet l\'accés als contactes</string>
+    <string name="hit_permission_subtitle">Necessari per cercar contactes</string>
+    <string name="hit_web_title">Cerca \"%1$s\" al web</string>
+    <string name="hit_web_subtitle">Cerca web</string>
+    <string name="hit_suggestion_subtitle">Suggeriment</string>
+    <string name="hit_translation_subtitle">Traducció (%1$s → %2$s)</string>
+    <string name="hit_setting_subtitle">Obre %1$s</string>
+    <string name="hit_calculation_arithmetic">Càlcul</string>
+    <string name="hit_calculation_unit">Conversió d\'unitats</string>
+    <string name="hit_calculation_temperature">Conversió de temperatura</string>
+    <string name="hit_calculation_date">Data detectada</string>
+    <string name="hit_calculation_web">Calculadora</string>
+
+    <string name="action_app_info">Informació de l\'aplicació</string>
+    <string name="action_call">Truca</string>
+    <string name="action_sms">SMS</string>
+
+    <string name="quick_search_google">Cerca \"%1$s\" a Google</string>
+    <string name="quick_search_youtube">Cerca \"%1$s\" a YouTube</string>
+    <string name="quick_search_youtube_music">Cerca \"%1$s\" a YouTube Music</string>
+    <string name="quick_search_maps">Cerca \"%1$s\" a Maps</string>
+    <string name="quick_search_play_store">Cerca \"%1$s\" a Play Store</string>
+    <string name="quick_search_threads">Cerca \"%1$s\" a Threads</string>
+    <string name="quick_search_linkedin">Cerca \"%1$s\" a LinkedIn</string>
+    <string name="quick_search_x">Cerca \"%1$s\" a X</string>
+    <string name="quick_search_facebook">Cerca \"%1$s\" a Facebook</string>
+
+    <string name="setting_main">Configuració principal</string>
+    <string name="setting_airplane_mode">Configuració del mode d\'avió</string>
+    <string name="setting_wifi">Configuració de la Wi‑Fi</string>
+    <string name="setting_bluetooth">Configuració del Bluetooth</string>
+    <string name="setting_display">Configuració de la pantalla</string>
+    <string name="setting_sound">Configuració del so</string>
+    <string name="setting_date_time">Data i hora</string>
+    <string name="setting_language">Idioma i introducció de text</string>
+    <string name="setting_wireless">Configuració sense fil</string>
+    <string name="setting_security">Configuració de seguretat</string>
+    <string name="setting_apps">Configuració de les aplicacions</string>
+    <string name="setting_battery_saver">Configuració de la bateria</string>
+    <string name="setting_data_roaming">Configuració de la itinerància de dades</string>
+    <string name="setting_location">Configuració de la ubicació</string>
+    <string name="setting_input_method">Configuració del mètode d\'introducció</string>
+    <string name="setting_accessibility">Configuració d\'accessibilitat</string>
+    <string name="setting_nfc">Configuració de l\'NFC</string>
+    <string name="setting_privacy">Configuració de privadesa</string>
+    <string name="setting_battery_optimization">Ignora l\'optimització de la bateria</string>
+    <string name="setting_storage">Configuració de l\'emmagatzematge</string>
+    <string name="setting_device_info">Informació del dispositiu</string>
+    <string name="setting_notifications">Configuració de les notificacions</string>
+</resources>

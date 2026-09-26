@@ -1,0 +1,4 @@
+<resources>
+    <string name="assistant_shortcut_label">Настройки ассистента</string>
+    <string name="assistant_shortcut_long_label">Сделать ассистентом</string>
+</resources>
