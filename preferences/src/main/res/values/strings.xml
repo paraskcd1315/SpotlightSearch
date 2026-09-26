@@ -25,8 +25,6 @@
     <string name="features_web_subtitle">Click to manage web suggestions from Google</string>
     <string name="features_contacts_title">Manage contacts</string>
     <string name="features_contacts_subtitle">Click to manage contacts</string>
-    <string name="features_widget_title">Search widget</string>
-    <string name="features_widget_subtitle">Click to place a widget on your home screen</string>
     <string name="features_assistant_title">Digital Assistant</string>
     <string name="features_assistant_subtitle">Set spotlight search as your digital assistant</string>
 

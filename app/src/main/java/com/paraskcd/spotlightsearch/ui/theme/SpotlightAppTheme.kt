@@ -4,7 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.paraskcd.spotlightsearch.designsystem.theme.SpotlightSearchTheme
 import com.paraskcd.spotlightsearch.preferences.presentation.viewmodels.ThemeViewModel
 

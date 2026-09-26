@@ -15,7 +15,6 @@ import com.paraskcd.spotlightsearch.designsystem.icons.ChevronRight
 import com.paraskcd.spotlightsearch.designsystem.icons.FeaturesFunctionality
 import com.paraskcd.spotlightsearch.designsystem.icons.PersonBook
 import com.paraskcd.spotlightsearch.designsystem.icons.WebTraffic
-import com.paraskcd.spotlightsearch.designsystem.icons.Widgets
 import com.paraskcd.spotlightsearch.preferences.R
 import com.paraskcd.spotlightsearch.preferences.infrastructure.system.AssistantSettings
 import com.paraskcd.spotlightsearch.preferences.presentation.components.SectionTitle
@@ -33,7 +32,6 @@ fun FeaturesScreen(onNavigate: (String) -> Unit) {
         SettingPageItem(R.string.features_web_title, R.string.features_web_subtitle, WebTraffic, SettingsRoute.WEB_SUGGESTIONS),
         SettingPageItem(R.string.features_contacts_title, R.string.features_contacts_subtitle, PersonBook, SettingsRoute.MANAGE_CONTACTS)
     )
-    val widget = SettingPageItem(R.string.features_widget_title, R.string.features_widget_subtitle, Widgets)
     val assistant = SettingPageItem(R.string.features_assistant_title, R.string.features_assistant_subtitle, Assistant)
 
     LazyColumn {
@@ -44,8 +42,7 @@ fun FeaturesScreen(onNavigate: (String) -> Unit) {
         }
         item { SectionTitle(stringResource(R.string.features_shortcuts_section)) }
         item {
-            SettingsGroup(listOf(widget, assistant), ArrowOutward) { page ->
-                if (page != assistant) return@SettingsGroup false
+            SettingsGroup(listOf(assistant), ArrowOutward) {
                 if (!AssistantSettings.open(context)) Toast.makeText(context, openFailed, Toast.LENGTH_SHORT).show()
                 true
             }

@@ -22,6 +22,7 @@ class AndroidComposeConventionPlugin : Plugin<Project> {
         dependencies.add("implementation", catalog.library("androidx-ui-graphics"))
         dependencies.add("implementation", catalog.library("androidx-ui-tooling-preview"))
         dependencies.add("implementation", catalog.library("androidx-material3"))
+        dependencies.add("implementation", catalog.library("androidx-material-icons-core"))
         dependencies.add("debugImplementation", catalog.library("androidx-ui-tooling"))
     }
 }
