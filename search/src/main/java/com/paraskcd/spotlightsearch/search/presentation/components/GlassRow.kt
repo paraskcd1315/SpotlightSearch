@@ -16,7 +16,7 @@ fun GlassRow(index: Int, count: Int, blurEnabled: Boolean, content: @Composable 
         modifier = Modifier
             .then(if (index > 0) Modifier.padding(top = SpMetrics.settingsListGap) else Modifier)
             .fillMaxWidth()
-            .spGlassSurface(GroupedCorners.of(index, count), specular = index == 0, strong = !blurEnabled),
+            .spGlassSurface(GroupedCorners.of(index, count), specular = index == 0, strong = !blurEnabled, panel = blurEnabled),
         content = content
     )
 }
