@@ -34,15 +34,17 @@ fun SettingsNavHost(themeViewModel: ThemeViewModel, onClose: () -> Unit) {
     val navigate: (String) -> Unit = { navController.navigate(it) }
     val back: () -> Unit = { navController.popBackStack() }
 
-    val crossfade = tween<Float>(SpMotion.durMorphMs, easing = SpMotion.easeIos)
+    val half = SpMotion.durMorphMs / 2
+    val fadeOutFirst = tween<Float>(half, easing = SpMotion.easeIos)
+    val fadeInAfter = tween<Float>(half, delayMillis = half, easing = SpMotion.easeIos)
 
     NavHost(
         navController = navController,
         startDestination = SettingsRoute.HOME,
-        enterTransition = { fadeIn(crossfade) },
-        exitTransition = { fadeOut(crossfade) },
-        popEnterTransition = { fadeIn(crossfade) },
-        popExitTransition = { fadeOut(crossfade) }
+        enterTransition = { fadeIn(fadeInAfter) },
+        exitTransition = { fadeOut(fadeOutFirst) },
+        popEnterTransition = { fadeIn(fadeInAfter) },
+        popExitTransition = { fadeOut(fadeOutFirst) }
     ) {
         composable(SettingsRoute.HOME) { HomeScreen(navigate, onClose) }
         composable(SettingsRoute.PERSONALIZATION) { PersonalizationScreen(themeViewModel, navigate, back) }

@@ -87,7 +87,11 @@ fun BlurredWindow(
             DialogWindowSetup.setVisible(window, shown)
         }
         LaunchedEffect(blurEnabled, shown) {
-            if (!shown) return@LaunchedEffect
+            if (!shown) {
+                blur.snapTo(0f)
+                DialogWindowSetup.setBlur(window, 0)
+                return@LaunchedEffect
+            }
             val target = if (blurEnabled) OverlayMetrics.BlurRadiusMax.toFloat() else 0f
             blur.animateTo(target, tween(OverlayMetrics.BlurRampMs)) {
                 DialogWindowSetup.setBlur(window, value.toInt())
