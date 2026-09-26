@@ -1,6 +1,7 @@
 package com.paraskcd.spotlightsearch.sources.data
 
 import android.content.Context
+import com.paraskcd.spotlightsearch.sources.domain.matching.MatchTier
 import com.paraskcd.spotlightsearch.sources.domain.matching.NameMatch
 import com.paraskcd.spotlightsearch.sources.domain.matching.NameMatcher
 import com.paraskcd.spotlightsearch.sources.domain.matching.foldForSearch
@@ -73,7 +74,7 @@ class InstalledAppsRepositoryImpl @Inject constructor(
         val byAlias = AppAliases.byPackage[app.packageName]
             ?.mapNotNull { NameMatcher.match(it, folded) }
             ?.minByOrNull { it.tier }
-            ?.copy(ranges = emptyList())
+            ?.let { NameMatch(maxOf(it.tier, MatchTier.INITIALS), emptyList()) }
         return listOfNotNull(byLabel, byAlias).minByOrNull { it.tier }
     }
 

@@ -2,11 +2,18 @@ package com.paraskcd.spotlightsearch.search.presentation.overlay
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.view.ViewGroup
+import android.view.Gravity
+import androidx.core.view.WindowCompat
 import android.view.WindowManager
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -70,10 +77,15 @@ fun SectionSheetWindow(
             window.addFlags(
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
             )
-            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            window.setLayout(DialogWindowSetup.displayWidth(window), DialogWindowSetup.displayHeight(window))
+            window.setGravity(Gravity.TOP or Gravity.START)
             window.attributes = window.attributes.apply {
+                x = 0
+                y = 0
                 layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
+                fitInsetsTypes = 0
             }
+            WindowCompat.setDecorFitsSystemWindows(window, false)
         }
         LaunchedEffect(open, blurEnabled) {
             val target = if (open && blurEnabled) OverlayMetrics.BlurRadiusMax.toFloat() else 0f
@@ -84,8 +96,26 @@ fun SectionSheetWindow(
         val maxListHeight = with(LocalDensity.current) {
             (LocalWindowInfo.current.containerSize.height * SearchMetrics.SheetListHeightFraction).toDp()
         }
-        SpBottomSheet(visible = open, onDismiss = onDismiss, title = stringResource(current.kind.titleRes())) {
-            LazyColumn(modifier = Modifier.fillMaxWidth().heightIn(max = maxListHeight)) {
+        val listState = rememberLazyListState()
+        val scrolled by remember { derivedStateOf { listState.canScrollBackward } }
+        val navigationBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+        SpBottomSheet(
+            visible = open,
+            onDismiss = onDismiss,
+            title = stringResource(current.kind.titleRes()),
+            fullBleed = true,
+            titleDivider = scrolled
+        ) {
+            LazyColumn(
+                state = listState,
+                modifier = Modifier.fillMaxWidth().heightIn(max = maxListHeight),
+                contentPadding = PaddingValues(
+                    start = SearchMetrics.ListPadding,
+                    end = SearchMetrics.ListPadding,
+                    top = SearchMetrics.ListPadding,
+                    bottom = SearchMetrics.ListPadding + navigationBottom
+                )
+            ) {
                 itemsIndexed(current.hits, contentType = { _, hit -> hit::class }) { index, hit ->
                     GlassRow(index = index, count = current.hits.size, blurEnabled = blurEnabled) {
                         HitContent(hit, icons, callbacks)

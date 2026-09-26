@@ -1,6 +1,7 @@
 package com.paraskcd.spotlightsearch.search.presentation.screens
 
 import android.view.HapticFeedbackConstants
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.statusBars
@@ -183,9 +184,12 @@ fun SearchScreen(
         blurEnabled = blurEnabled,
         icons = viewModel.icons,
         callbacks = callbacks,
+        scrollKey = active,
         onShowAll = { sheetSection = it },
         onClose = onClose
     )
+
+    BackHandler(enabled = sheetSection != null) { sheetSection = null }
 
     SectionSheetWindow(
         section = sheetSection,

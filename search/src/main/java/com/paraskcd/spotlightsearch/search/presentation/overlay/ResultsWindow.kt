@@ -33,6 +33,7 @@ fun ResultsWindow(
     blurEnabled: Boolean,
     icons: IconSources,
     callbacks: HitCallbacks,
+    scrollKey: Any?,
     onShowAll: (SearchSection) -> Unit,
     onClose: () -> Unit
 ) {
@@ -63,7 +64,7 @@ fun ResultsWindow(
                 if (shown.sections.isEmpty()) {
                     ResultsSkeleton(blurEnabled)
                 } else {
-                    SearchResultsPanel(shown.sections, shown.loading, blurEnabled, icons, callbacks, onShowAll)
+                    SearchResultsPanel(shown.sections, shown.loading, blurEnabled, icons, callbacks, scrollKey, onShowAll)
                 }
             }
         }

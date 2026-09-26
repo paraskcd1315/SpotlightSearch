@@ -3,6 +3,7 @@ package com.paraskcd.spotlightsearch.designsystem.signature.organisms
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,10 +29,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import com.paraskcd.spotlightsearch.designsystem.signature.foundation.SpMetrics
 import com.paraskcd.spotlightsearch.designsystem.signature.foundation.clickableQuiet
 import com.paraskcd.spotlightsearch.designsystem.signature.foundation.spGlassSurface
@@ -46,12 +50,19 @@ fun SpBottomSheet(
     onDismiss: () -> Unit,
     title: String,
     footer: (@Composable RowScope.() -> Unit)? = null,
+    fullBleed: Boolean = false,
+    titleDivider: Boolean = false,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val colors = SpTheme.colors
     val shape = RoundedCornerShape(topStart = SpRadii.xl, topEnd = SpRadii.xl)
     val scrimState = remember { MutableTransitionState(false) }.apply { targetState = visible }
     val panelState = remember { MutableTransitionState(false) }.apply { targetState = visible }
+    val dividerAlpha by animateFloatAsState(
+        targetValue = if (titleDivider) 1f else 0f,
+        animationSpec = tween(SpMotion.durMorphMs, easing = SpMotion.easeIos),
+        label = "sheetDivider"
+    )
     if (visible) BackHandler(onBack = onDismiss)
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
@@ -80,26 +91,49 @@ fun SpBottomSheet(
                     .fillMaxWidth()
                     .spGlassSurface(shape, strong = true)
                     .clickableQuiet {}
-                    .windowInsetsPadding(WindowInsets.navigationBars)
-                    .padding(start = SpSpacing.s5, end = SpSpacing.s5, bottom = SpSpacing.s5),
-                verticalArrangement = Arrangement.spacedBy(SpSpacing.s4)
             ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = SpSpacing.s5, end = SpSpacing.s5, bottom = SpSpacing.s4),
+                    verticalArrangement = Arrangement.spacedBy(SpSpacing.s4)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(top = SpSpacing.s2)
+                            .size(SpMetrics.sheetHandleWidth, SpMetrics.sheetHandleHeight)
+                            .clip(SpShapes.pill)
+                            .background(colors.border)
+                    )
+                    Text(text = title, style = MaterialTheme.typography.titleLarge, color = colors.textPrimary)
+                }
                 Box(
                     modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(top = SpSpacing.s2)
-                        .size(SpMetrics.sheetHandleWidth, SpMetrics.sheetHandleHeight)
-                        .clip(SpShapes.pill)
-                        .background(colors.border)
+                        .fillMaxWidth()
+                        .height(SpMetrics.hairlineThickness)
+                        .graphicsLayer { alpha = dividerAlpha }
+                        .background(colors.hairline)
                 )
-                Text(text = title, style = MaterialTheme.typography.titleLarge, color = colors.textPrimary)
-                content()
-                if (footer != null) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(SpSpacing.s3),
-                        content = footer
-                    )
+                Column(
+                    modifier = if (fullBleed) {
+                        Modifier.fillMaxWidth()
+                    } else {
+                        Modifier
+                            .fillMaxWidth()
+                            .windowInsetsPadding(WindowInsets.navigationBars)
+                            .padding(start = SpSpacing.s5, end = SpSpacing.s5, bottom = SpSpacing.s5)
+                    },
+                    verticalArrangement = Arrangement.spacedBy(SpSpacing.s4)
+                ) {
+                    content()
+                    if (footer != null) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(SpSpacing.s3),
+                            content = footer
+                        )
+                    }
                 }
             }
         }

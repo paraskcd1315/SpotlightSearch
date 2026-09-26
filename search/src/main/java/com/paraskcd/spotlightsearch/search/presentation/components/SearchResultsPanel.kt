@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.paraskcd.spotlightsearch.designsystem.ds.foundation.fadingEdges
 import com.paraskcd.spotlightsearch.search.domain.model.SearchSection
@@ -19,9 +20,11 @@ fun SearchResultsPanel(
     blurEnabled: Boolean,
     icons: IconSources,
     callbacks: HitCallbacks,
+    scrollKey: Any?,
     onShowAll: (SearchSection) -> Unit
 ) {
     val listState = rememberLazyListState()
+    LaunchedEffect(scrollKey) { listState.scrollToItem(0) }
     val single = sections.size == 1
     LazyColumn(
         modifier = Modifier
