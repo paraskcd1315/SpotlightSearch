@@ -16,7 +16,7 @@ android {
     defaultConfig {
         applicationId = "com.paraskcd.spotlightsearch"
         versionCode = 18
-        versionName = "1.3.0"
+        versionName = "2.0.0"
         resValue("string", "app_name", "Spotlight Search")
     }
 
