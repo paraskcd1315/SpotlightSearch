@@ -5,7 +5,6 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.scaleIn
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -27,7 +26,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
@@ -60,18 +58,11 @@ fun OverlayScrim(
     }
     var dragOffset by remember { mutableFloatStateOf(0f) }
     val packageName = LocalContext.current.packageName
-    val scrim = Brush.verticalGradient(
-        listOf(
-            MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = OverlayMetrics.ScrimAlpha),
-            MaterialTheme.colorScheme.surface.copy(alpha = OverlayMetrics.ScrimAlpha)
-        )
-    )
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .graphicsLayer { alpha = (1f - dragOffset / OverlayMetrics.DragFadeDistancePx).coerceIn(0f, 1f) }
-            .background(scrim)
             .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null, onClick = onClose)
             .pointerInput(Unit) {
                 detectVerticalDragGestures(

@@ -37,6 +37,12 @@ class KeyboardTracker(
         animating = true
         pendingRest?.let(view::removeCallbacks)
         pendingRest = null
+        val top = topOnScreen()
+        val hidden = hiddenTop
+        if (hidden == null || top > hidden) {
+            hiddenTop = top
+            onTopOnScreen(top)
+        }
     }
 
     override fun onStart(animation: WindowInsetsAnimation, bounds: WindowInsetsAnimation.Bounds): WindowInsetsAnimation.Bounds {

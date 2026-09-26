@@ -29,5 +29,4 @@ object OverlayMetrics {
     const val EntryInitialScale = 0.95f
     const val DismissDragPx = 100f
     const val DragFadeDistancePx = 300f
-    const val ScrimAlpha = 0.5f
 }

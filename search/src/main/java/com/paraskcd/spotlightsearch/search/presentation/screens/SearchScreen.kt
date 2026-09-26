@@ -14,8 +14,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
+import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpMotion
 import com.paraskcd.spotlightsearch.search.infrastructure.window.DialogWindowSetup
 import com.paraskcd.spotlightsearch.search.presentation.model.HitCallbacks
 import com.paraskcd.spotlightsearch.search.presentation.model.HitOutcome
@@ -77,13 +78,18 @@ fun SearchScreen(
         keyboardSettled = true
     }
 
+    val frequentReserve by animateIntAsState(
+        targetValue = frequentHeight?.let { it + gapPx } ?: 0,
+        animationSpec = tween(SpMotion.durAutoHeightMs, easing = SpMotion.easeIos)
+    )
+
     OverlayScrim(
-        visible = visible,
+        visible = visible && barTop != null && settingsBottom != null,
         showBranding = showBranding,
         appName = appName,
         icons = viewModel.icons.apps,
         topLimitPx = settingsBottom,
-        bottomLimitPx = barTop?.let { bar -> frequentHeight?.let { bar - gapPx - it } ?: bar },
+        bottomLimitPx = barTop?.let { it - frequentReserve },
         onClose = onClose
     )
 
