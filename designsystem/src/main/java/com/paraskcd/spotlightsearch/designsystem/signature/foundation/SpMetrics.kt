@@ -42,7 +42,7 @@ object SpMetrics {
     val headerIconSize = 24.dp
     val bottomSpacer = 32.dp
     val headerBodyGap = SpSpacing.s4
-    val segmentHeight = 30.dp
+    val segmentHeight = touchTargetMin - SpSpacing.s1 * 2
     val segmentTextSize = 13.sp
     const val panelAlphaBlurred = 0.45f
     const val panelAlphaSolid = 0.94f
