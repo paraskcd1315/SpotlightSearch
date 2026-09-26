@@ -14,8 +14,6 @@ object OverlayMetrics {
     const val KeyboardSettleTimeoutMs = 700L
     val BarBottomMargin = 24.dp
     val ResultsGap = 8.dp
-    val SettingsButtonMargin = 16.dp
-    val SettingsButtonTopMargin = 8.dp
     val SettingsButtonCornerRadius = 100.dp
     val SettingsButtonPaddingHorizontal = 16.dp
     val SettingsButtonPaddingVertical = 10.dp

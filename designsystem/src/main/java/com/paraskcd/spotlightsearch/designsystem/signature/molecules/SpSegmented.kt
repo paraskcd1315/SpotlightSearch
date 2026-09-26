@@ -19,11 +19,12 @@ fun SpSegmented(
     labels: List<String>,
     selected: Int,
     onSelect: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    panel: Boolean = false
 ) {
     Box(
         modifier = modifier
-            .spGlassSurface(SpShapes.pill, specular = false)
+            .spGlassSurface(SpShapes.pill, specular = panel, panel = panel)
             .padding(SpSpacing.s1)
     ) {
         Row(

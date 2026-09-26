@@ -19,7 +19,6 @@ object SearchMetrics {
     const val TilesPerRow = 5
     val SectionHeaderPadding = 16.dp
     val ListPadding = 8.dp
-    val FilterReserve = 46.dp
     val PillPadding = 8.dp
     val ClearButtonSize = 32.dp
     val ClearIconSize = 14.dp

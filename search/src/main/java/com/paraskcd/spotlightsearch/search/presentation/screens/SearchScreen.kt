@@ -14,12 +14,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
 import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpMotion
 import com.paraskcd.spotlightsearch.search.infrastructure.window.DialogWindowSetup
 import com.paraskcd.spotlightsearch.search.presentation.model.HitCallbacks
 import com.paraskcd.spotlightsearch.search.presentation.model.HitOutcome
+import com.paraskcd.spotlightsearch.search.presentation.overlay.FilterWindow
 import com.paraskcd.spotlightsearch.search.presentation.overlay.OverlayMetrics
 import com.paraskcd.spotlightsearch.search.presentation.overlay.OverlayScrim
 import com.paraskcd.spotlightsearch.search.presentation.overlay.ResultsWindow
@@ -31,6 +33,7 @@ import com.paraskcd.spotlightsearch.search.domain.model.SectionKind
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.AppHit
 import com.paraskcd.spotlightsearch.search.presentation.viewmodels.SearchViewModel
 import kotlinx.coroutines.delay
+import kotlin.math.roundToInt
 
 @Composable
 fun SearchScreen(
@@ -45,14 +48,20 @@ fun SearchScreen(
     var text by rememberSaveable { mutableStateOf("") }
     var visible by remember { mutableStateOf(false) }
     var barTop by remember { mutableStateOf<Int?>(null) }
-    var settingsBottom by remember { mutableStateOf<Int?>(null) }
+    var settingsSize by remember { mutableStateOf<IntSize?>(null) }
+    var filterHeight by remember { mutableStateOf(0) }
+    var filter by remember { mutableStateOf<SectionKind?>(null) }
     var frequentHeight by remember { mutableStateOf<Int?>(null) }
     var keyboardSettled by remember { mutableStateOf(false) }
     val view = LocalView.current
     val density = LocalDensity.current
-    val displayHeightPx = LocalActivity.current?.window?.let(DialogWindowSetup::displayHeight) ?: 0
+    val activityWindow = LocalActivity.current?.window
+    val displayHeightPx = activityWindow?.let(DialogWindowSetup::displayHeight) ?: 0
+    val displayWidthPx = activityWindow?.let(DialogWindowSetup::displayWidth) ?: 0
+    val sideMarginPx = (displayWidthPx * (1f - OverlayMetrics.WindowWidthFraction) / 2f).roundToInt()
     val statusBarPx = WindowInsets.statusBars.getTop(density)
     val gapPx = with(density) { OverlayMetrics.ResultsGap.roundToPx() }
+    val toolbarPx = settingsSize?.height ?: 0
 
     val onQueryChange: (String) -> Unit = { query ->
         text = query
@@ -84,24 +93,16 @@ fun SearchScreen(
     )
 
     OverlayScrim(
-        visible = visible && barTop != null && settingsBottom != null,
+        visible = visible && barTop != null && settingsSize != null,
         showBranding = showBranding,
         appName = appName,
         icons = viewModel.icons.apps,
-        topLimitPx = settingsBottom,
-        bottomLimitPx = barTop?.let { it - frequentReserve },
+        topLimitPx = statusBarPx,
+        bottomLimitPx = barTop?.let { it - gapPx - toolbarPx - frequentReserve },
         onClose = onClose
     )
 
     if (!visible) return
-
-    SettingsButtonWindow(
-        blurEnabled = blurEnabled,
-        statusBarPx = statusBarPx,
-        onOpenSettings = onOpenSettings,
-        onClose = onClose,
-        onBottomOnScreen = { settingsBottom = it }
-    )
 
     SearchBarWindow(
         query = text,
@@ -113,12 +114,40 @@ fun SearchScreen(
         onKeyboardShown = { keyboardSettled = true }
     )
 
-    val ceiling = (settingsBottom ?: statusBarPx) + gapPx
-    val maxHeight = with(density) { ((barTop ?: 0) - ceiling - gapPx).coerceAtLeast(0).toDp() }
-
     val top = barTop ?: return
-    val offsetY = displayHeightPx - top + gapPx
+    val toolbarOffsetY = displayHeightPx - top + gapPx
+    val panelOffsetY = toolbarOffsetY + toolbarPx + gapPx
+    val ceiling = statusBarPx + gapPx
+    val maxHeight = with(density) { (top - gapPx - toolbarPx - gapPx - ceiling).coerceAtLeast(0).toDp() }
     val idle = text.isBlank()
+    LaunchedEffect(idle) { if (idle) filter = null }
+
+    SettingsButtonWindow(
+        blurEnabled = blurEnabled,
+        offsetX = sideMarginPx,
+        offsetY = toolbarOffsetY,
+        onOpenSettings = onOpenSettings,
+        onClose = onClose,
+        onSize = { settingsSize = it }
+    )
+
+    val sections = if (idle) emptyList() else results.sections.filterNot { it.kind == SectionKind.FREQUENT }
+    val kinds = sections.map { it.kind }
+    val active = filter?.takeIf { it in kinds }
+    val filterMaxWidthPx = displayWidthPx - 2 * sideMarginPx - (settingsSize?.width ?: 0) - gapPx
+
+    FilterWindow(
+        kinds = kinds,
+        active = active,
+        onSelect = { filter = it },
+        offsetX = sideMarginPx,
+        offsetY = toolbarOffsetY + ((toolbarPx - filterHeight) / 2).coerceAtLeast(0),
+        maxWidth = with(density) { filterMaxWidthPx.coerceAtLeast(0).toDp() },
+        blurEnabled = blurEnabled,
+        onClose = onClose,
+        onHeight = { filterHeight = it }
+    )
+
     val frequentApps = if (idle && keyboardSettled) {
         results.sections.firstOrNull { it.kind == SectionKind.FREQUENT }?.hits?.filterIsInstance<AppHit>().orEmpty()
     } else {
@@ -128,7 +157,7 @@ fun SearchScreen(
     FrequentAppsWindow(
         apps = frequentApps,
         loading = idle && keyboardSettled && results.loading && frequentApps.isEmpty(),
-        offsetY = offsetY,
+        offsetY = panelOffsetY,
         blurEnabled = blurEnabled,
         icons = viewModel.icons,
         callbacks = callbacks,
@@ -137,8 +166,12 @@ fun SearchScreen(
     )
 
     ResultsWindow(
-        results = if (idle) SearchResults(loading = false) else results.copy(sections = results.sections.filterNot { it.kind == SectionKind.FREQUENT }),
-        offsetY = offsetY,
+        results = if (idle) {
+            SearchResults(loading = false)
+        } else {
+            results.copy(sections = if (active == null) sections else sections.filter { it.kind == active })
+        },
+        offsetY = panelOffsetY,
         maxHeight = maxHeight,
         blurEnabled = blurEnabled,
         icons = viewModel.icons,
