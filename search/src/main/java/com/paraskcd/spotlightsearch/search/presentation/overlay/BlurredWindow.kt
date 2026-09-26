@@ -49,6 +49,7 @@ fun BlurredWindow(
         val density = LocalDensity.current
         val cornerRadiusPx = with(density) { cornerRadius.toPx() }
         val risePx = with(density) { OverlayMetrics.RevealRise.toPx() }
+        val elevationPx = with(density) { OverlayMetrics.WindowElevation.toPx() }
         val blur = remember { Animatable(0f) }
         val reveal = remember { Animatable(if (animateIn) 0f else 1f) }
         var configured by remember { mutableStateOf(focusable) }
@@ -62,7 +63,17 @@ fun BlurredWindow(
             } else {
                 (DialogWindowSetup.displayWidth(window) * OverlayMetrics.WindowWidthFraction).toInt()
             }
-            DialogWindowSetup.configure(window, focusable, width, cornerRadiusPx, latestOffsetY, gravity, offsetX)
+            DialogWindowSetup.configure(
+                window = window,
+                focusable = focusable,
+                widthPx = width,
+                cornerRadiusPx = cornerRadiusPx,
+                offsetYPx = latestOffsetY,
+                elevationPx = elevationPx,
+                shadowAlpha = OverlayMetrics.WindowShadowAlpha,
+                gravity = gravity,
+                offsetXPx = offsetX
+            )
             awaitFrame()
             awaitFrame()
             configured = true

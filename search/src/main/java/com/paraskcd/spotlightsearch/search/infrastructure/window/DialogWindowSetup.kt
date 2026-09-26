@@ -1,10 +1,12 @@
 package com.paraskcd.spotlightsearch.search.infrastructure.window
 
 import android.graphics.Color
+import android.graphics.Outline
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.view.Window
 import android.view.WindowManager
 
@@ -15,9 +17,18 @@ object DialogWindowSetup {
         widthPx: Int,
         cornerRadiusPx: Float,
         offsetYPx: Int,
+        elevationPx: Float,
+        shadowAlpha: Float,
         gravity: Int = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL,
         offsetXPx: Int = 0
     ) {
+        window.decorView.outlineProvider = object : ViewOutlineProvider() {
+            override fun getOutline(view: View, outline: Outline) {
+                outline.setRoundRect(0, 0, view.width, view.height, cornerRadiusPx)
+                outline.alpha = shadowAlpha
+            }
+        }
+        window.setElevation(elevationPx)
         window.setBackgroundDrawable(
             GradientDrawable().apply {
                 cornerRadius = cornerRadiusPx
