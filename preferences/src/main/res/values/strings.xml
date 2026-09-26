@@ -6,7 +6,7 @@
     <string name="settings_go_to">Go to %1$s</string>
     <string name="settings_no_results">No results found</string>
 
-    <string name="home_header">Spotlight Search</string>
+    <string name="home_header" translatable="false">Spotlight Search</string>
     <string name="home_appearance_title">Appearance and Personalization</string>
     <string name="home_appearance_subtitle">Customize the look and feel of Spotlight Search</string>
     <string name="home_features_title">Features and Functionality</string>
@@ -64,7 +64,7 @@
     <string name="color_hue">Hue</string>
     <string name="color_saturation">Saturation</string>
     <string name="color_brightness">Brightness</string>
-    <string name="color_percent">%1$d%%</string>
+    <string name="color_percent" translatable="false">%1$d%%</string>
     <string name="color_save">Save</string>
     <string name="color_reset">Reset</string>
     <string name="color_reset_title">Reset color</string>

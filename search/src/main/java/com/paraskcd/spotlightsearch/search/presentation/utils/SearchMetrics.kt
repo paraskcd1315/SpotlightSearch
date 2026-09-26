@@ -20,8 +20,6 @@ object SearchMetrics {
     val SectionHeaderPadding = 16.dp
     val ListPadding = 8.dp
     val PillPadding = 8.dp
-    val PillButtonSize = 40.dp
-    val PillButtonPadding = 8.dp
     val ClearButtonSize = 24.dp
     val ClearIconSize = 16.dp
     const val SurfaceAlphaWithBlur = 0.65f

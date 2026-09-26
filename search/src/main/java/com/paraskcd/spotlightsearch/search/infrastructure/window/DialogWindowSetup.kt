@@ -9,7 +9,15 @@ import android.view.Window
 import android.view.WindowManager
 
 object DialogWindowSetup {
-    fun configure(window: Window, focusable: Boolean, widthPx: Int, cornerRadiusPx: Float, offsetYPx: Int) {
+    fun configure(
+        window: Window,
+        focusable: Boolean,
+        widthPx: Int,
+        cornerRadiusPx: Float,
+        offsetYPx: Int,
+        gravity: Int = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL,
+        offsetXPx: Int = 0
+    ) {
         window.setBackgroundDrawable(
             GradientDrawable().apply {
                 cornerRadius = cornerRadiusPx
@@ -32,9 +40,12 @@ object DialogWindowSetup {
             )
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         }
-        window.setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL)
+        window.setGravity(gravity)
         window.setLayout(widthPx, ViewGroup.LayoutParams.WRAP_CONTENT)
-        window.attributes = window.attributes.apply { y = offsetYPx }
+        window.attributes = window.attributes.apply {
+            x = offsetXPx
+            y = offsetYPx
+        }
     }
 
     fun setVisible(window: Window, visible: Boolean) {

@@ -9,6 +9,13 @@ object OverlayMetrics {
     val BarCornerRadius = 32.dp
     val BarBottomMargin = 24.dp
     val ResultsGap = 8.dp
+    val SettingsButtonMargin = 16.dp
+    val SettingsButtonTopMargin = 8.dp
+    val SettingsButtonCornerRadius = 100.dp
+    val SettingsButtonPaddingHorizontal = 16.dp
+    val SettingsButtonPaddingVertical = 10.dp
+    val SettingsButtonIconSpacing = 8.dp
+    val SettingsButtonIconSize = 20.dp
     val LogoSize = 96.dp
     val LogoSpacing = 16.dp
     const val BlurRadiusMax = 100

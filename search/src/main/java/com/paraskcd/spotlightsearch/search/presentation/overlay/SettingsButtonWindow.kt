@@ -1,65 +1,55 @@
 package com.paraskcd.spotlightsearch.search.presentation.overlay
 
+import android.view.Gravity
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import com.paraskcd.spotlightsearch.designsystem.ds.foundation.DsMetrics
-import com.paraskcd.spotlightsearch.search.presentation.components.SearchBarPill
+import com.paraskcd.spotlightsearch.search.presentation.components.SettingsPill
 import com.paraskcd.spotlightsearch.search.presentation.utils.surfaceAlpha
-import kotlinx.coroutines.android.awaitFrame
 
 @Composable
-fun SearchBarWindow(
-    query: String,
+fun SettingsButtonWindow(
     blurEnabled: Boolean,
-    onQueryChange: (String) -> Unit,
-    onSubmit: () -> Unit,
+    statusBarPx: Int,
+    onOpenSettings: () -> Unit,
     onClose: () -> Unit,
-    onTopOnScreen: (Int) -> Unit
+    onBottomOnScreen: (Int) -> Unit
 ) {
-    val offsetY = with(LocalDensity.current) { OverlayMetrics.BarBottomMargin.roundToPx() }
+    val density = LocalDensity.current
+    val offsetX = with(density) { OverlayMetrics.SettingsButtonMargin.roundToPx() }
+    val offsetY = statusBarPx + with(density) { OverlayMetrics.SettingsButtonTopMargin.roundToPx() }
     BlurredWindow(
-        focusable = true,
+        focusable = false,
         blurEnabled = blurEnabled,
         offsetY = offsetY,
-        cornerRadius = OverlayMetrics.BarCornerRadius,
-        onDismissRequest = onClose
+        cornerRadius = OverlayMetrics.SettingsButtonCornerRadius,
+        onDismissRequest = onClose,
+        gravity = Gravity.TOP or Gravity.END,
+        offsetX = offsetX,
+        wrapWidth = true
     ) {
         val view = LocalView.current
-        val focusRequester = remember { FocusRequester() }
-        val shape = RoundedCornerShape(OverlayMetrics.BarCornerRadius)
-        LaunchedEffect(Unit) {
-            awaitFrame()
-            focusRequester.requestFocus()
-        }
+        val shape = RoundedCornerShape(OverlayMetrics.SettingsButtonCornerRadius)
         Surface(
+            onClick = onOpenSettings,
             shape = shape,
             color = MaterialTheme.colorScheme.surfaceBright.copy(alpha = surfaceAlpha(blurEnabled)),
             modifier = Modifier
-                .fillMaxWidth()
                 .border(DsMetrics.OutlineWidth, MaterialTheme.colorScheme.outline.copy(alpha = DsMetrics.OutlineAlpha), shape)
-                .onGloballyPositioned {
+                .onGloballyPositioned { coordinates ->
                     val location = IntArray(2)
                     view.getLocationOnScreen(location)
-                    onTopOnScreen(location[1])
+                    onBottomOnScreen(location[1] + coordinates.size.height)
                 }
         ) {
-            SearchBarPill(
-                query = query,
-                focusRequester = focusRequester,
-                onQueryChange = onQueryChange,
-                onSubmit = onSubmit
-            )
+            SettingsPill()
         }
     }
 }

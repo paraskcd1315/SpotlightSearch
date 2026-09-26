@@ -1,5 +1,7 @@
 package com.paraskcd.spotlightsearch.search.presentation.overlay
 
+import android.view.Gravity
+import android.view.ViewGroup
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
@@ -22,6 +24,9 @@ fun BlurredWindow(
     cornerRadius: Dp,
     onDismissRequest: () -> Unit,
     visible: Boolean = true,
+    gravity: Int = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL,
+    offsetX: Int = 0,
+    wrapWidth: Boolean = false,
     content: @Composable () -> Unit
 ) {
     Dialog(
@@ -36,9 +41,13 @@ fun BlurredWindow(
         val cornerRadiusPx = with(LocalDensity.current) { cornerRadius.toPx() }
         val blur = remember { Animatable(0f) }
 
-        LaunchedEffect(focusable, cornerRadiusPx, offsetY) {
-            val width = (DialogWindowSetup.displayWidth(window) * OverlayMetrics.WindowWidthFraction).toInt()
-            DialogWindowSetup.configure(window, focusable, width, cornerRadiusPx, offsetY)
+        LaunchedEffect(focusable, cornerRadiusPx, offsetY, offsetX, gravity, wrapWidth) {
+            val width = if (wrapWidth) {
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            } else {
+                (DialogWindowSetup.displayWidth(window) * OverlayMetrics.WindowWidthFraction).toInt()
+            }
+            DialogWindowSetup.configure(window, focusable, width, cornerRadiusPx, offsetY, gravity, offsetX)
         }
         SideEffect { DialogWindowSetup.setVisible(window, visible) }
         LaunchedEffect(blurEnabled) {

@@ -1,0 +1,71 @@
+<resources>
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_back">Atrás</string>
+    <string name="settings_coming_soon">Próximamente</string>
+    <string name="settings_open_failed">No se pudieron abrir los ajustes</string>
+    <string name="settings_go_to">Ir a %1$s</string>
+    <string name="settings_no_results">No se encontraron resultados</string>
+
+    <string name="home_appearance_title">Apariencia y personalización</string>
+    <string name="home_appearance_subtitle">Personaliza el aspecto de Spotlight Search</string>
+    <string name="home_features_title">Funciones</string>
+    <string name="home_features_subtitle">Gestiona las funciones de Spotlight Search</string>
+    <string name="home_about_title">Acerca de</string>
+    <string name="home_about_subtitle">Más información sobre Spotlight Search</string>
+
+    <string name="features_header">Funciones</string>
+    <string name="features_section">Funciones</string>
+    <string name="features_shortcuts_section">Accesos directos</string>
+    <string name="features_quick_search_title">Aplicaciones de búsqueda rápida</string>
+    <string name="features_quick_search_subtitle">Toca para elegir en qué aplicaciones buscar rápidamente</string>
+    <string name="features_manage_apps_title">Gestionar aplicaciones</string>
+    <string name="features_manage_apps_subtitle">Toca para gestionar la búsqueda de aplicaciones y ocultar aplicaciones</string>
+    <string name="features_web_title">Gestionar sugerencias web</string>
+    <string name="features_web_subtitle">Toca para gestionar las sugerencias de Google</string>
+    <string name="features_contacts_title">Gestionar contactos</string>
+    <string name="features_contacts_subtitle">Toca para gestionar los contactos</string>
+    <string name="features_assistant_title">Asistente digital</string>
+    <string name="features_assistant_subtitle">Establece Spotlight Search como tu asistente digital</string>
+
+    <string name="apps_section">Gestionar aplicaciones</string>
+    <string name="apps_enable">Activar aplicaciones</string>
+    <string name="apps_blacklist">Aplicaciones ocultas</string>
+    <string name="blacklist_section">Aplicaciones ocultas</string>
+    <string name="contacts_section">Gestionar contactos</string>
+    <string name="contacts_enable">Activar contactos</string>
+    <string name="web_section">Gestionar sugerencias web</string>
+    <string name="web_enable">Activar sugerencias web</string>
+    <string name="quick_search_help">Mantén pulsado y arrastra para reordenar; usa el interruptor para desactivar. Una aplicación sin icono no está instalada y no aparecerá en la búsqueda.</string>
+    <string name="quick_search_drag">Arrastrar</string>
+
+    <string name="appearance_header">Apariencia y personalización</string>
+    <string name="appearance_section">Apariencia</string>
+    <string name="appearance_select_theme">Seleccionar tema</string>
+    <string name="appearance_enable_blur">Activar desenfoque</string>
+    <string name="personalization_section">Personalización</string>
+    <string name="personalization_reset_colors">Restablecer colores</string>
+    <string name="theme_dialog_title">Modo del tema</string>
+    <string name="theme_auto">Automático</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="reset_colors_title">Restablecer colores</string>
+    <string name="reset_colors_message">¿Borrar todos los colores personalizados y volver a los colores dinámicos?</string>
+    <string name="reset_colors_confirm">Restablecer</string>
+    <string name="dialog_cancel">Cancelar</string>
+
+    <string name="color_background">Fondo</string>
+    <string name="color_surface_bright">Fondo de los contenedores</string>
+    <string name="color_surface_tint">Tono de los contenedores</string>
+    <string name="color_on_surface">Color del texto</string>
+    <string name="color_outline">Color del borde</string>
+    <string name="color_editing">Editando: %1$s. La barra de búsqueda es un campo editable: puedes escribir tu propio código hexadecimal.</string>
+    <string name="color_preview">Vista previa</string>
+    <string name="color_hue">Tono</string>
+    <string name="color_saturation">Saturación</string>
+    <string name="color_brightness">Brillo</string>
+    <string name="color_save">Guardar</string>
+    <string name="color_reset">Restablecer</string>
+    <string name="color_reset_title">Restablecer color</string>
+    <string name="color_reset_message">El color de %1$s volverá al valor predeterminado. Esta acción no se puede deshacer. ¿Seguro?</string>
+    <string name="color_reset_confirm">Confirmar</string>
+</resources>

@@ -24,6 +24,11 @@ android {
         resValues = true
     }
 
+    androidResources {
+        generateLocaleConfig = true
+        localeFilters += listOf("en", "es", "de", "fr", "nl", "ca", "it", "pt", "sv", "ru", "hi", "ur")
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix = ".dev"

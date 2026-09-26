@@ -18,11 +18,6 @@ object LanguageNames {
         "thai" to "th", "turkish" to "tr", "ukrainian" to "uk", "urdu" to "ur",
         "vietnamese" to "vi", "welsh" to "cy"
     )
-    private val namesByCode = codesByName.entries.associate { (name, code) ->
-        code to name.replaceFirstChar { it.uppercaseChar() }
-    }
 
     fun code(nameOrCode: String): String = codesByName[nameOrCode.lowercase()] ?: nameOrCode.lowercase()
-
-    fun name(code: String): String = namesByCode[code.lowercase()] ?: code
 }

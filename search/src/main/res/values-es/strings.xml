@@ -1,0 +1,68 @@
+<resources>
+    <string name="search_placeholder">Buscar…</string>
+    <string name="search_clear">Borrar búsqueda</string>
+    <string name="search_open_settings">Ajustes</string>
+
+    <string name="section_frequent">Usadas con frecuencia</string>
+    <string name="section_settings">Ajustes</string>
+    <string name="section_dictionary">Diccionario</string>
+    <string name="section_permissions">Permisos</string>
+    <string name="section_calculator">Calculadora</string>
+    <string name="section_web">Web</string>
+    <string name="section_apps">Aplicaciones</string>
+    <string name="section_contacts">Contactos</string>
+    <string name="section_translation">Traducción</string>
+    <string name="section_suggestions">Sugerencias</string>
+    <string name="section_quick_search">Búsqueda rápida</string>
+
+    <string name="hit_spelling_title">¿Quisiste decir…?</string>
+    <string name="hit_permission_title">Permitir acceso a los contactos</string>
+    <string name="hit_permission_subtitle">Necesario para buscar contactos</string>
+    <string name="hit_web_title">Buscar \"%1$s\" en la web</string>
+    <string name="hit_web_subtitle">Búsqueda web</string>
+    <string name="hit_suggestion_subtitle">Sugerencia</string>
+    <string name="hit_translation_subtitle">Traducción (%1$s → %2$s)</string>
+    <string name="hit_setting_subtitle">Abrir %1$s</string>
+    <string name="hit_calculation_arithmetic">Cálculo</string>
+    <string name="hit_calculation_unit">Conversión de unidades</string>
+    <string name="hit_calculation_temperature">Conversión de temperatura</string>
+    <string name="hit_calculation_date">Fecha detectada</string>
+    <string name="hit_calculation_web">Calculadora</string>
+
+    <string name="action_app_info">Información de la aplicación</string>
+    <string name="action_call">Llamar</string>
+    <string name="action_sms">SMS</string>
+
+    <string name="quick_search_google">Buscar \"%1$s\" en Google</string>
+    <string name="quick_search_youtube">Buscar \"%1$s\" en YouTube</string>
+    <string name="quick_search_youtube_music">Buscar \"%1$s\" en YouTube Music</string>
+    <string name="quick_search_maps">Buscar \"%1$s\" en Maps</string>
+    <string name="quick_search_play_store">Buscar \"%1$s\" en Play Store</string>
+    <string name="quick_search_threads">Buscar \"%1$s\" en Threads</string>
+    <string name="quick_search_linkedin">Buscar \"%1$s\" en LinkedIn</string>
+    <string name="quick_search_x">Buscar \"%1$s\" en X</string>
+    <string name="quick_search_facebook">Buscar \"%1$s\" en Facebook</string>
+
+    <string name="setting_main">Ajustes principales</string>
+    <string name="setting_airplane_mode">Ajustes del modo avión</string>
+    <string name="setting_wifi">Ajustes de Wi‑Fi</string>
+    <string name="setting_bluetooth">Ajustes de Bluetooth</string>
+    <string name="setting_display">Ajustes de pantalla</string>
+    <string name="setting_sound">Ajustes de sonido</string>
+    <string name="setting_date_time">Ajustes de fecha y hora</string>
+    <string name="setting_language">Ajustes de idioma y entrada</string>
+    <string name="setting_wireless">Ajustes de conexiones inalámbricas</string>
+    <string name="setting_security">Ajustes de seguridad</string>
+    <string name="setting_apps">Ajustes de aplicaciones</string>
+    <string name="setting_battery_saver">Ajustes de batería</string>
+    <string name="setting_data_roaming">Ajustes de itinerancia de datos</string>
+    <string name="setting_location">Ajustes de ubicación</string>
+    <string name="setting_input_method">Ajustes del método de entrada</string>
+    <string name="setting_accessibility">Ajustes de accesibilidad</string>
+    <string name="setting_nfc">Ajustes de NFC</string>
+    <string name="setting_privacy">Ajustes de privacidad</string>
+    <string name="setting_battery_optimization">Ignorar la optimización de batería</string>
+    <string name="setting_storage">Ajustes de almacenamiento</string>
+    <string name="setting_device_info">Información del dispositivo</string>
+    <string name="setting_notifications">Ajustes de notificaciones</string>
+</resources>

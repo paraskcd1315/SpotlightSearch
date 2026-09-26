@@ -23,6 +23,7 @@ import com.paraskcd.spotlightsearch.search.presentation.overlay.OverlayMetrics
 import com.paraskcd.spotlightsearch.search.presentation.overlay.OverlayScrim
 import com.paraskcd.spotlightsearch.search.presentation.overlay.ResultsWindow
 import com.paraskcd.spotlightsearch.search.presentation.overlay.SearchBarWindow
+import com.paraskcd.spotlightsearch.search.presentation.overlay.SettingsButtonWindow
 import com.paraskcd.spotlightsearch.search.presentation.viewmodels.SearchViewModel
 import kotlinx.coroutines.delay
 
@@ -38,6 +39,7 @@ fun SearchScreen(
     var text by rememberSaveable { mutableStateOf("") }
     var visible by remember { mutableStateOf(false) }
     var barTop by remember { mutableStateOf<Int?>(null) }
+    var settingsBottom by remember { mutableStateOf<Int?>(null) }
     val view = LocalView.current
     val density = LocalDensity.current
     val displayHeightPx = LocalActivity.current?.window?.let(DialogWindowSetup::displayHeight) ?: 0
@@ -70,17 +72,25 @@ fun SearchScreen(
 
     if (!visible) return
 
+    SettingsButtonWindow(
+        blurEnabled = blurEnabled,
+        statusBarPx = statusBarPx,
+        onOpenSettings = onOpenSettings,
+        onClose = onClose,
+        onBottomOnScreen = { settingsBottom = it }
+    )
+
     SearchBarWindow(
         query = text,
         blurEnabled = blurEnabled,
         onQueryChange = onQueryChange,
         onSubmit = { handle(viewModel.submit()) },
-        onOpenSettings = onOpenSettings,
         onClose = onClose,
         onTopOnScreen = { barTop = it }
     )
 
-    val available = with(density) { ((barTop ?: 0) - statusBarPx - gapPx).coerceAtLeast(0).toDp() }
+    val ceiling = (settingsBottom ?: statusBarPx) + gapPx
+    val available = with(density) { ((barTop ?: 0) - ceiling - gapPx).coerceAtLeast(0).toDp() }
     val maxHeight by animateDpAsState(available, tween(OverlayMetrics.ResultsResizeMs), label = "resultsHeight")
 
     val top = barTop ?: return

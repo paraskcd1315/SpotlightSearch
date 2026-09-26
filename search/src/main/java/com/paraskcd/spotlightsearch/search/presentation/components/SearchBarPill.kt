@@ -13,10 +13,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -41,8 +39,6 @@ fun SearchBarPill(
     focusRequester: FocusRequester,
     onQueryChange: (String) -> Unit,
     onSubmit: () -> Unit,
-    onOpenSettings: () -> Unit,
-    onClose: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -96,19 +92,5 @@ fun SearchBarPill(
                 }
             }
         )
-        IconButton(onClick = onOpenSettings, modifier = Modifier.size(SearchMetrics.PillButtonSize)) {
-            Icon(
-                Icons.Default.Settings,
-                contentDescription = stringResource(R.string.search_open_settings),
-                tint = MaterialTheme.colorScheme.onSurface
-            )
-        }
-        IconButton(onClick = onClose, modifier = Modifier.size(SearchMetrics.PillButtonSize)) {
-            Icon(
-                Icons.AutoMirrored.Filled.ExitToApp,
-                contentDescription = stringResource(R.string.search_close),
-                tint = MaterialTheme.colorScheme.onSurface
-            )
-        }
     }
 }
