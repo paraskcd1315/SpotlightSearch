@@ -1,9 +1,11 @@
 package com.paraskcd.spotlightsearch.preferences.presentation.navigation
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -11,7 +13,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.composables.icons.lucide.Contact
 import com.composables.icons.lucide.Globe
@@ -36,17 +37,16 @@ fun SettingsNavHost(themeViewModel: ThemeViewModel, onClose: () -> Unit) {
     val navigate: (String) -> Unit = { navController.navigate(it) }
     val back: () -> Unit = { navController.popBackStack() }
 
-    val half = SpMotion.durMorphMs / 2
-    val fadeOutFirst = tween<Float>(half, easing = SpMotion.easeIos)
-    val fadeInAfter = tween<Float>(half, delayMillis = half, easing = SpMotion.easeIos)
+    val push = tween<IntOffset>(SpMotion.durPushMs, easing = SpMotion.easeIos)
+    val forward = if (LocalLayoutDirection.current == LayoutDirection.Rtl) -1 else 1
 
     NavHost(
         navController = navController,
         startDestination = SettingsRoute.HOME,
-        enterTransition = { fadeIn(fadeInAfter) },
-        exitTransition = { fadeOut(fadeOutFirst) },
-        popEnterTransition = { fadeIn(fadeInAfter) },
-        popExitTransition = { fadeOut(fadeOutFirst) }
+        enterTransition = { slideInHorizontally(push) { width -> width * forward } },
+        exitTransition = { slideOutHorizontally(push) { width -> -width * forward } },
+        popEnterTransition = { slideInHorizontally(push) { width -> -width * forward } },
+        popExitTransition = { slideOutHorizontally(push) { width -> width * forward } }
     ) {
         composable(SettingsRoute.HOME) { HomeScreen(navigate, onClose) }
         composable(SettingsRoute.PERSONALIZATION) { PersonalizationScreen(themeViewModel, navigate, back) }
@@ -85,7 +85,4 @@ fun SettingsNavHost(themeViewModel: ThemeViewModel, onClose: () -> Unit) {
             )
         }
     }
-
-    val current by navController.currentBackStackEntryAsState()
-    BackHandler(enabled = current != null && navController.previousBackStackEntry != null) { back() }
 }
