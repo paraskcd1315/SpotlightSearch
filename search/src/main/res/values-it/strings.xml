@@ -1,5 +1,6 @@
 <resources>
     <string name="search_placeholder">Cerca…</string>
+    <string name="filter_all">Tutti</string>
     <string name="search_clear">Cancella la ricerca</string>
     <string name="search_open_settings">Impostazioni</string>
 
