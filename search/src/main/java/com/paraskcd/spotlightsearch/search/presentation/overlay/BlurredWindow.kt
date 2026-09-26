@@ -7,6 +7,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
@@ -40,6 +43,7 @@ fun BlurredWindow(
         val window = (LocalView.current.parent as DialogWindowProvider).window
         val cornerRadiusPx = with(LocalDensity.current) { cornerRadius.toPx() }
         val blur = remember { Animatable(0f) }
+        var configured by remember { mutableStateOf(focusable) }
 
         LaunchedEffect(focusable, cornerRadiusPx, offsetY, offsetX, gravity, wrapWidth) {
             val width = if (wrapWidth) {
@@ -48,9 +52,11 @@ fun BlurredWindow(
                 (DialogWindowSetup.displayWidth(window) * OverlayMetrics.WindowWidthFraction).toInt()
             }
             DialogWindowSetup.configure(window, focusable, width, cornerRadiusPx, offsetY, gravity, offsetX)
+            configured = true
         }
-        SideEffect { DialogWindowSetup.setVisible(window, visible) }
-        LaunchedEffect(blurEnabled) {
+        SideEffect { DialogWindowSetup.setVisible(window, visible && configured) }
+        LaunchedEffect(blurEnabled, configured) {
+            if (!configured) return@LaunchedEffect
             val target = if (blurEnabled) OverlayMetrics.BlurRadiusMax.toFloat() else 0f
             blur.animateTo(target, tween(OverlayMetrics.BlurRampMs)) {
                 DialogWindowSetup.setBlur(window, value.toInt())

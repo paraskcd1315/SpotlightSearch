@@ -1,7 +1,13 @@
 package com.paraskcd.spotlightsearch.search.presentation.overlay
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalView
@@ -41,10 +47,16 @@ fun FrequentAppsWindow(
             view.getLocationOnScreen(location)
             onTopOnScreen(location[1])
         }
-        if (apps.isEmpty()) {
-            FrequentAppsSkeleton(blurEnabled, reportTop)
-        } else {
-            FrequentAppsGrid(apps, blurEnabled, icons, callbacks, reportTop)
+        val appear = remember { MutableTransitionState(false) }.apply { targetState = true }
+        AnimatedVisibility(
+            visibleState = appear,
+            enter = slideInVertically(tween(OverlayMetrics.EntryFadeMs)) { it } + fadeIn(tween(OverlayMetrics.EntryFadeMs))
+        ) {
+            if (apps.isEmpty()) {
+                FrequentAppsSkeleton(blurEnabled, reportTop)
+            } else {
+                FrequentAppsGrid(apps, blurEnabled, icons, callbacks, reportTop)
+            }
         }
     }
 }
