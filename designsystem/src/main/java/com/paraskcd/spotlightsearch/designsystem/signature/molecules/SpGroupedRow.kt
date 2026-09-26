@@ -28,7 +28,7 @@ fun SpGroupedRow(
                 .padding(horizontal = inset)
                 .then(if (index > 0) Modifier.padding(top = SpMetrics.settingsListGap) else Modifier)
                 .fillMaxWidth()
-                .spGlassSurface(shape, specular = index == 0),
+                .spGlassSurface(shape, specular = index == 0, panel = true),
             content = content
         )
     }

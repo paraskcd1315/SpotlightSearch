@@ -39,10 +39,15 @@ fun Modifier.spGlassSurface(
     shape: Shape,
     hazeState: HazeState? = null,
     specular: Boolean = true,
-    strong: Boolean = false
+    strong: Boolean = false,
+    panel: Boolean = false
 ): Modifier {
     val colors = SpTheme.colors
-    val fill = if (strong) colors.glassStrongBg else colors.glassBg
+    val fill = when {
+        panel -> colors.bgBase.copy(alpha = SpMetrics.panelAlphaBlurred)
+        strong -> colors.glassStrongBg
+        else -> colors.glassBg
+    }
     return this
         .clip(shape)
         .then(if (hazeState != null) Modifier.spHazeBlur(hazeState, colors) else Modifier.background(fill))
