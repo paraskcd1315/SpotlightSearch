@@ -6,3 +6,10 @@ plugins {
 android {
     namespace = "com.paraskcd.spotlightsearch.designsystem"
 }
+
+dependencies {
+    api(libs.haze)
+    api(libs.haze.blur)
+    api(libs.icons.lucide)
+    implementation(libs.androidx.activity.compose)
+}
