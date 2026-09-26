@@ -46,7 +46,9 @@ fun SettingsNavHost(themeViewModel: ThemeViewModel, onClose: () -> Unit) {
         enterTransition = { slideInHorizontally(push) { width -> width * forward } },
         exitTransition = { slideOutHorizontally(push) { width -> -width * forward } },
         popEnterTransition = { slideInHorizontally(push) { width -> -width * forward } },
-        popExitTransition = { slideOutHorizontally(push) { width -> width * forward } }
+        popExitTransition = { slideOutHorizontally(push) { width -> width * forward } },
+        predictivePopEnterTransition = { _ -> slideInHorizontally(push) { width -> -width * forward } },
+        predictivePopExitTransition = { _ -> slideOutHorizontally(push) { width -> width * forward } }
     ) {
         composable(SettingsRoute.HOME) { HomeScreen(navigate, onClose) }
         composable(SettingsRoute.PERSONALIZATION) { PersonalizationScreen(themeViewModel, navigate, back) }
