@@ -6,7 +6,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import com.paraskcd.spotlightsearch.designsystem.ds.foundation.fadingEdges
 import com.paraskcd.spotlightsearch.search.domain.model.AppResultsLayout
@@ -32,7 +38,18 @@ fun SearchResultsPanel(
     onShowAll: (SearchSection) -> Unit
 ) {
     val listState = rememberLazyListState()
-    LaunchedEffect(scrollKey) { listState.scrollToItem(0) }
+    var userScrolled by remember { mutableStateOf(false) }
+    LaunchedEffect(listState) {
+        listState.interactionSource.interactions.collect { if (it is DragInteraction.Start) userScrolled = true }
+    }
+    LaunchedEffect(listState) {
+        snapshotFlow { listState.canScrollBackward }.collect { if (!it) userScrolled = false }
+    }
+    LaunchedEffect(scrollKey) {
+        userScrolled = false
+        listState.scrollToItem(0)
+    }
+    LaunchedEffect(sections) { if (!userScrolled) listState.scrollToItem(0) }
     val single = sections.size == 1
     LazyColumn(
         modifier = Modifier
