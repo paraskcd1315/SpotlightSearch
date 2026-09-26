@@ -12,6 +12,7 @@
     <string name="section_dictionary">Dictionnaire</string>
     <string name="section_permissions">Autorisations</string>
     <string name="section_calculator">Calculatrice</string>
+    <string name="section_web">Web</string>
     <string name="section_apps">Applications</string>
     <string name="section_contacts">Contacts</string>
     <string name="section_translation">Traduction</string>

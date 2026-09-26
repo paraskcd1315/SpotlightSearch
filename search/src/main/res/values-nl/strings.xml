@@ -12,6 +12,7 @@
     <string name="section_dictionary">Woordenboek</string>
     <string name="section_permissions">Rechten</string>
     <string name="section_calculator">Rekenmachine</string>
+    <string name="section_web">Web</string>
     <string name="section_apps">Apps</string>
     <string name="section_contacts">Contacten</string>
     <string name="section_translation">Vertaling</string>

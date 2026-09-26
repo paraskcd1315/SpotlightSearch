@@ -12,6 +12,7 @@
     <string name="section_dictionary">Ordlista</string>
     <string name="section_permissions">Behörigheter</string>
     <string name="section_calculator">Kalkylator</string>
+    <string name="section_web">Webb</string>
     <string name="section_apps">Appar</string>
     <string name="section_contacts">Kontakter</string>
     <string name="section_translation">Översättning</string>

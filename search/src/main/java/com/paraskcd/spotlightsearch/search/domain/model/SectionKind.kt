@@ -8,6 +8,7 @@ enum class SectionKind {
     SETTINGS,
     DICTIONARY,
     PERMISSIONS,
+    WEB,
     APPS,
     CONTACTS,
     SUGGESTIONS,

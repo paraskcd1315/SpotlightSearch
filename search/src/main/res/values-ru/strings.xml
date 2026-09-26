@@ -12,6 +12,7 @@
     <string name="section_dictionary">Словарь</string>
     <string name="section_permissions">Разрешения</string>
     <string name="section_calculator">Калькулятор</string>
+    <string name="section_web">Интернет</string>
     <string name="section_apps">Приложения</string>
     <string name="section_contacts">Контакты</string>
     <string name="section_translation">Перевод</string>

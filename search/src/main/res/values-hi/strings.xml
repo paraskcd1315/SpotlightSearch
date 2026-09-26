@@ -12,6 +12,7 @@
     <string name="section_dictionary">शब्दकोश</string>
     <string name="section_permissions">अनुमतियां</string>
     <string name="section_calculator">कैलकुलेटर</string>
+    <string name="section_web">वेब</string>
     <string name="section_apps">ऐप्लिकेशन</string>
     <string name="section_contacts">संपर्क</string>
     <string name="section_translation">अनुवाद</string>

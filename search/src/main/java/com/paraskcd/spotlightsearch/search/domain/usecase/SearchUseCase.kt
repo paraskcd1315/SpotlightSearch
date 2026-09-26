@@ -53,8 +53,7 @@ class SearchUseCase @Inject constructor(
         val settings = config.config().first()
         val board = SectionBoard { send(it) }
 
-        val webSearch = WebSearchHit(query)
-        board.put(SectionKind.QUICK_SEARCH, listOf(webSearch))
+        board.put(SectionKind.WEB, listOf(WebSearchHit(query)))
         if (!contacts.hasPermission()) board.put(SectionKind.PERMISSIONS, listOf(ContactsPermissionHit))
 
         val appHits = async {
@@ -73,9 +72,8 @@ class SearchUseCase @Inject constructor(
             },
             launch { board.put(SectionKind.SETTINGS, deviceSettings.search(query)) },
             launch {
-                if (short) return@launch
                 val targets = quickSearch.targets(query)
-                board.update(SectionKind.QUICK_SEARCH) { listOf(webSearch) + targets }
+                board.put(SectionKind.QUICK_SEARCH, if (short) targets.take(1) else targets)
             },
             launch {
                 if (query.length < SearchThresholds.SPELLING_MIN_LENGTH) return@launch
