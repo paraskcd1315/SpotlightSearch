@@ -21,14 +21,15 @@ class AppIconLoader @Inject constructor(
     private val cache = LruCache<String, Bitmap>(CACHE_ENTRIES)
     private val launcherApps = context.getSystemService(LauncherApps::class.java)
 
-    fun cached(packageName: String, profile: Long?, tint: Int?): Bitmap? = cache.get(key(packageName, profile, tint))
+    fun cached(packageName: String, profile: Long?, tint: Int?, background: Int? = null): Bitmap? =
+        cache.get(key(packageName, profile, tint, background))
 
-    suspend fun load(packageName: String, profile: Long?, tint: Int?): Bitmap? {
-        cached(packageName, profile, tint)?.let { return it }
+    suspend fun load(packageName: String, profile: Long?, tint: Int?, background: Int? = null): Bitmap? {
+        cached(packageName, profile, tint, background)?.let { return it }
         return withContext(Dispatchers.IO) {
             val icon = runCatching { rawIcon(packageName, profile) }.getOrNull() ?: return@withContext null
-            val bitmap = if (tint != null) ThemedIconRenderer.render(icon, tint) else icon.toBitmap(ICON_PX, ICON_PX)
-            bitmap.also { cache.put(key(packageName, profile, tint), it) }
+            val bitmap = if (tint != null) ThemedIconRenderer.render(icon, tint, background) else icon.toBitmap(ICON_PX, ICON_PX)
+            bitmap.also { cache.put(key(packageName, profile, tint, background), it) }
         }
     }
 
@@ -38,7 +39,8 @@ class AppIconLoader @Inject constructor(
         return launcherApps.getActivityList(packageName, user).firstOrNull()?.getIcon(0)
     }
 
-    private fun key(packageName: String, profile: Long?, tint: Int?) = "$packageName#${profile ?: -1}#${tint ?: 0}"
+    private fun key(packageName: String, profile: Long?, tint: Int?, background: Int?) =
+        "$packageName#${profile ?: -1}#${tint ?: 0}#${background ?: 0}"
 
     private companion object {
         const val CACHE_ENTRIES = 256

@@ -31,8 +31,9 @@ fun AppIconImage(
     profile: Long? = null
 ) {
     val tint = if (themed) SpTheme.colors.brandText.toArgb() else null
-    val bitmap by produceState(loader.cached(packageName, profile, tint), packageName, profile, tint) {
-        value = loader.load(packageName, profile, tint)
+    val background = if (themed) SpTheme.colors.glassStrongBg.toArgb() else null
+    val bitmap by produceState(loader.cached(packageName, profile, tint, background), packageName, profile, tint, background) {
+        value = loader.load(packageName, profile, tint, background)
     }
     Box(modifier = modifier.size(size)) {
         Box(modifier = Modifier.size(size).clip(CircleShape)) {

@@ -33,8 +33,8 @@ android {
 
     defaultConfig {
         applicationId = "com.paraskcd.spotlightsearch"
-        versionCode = 19
-        versionName = "2.1.0"
+        versionCode = 20
+        versionName = "2.1.1"
         resValue("string", "app_name", "Spotlight Search")
     }
 
