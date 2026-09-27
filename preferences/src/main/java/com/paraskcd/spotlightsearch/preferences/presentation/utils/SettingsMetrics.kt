@@ -48,4 +48,8 @@ object SettingsMetrics {
         if (blurEnabled) BackgroundAlphaWithBlur else BackgroundAlphaWithoutBlur
     const val SurfaceAlphaWithBlur = 0.65f
     const val EmptyTextAlpha = 0.5f
+    const val PackIconColumns = 5
+    val PackIconSize = 48.dp
+    val PackIconSelectedBorder = 2.dp
+    val PackIconRowSpacing = 12.dp
 }

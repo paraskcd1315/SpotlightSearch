@@ -21,6 +21,8 @@ import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpMotion
 import com.paraskcd.spotlightsearch.preferences.R
 import com.paraskcd.spotlightsearch.preferences.domain.model.ColorOverrideKey
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.AboutScreen
+import com.paraskcd.spotlightsearch.preferences.presentation.screens.AppIconPickerScreen
+import com.paraskcd.spotlightsearch.preferences.presentation.screens.AppIconsScreen
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.BlacklistAppsScreen
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.ColorPickerScreen
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.FeaturesScreen
@@ -66,6 +68,8 @@ fun SettingsNavHost(themeViewModel: ThemeViewModel, onClose: () -> Unit) {
         composable(SettingsRoute.QUICK_SEARCH) { QuickSearchScreen(hiltViewModel(), back) }
         composable(SettingsRoute.MANAGE_APPS) { ManageAppsScreen(hiltViewModel(), navigate, back) }
         composable(SettingsRoute.APPS_BLACKLIST) { BlacklistAppsScreen(hiltViewModel(), back) }
+        composable(SettingsRoute.APP_ICONS) { AppIconsScreen(hiltViewModel(), navigate, back) }
+        composable(SettingsRoute.APP_ICON) { AppIconPickerScreen(hiltViewModel(), back) }
         composable(SettingsRoute.WEB_SUGGESTIONS) {
             val viewModel: SearchSourcesViewModel = hiltViewModel()
             val config by viewModel.config.collectAsState()

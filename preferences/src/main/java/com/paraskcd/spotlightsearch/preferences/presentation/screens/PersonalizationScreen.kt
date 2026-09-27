@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.composables.icons.lucide.BadgeCheck
 import com.composables.icons.lucide.Droplets
+import com.composables.icons.lucide.Images
 import com.composables.icons.lucide.LayoutGrid
 import com.composables.icons.lucide.Layers
 import com.composables.icons.lucide.Lucide
@@ -114,6 +115,13 @@ fun PersonalizationScreen(viewModel: ThemeViewModel, onNavigate: (String) -> Uni
                 icon = Lucide.Shapes,
                 onClick = { sheet = AppearanceSheet.ICON_PACK },
                 trailing = { ValueText(selectedPack?.label ?: stringResource(R.string.icon_pack_system)) }
+            )
+        }
+        add {
+            SpSettingsRow(
+                label = stringResource(R.string.appearance_app_icons),
+                icon = Lucide.Images,
+                onClick = { onNavigate(SettingsRoute.APP_ICONS) }
             )
         }
     }

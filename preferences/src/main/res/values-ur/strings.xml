@@ -72,6 +72,11 @@
     <string name="appearance_app_layout">ایپ نتائج</string>
     <string name="appearance_icon_pack">آئیکن پیک</string>
     <string name="icon_pack_system">سسٹم آئیکنز</string>
+    <string name="appearance_app_icons">ایپ آئیکنز</string>
+    <string name="app_icons_custom">حسب ضرورت</string>
+    <string name="app_icon_default">ڈیفالٹ آئیکن استعمال کریں</string>
+    <string name="app_icon_filter">آئیکنز تلاش کریں</string>
+    <string name="app_icon_no_packs">اس ایپ کے آئیکن چننے کے لیے کوئی آئیکن پیک انسٹال کریں۔</string>
     <string name="layout_list">فہرست</string>
     <string name="layout_grid">گرڈ</string>
     <string name="personalization_section">ذاتی ترتیب</string>

@@ -72,6 +72,11 @@
     <string name="appearance_app_layout">ऐप नतीजे</string>
     <string name="appearance_icon_pack">आइकॉन पैक</string>
     <string name="icon_pack_system">सिस्टम आइकॉन</string>
+    <string name="appearance_app_icons">ऐप आइकॉन</string>
+    <string name="app_icons_custom">कस्टम</string>
+    <string name="app_icon_default">डिफ़ॉल्ट आइकॉन इस्तेमाल करें</string>
+    <string name="app_icon_filter">आइकॉन खोजें</string>
+    <string name="app_icon_no_packs">इस ऐप के लिए आइकॉन चुनने के लिए कोई आइकॉन पैक इंस्टॉल करें।</string>
     <string name="layout_list">सूची</string>
     <string name="layout_grid">ग्रिड</string>
     <string name="personalization_section">मनमुताबिक बनाना</string>

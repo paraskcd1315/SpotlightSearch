@@ -72,6 +72,11 @@
     <string name="appearance_app_layout">Resultados de apps</string>
     <string name="appearance_icon_pack">Paquete de iconos</string>
     <string name="icon_pack_system">Iconos del sistema</string>
+    <string name="appearance_app_icons">Iconos de apps</string>
+    <string name="app_icons_custom">Personalizado</string>
+    <string name="app_icon_default">Usar el icono predeterminado</string>
+    <string name="app_icon_filter">Buscar iconos</string>
+    <string name="app_icon_no_packs">Instala un paquete de iconos para elegir iconos para esta app.</string>
     <string name="layout_list">Lista</string>
     <string name="layout_grid">Cuadrícula</string>
     <string name="personalization_section">Personalización</string>
