@@ -7,7 +7,7 @@ permalink: /privacy-policy/
 # Privacy Policy for SpotlightSearch
 
 **Effective Date:** 14/08/2025  
-**Last Updated:** 26/09/2026
+**Last Updated:** 27/09/2026
 
 ## 1. Introduction
 SpotlightSearch ("we", "our", or "us") values your privacy. This Privacy Policy explains how the app works, what information it handles, and how your data is used.
@@ -21,6 +21,7 @@ By using SpotlightSearch, you agree to this policy.
 ### 2.1 Local Processing
 - All searches, app launches, contact lookups, calculations, and translations happen entirely on your device.
 - We do **not** collect, store, or transmit this data to any servers we control.
+- If your device has a work profile, SpotlightSearch also lists the apps in it, so you can search and open them. The list, the launch counts and your hidden apps stay on your device. SpotlightSearch does not read any data inside the work profile's apps.
 
 ### 2.2 Google Suggestions
 - When Google suggestions are on, SpotlightSearch sends what you type in the search bar to Google to fetch search suggestions.
