@@ -5,6 +5,12 @@ import androidx.compose.ui.unit.dp
 object SettingsMetrics {
     val SectionTitlePadding = 16.dp
     val SheetListInset = 0.dp
+    const val GlassLightAlpha = 0.3f
+    const val GlassMediumAlpha = 0.45f
+    const val GlassStrongAlpha = 0.65f
+    const val TextSmallScale = 0.9f
+    const val TextDefaultScale = 1f
+    const val TextLargeScale = 1.15f
     val AboutIconSize = 88.dp
     val AboutHeroSpacing = 8.dp
     val AboutHeroPadding = 24.dp

@@ -1,6 +1,7 @@
 <resources>
     <string name="search_placeholder">Pesquisar…</string>
     <string name="filter_all">Tudo</string>
+    <string name="engine_system">App de pesquisa predefinida</string>
     <string name="search_clear">Limpar pesquisa</string>
     <string name="search_open_settings">Definições</string>
 

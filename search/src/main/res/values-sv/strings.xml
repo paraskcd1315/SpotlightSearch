@@ -1,6 +1,7 @@
 <resources>
     <string name="search_placeholder">Sök…</string>
     <string name="filter_all">Alla</string>
+    <string name="engine_system">Standardapp för sökning</string>
     <string name="search_clear">Rensa sökningen</string>
     <string name="search_open_settings">Inställningar</string>
 

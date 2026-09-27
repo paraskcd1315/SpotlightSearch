@@ -47,6 +47,9 @@ interface UserThemeDao {
         enableBlur: Boolean? = null,
         iconPack: String? = null,
         showBranding: Boolean? = null,
+        glassStrength: String? = null,
+        textSize: String? = null,
+        appLayout: String? = null,
         surfaceColor: Int? = null,
         surfaceBrightColor: Int? = null,
         backgroundColor: Int? = null,
@@ -66,6 +69,9 @@ interface UserThemeDao {
             enableBlur = enableBlur ?: current.enableBlur,
             iconPack = iconPack ?: current.iconPack,
             showBranding = showBranding ?: current.showBranding,
+            glassStrength = glassStrength ?: current.glassStrength,
+            textSize = textSize ?: current.textSize,
+            appLayout = appLayout ?: current.appLayout,
             surfaceColor = when {
                 clearSurface -> null
                 surfaceColor != null -> surfaceColor

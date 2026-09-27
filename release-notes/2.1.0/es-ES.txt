@@ -1,0 +1,5 @@
+Spotlight Search 2.1
+• Nuevos ajustes de Resultados y secciones: reordena u oculta cualquier sección, elige cuántas filas muestra y ajusta o desactiva Más usadas
+• Elige tu buscador web: Google, DuckDuckGo, Bing, Brave, Ecosia, Startpage o tu app predeterminada
+• Apariencia: intensidad del cristal, tamaño del texto y apps en lista o cuadrícula
+• Los resultados ya no saltan al cargar las apps

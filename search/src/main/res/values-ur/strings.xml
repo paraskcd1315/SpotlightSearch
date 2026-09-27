@@ -1,6 +1,7 @@
 <resources>
     <string name="search_placeholder">تلاش کریں…</string>
     <string name="filter_all">سب</string>
+    <string name="engine_system">ڈیفالٹ سرچ ایپ</string>
     <string name="search_clear">تلاش صاف کریں</string>
     <string name="search_open_settings">ترتیبات</string>
 

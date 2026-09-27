@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
+import com.paraskcd.spotlightsearch.designsystem.signature.foundation.SpTextScaled
 import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpMotion
 import com.paraskcd.spotlightsearch.search.infrastructure.window.DialogWindowSetup
 
@@ -112,6 +113,6 @@ fun BlurredWindow(
                 DialogWindowSetup.setBlur(window, value.toInt())
             }
         }
-        content()
+        SpTextScaled(content)
     }
 }

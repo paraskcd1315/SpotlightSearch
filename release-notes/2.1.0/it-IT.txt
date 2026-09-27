@@ -1,0 +1,5 @@
+Spotlight Search 2.1
+• Nuove impostazioni Risultati e sezioni: riordina o nascondi ogni sezione, scegli quante righe mostrare e regola o disattiva le più usate
+• Scegli il motore di ricerca: Google, DuckDuckGo, Bing, Brave, Ecosia, Startpage o l’app predefinita
+• Aspetto: intensità del vetro, dimensione del testo, app in elenco o griglia
+• I risultati non saltano più quando le app si caricano

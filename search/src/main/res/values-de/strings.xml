@@ -1,6 +1,7 @@
 <resources>
     <string name="search_placeholder">Suchen…</string>
     <string name="filter_all">Alle</string>
+    <string name="engine_system">Standard-Such-App</string>
     <string name="search_clear">Suche löschen</string>
     <string name="search_open_settings">Einstellungen</string>
 

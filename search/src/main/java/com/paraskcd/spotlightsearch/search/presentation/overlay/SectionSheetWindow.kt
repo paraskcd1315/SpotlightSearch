@@ -32,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
+import com.paraskcd.spotlightsearch.designsystem.signature.foundation.SpTextScaled
 import com.paraskcd.spotlightsearch.designsystem.signature.organisms.SpBottomSheet
 import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpMotion
 import com.paraskcd.spotlightsearch.search.domain.model.SearchSection
@@ -99,26 +100,28 @@ fun SectionSheetWindow(
         val listState = rememberLazyListState()
         val scrolled by remember { derivedStateOf { listState.canScrollBackward } }
         val navigationBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-        SpBottomSheet(
-            visible = open,
-            onDismiss = onDismiss,
-            title = stringResource(current.kind.titleRes()),
-            fullBleed = true,
-            titleDivider = scrolled
-        ) {
-            LazyColumn(
-                state = listState,
-                modifier = Modifier.fillMaxWidth().heightIn(max = maxListHeight),
-                contentPadding = PaddingValues(
-                    start = SearchMetrics.ListPadding,
-                    end = SearchMetrics.ListPadding,
-                    top = SearchMetrics.ListPadding,
-                    bottom = SearchMetrics.ListPadding + navigationBottom
-                )
+        SpTextScaled {
+            SpBottomSheet(
+                visible = open,
+                onDismiss = onDismiss,
+                title = stringResource(current.kind.titleRes()),
+                fullBleed = true,
+                titleDivider = scrolled
             ) {
-                itemsIndexed(current.hits, contentType = { _, hit -> hit::class }) { index, hit ->
-                    GlassRow(index = index, count = current.hits.size, blurEnabled = blurEnabled) {
-                        HitContent(hit, icons, callbacks)
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier.fillMaxWidth().heightIn(max = maxListHeight),
+                    contentPadding = PaddingValues(
+                        start = SearchMetrics.ListPadding,
+                        end = SearchMetrics.ListPadding,
+                        top = SearchMetrics.ListPadding,
+                        bottom = SearchMetrics.ListPadding + navigationBottom
+                    )
+                ) {
+                    itemsIndexed(current.hits, contentType = { _, hit -> hit::class }) { index, hit ->
+                        GlassRow(index = index, count = current.hits.size, blurEnabled = blurEnabled) {
+                            HitContent(hit, icons, callbacks)
+                        }
                     }
                 }
             }

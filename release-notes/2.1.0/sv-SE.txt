@@ -1,0 +1,5 @@
+Spotlight Search 2.1
+• Nya inställningar Resultat och sektioner: ordna eller dölj sektioner, välj rader per sektion och anpassa eller stäng av Mest använda
+• Välj sökmotor: Google, DuckDuckGo, Bing, Brave, Ecosia, Startpage eller standardappen
+• Utseende: glasstyrka, textstorlek och appar som lista eller rutnät
+• Resultaten hoppar inte längre när appar laddas

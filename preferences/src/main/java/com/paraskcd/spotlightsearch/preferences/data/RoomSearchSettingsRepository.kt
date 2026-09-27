@@ -7,6 +7,10 @@ import com.paraskcd.spotlightsearch.preferences.infrastructure.room.dao.QuickSea
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.entity.BlacklistAppsEntity
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.entity.GlobalSearchConfigEntity
 import com.paraskcd.spotlightsearch.search.domain.model.SearchConfig
+import com.paraskcd.spotlightsearch.search.domain.model.SearchLimits
+import com.paraskcd.spotlightsearch.search.domain.model.SectionKind
+import com.paraskcd.spotlightsearch.search.domain.model.SectionOrder
+import com.paraskcd.spotlightsearch.sources.domain.model.WebSearchEngine
 import com.paraskcd.spotlightsearch.search.domain.ports.SearchConfigPort
 import com.paraskcd.spotlightsearch.sources.domain.model.QuickSearchPreference
 import com.paraskcd.spotlightsearch.sources.domain.model.QuickSearchService
@@ -31,6 +35,23 @@ class RoomSearchSettingsRepository @Inject constructor(
 
     override suspend fun setWebSuggestionsEnabled(enabled: Boolean) =
         updateConfig { it.copy(webSuggestionsEnabled = enabled) }
+
+    override suspend fun setSectionOrder(order: List<SectionKind>) =
+        updateConfig { it.copy(sectionOrder = SectionOrder.normalize(order).encodeKinds()) }
+
+    override suspend fun setSectionVisible(kind: SectionKind, visible: Boolean) = updateConfig { entity ->
+        val hidden = entity.toSearchConfig().hiddenSections
+        entity.copy(hiddenSections = (if (visible) hidden - kind else hidden + kind).encodeKinds())
+    }
+
+    override suspend fun setRowsPerSection(rows: Int) = updateConfig {
+        it.copy(rowsPerSection = rows.coerceIn(SearchLimits.MIN_ROWS_PER_SECTION, SearchLimits.MAX_ROWS_PER_SECTION))
+    }
+
+    override suspend fun setFrequentRows(rows: Int) =
+        updateConfig { it.copy(frequentRows = rows.coerceIn(0, SearchLimits.MAX_FREQUENT_ROWS)) }
+
+    override suspend fun setSearchEngine(engine: WebSearchEngine) = updateConfig { it.copy(searchEngine = engine.name) }
 
     override fun quickSearch(): Flow<List<QuickSearchPreference>> = quickSearchPort.preferences()
 

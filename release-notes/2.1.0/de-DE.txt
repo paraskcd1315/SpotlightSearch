@@ -1,0 +1,5 @@
+Spotlight Search 2.1
+• Neue Einstellungen „Ergebnisse und Abschnitte“: Abschnitte sortieren oder ausblenden, Zeilen pro Abschnitt wählen, häufig genutzte Apps anpassen oder ausschalten
+• Suchmaschine wählen: Google, DuckDuckGo, Bing, Brave, Ecosia, Startpage oder Standard-App
+• Darstellung: Glasstärke, Textgröße, Apps als Liste oder Raster
+• Ergebnisse springen nicht mehr, wenn Apps laden

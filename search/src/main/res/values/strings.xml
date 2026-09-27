@@ -1,6 +1,7 @@
 <resources>
     <string name="search_placeholder">Search…</string>
     <string name="filter_all">All</string>
+    <string name="engine_system">Default search app</string>
     <string name="search_clear">Remove query</string>
     <string name="search_open_settings">Settings</string>
 
@@ -46,6 +47,12 @@
     <string name="quick_search_linkedin">Search \"%1$s\" on LinkedIn</string>
     <string name="quick_search_x">Search \"%1$s\" on X</string>
     <string name="quick_search_facebook">Search \"%1$s\" on Facebook</string>
+    <string name="engine_google" translatable="false">Google</string>
+    <string name="engine_duckduckgo" translatable="false">DuckDuckGo</string>
+    <string name="engine_bing" translatable="false">Bing</string>
+    <string name="engine_brave" translatable="false">Brave Search</string>
+    <string name="engine_ecosia" translatable="false">Ecosia</string>
+    <string name="engine_startpage" translatable="false">Startpage</string>
     <string name="service_google" translatable="false">Google</string>
     <string name="service_youtube" translatable="false">YouTube</string>
     <string name="service_youtube_music" translatable="false">YouTube Music</string>

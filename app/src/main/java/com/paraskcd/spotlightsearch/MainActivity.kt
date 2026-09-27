@@ -41,6 +41,7 @@ class MainActivity : ComponentActivity() {
                     viewModel = searchViewModel,
                     blurEnabled = blurEnabled,
                     showBranding = theme.showBranding,
+                    appLayout = theme.appLayout,
                     appName = stringResource(R.string.app_name),
                     onOpenSettings = { startActivity(Intent(this, SettingsActivity::class.java)) },
                     onClose = ::finish

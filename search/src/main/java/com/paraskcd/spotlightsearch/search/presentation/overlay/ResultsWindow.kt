@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import com.paraskcd.spotlightsearch.designsystem.signature.foundation.spPanelSurface
+import com.paraskcd.spotlightsearch.search.domain.model.AppResultsLayout
 import com.paraskcd.spotlightsearch.search.domain.model.SearchSection
 import com.paraskcd.spotlightsearch.search.presentation.components.ResultsSkeleton
 import com.paraskcd.spotlightsearch.search.presentation.components.SearchResultsPanel
@@ -30,6 +31,8 @@ fun ResultsWindow(
     results: SearchResults,
     offsetY: Int,
     maxHeightPx: Int,
+    rowsPerSection: Int,
+    appLayout: AppResultsLayout,
     blurEnabled: Boolean,
     icons: IconSources,
     callbacks: HitCallbacks,
@@ -64,7 +67,17 @@ fun ResultsWindow(
                 if (shown.sections.isEmpty()) {
                     ResultsSkeleton(blurEnabled)
                 } else {
-                    SearchResultsPanel(shown.sections, shown.loading, blurEnabled, icons, callbacks, scrollKey, onShowAll)
+                    SearchResultsPanel(
+                        sections = shown.sections,
+                        loading = shown.loading,
+                        rowsPerSection = rowsPerSection,
+                        appLayout = appLayout,
+                        blurEnabled = blurEnabled,
+                        icons = icons,
+                        callbacks = callbacks,
+                        scrollKey = scrollKey,
+                        onShowAll = onShowAll
+                    )
                 }
             }
         }

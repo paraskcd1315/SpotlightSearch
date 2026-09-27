@@ -2,7 +2,9 @@ package com.paraskcd.spotlightsearch.search.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.paraskcd.spotlightsearch.search.domain.model.SearchConfig
 import com.paraskcd.spotlightsearch.search.domain.model.SearchSection
+import com.paraskcd.spotlightsearch.search.domain.ports.SearchConfigPort
 import com.paraskcd.spotlightsearch.search.domain.model.SectionKind
 import com.paraskcd.spotlightsearch.search.domain.usecase.LaunchHitUseCase
 import com.paraskcd.spotlightsearch.search.domain.usecase.ObserveFrequentAppsUseCase
@@ -42,6 +44,7 @@ class SearchViewModel @Inject constructor(
     private val search: SearchUseCase,
     private val frequentApps: ObserveFrequentAppsUseCase,
     private val launchHit: LaunchHitUseCase,
+    searchConfig: SearchConfigPort,
     appIcons: AppIconLoader,
     contactPhotos: ContactPhotoLoader,
     apps: InstalledAppsRepository,
@@ -50,6 +53,9 @@ class SearchViewModel @Inject constructor(
     private val _query = MutableStateFlow("")
 
     val icons = IconSources(appIcons, contactPhotos)
+
+    val config: StateFlow<SearchConfig> = searchConfig.config()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, SearchConfig())
 
     val results: StateFlow<SearchResults> = _query
         .map { it.trim() }
@@ -78,7 +84,7 @@ class SearchViewModel @Inject constructor(
             onQueryChange(hit.suggestion)
             return HitOutcome.ReplaceQuery(hit.suggestion)
         }
-        val action = HitActions.primary(hit, _query.value.trim()) ?: return HitOutcome.Stay
+        val action = HitActions.primary(hit, _query.value.trim(), config.value.searchEngine) ?: return HitOutcome.Stay
         return run(action)
     }
 
@@ -92,8 +98,9 @@ class SearchViewModel @Inject constructor(
             .filter { it.kind in SUBMITTABLE }
             .flatMap { it.hits }
             .firstOrNull()
-        val action = firstActionable?.let { HitActions.primary(it, _query.value.trim()) }
-            ?: SearchWeb(_query.value.trim())
+        val engine = config.value.searchEngine
+        val action = firstActionable?.let { HitActions.primary(it, _query.value.trim(), engine) }
+            ?: SearchWeb(_query.value.trim(), engine)
         return run(action)
     }
 

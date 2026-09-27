@@ -58,7 +58,9 @@ class IntentActionRunner @Inject constructor(
         is SendSms -> Intent(Intent.ACTION_SENDTO, "smsto:${action.number}".toUri())
         is OpenWhatsApp -> Intent(Intent.ACTION_VIEW, "https://wa.me/${digits(action.number)}".toUri())
         is OpenContact -> contactUri(action.number)?.let { Intent(Intent.ACTION_VIEW, it) }
-        is SearchWeb -> Intent(Intent.ACTION_WEB_SEARCH).putExtra(SearchManager.QUERY, action.query)
+        is SearchWeb -> action.engine.urlTemplate
+            ?.let { Intent(Intent.ACTION_VIEW, it.format(Uri.encode(action.query)).toUri()) }
+            ?: Intent(Intent.ACTION_WEB_SEARCH).putExtra(SearchManager.QUERY, action.query)
         is SearchWith -> QuickSearchIntents.build(action.service, action.query)
         is OpenDeviceSetting -> Intent(DeviceSettingsCatalog.action(action.setting))
         is OpenTranslator -> googleTranslate(action)

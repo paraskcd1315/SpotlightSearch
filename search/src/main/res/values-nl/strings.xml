@@ -1,6 +1,7 @@
 <resources>
     <string name="search_placeholder">Zoeken…</string>
     <string name="filter_all">Alles</string>
+    <string name="engine_system">Standaard zoekapp</string>
     <string name="search_clear">Zoekopdracht wissen</string>
     <string name="search_open_settings">Instellingen</string>
 

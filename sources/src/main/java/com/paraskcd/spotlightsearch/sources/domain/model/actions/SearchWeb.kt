@@ -1,3 +1,5 @@
 package com.paraskcd.spotlightsearch.sources.domain.model.actions
 
-data class SearchWeb(val query: String) : HitAction
+import com.paraskcd.spotlightsearch.sources.domain.model.WebSearchEngine
+
+data class SearchWeb(val query: String, val engine: WebSearchEngine = WebSearchEngine.SYSTEM) : HitAction

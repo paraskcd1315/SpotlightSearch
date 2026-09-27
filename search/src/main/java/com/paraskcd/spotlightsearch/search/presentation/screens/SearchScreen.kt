@@ -34,6 +34,7 @@ import com.paraskcd.spotlightsearch.search.domain.model.SearchSection
 import com.paraskcd.spotlightsearch.search.presentation.overlay.SettingsButtonWindow
 import com.paraskcd.spotlightsearch.search.presentation.overlay.FrequentAppsWindow
 import com.paraskcd.spotlightsearch.search.presentation.model.SearchResults
+import com.paraskcd.spotlightsearch.search.domain.model.AppResultsLayout
 import com.paraskcd.spotlightsearch.search.domain.model.SectionKind
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.AppHit
 import com.paraskcd.spotlightsearch.search.presentation.utils.filterKinds
@@ -47,11 +48,13 @@ fun SearchScreen(
     viewModel: SearchViewModel,
     blurEnabled: Boolean,
     showBranding: Boolean,
+    appLayout: AppResultsLayout,
     appName: String,
     onOpenSettings: () -> Unit,
     onClose: () -> Unit
 ) {
     val results by viewModel.results.collectAsState()
+    val config by viewModel.config.collectAsState()
     var text by rememberSaveable { mutableStateOf("") }
     var visible by remember { mutableStateOf(false) }
     var barTop by remember { mutableStateOf<Int?>(null) }
@@ -200,6 +203,8 @@ fun SearchScreen(
         },
         offsetY = panelOffsetY,
         maxHeightPx = panelHeightPx,
+        rowsPerSection = config.rowsPerSection,
+        appLayout = appLayout,
         blurEnabled = blurEnabled,
         icons = viewModel.icons,
         callbacks = callbacks,

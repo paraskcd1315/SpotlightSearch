@@ -1,6 +1,7 @@
 <resources>
     <string name="search_placeholder">Поиск…</string>
     <string name="filter_all">Все</string>
+    <string name="engine_system">Поиск по умолчанию</string>
     <string name="search_clear">Очистить поиск</string>
     <string name="search_open_settings">Настройки</string>
 

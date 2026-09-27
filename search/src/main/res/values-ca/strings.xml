@@ -1,6 +1,7 @@
 <resources>
     <string name="search_placeholder">Cerca…</string>
     <string name="filter_all">Tot</string>
+    <string name="engine_system">App de cerca predeterminada</string>
     <string name="search_clear">Esborra la cerca</string>
     <string name="search_open_settings">Configuració</string>
 
