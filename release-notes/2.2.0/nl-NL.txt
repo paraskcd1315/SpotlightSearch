@@ -1,0 +1,6 @@
+Spotlight Search 2.2.0
+• Werkprofiel: zoek en open je werkapps, gemarkeerd met een werkbadge
+• Werkcontacten verschijnen in de zoekresultaten als het beleid van je werk dat toestaat
+• Iconenpakketten: gebruik elk geïnstalleerd pakket of kies een ander icoon voor één app
+• Vertalen start alleen als je erom vraagt, bijvoorbeeld "translate hello to French" of "hello in Spanish"
+• Taalmodellen downloaden alleen via wifi

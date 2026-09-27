@@ -1,0 +1,6 @@
+Spotlight Search 2.2.0
+• Jobbprofil: sök och öppna jobbappar, märkta med ett jobbmärke
+• Jobbkontakter visas i kontaktsökningen om företagets policy tillåter det
+• Ikonpaket: använd valfritt installerat paket eller välj en annan ikon för en app
+• Översättning startar bara när du ber om det, till exempel "translate hello to French" eller "hello in Spanish"
+• Språkmodeller laddas bara ned via wifi

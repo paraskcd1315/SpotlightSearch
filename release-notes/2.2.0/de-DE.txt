@@ -1,0 +1,6 @@
+Spotlight Search 2.2.0
+• Arbeitsprofil: Arbeits-Apps suchen und öffnen, mit einem Arbeitsabzeichen markiert
+• Arbeitskontakte erscheinen in der Kontaktsuche, wenn die Richtlinie deiner Firma es erlaubt
+• Icon-Packs: jedes installierte Icon-Pack nutzen oder für eine App ein anderes Icon wählen
+• Übersetzung startet nur auf Wunsch, z. B. „translate hello to French“ oder „hello in Spanish“
+• Sprachmodelle werden nur über WLAN geladen
