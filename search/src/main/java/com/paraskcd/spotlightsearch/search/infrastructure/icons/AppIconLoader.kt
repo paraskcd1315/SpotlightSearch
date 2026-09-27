@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.LruCache
 import androidx.core.graphics.drawable.toBitmap
+import com.paraskcd.spotlightsearch.search.domain.model.AppIconChoice
 import com.paraskcd.spotlightsearch.search.infrastructure.icons.iconpack.IconPackRenderer
 import com.paraskcd.spotlightsearch.search.infrastructure.icons.iconpack.IconPackSource
 import com.paraskcd.spotlightsearch.sources.infrastructure.apps.UserProfiles
@@ -25,18 +26,31 @@ class AppIconLoader @Inject constructor(
     private val cache = LruCache<String, Bitmap>(CACHE_ENTRIES)
     private val launcherApps = context.getSystemService(LauncherApps::class.java)
 
-    fun cached(packageName: String, profile: Long?, tint: Int?, iconPack: String? = null): Bitmap? =
-        cache.get(key(packageName, profile, tint, iconPack))
+    fun cached(packageName: String, profile: Long?, tint: Int?, iconPack: String? = null, choice: AppIconChoice? = null): Bitmap? =
+        cache.get(key(packageName, profile, tint, iconPack, choice))
 
-    suspend fun load(packageName: String, profile: Long?, tint: Int?, iconPack: String? = null): Bitmap? {
-        cached(packageName, profile, tint, iconPack)?.let { return it }
+    suspend fun load(packageName: String, profile: Long?, tint: Int?, iconPack: String? = null, choice: AppIconChoice? = null): Bitmap? {
+        cached(packageName, profile, tint, iconPack, choice)?.let { return it }
         return withContext(Dispatchers.IO) {
-            val bitmap = iconPack?.let { runCatching { packIcon(it, packageName, profile) }.getOrNull() }
+            val bitmap = choice?.let { chosenIcon(it) }
+                ?: iconPack?.let { runCatching { packIcon(it, packageName, profile) }.getOrNull() }
                 ?: systemIcon(packageName, profile, tint)
                 ?: return@withContext null
-            bitmap.also { cache.put(key(packageName, profile, tint, iconPack), it) }
+            bitmap.also { cache.put(key(packageName, profile, tint, iconPack, choice), it) }
         }
     }
+
+    fun cachedPackIcon(iconPack: String, drawable: String): Bitmap? = cache.get(packIconKey(iconPack, drawable))
+
+    suspend fun loadPackIcon(iconPack: String, drawable: String): Bitmap? {
+        cachedPackIcon(iconPack, drawable)?.let { return it }
+        return withContext(Dispatchers.IO) {
+            chosenIcon(AppIconChoice(iconPack, drawable))?.also { cache.put(packIconKey(iconPack, drawable), it) }
+        }
+    }
+
+    private fun chosenIcon(choice: AppIconChoice): Bitmap? =
+        runCatching { iconPacks.named(choice.iconPack, choice.drawable)?.toBitmap(ICON_PX, ICON_PX) }.getOrNull()
 
     private fun systemIcon(packageName: String, profile: Long?, tint: Int?): Bitmap? {
         val icon = runCatching { rawIcon(packageName, profile) }.getOrNull() ?: return null
@@ -57,10 +71,13 @@ class AppIconLoader @Inject constructor(
         return launcherApps.getActivityList(packageName, user).firstOrNull()?.getIcon(0)
     }
 
-    private fun key(packageName: String, profile: Long?, tint: Int?, iconPack: String?): String {
+    private fun key(packageName: String, profile: Long?, tint: Int?, iconPack: String?, choice: AppIconChoice?): String {
         val pack = iconPack?.let { "#$it#${LocalDate.now().dayOfMonth}" }.orEmpty()
-        return "$packageName#${profile ?: -1}#${tint ?: 0}$pack"
+        val chosen = choice?.let { "#${packIconKey(it.iconPack, it.drawable)}" }.orEmpty()
+        return "$packageName#${profile ?: -1}#${tint ?: 0}$pack$chosen"
     }
+
+    private fun packIconKey(iconPack: String, drawable: String) = "pack:$iconPack/$drawable"
 
     private companion object {
         const val CACHE_ENTRIES = 256

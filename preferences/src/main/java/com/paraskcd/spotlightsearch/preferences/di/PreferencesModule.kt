@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.AppDatabase
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.DatabaseNames
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.SettingsDatabase
+import com.paraskcd.spotlightsearch.preferences.infrastructure.room.dao.AppIconDao
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.dao.AppUsageDao
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.dao.BlacklistAppsDao
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.dao.GlobalSearchConfigDao
@@ -52,4 +53,7 @@ object PreferencesModule {
 
     @Provides
     fun provideBlacklistAppsDao(db: SettingsDatabase): BlacklistAppsDao = db.blacklistAppsDao()
+
+    @Provides
+    fun provideAppIconDao(db: SettingsDatabase): AppIconDao = db.appIconDao()
 }

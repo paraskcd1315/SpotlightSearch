@@ -9,6 +9,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.paraskcd.spotlightsearch.preferences.data.ProfileColumn
 import com.paraskcd.spotlightsearch.preferences.domain.model.ThemeMode
+import com.paraskcd.spotlightsearch.preferences.infrastructure.room.entity.AppIconEntity
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.entity.BlacklistAppsEntity
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.migrations.SettingsMigrations
 import kotlinx.coroutines.flow.first
@@ -97,6 +98,23 @@ class SettingsMigrationTest {
         database.close()
 
         assertEquals(listOf(WORK_PROFILE), blacklist.map { it.profile })
+    }
+
+    @Test
+    fun aChosenIconIsKeptPerAppAndProfileAndReplacedWhole() = runTest {
+        val database = Room.databaseBuilder(context, SettingsDatabase::class.java, databaseName)
+            .addMigrations(*SettingsMigrations)
+            .build()
+        val dao = database.appIconDao()
+
+        dao.upsert(AppIconEntity("com.clock", ProfileColumn.OWN, "pack.a", "clock"))
+        dao.upsert(AppIconEntity("com.clock", WORK_PROFILE, "pack.a", "clock_work"))
+        dao.upsert(AppIconEntity("com.clock", ProfileColumn.OWN, "pack.b", "clock_b"))
+        dao.delete("com.clock", WORK_PROFILE)
+        val icons = dao.observe().first()
+        database.close()
+
+        assertEquals(listOf(AppIconEntity("com.clock", ProfileColumn.OWN, "pack.b", "clock_b")), icons)
     }
 
     private companion object {

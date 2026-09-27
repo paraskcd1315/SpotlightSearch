@@ -25,6 +25,11 @@ class IconPackSource @Inject constructor(
         return today ?: loaded.map.items[key]?.let { drawable(loaded, it) }
     }
 
+    fun named(pack: String, name: String): Drawable? = load(pack)?.let { drawable(it, name) }
+
+    fun iconNames(pack: String): List<String> =
+        load(pack)?.map?.items?.values?.distinct()?.sorted().orEmpty()
+
     fun decoration(pack: String): IconPackDecoration? {
         val loaded = load(pack) ?: return null
         val backs = loaded.map.backs.mapNotNull { drawable(loaded, it) }

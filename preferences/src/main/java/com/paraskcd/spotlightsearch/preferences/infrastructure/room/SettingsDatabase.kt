@@ -2,10 +2,12 @@ package com.paraskcd.spotlightsearch.preferences.infrastructure.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.paraskcd.spotlightsearch.preferences.infrastructure.room.dao.AppIconDao
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.dao.BlacklistAppsDao
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.dao.GlobalSearchConfigDao
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.dao.QuickSearchProviderDao
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.dao.UserThemeDao
+import com.paraskcd.spotlightsearch.preferences.infrastructure.room.entity.AppIconEntity
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.entity.BlacklistAppsEntity
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.entity.GlobalSearchConfigEntity
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.entity.QuickSearchProviderEntity
@@ -16,9 +18,10 @@ import com.paraskcd.spotlightsearch.preferences.infrastructure.room.entity.UserT
         UserThemeEntity::class,
         QuickSearchProviderEntity::class,
         GlobalSearchConfigEntity::class,
-        BlacklistAppsEntity::class
+        BlacklistAppsEntity::class,
+        AppIconEntity::class
     ],
-    version = 7,
+    version = 8,
     exportSchema = true
 )
 abstract class SettingsDatabase : RoomDatabase() {
@@ -26,4 +29,5 @@ abstract class SettingsDatabase : RoomDatabase() {
     abstract fun quickSearchProviderDao(): QuickSearchProviderDao
     abstract fun globalSearchConfigDao(): GlobalSearchConfigDao
     abstract fun blacklistAppsDao(): BlacklistAppsDao
+    abstract fun appIconDao(): AppIconDao
 }

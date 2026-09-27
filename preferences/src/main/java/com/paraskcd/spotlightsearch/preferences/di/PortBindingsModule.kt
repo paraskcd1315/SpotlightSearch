@@ -1,9 +1,11 @@
 package com.paraskcd.spotlightsearch.preferences.di
 
+import com.paraskcd.spotlightsearch.preferences.data.RoomAppIconPort
 import com.paraskcd.spotlightsearch.preferences.data.RoomBlacklistPort
 import com.paraskcd.spotlightsearch.preferences.data.RoomQuickSearchOrderPort
 import com.paraskcd.spotlightsearch.preferences.data.RoomSearchConfigPort
 import com.paraskcd.spotlightsearch.preferences.data.RoomUsagePort
+import com.paraskcd.spotlightsearch.search.domain.ports.AppIconPort
 import com.paraskcd.spotlightsearch.search.domain.ports.SearchConfigPort
 import com.paraskcd.spotlightsearch.search.domain.ports.UsagePort
 import com.paraskcd.spotlightsearch.sources.domain.ports.BlacklistPort
@@ -20,4 +22,5 @@ abstract class PortBindingsModule {
     @Binds abstract fun quickSearchOrder(impl: RoomQuickSearchOrderPort): QuickSearchOrderPort
     @Binds abstract fun searchConfig(impl: RoomSearchConfigPort): SearchConfigPort
     @Binds abstract fun usage(impl: RoomUsagePort): UsagePort
+    @Binds abstract fun appIcons(impl: RoomAppIconPort): AppIconPort
 }

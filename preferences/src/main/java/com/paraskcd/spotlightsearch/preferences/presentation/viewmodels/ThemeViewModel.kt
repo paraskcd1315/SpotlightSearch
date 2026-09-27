@@ -6,8 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.paraskcd.spotlightsearch.preferences.domain.model.ColorOverrideKey
 import com.paraskcd.spotlightsearch.preferences.domain.model.GlassStrength
 import com.paraskcd.spotlightsearch.preferences.domain.model.TextSize
+import com.paraskcd.spotlightsearch.search.domain.model.AppIconChoice
 import com.paraskcd.spotlightsearch.search.domain.model.AppResultsLayout
 import com.paraskcd.spotlightsearch.search.domain.model.IconPack
+import com.paraskcd.spotlightsearch.search.domain.ports.AppIconPort
+import com.paraskcd.spotlightsearch.sources.domain.model.AppKey
 import com.paraskcd.spotlightsearch.search.infrastructure.icons.iconpack.IconPackCatalog
 import com.paraskcd.spotlightsearch.preferences.domain.model.ThemeMode
 import com.paraskcd.spotlightsearch.preferences.domain.repository.ThemeRepository
@@ -24,10 +27,14 @@ import javax.inject.Inject
 @HiltViewModel
 class ThemeViewModel @Inject constructor(
     private val repository: ThemeRepository,
-    iconPackCatalog: IconPackCatalog
+    iconPackCatalog: IconPackCatalog,
+    appIconPort: AppIconPort
 ) : ViewModel() {
     val iconPacks: StateFlow<List<IconPack>> = flow { emit(iconPackCatalog.installed()) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS), emptyList())
+
+    val appIcons: StateFlow<Map<AppKey, AppIconChoice>> = appIconPort.choices()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS), emptyMap())
 
     val state: StateFlow<ThemeUi> = repository.settings()
         .map { settings ->

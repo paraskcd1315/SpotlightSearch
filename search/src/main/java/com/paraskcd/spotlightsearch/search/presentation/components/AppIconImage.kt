@@ -20,7 +20,9 @@ import com.paraskcd.spotlightsearch.designsystem.signature.atoms.SpBadge
 import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpTheme
 import com.paraskcd.spotlightsearch.search.R
 import com.paraskcd.spotlightsearch.search.infrastructure.icons.AppIconLoader
+import com.paraskcd.spotlightsearch.search.presentation.utils.LocalAppIcons
 import com.paraskcd.spotlightsearch.search.presentation.utils.LocalIconPack
+import com.paraskcd.spotlightsearch.sources.domain.model.AppKey
 
 @Composable
 fun AppIconImage(
@@ -33,8 +35,12 @@ fun AppIconImage(
 ) {
     val tint = if (themed) SpTheme.colors.brandText.toArgb() else null
     val iconPack = if (themed) LocalIconPack.current else null
-    val bitmap by produceState(loader.cached(packageName, profile, tint, iconPack), packageName, profile, tint, iconPack) {
-        value = loader.load(packageName, profile, tint, iconPack)
+    val choice = if (themed) LocalAppIcons.current[AppKey(packageName, profile)] else null
+    val bitmap by produceState(
+        loader.cached(packageName, profile, tint, iconPack, choice),
+        packageName, profile, tint, iconPack, choice
+    ) {
+        value = loader.load(packageName, profile, tint, iconPack, choice)
     }
     Box(modifier = modifier.size(size)) {
         Box(modifier = Modifier.size(size).clip(CircleShape)) {

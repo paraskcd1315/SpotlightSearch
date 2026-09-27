@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import com.paraskcd.spotlightsearch.preferences.presentation.viewmodels.ThemeViewModel
 import com.paraskcd.spotlightsearch.search.infrastructure.window.WindowBlur
 import com.paraskcd.spotlightsearch.search.presentation.screens.SearchScreen
+import com.paraskcd.spotlightsearch.search.presentation.utils.LocalAppIcons
 import com.paraskcd.spotlightsearch.search.presentation.utils.LocalIconPack
 import com.paraskcd.spotlightsearch.search.presentation.viewmodels.SearchViewModel
 import com.paraskcd.spotlightsearch.ui.theme.SpotlightAppTheme
@@ -37,9 +38,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val theme by themeViewModel.state.collectAsState()
+            val appIcons by themeViewModel.appIcons.collectAsState()
             val blurEnabled = remember(theme.enableBlur) { WindowBlur.isAvailable(this, theme.enableBlur) }
             SpotlightAppTheme(themeViewModel) {
-                CompositionLocalProvider(LocalIconPack provides theme.iconPack) {
+                CompositionLocalProvider(LocalIconPack provides theme.iconPack, LocalAppIcons provides appIcons) {
                     SearchScreen(
                         viewModel = searchViewModel,
                         blurEnabled = blurEnabled,
