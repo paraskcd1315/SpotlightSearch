@@ -64,9 +64,9 @@ fun BlacklistAppsScreen(viewModel: BlacklistViewModel, onBack: () -> Unit) {
                 AppToggleRow(
                     packageName = app.packageName,
                     label = app.label,
-                    checked = app.packageName in blacklisted,
+                    checked = app.key in blacklisted,
                     icons = viewModel.icons,
-                    onCheckedChange = { viewModel.setBlacklisted(app.packageName, it) },
+                    onCheckedChange = { viewModel.setBlacklisted(app.key, it) },
                     profile = app.profile
                 )
             }

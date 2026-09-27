@@ -2,6 +2,7 @@ package com.paraskcd.spotlightsearch.preferences.domain.repository
 
 import com.paraskcd.spotlightsearch.search.domain.model.SearchConfig
 import com.paraskcd.spotlightsearch.search.domain.model.SectionKind
+import com.paraskcd.spotlightsearch.sources.domain.model.AppKey
 import com.paraskcd.spotlightsearch.sources.domain.model.WebSearchEngine
 import com.paraskcd.spotlightsearch.sources.domain.model.QuickSearchPreference
 import kotlinx.coroutines.flow.Flow
@@ -22,6 +23,6 @@ interface SearchSettingsRepository {
     suspend fun setQuickSearchEnabled(packageName: String, enabled: Boolean)
     suspend fun reorderQuickSearch(packagesInOrder: List<String>)
 
-    fun blacklist(): Flow<Set<String>>
-    suspend fun setBlacklisted(packageName: String, blacklisted: Boolean)
+    fun blacklist(): Flow<Set<AppKey>>
+    suspend fun setBlacklisted(app: AppKey, blacklisted: Boolean)
 }

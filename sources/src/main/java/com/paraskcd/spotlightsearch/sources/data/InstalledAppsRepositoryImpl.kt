@@ -42,8 +42,8 @@ class InstalledAppsRepositoryImpl @Inject constructor(
     private val started = AtomicBoolean(false)
 
     private val visible: Flow<List<InstalledApp>> =
-        combine(installed.filterNotNull(), blacklist.blacklistedPackages()) { all, hidden ->
-            all.filterNot { it.packageName in hidden }
+        combine(installed.filterNotNull(), blacklist.blacklistedApps()) { all, hidden ->
+            all.filterNot { it.key in hidden }
         }
 
     override val apps: StateFlow<List<InstalledApp>> =

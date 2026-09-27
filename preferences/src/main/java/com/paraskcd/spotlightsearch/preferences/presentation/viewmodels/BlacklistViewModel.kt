@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.paraskcd.spotlightsearch.preferences.domain.repository.SearchSettingsRepository
 import com.paraskcd.spotlightsearch.search.infrastructure.icons.AppIconLoader
+import com.paraskcd.spotlightsearch.sources.domain.model.AppKey
 import com.paraskcd.spotlightsearch.sources.domain.model.InstalledApp
 import com.paraskcd.spotlightsearch.sources.domain.repository.InstalledAppsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,15 +25,15 @@ class BlacklistViewModel @Inject constructor(
         .map { list -> list?.sortedBy { it.label.lowercase() } }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS), null)
 
-    val blacklisted: StateFlow<Set<String>> = settings.blacklist()
+    val blacklisted: StateFlow<Set<AppKey>> = settings.blacklist()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS), emptySet())
 
     init {
         installedApps.warmUp()
     }
 
-    fun setBlacklisted(packageName: String, blacklisted: Boolean) =
-        viewModelScope.launch { settings.setBlacklisted(packageName, blacklisted) }
+    fun setBlacklisted(app: AppKey, blacklisted: Boolean) =
+        viewModelScope.launch { settings.setBlacklisted(app, blacklisted) }
 
     private companion object {
         const val STOP_TIMEOUT_MS = 5_000L
