@@ -7,6 +7,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
@@ -36,10 +37,16 @@ import com.paraskcd.spotlightsearch.preferences.presentation.viewmodels.SearchSo
 import com.paraskcd.spotlightsearch.preferences.presentation.viewmodels.ThemeViewModel
 
 @Composable
-fun SettingsNavHost(themeViewModel: ThemeViewModel, onClose: () -> Unit) {
+fun SettingsNavHost(themeViewModel: ThemeViewModel, onClose: () -> Unit, openRoute: String? = null) {
     val navController = rememberNavController()
     val navigate: (String) -> Unit = { navController.navigate(it) }
-    val back: () -> Unit = { navController.popBackStack() }
+    val back: () -> Unit = { if (!navController.popBackStack()) onClose() }
+
+    LaunchedEffect(openRoute) {
+        openRoute?.let { route ->
+            navController.navigate(route) { popUpTo(navController.graph.id) { inclusive = true } }
+        }
+    }
 
     val push = tween<IntOffset>(SpMotion.durPushMs, easing = SpMotion.easeIos)
     val forward = if (LocalLayoutDirection.current == LayoutDirection.Rtl) -1 else 1

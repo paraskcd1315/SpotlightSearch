@@ -21,12 +21,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.Shapes
 import com.paraskcd.spotlightsearch.designsystem.icons.PermDeviceInfo
 import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpTheme
 import com.paraskcd.spotlightsearch.search.R
 import com.paraskcd.spotlightsearch.search.infrastructure.icons.AppIconLoader
 import com.paraskcd.spotlightsearch.search.presentation.model.RowMenuItem
 import com.paraskcd.spotlightsearch.search.presentation.utils.SearchMetrics
+import com.paraskcd.spotlightsearch.sources.domain.model.actions.ChangeAppIcon
 import com.paraskcd.spotlightsearch.sources.domain.model.actions.HitAction
 import com.paraskcd.spotlightsearch.sources.domain.model.actions.OpenAppInfo
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.AppHit
@@ -41,7 +44,8 @@ fun AppTile(
 ) {
     var menuOpen by remember { mutableStateOf(false) }
     val menu = listOf(
-        RowMenuItem(stringResource(R.string.action_app_info), PermDeviceInfo, OpenAppInfo(hit.packageName, hit.profile))
+        RowMenuItem(stringResource(R.string.action_app_info), PermDeviceInfo, OpenAppInfo(hit.packageName, hit.profile)),
+        RowMenuItem(stringResource(R.string.action_change_icon), Lucide.Shapes, ChangeAppIcon(hit.packageName, hit.profile))
     )
     Box {
         Column(

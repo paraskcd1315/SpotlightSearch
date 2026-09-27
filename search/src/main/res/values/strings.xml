@@ -35,6 +35,7 @@
 
     <string name="action_app_info">App Info</string>
     <string name="work_app_badge">Work app</string>
+    <string name="action_change_icon">Change icon</string>
     <string name="action_call">Call</string>
     <string name="action_sms">SMS</string>
     <string name="action_whatsapp" translatable="false">WhatsApp</string>

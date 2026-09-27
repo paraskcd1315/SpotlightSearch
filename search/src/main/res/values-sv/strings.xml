@@ -35,6 +35,7 @@
 
     <string name="action_app_info">Appinfo</string>
     <string name="work_app_badge">Jobbapp</string>
+    <string name="action_change_icon">Byt ikon</string>
     <string name="action_call">Ring</string>
     <string name="action_sms">Sms</string>
 

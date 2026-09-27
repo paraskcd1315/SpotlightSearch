@@ -92,7 +92,12 @@
             android:name=".SettingsActivity"
             android:exported="false"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.SpotlightSearch" />
+            android:theme="@style/Theme.SpotlightSearch">
+            <intent-filter>
+                <action android:name="com.paraskcd.spotlightsearch.action.CHANGE_APP_ICON" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
     </application>
 

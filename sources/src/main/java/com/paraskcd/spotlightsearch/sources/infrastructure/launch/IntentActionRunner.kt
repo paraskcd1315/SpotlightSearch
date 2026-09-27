@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.paraskcd.spotlightsearch.sources.R
+import com.paraskcd.spotlightsearch.sources.domain.model.actions.ChangeAppIcon
 import com.paraskcd.spotlightsearch.sources.domain.model.actions.CopyNumber
 import com.paraskcd.spotlightsearch.sources.domain.model.actions.DialNumber
 import com.paraskcd.spotlightsearch.sources.domain.model.actions.HitAction
@@ -67,8 +68,14 @@ class IntentActionRunner @Inject constructor(
         is OpenDeviceSetting -> Intent(DeviceSettingsCatalog.action(action.setting))
         is OpenTranslator -> googleTranslate(action)
         OpenContactsPermission -> appDetails(context.packageName)
+        is ChangeAppIcon -> changeIcon(action)
         is CopyNumber, is LaunchApp, is OpenAppInfo -> null
     }
+
+    private fun changeIcon(action: ChangeAppIcon) = Intent(AppIconIntents.ACTION)
+        .setPackage(context.packageName)
+        .putExtra(AppIconIntents.EXTRA_PACKAGE, action.packageName)
+        .apply { action.profile?.let { putExtra(AppIconIntents.EXTRA_PROFILE, it) } }
 
     private fun fallbackFor(action: HitAction): Intent? = when (action) {
         is OpenTranslator -> Intent(
