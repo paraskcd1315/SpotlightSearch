@@ -16,6 +16,7 @@ interface ThemeRepository {
     suspend fun setGlassStrength(strength: GlassStrength)
     suspend fun setTextSize(size: TextSize)
     suspend fun setAppLayout(layout: AppResultsLayout)
+    suspend fun setIconPack(packageName: String?)
     suspend fun setColor(key: ColorOverrideKey, argb: Int)
     suspend fun clearColor(key: ColorOverrideKey)
     suspend fun clearColors()

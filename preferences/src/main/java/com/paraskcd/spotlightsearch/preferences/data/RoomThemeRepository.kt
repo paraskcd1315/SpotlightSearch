@@ -28,6 +28,10 @@ class RoomThemeRepository @Inject constructor(private val dao: UserThemeDao) : T
 
     override suspend fun setAppLayout(layout: AppResultsLayout) = dao.merge(appLayout = layout.name)
 
+    override suspend fun setIconPack(packageName: String?) {
+        if (dao.get() == null) dao.upsert(UserThemeEntity(iconPack = packageName)) else dao.setIconPack(packageName)
+    }
+
     override suspend fun setColor(key: ColorOverrideKey, argb: Int) = when (key) {
         ColorOverrideKey.background -> dao.merge(backgroundColor = argb)
         ColorOverrideKey.surfaceBright -> dao.merge(surfaceBrightColor = argb)
@@ -64,6 +68,7 @@ class RoomThemeRepository @Inject constructor(private val dao: UserThemeDao) : T
             glassStrength = GlassStrength.entries.firstOrNull { it.name == glassStrength } ?: GlassStrength.MEDIUM,
             textSize = TextSize.entries.firstOrNull { it.name == textSize } ?: TextSize.DEFAULT,
             appLayout = AppResultsLayout.entries.firstOrNull { it.name == appLayout } ?: AppResultsLayout.LIST,
+            iconPack = iconPack,
             colors = colors
         )
     }

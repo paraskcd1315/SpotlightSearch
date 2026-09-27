@@ -31,6 +31,7 @@ class ThemeViewModel @Inject constructor(
                 glassStrength = settings.glassStrength,
                 textSize = settings.textSize,
                 appLayout = settings.appLayout,
+                iconPack = settings.iconPack,
                 colors = settings.colors.mapValues { Color(it.value) }
             )
         }
@@ -47,6 +48,8 @@ class ThemeViewModel @Inject constructor(
     fun setTextSize(size: TextSize) = viewModelScope.launch { repository.setTextSize(size) }
 
     fun setAppLayout(layout: AppResultsLayout) = viewModelScope.launch { repository.setAppLayout(layout) }
+
+    fun setIconPack(packageName: String?) = viewModelScope.launch { repository.setIconPack(packageName) }
 
     fun setColor(key: ColorOverrideKey, argb: Int) = viewModelScope.launch { repository.setColor(key, argb) }
 
