@@ -26,17 +26,30 @@ class AppIconLoader @Inject constructor(
     private val cache = LruCache<String, Bitmap>(CACHE_ENTRIES)
     private val launcherApps = context.getSystemService(LauncherApps::class.java)
 
-    fun cached(packageName: String, profile: Long?, tint: Int?, iconPack: String? = null, choice: AppIconChoice? = null): Bitmap? =
-        cache.get(key(packageName, profile, tint, iconPack, choice))
+    fun cached(
+        packageName: String,
+        profile: Long?,
+        tint: Int?,
+        background: Int? = null,
+        iconPack: String? = null,
+        choice: AppIconChoice? = null
+    ): Bitmap? = cache.get(key(packageName, profile, tint, background, iconPack, choice))
 
-    suspend fun load(packageName: String, profile: Long?, tint: Int?, iconPack: String? = null, choice: AppIconChoice? = null): Bitmap? {
-        cached(packageName, profile, tint, iconPack, choice)?.let { return it }
+    suspend fun load(
+        packageName: String,
+        profile: Long?,
+        tint: Int?,
+        background: Int? = null,
+        iconPack: String? = null,
+        choice: AppIconChoice? = null
+    ): Bitmap? {
+        cached(packageName, profile, tint, background, iconPack, choice)?.let { return it }
         return withContext(Dispatchers.IO) {
             val bitmap = choice?.let { chosenIcon(it) }
                 ?: iconPack?.let { runCatching { packIcon(it, packageName, profile) }.getOrNull() }
-                ?: systemIcon(packageName, profile, tint)
+                ?: systemIcon(packageName, profile, tint, background)
                 ?: return@withContext null
-            bitmap.also { cache.put(key(packageName, profile, tint, iconPack, choice), it) }
+            bitmap.also { cache.put(key(packageName, profile, tint, background, iconPack, choice), it) }
         }
     }
 
@@ -52,9 +65,9 @@ class AppIconLoader @Inject constructor(
     private fun chosenIcon(choice: AppIconChoice): Bitmap? =
         runCatching { iconPacks.named(choice.iconPack, choice.drawable)?.toBitmap(ICON_PX, ICON_PX) }.getOrNull()
 
-    private fun systemIcon(packageName: String, profile: Long?, tint: Int?): Bitmap? {
+    private fun systemIcon(packageName: String, profile: Long?, tint: Int?, background: Int?): Bitmap? {
         val icon = runCatching { rawIcon(packageName, profile) }.getOrNull() ?: return null
-        return if (tint != null) ThemedIconRenderer.render(icon, tint) else icon.toBitmap(ICON_PX, ICON_PX)
+        return if (tint != null) ThemedIconRenderer.render(icon, tint, background) else icon.toBitmap(ICON_PX, ICON_PX)
     }
 
     private fun packIcon(iconPack: String, packageName: String, profile: Long?): Bitmap? {
@@ -71,10 +84,17 @@ class AppIconLoader @Inject constructor(
         return launcherApps.getActivityList(packageName, user).firstOrNull()?.getIcon(0)
     }
 
-    private fun key(packageName: String, profile: Long?, tint: Int?, iconPack: String?, choice: AppIconChoice?): String {
+    private fun key(
+        packageName: String,
+        profile: Long?,
+        tint: Int?,
+        background: Int?,
+        iconPack: String?,
+        choice: AppIconChoice?
+    ): String {
         val pack = iconPack?.let { "#$it#${LocalDate.now().dayOfMonth}" }.orEmpty()
         val chosen = choice?.let { "#${packIconKey(it.iconPack, it.drawable)}" }.orEmpty()
-        return "$packageName#${profile ?: -1}#${tint ?: 0}$pack$chosen"
+        return "$packageName#${profile ?: -1}#${tint ?: 0}#${background ?: 0}$pack$chosen"
     }
 
     private fun packIconKey(iconPack: String, drawable: String) = "pack:$iconPack/$drawable"
