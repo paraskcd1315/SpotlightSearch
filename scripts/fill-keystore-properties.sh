@@ -6,6 +6,7 @@ store_file="${SPOT_KEYSTORE:-$HOME/Documents/keystores-android/keystore-2025-05-
 key_alias="${SPOT_KEY_ALIAS:-keystore-2025-05-25-04h45m}"
 service_prefix="IntelliJ Platform APK Signing Keystore Step — "
 target="$repo/keystore.properties"
+studio_jbr="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
 
 escape() { printf '%s' "${1//\\/\\\\}"; }
 
@@ -35,6 +36,7 @@ echo "Wrote $target from the login Keychain."
 
 if [[ "${1:-}" != "--no-check" ]]; then
     echo "Checking the release signing config..."
+    [[ -d "$studio_jbr" ]] && export JAVA_HOME="$studio_jbr"
     report="$(cd "$repo" && ./gradlew :app:signingReport --console=plain 2>&1)" || true
     printf '%s\n' "$report" | grep -A6 '^Variant: release$' || printf '%s\n' "$report" | tail -20
 fi
