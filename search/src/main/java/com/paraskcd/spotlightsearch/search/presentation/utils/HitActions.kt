@@ -24,7 +24,7 @@ import com.paraskcd.spotlightsearch.sources.domain.model.hits.WebSearchHit
 
 object HitActions {
     fun primary(hit: SearchHit, query: String, engine: WebSearchEngine): HitAction? = when (hit) {
-        is AppHit -> LaunchApp(hit.packageName)
+        is AppHit -> LaunchApp(hit.packageName, hit.profile)
         is ContactHit -> OpenContact(hit.number)
         is CalculationHit -> if (hit.kind == CalculationKind.WEB) SearchWeb(query, engine) else null
         is TranslationHit -> OpenTranslator(hit.text, hit.sourceLanguage, hit.targetLanguage)

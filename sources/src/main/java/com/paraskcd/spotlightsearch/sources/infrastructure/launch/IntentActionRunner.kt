@@ -35,13 +35,17 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class IntentActionRunner @Inject constructor(
-    @param:ApplicationContext private val context: Context
+    @param:ApplicationContext private val context: Context,
+    private val apps: ProfileAppLauncher
 ) : ActionRunner {
-    override fun run(action: HitAction) {
-        if (action is CopyNumber) {
-            copy(action.number)
-            return
-        }
+    override fun run(action: HitAction) = when (action) {
+        is CopyNumber -> copy(action.number)
+        is LaunchApp -> apps.launch(action.packageName, action.profile)
+        is OpenAppInfo -> apps.openInfo(action.packageName, action.profile)
+        else -> start(action)
+    }
+
+    private fun start(action: HitAction) {
         val intent = intentFor(action) ?: return
         try {
             context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
@@ -52,8 +56,6 @@ class IntentActionRunner @Inject constructor(
     }
 
     private fun intentFor(action: HitAction): Intent? = when (action) {
-        is LaunchApp -> context.packageManager.getLaunchIntentForPackage(action.packageName)
-        is OpenAppInfo -> appDetails(action.packageName)
         is DialNumber -> Intent(Intent.ACTION_DIAL, "tel:${action.number}".toUri())
         is SendSms -> Intent(Intent.ACTION_SENDTO, "smsto:${action.number}".toUri())
         is OpenWhatsApp -> Intent(Intent.ACTION_VIEW, "https://wa.me/${digits(action.number)}".toUri())
@@ -65,7 +67,7 @@ class IntentActionRunner @Inject constructor(
         is OpenDeviceSetting -> Intent(DeviceSettingsCatalog.action(action.setting))
         is OpenTranslator -> googleTranslate(action)
         OpenContactsPermission -> appDetails(context.packageName)
-        is CopyNumber -> null
+        is CopyNumber, is LaunchApp, is OpenAppInfo -> null
     }
 
     private fun fallbackFor(action: HitAction): Intent? = when (action) {

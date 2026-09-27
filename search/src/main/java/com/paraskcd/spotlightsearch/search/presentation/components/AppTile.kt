@@ -41,7 +41,7 @@ fun AppTile(
 ) {
     var menuOpen by remember { mutableStateOf(false) }
     val menu = listOf(
-        RowMenuItem(stringResource(R.string.action_app_info), PermDeviceInfo, OpenAppInfo(hit.packageName))
+        RowMenuItem(stringResource(R.string.action_app_info), PermDeviceInfo, OpenAppInfo(hit.packageName, hit.profile))
     )
     Box {
         Column(
