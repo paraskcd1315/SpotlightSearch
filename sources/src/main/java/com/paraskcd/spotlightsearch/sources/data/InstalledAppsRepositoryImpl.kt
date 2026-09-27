@@ -11,7 +11,8 @@ import com.paraskcd.spotlightsearch.sources.domain.ports.BlacklistPort
 import com.paraskcd.spotlightsearch.sources.domain.repository.InstalledAppsRepository
 import com.paraskcd.spotlightsearch.sources.infrastructure.apps.AppAliases
 import com.paraskcd.spotlightsearch.sources.infrastructure.apps.PackageAppsSource
-import com.paraskcd.spotlightsearch.sources.infrastructure.apps.PackageChangeReceiver
+import com.paraskcd.spotlightsearch.sources.infrastructure.apps.PackageChangeCallback
+import com.paraskcd.spotlightsearch.sources.infrastructure.apps.ProfileChangeReceiver
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +52,8 @@ class InstalledAppsRepositoryImpl @Inject constructor(
     override val allApps: StateFlow<List<InstalledApp>?> = installed
 
     init {
-        PackageChangeReceiver { reload() }.register(context)
+        PackageChangeCallback { reload() }.register(context)
+        ProfileChangeReceiver { reload() }.register(context)
     }
 
     override fun warmUp() {
@@ -64,7 +66,7 @@ class InstalledAppsRepositoryImpl @Inject constructor(
         warmUp()
         val apps = visible.first()
         return withContext(Dispatchers.Default) {
-            apps.mapNotNull { app -> bestMatch(app, folded)?.let { AppHit(app.packageName, app.label, it.tier, it.ranges) } }
+            apps.mapNotNull { app -> bestMatch(app, folded)?.let { AppHit(app.packageName, app.label, it.tier, it.ranges, app.profile) } }
                 .sortedWith(compareBy<AppHit> { it.tier }.thenBy { it.label.foldForSearch() })
         }
     }
