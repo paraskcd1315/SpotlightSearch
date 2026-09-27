@@ -21,10 +21,8 @@ class IconPackSource @Inject constructor(
     fun icon(pack: String, component: ComponentName): Drawable? {
         val loaded = load(pack) ?: return null
         val key = component.flattenToString()
-        val name = loaded.map.items[key]
-            ?: loaded.map.calendars[key]?.let { prefix -> prefix + LocalDate.now().dayOfMonth }
-            ?: return null
-        return drawable(loaded, name)
+        val today = loaded.map.calendars[key]?.let { prefix -> drawable(loaded, prefix + LocalDate.now().dayOfMonth) }
+        return today ?: loaded.map.items[key]?.let { drawable(loaded, it) }
     }
 
     fun decoration(pack: String): IconPackDecoration? {
