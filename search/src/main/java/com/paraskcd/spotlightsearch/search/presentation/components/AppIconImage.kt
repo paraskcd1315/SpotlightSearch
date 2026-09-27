@@ -24,8 +24,9 @@ fun AppIconImage(
     modifier: Modifier = Modifier
 ) {
     val tint = if (themed) SpTheme.colors.brandText.toArgb() else null
-    val bitmap by produceState(loader.cached(packageName, tint), packageName, tint) {
-        value = loader.load(packageName, tint)
+    val background = if (themed) SpTheme.colors.glassStrongBg.toArgb() else null
+    val bitmap by produceState(loader.cached(packageName, tint, background), packageName, tint, background) {
+        value = loader.load(packageName, tint, background)
     }
     Box(
         modifier = modifier

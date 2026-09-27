@@ -16,19 +16,20 @@ class AppIconLoader @Inject constructor(
 ) {
     private val cache = LruCache<String, Bitmap>(CACHE_ENTRIES)
 
-    fun cached(packageName: String, tint: Int?): Bitmap? = cache.get(key(packageName, tint))
+    fun cached(packageName: String, tint: Int?, background: Int? = null): Bitmap? =
+        cache.get(key(packageName, tint, background))
 
-    suspend fun load(packageName: String, tint: Int?): Bitmap? {
-        cached(packageName, tint)?.let { return it }
+    suspend fun load(packageName: String, tint: Int?, background: Int? = null): Bitmap? {
+        cached(packageName, tint, background)?.let { return it }
         return withContext(Dispatchers.IO) {
             val icon = runCatching { context.packageManager.getApplicationIcon(packageName) }.getOrNull()
                 ?: return@withContext null
-            val bitmap = if (tint != null) ThemedIconRenderer.render(icon, tint) else icon.toBitmap(ICON_PX, ICON_PX)
-            bitmap.also { cache.put(key(packageName, tint), it) }
+            val bitmap = if (tint != null) ThemedIconRenderer.render(icon, tint, background) else icon.toBitmap(ICON_PX, ICON_PX)
+            bitmap.also { cache.put(key(packageName, tint, background), it) }
         }
     }
 
-    private fun key(packageName: String, tint: Int?) = "$packageName#${tint ?: 0}"
+    private fun key(packageName: String, tint: Int?, background: Int?) = "$packageName#${tint ?: 0}#${background ?: 0}"
 
     private companion object {
         const val CACHE_ENTRIES = 256
