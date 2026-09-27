@@ -34,6 +34,7 @@
     <string name="hit_calculation_web">Rechner</string>
 
     <string name="action_app_info">App-Info</string>
+    <string name="work_app_badge">Arbeits-App</string>
     <string name="action_call">Anrufen</string>
     <string name="action_sms">SMS</string>
 

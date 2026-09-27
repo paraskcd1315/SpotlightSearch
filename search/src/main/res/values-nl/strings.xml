@@ -34,6 +34,7 @@
     <string name="hit_calculation_web">Rekenmachine</string>
 
     <string name="action_app_info">App-info</string>
+    <string name="work_app_badge">Werk-app</string>
     <string name="action_call">Bellen</string>
     <string name="action_sms">Sms</string>
 

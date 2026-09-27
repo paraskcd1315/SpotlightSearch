@@ -34,6 +34,7 @@
     <string name="hit_calculation_web">Calculatrice</string>
 
     <string name="action_app_info">Infos sur l\'application</string>
+    <string name="work_app_badge">Application professionnelle</string>
     <string name="action_call">Appeler</string>
     <string name="action_sms">SMS</string>
 

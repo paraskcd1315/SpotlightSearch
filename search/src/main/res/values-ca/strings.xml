@@ -34,6 +34,7 @@
     <string name="hit_calculation_web">Calculadora</string>
 
     <string name="action_app_info">Informació de l\'aplicació</string>
+    <string name="work_app_badge">Aplicació de feina</string>
     <string name="action_call">Truca</string>
     <string name="action_sms">SMS</string>
 
