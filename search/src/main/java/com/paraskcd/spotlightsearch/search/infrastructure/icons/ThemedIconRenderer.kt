@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.scale
+import com.paraskcd.spotlightsearch.designsystem.signature.foundation.SpMetrics
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -36,8 +37,6 @@ internal object ThemedIconRenderer {
     private const val RED_WEIGHT = 0.299f
     private const val GREEN_WEIGHT = 0.587f
     private const val BLUE_WEIGHT = 0.114f
-    private const val RING_FRACTION = 0.02f
-    private const val RING_COLOR = 0x1FFFFFFF
 
     fun render(icon: Drawable, tint: Int, background: Int?): Bitmap {
         val adaptive = icon as? AdaptiveIconDrawable
@@ -63,12 +62,12 @@ internal object ThemedIconRenderer {
                 isAntiAlias = true
                 color = background
             })
-            val ring = SIZE * RING_FRACTION
+            val ring = SIZE * SpMetrics.iconDiscRingFraction
             canvas.drawCircle(radius, radius, radius - ring / 2f, Paint().apply {
                 isAntiAlias = true
                 style = Paint.Style.STROKE
                 strokeWidth = ring
-                color = RING_COLOR
+                color = SpMetrics.iconDiscRingArgb
             })
         } else {
             canvas.drawCircle(radius, radius, radius, Paint().apply {

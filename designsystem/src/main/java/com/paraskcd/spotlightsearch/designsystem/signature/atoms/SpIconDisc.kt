@@ -17,24 +17,28 @@ import com.paraskcd.spotlightsearch.designsystem.signature.foundation.SpMetrics
 import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpTheme
 
 @Composable
-fun SpBadge(
+fun SpIconDisc(
     icon: ImageVector,
-    contentDescription: String?,
+    size: Dp,
     modifier: Modifier = Modifier,
-    size: Dp = SpMetrics.badgeSize,
-    iconSize: Dp = SpMetrics.badgeIconSize,
+    contentDescription: String? = null,
     tint: Color = SpTheme.colors.brandText,
-    background: Color = SpTheme.colors.surfaceContainerHigh,
-    border: Color = SpTheme.colors.glassBorder
+    background: Color = SpTheme.colors.glassStrongBg,
+    ring: Color = Color(SpMetrics.iconDiscRingArgb)
 ) {
     Box(
         modifier = modifier
             .size(size)
             .clip(CircleShape)
             .background(background)
-            .border(SpMetrics.hairlineThickness, border, CircleShape),
+            .border(maxOf(size * SpMetrics.iconDiscRingFraction, SpMetrics.hairlineThickness), ring, CircleShape),
         contentAlignment = Alignment.Center
     ) {
-        Icon(imageVector = icon, contentDescription = contentDescription, tint = tint, modifier = Modifier.size(iconSize))
+        Icon(
+            imageVector = icon,
+            contentDescription = contentDescription,
+            tint = tint,
+            modifier = Modifier.size(size * SpMetrics.iconDiscGlyphFraction)
+        )
     }
 }
