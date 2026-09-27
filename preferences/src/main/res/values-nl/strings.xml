@@ -70,6 +70,8 @@
     <string name="text_default">Standaard</string>
     <string name="text_large">Groot</string>
     <string name="appearance_app_layout">App-resultaten</string>
+    <string name="appearance_icon_pack">Iconenpakket</string>
+    <string name="icon_pack_system">Systeemiconen</string>
     <string name="layout_list">Lijst</string>
     <string name="layout_grid">Raster</string>
     <string name="personalization_section">Personalisatie</string>

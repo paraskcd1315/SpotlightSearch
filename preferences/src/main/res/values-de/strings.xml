@@ -70,6 +70,8 @@
     <string name="text_default">Standard</string>
     <string name="text_large">Groß</string>
     <string name="appearance_app_layout">App-Ergebnisse</string>
+    <string name="appearance_icon_pack">Icon-Paket</string>
+    <string name="icon_pack_system">System-Icons</string>
     <string name="layout_list">Liste</string>
     <string name="layout_grid">Raster</string>
     <string name="personalization_section">Personalisierung</string>

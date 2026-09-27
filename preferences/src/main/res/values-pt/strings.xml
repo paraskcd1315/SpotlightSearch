@@ -70,6 +70,8 @@
     <string name="text_default">Predefinido</string>
     <string name="text_large">Grande</string>
     <string name="appearance_app_layout">Resultados de apps</string>
+    <string name="appearance_icon_pack">Pacote de ícones</string>
+    <string name="icon_pack_system">Ícones do sistema</string>
     <string name="layout_list">Lista</string>
     <string name="layout_grid">Grelha</string>
     <string name="personalization_section">Personalização</string>

@@ -70,6 +70,8 @@
     <string name="text_default">डिफ़ॉल्ट</string>
     <string name="text_large">बड़ा</string>
     <string name="appearance_app_layout">ऐप नतीजे</string>
+    <string name="appearance_icon_pack">आइकॉन पैक</string>
+    <string name="icon_pack_system">सिस्टम आइकॉन</string>
     <string name="layout_list">सूची</string>
     <string name="layout_grid">ग्रिड</string>
     <string name="personalization_section">मनमुताबिक बनाना</string>

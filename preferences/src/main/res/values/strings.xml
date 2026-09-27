@@ -71,6 +71,8 @@
     <string name="text_default">Default</string>
     <string name="text_large">Large</string>
     <string name="appearance_app_layout">App results</string>
+    <string name="appearance_icon_pack">Icon pack</string>
+    <string name="icon_pack_system">System icons</string>
     <string name="layout_list">List</string>
     <string name="layout_grid">Grid</string>
     <string name="personalization_section">Personalization</string>

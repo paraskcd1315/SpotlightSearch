@@ -21,6 +21,7 @@ import com.composables.icons.lucide.Layers
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Paintbrush
 import com.composables.icons.lucide.RotateCcw
+import com.composables.icons.lucide.Shapes
 import com.composables.icons.lucide.SunMoon
 import com.composables.icons.lucide.Type
 import com.paraskcd.spotlightsearch.designsystem.signature.foundation.SpMetrics
@@ -45,11 +46,14 @@ import com.paraskcd.spotlightsearch.preferences.presentation.utils.swatchFallbac
 import com.paraskcd.spotlightsearch.preferences.presentation.utils.titleRes
 import com.paraskcd.spotlightsearch.preferences.presentation.viewmodels.ThemeViewModel
 import com.paraskcd.spotlightsearch.search.domain.model.AppResultsLayout
+import com.paraskcd.spotlightsearch.search.domain.model.IconPack
 import com.paraskcd.spotlightsearch.search.infrastructure.window.WindowBlur
 
 @Composable
 fun PersonalizationScreen(viewModel: ThemeViewModel, onNavigate: (String) -> Unit, onBack: () -> Unit) {
     val state by viewModel.state.collectAsState()
+    val iconPacks by viewModel.iconPacks.collectAsState()
+    val selectedPack = iconPacks.firstOrNull { it.packageName == state.iconPack }
     val context = LocalContext.current
     val supportsBlur = remember { WindowBlur.isAvailable(context, userEnabled = true) }
     var sheet by remember { mutableStateOf(AppearanceSheet.NONE) }
@@ -102,6 +106,14 @@ fun PersonalizationScreen(viewModel: ThemeViewModel, onNavigate: (String) -> Uni
                 icon = Lucide.LayoutGrid,
                 onClick = { sheet = AppearanceSheet.LAYOUT },
                 trailing = { ValueText(stringResource(state.appLayout.labelRes())) }
+            )
+        }
+        add {
+            SpSettingsRow(
+                label = stringResource(R.string.appearance_icon_pack),
+                icon = Lucide.Shapes,
+                onClick = { sheet = AppearanceSheet.ICON_PACK },
+                trailing = { ValueText(selectedPack?.label ?: stringResource(R.string.icon_pack_system)) }
             )
         }
     }
@@ -180,6 +192,18 @@ fun PersonalizationScreen(viewModel: ThemeViewModel, onNavigate: (String) -> Uni
             onSelect = {
                 sheet = AppearanceSheet.NONE
                 viewModel.setAppLayout(it)
+            },
+            onDismiss = { sheet = AppearanceSheet.NONE }
+        )
+        OptionSheet(
+            visible = sheet == AppearanceSheet.ICON_PACK,
+            title = stringResource(R.string.appearance_icon_pack),
+            options = listOf<IconPack?>(null) + iconPacks,
+            selected = selectedPack,
+            label = { it?.label ?: stringResource(R.string.icon_pack_system) },
+            onSelect = {
+                sheet = AppearanceSheet.NONE
+                viewModel.setIconPack(it?.packageName)
             },
             onDismiss = { sheet = AppearanceSheet.NONE }
         )

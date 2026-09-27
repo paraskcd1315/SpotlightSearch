@@ -70,6 +70,8 @@
     <string name="text_default">Standard</string>
     <string name="text_large">Stor</string>
     <string name="appearance_app_layout">Appresultat</string>
+    <string name="appearance_icon_pack">Ikonpaket</string>
+    <string name="icon_pack_system">Systemikoner</string>
     <string name="layout_list">Lista</string>
     <string name="layout_grid">Rutnät</string>
     <string name="personalization_section">Anpassning</string>

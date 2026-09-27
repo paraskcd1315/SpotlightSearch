@@ -7,12 +7,15 @@ import com.paraskcd.spotlightsearch.preferences.domain.model.ColorOverrideKey
 import com.paraskcd.spotlightsearch.preferences.domain.model.GlassStrength
 import com.paraskcd.spotlightsearch.preferences.domain.model.TextSize
 import com.paraskcd.spotlightsearch.search.domain.model.AppResultsLayout
+import com.paraskcd.spotlightsearch.search.domain.model.IconPack
+import com.paraskcd.spotlightsearch.search.infrastructure.icons.iconpack.IconPackCatalog
 import com.paraskcd.spotlightsearch.preferences.domain.model.ThemeMode
 import com.paraskcd.spotlightsearch.preferences.domain.repository.ThemeRepository
 import com.paraskcd.spotlightsearch.preferences.presentation.model.ThemeUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -20,8 +23,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ThemeViewModel @Inject constructor(
-    private val repository: ThemeRepository
+    private val repository: ThemeRepository,
+    iconPackCatalog: IconPackCatalog
 ) : ViewModel() {
+    val iconPacks: StateFlow<List<IconPack>> = flow { emit(iconPackCatalog.installed()) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS), emptyList())
+
     val state: StateFlow<ThemeUi> = repository.settings()
         .map { settings ->
             ThemeUi(

@@ -70,6 +70,8 @@
     <string name="text_default">ڈیفالٹ</string>
     <string name="text_large">بڑا</string>
     <string name="appearance_app_layout">ایپ نتائج</string>
+    <string name="appearance_icon_pack">آئیکن پیک</string>
+    <string name="icon_pack_system">سسٹم آئیکنز</string>
     <string name="layout_list">فہرست</string>
     <string name="layout_grid">گرڈ</string>
     <string name="personalization_section">ذاتی ترتیب</string>
