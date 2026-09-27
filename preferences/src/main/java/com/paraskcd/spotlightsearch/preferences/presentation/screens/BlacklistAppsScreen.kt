@@ -66,7 +66,8 @@ fun BlacklistAppsScreen(viewModel: BlacklistViewModel, onBack: () -> Unit) {
                     label = app.label,
                     checked = app.packageName in blacklisted,
                     icons = viewModel.icons,
-                    onCheckedChange = { viewModel.setBlacklisted(app.packageName, it) }
+                    onCheckedChange = { viewModel.setBlacklisted(app.packageName, it) },
+                    profile = app.profile
                 )
             }
         }

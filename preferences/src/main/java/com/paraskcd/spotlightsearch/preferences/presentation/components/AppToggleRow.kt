@@ -23,7 +23,8 @@ fun AppToggleRow(
     checked: Boolean,
     icons: AppIconLoader,
     onCheckedChange: (Boolean) -> Unit,
-    dragIcon: ImageVector? = null
+    dragIcon: ImageVector? = null,
+    profile: Long? = null
 ) {
     SwitchRow(
         text = label,
@@ -40,7 +41,13 @@ fun AppToggleRow(
                         modifier = Modifier.size(SpMetrics.settingsChevronSize)
                     )
                 }
-                AppIconImage(packageName = packageName, loader = icons, themed = false, size = SpMetrics.settingsIconWellSize)
+                AppIconImage(
+                    packageName = packageName,
+                    loader = icons,
+                    themed = false,
+                    size = SpMetrics.settingsIconWellSize,
+                    profile = profile
+                )
             }
         }
     )

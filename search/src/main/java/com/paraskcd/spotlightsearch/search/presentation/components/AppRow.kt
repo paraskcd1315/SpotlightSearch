@@ -34,7 +34,7 @@ fun AppRow(
             onClick = onClick,
             onLongClick = { menuOpen = true },
             leading = {
-                AppIconImage(hit.packageName, icons, themed = true, size = SearchMetrics.RowIconSize)
+                AppIconImage(hit.packageName, icons, themed = true, size = SearchMetrics.RowIconSize, profile = hit.profile)
             }
         )
         RowContextMenu(expanded = menuOpen, items = menu, onDismiss = { menuOpen = false }, onAction = onAction)

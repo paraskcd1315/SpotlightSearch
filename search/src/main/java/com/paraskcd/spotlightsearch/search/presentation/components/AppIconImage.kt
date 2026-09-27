@@ -21,11 +21,12 @@ fun AppIconImage(
     loader: AppIconLoader,
     themed: Boolean,
     size: Dp,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    profile: Long? = null
 ) {
     val tint = if (themed) SpTheme.colors.brandText.toArgb() else null
-    val bitmap by produceState(loader.cached(packageName, tint), packageName, tint) {
-        value = loader.load(packageName, tint)
+    val bitmap by produceState(loader.cached(packageName, profile, tint), packageName, profile, tint) {
+        value = loader.load(packageName, profile, tint)
     }
     Box(
         modifier = modifier

@@ -58,7 +58,8 @@ fun AppTile(
                 loader = icons,
                 themed = true,
                 size = SearchMetrics.TileIconSize,
-                modifier = Modifier.padding(SearchMetrics.TileIconInset)
+                modifier = Modifier.padding(SearchMetrics.TileIconInset),
+                profile = hit.profile
             )
             Text(
                 text = hit.label,
