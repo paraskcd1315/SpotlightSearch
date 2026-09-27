@@ -26,6 +26,8 @@
     <string name="hit_web_subtitle">Поиск в интернете</string>
     <string name="hit_suggestion_subtitle">Подсказка</string>
     <string name="hit_translation_subtitle">Перевод (%1$s → %2$s)</string>
+    <string name="hit_translation_downloading">Загрузка: %1$s…</string>
+    <string name="hit_translation_needs_wifi">Подключитесь к Wi-Fi, чтобы загрузить: %1$s</string>
     <string name="hit_setting_subtitle">Открыть: %1$s</string>
     <string name="hit_calculation_arithmetic">Вычисление</string>
     <string name="hit_calculation_unit">Перевод единиц</string>

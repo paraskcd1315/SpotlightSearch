@@ -26,6 +26,8 @@
     <string name="hit_web_subtitle">Cerca web</string>
     <string name="hit_suggestion_subtitle">Suggeriment</string>
     <string name="hit_translation_subtitle">Traducció (%1$s → %2$s)</string>
+    <string name="hit_translation_downloading">S’està baixant: %1$s…</string>
+    <string name="hit_translation_needs_wifi">Connecta’t a la Wi-Fi per baixar: %1$s</string>
     <string name="hit_setting_subtitle">Obre %1$s</string>
     <string name="hit_calculation_arithmetic">Càlcul</string>
     <string name="hit_calculation_unit">Conversió d\'unitats</string>

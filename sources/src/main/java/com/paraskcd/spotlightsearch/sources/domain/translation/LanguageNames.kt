@@ -19,5 +19,9 @@ object LanguageNames {
         "vietnamese" to "vi", "welsh" to "cy"
     )
 
-    fun code(nameOrCode: String): String = codesByName[nameOrCode.lowercase()] ?: nameOrCode.lowercase()
+    private val codes = codesByName.values.toSet()
+
+    fun fromName(word: String): String? = codesByName[word.lowercase()]
+
+    fun fromNameOrCode(word: String): String? = fromName(word) ?: word.lowercase().takeIf { it in codes }
 }

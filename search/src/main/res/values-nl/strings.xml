@@ -26,6 +26,8 @@
     <string name="hit_web_subtitle">Zoeken op het web</string>
     <string name="hit_suggestion_subtitle">Suggestie</string>
     <string name="hit_translation_subtitle">Vertaling (%1$s → %2$s)</string>
+    <string name="hit_translation_downloading">%1$s wordt gedownload…</string>
+    <string name="hit_translation_needs_wifi">Maak verbinding met wifi om %1$s te downloaden</string>
     <string name="hit_setting_subtitle">%1$s openen</string>
     <string name="hit_calculation_arithmetic">Berekening</string>
     <string name="hit_calculation_unit">Eenheden omrekenen</string>

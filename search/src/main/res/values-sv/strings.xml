@@ -26,6 +26,8 @@
     <string name="hit_web_subtitle">Webbsökning</string>
     <string name="hit_suggestion_subtitle">Förslag</string>
     <string name="hit_translation_subtitle">Översättning (%1$s → %2$s)</string>
+    <string name="hit_translation_downloading">Laddar ned %1$s…</string>
+    <string name="hit_translation_needs_wifi">Anslut till wifi för att ladda ned %1$s</string>
     <string name="hit_setting_subtitle">Öppna %1$s</string>
     <string name="hit_calculation_arithmetic">Beräkning</string>
     <string name="hit_calculation_unit">Enhetsomvandling</string>

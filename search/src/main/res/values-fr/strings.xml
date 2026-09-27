@@ -26,6 +26,8 @@
     <string name="hit_web_subtitle">Recherche Web</string>
     <string name="hit_suggestion_subtitle">Suggestion</string>
     <string name="hit_translation_subtitle">Traduction (%1$s → %2$s)</string>
+    <string name="hit_translation_downloading">Téléchargement : %1$s…</string>
+    <string name="hit_translation_needs_wifi">Connectez-vous au Wi-Fi pour télécharger : %1$s</string>
     <string name="hit_setting_subtitle">Ouvrir %1$s</string>
     <string name="hit_calculation_arithmetic">Calcul</string>
     <string name="hit_calculation_unit">Conversion d\'unités</string>

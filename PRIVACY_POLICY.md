@@ -30,7 +30,8 @@ By using SpotlightSearch, you agree to this policy.
 
 ### 2.3 Translation Models
 - Translation runs on your device with Google ML Kit. The text you translate never leaves your device.
-- The first time you translate to or from a language, ML Kit downloads that language model from Google.
+- SpotlightSearch translates only when you ask: start with "translate", or name the language (for example "thank you to French").
+- The first time you translate to or from a language, ML Kit downloads that language model from Google, only over Wi-Fi.
 - Google’s handling of ML Kit is governed by [Google’s Privacy Policy](https://policies.google.com/privacy).
 
 ---

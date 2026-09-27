@@ -5,6 +5,7 @@ import androidx.compose.ui.res.stringResource
 import com.paraskcd.spotlightsearch.search.R
 import com.paraskcd.spotlightsearch.search.presentation.model.HitText
 import com.paraskcd.spotlightsearch.sources.domain.model.CalculationKind
+import com.paraskcd.spotlightsearch.sources.domain.model.TranslationStatus
 import com.paraskcd.spotlightsearch.sources.domain.model.WebSearchEngine
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.AppHit
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.CalculationHit
@@ -24,7 +25,7 @@ fun hitText(hit: SearchHit): HitText = when (hit) {
     is ContactHit -> HitText(hit.name, hit.number, hit.matches)
     is CalculationHit -> HitText(hit.answer, hit.detail ?: stringResource(hit.kind.subtitleRes()))
     is TranslationHit -> HitText(
-        hit.translation,
+        translationTitle(hit),
         stringResource(
             R.string.hit_translation_subtitle,
             languageDisplayName(hit.sourceLanguage),
@@ -49,6 +50,13 @@ fun hitText(hit: SearchHit): HitText = when (hit) {
         stringResource(R.string.hit_permission_title),
         stringResource(R.string.hit_permission_subtitle)
     )
+}
+
+@Composable
+private fun translationTitle(hit: TranslationHit): String = when (hit.status) {
+    TranslationStatus.READY -> hit.translation
+    TranslationStatus.DOWNLOADING -> stringResource(R.string.hit_translation_downloading, languageDisplayName(hit.targetLanguage))
+    TranslationStatus.NEEDS_WIFI -> stringResource(R.string.hit_translation_needs_wifi, languageDisplayName(hit.targetLanguage))
 }
 
 private fun CalculationKind.subtitleRes(): Int = when (this) {
