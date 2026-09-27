@@ -1,6 +1,7 @@
 import com.android.build.api.artifact.SingleArtifact
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.spotlight.android.application)
@@ -9,9 +10,26 @@ plugins {
 }
 
 val benchSuffix = ".bench"
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreKeys = listOf("storeFile", "storePassword", "keyAlias", "keyPassword")
+val keystoreProperties = Properties().apply {
+    if (keystorePropertiesFile.exists()) keystorePropertiesFile.inputStream().use { load(it) }
+}
+val hasReleaseKey = keystoreKeys.all { !keystoreProperties.getProperty(it).isNullOrBlank() }
 
 android {
     namespace = "com.paraskcd.spotlightsearch"
+
+    signingConfigs {
+        if (hasReleaseKey) {
+            create("release") {
+                storeFile = file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
+    }
 
     defaultConfig {
         applicationId = "com.paraskcd.spotlightsearch"
@@ -36,6 +54,7 @@ android {
             resValue("string", "app_name", "Spotlight Search Dev")
         }
         release {
+            if (hasReleaseKey) signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
