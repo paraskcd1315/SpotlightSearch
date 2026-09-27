@@ -17,6 +17,9 @@ object SpMetrics {
     val settingsListGap = 2.dp
     val groupedRowInset = SpSpacing.s4
     val sectionGap = SpSpacing.s5
+    const val iconDiscRingFraction = 0.02f
+    const val iconDiscRingArgb = 0x1FFFFFFF
+    const val iconDiscGlyphFraction = 0.55f
     val collapsingBarHeight = 52.dp
     const val largeTitleLift = 0.6f
     const val largeTitleMaxLines = 2

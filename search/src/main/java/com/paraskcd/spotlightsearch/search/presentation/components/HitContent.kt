@@ -16,7 +16,7 @@ fun HitContent(hit: SearchHit, icons: IconSources, callbacks: HitCallbacks) {
         is AppHit -> AppRow(hit, icons.apps, onClick, callbacks.onAction)
         is ContactHit -> ContactRow(hit, icons.photos, onClick, callbacks.onAction)
         is QuickSearchHit -> HitRow(hit, onClick) {
-            AppIconImage(hit.service.packageName, icons.apps, themed = false, size = SearchMetrics.RowIconSize)
+            AppIconImage(hit.service.packageName, icons.apps, themed = true, size = SearchMetrics.RowIconSize)
         }
         else -> HitRow(hit, onClick)
     }
