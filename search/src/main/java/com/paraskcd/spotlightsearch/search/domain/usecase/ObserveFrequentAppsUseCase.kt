@@ -26,10 +26,10 @@ class ObserveFrequentAppsUseCase @Inject constructor(
         .flatMapLatest { limit -> if (limit <= 0) flowOf(emptyList()) else observe(limit) }
 
     private fun observe(limit: Int): Flow<List<AppHit>> =
-        combine(usage.mostUsedPackages(limit), apps.apps) { packages, installed ->
-            val byPackage = installed.associateBy { it.packageName }
-            packages.mapNotNull { packageName ->
-                byPackage[packageName]?.let { AppHit(it.packageName, it.label) }
+        combine(usage.mostUsedApps(limit), apps.apps) { keys, installed ->
+            val byKey = installed.associateBy { it.key }
+            keys.mapNotNull { key ->
+                byKey[key]?.let { AppHit(it.packageName, it.label, profile = it.profile) }
             }
         }
 }

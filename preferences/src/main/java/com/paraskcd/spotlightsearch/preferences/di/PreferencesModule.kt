@@ -10,6 +10,7 @@ import com.paraskcd.spotlightsearch.preferences.infrastructure.room.dao.Blacklis
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.dao.GlobalSearchConfigDao
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.dao.QuickSearchProviderDao
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.dao.UserThemeDao
+import com.paraskcd.spotlightsearch.preferences.infrastructure.room.migrations.AppMigrations
 import com.paraskcd.spotlightsearch.preferences.infrastructure.room.migrations.SettingsMigrations
 import dagger.Module
 import dagger.Provides
@@ -24,7 +25,9 @@ object PreferencesModule {
     @Provides
     @Singleton
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase =
-        Room.databaseBuilder(context, AppDatabase::class.java, DatabaseNames.APP).build()
+        Room.databaseBuilder(context, AppDatabase::class.java, DatabaseNames.APP)
+            .addMigrations(*AppMigrations)
+            .build()
 
     @Provides
     @Singleton

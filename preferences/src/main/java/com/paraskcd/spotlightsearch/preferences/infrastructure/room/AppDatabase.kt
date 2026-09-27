@@ -7,7 +7,7 @@ import com.paraskcd.spotlightsearch.preferences.infrastructure.room.entity.AppUs
 
 @Database(
     entities = [AppUsageEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {

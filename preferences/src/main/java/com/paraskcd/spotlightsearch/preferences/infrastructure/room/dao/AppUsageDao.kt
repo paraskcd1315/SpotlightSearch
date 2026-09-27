@@ -11,22 +11,19 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface AppUsageDao {
     @Query("SELECT * FROM app_usage ORDER BY openCount DESC, lastOpenedAt DESC LIMIT :limit")
-    suspend fun getTopAppUsages(limit: Int): List<AppUsageEntity>
-
-    @Query("SELECT * FROM app_usage ORDER BY openCount DESC, lastOpenedAt DESC LIMIT :limit")
     fun observeTopAppUsages(limit: Int): Flow<List<AppUsageEntity>>
 
-    @Query("SELECT * FROM app_usage WHERE packageName = :pkg LIMIT 1")
-    suspend fun get(pkg: String): AppUsageEntity?
+    @Query("SELECT * FROM app_usage WHERE packageName = :pkg AND profile = :profile LIMIT 1")
+    suspend fun get(pkg: String, profile: Long): AppUsageEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(entity: AppUsageEntity)
 
     @Transaction
-    suspend fun increment(pkg: String, now: Long) {
-        val current = get(pkg)
+    suspend fun increment(pkg: String, profile: Long, now: Long) {
+        val current = get(pkg, profile)
         val updated = if (current == null) {
-            AppUsageEntity(packageName = pkg, openCount = 1, lastOpenedAt = now)
+            AppUsageEntity(packageName = pkg, profile = profile, openCount = 1, lastOpenedAt = now)
         } else {
             current.copy(openCount = current.openCount + 1, lastOpenedAt = now)
         }
