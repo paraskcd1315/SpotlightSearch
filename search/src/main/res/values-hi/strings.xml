@@ -37,6 +37,7 @@
 
     <string name="action_app_info">ऐप्लिकेशन की जानकारी</string>
     <string name="work_app_badge">ऑफ़िस ऐप</string>
+    <string name="work_contact_badge">ऑफ़िस संपर्क</string>
     <string name="action_change_icon">आइकॉन बदलें</string>
     <string name="action_call">कॉल करें</string>
     <string name="action_sms">एसएमएस</string>

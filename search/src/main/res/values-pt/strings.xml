@@ -37,6 +37,7 @@
 
     <string name="action_app_info">Informações da app</string>
     <string name="work_app_badge">App de trabalho</string>
+    <string name="work_contact_badge">Contacto de trabalho</string>
     <string name="action_change_icon">Alterar ícone</string>
     <string name="action_call">Ligar</string>
     <string name="action_sms">SMS</string>

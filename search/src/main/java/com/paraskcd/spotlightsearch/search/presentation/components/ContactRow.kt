@@ -19,7 +19,7 @@ fun ContactRow(
         text = hitText(hit),
         onClick = onClick,
         onLongClick = { onAction(CopyNumber(hit.number)) },
-        leading = { ContactPhoto(hit.photoUri, photos, SearchMetrics.RowIconSize) },
+        leading = { ContactPhoto(hit.photoUri, photos, SearchMetrics.RowIconSize, work = hit.isWork) },
         below = { ContactActions(hit, onAction) }
     )
 }

@@ -37,6 +37,7 @@
 
     <string name="action_app_info">ایپ کی معلومات</string>
     <string name="work_app_badge">دفتری ایپ</string>
+    <string name="work_contact_badge">دفتری رابطہ</string>
     <string name="action_change_icon">آئیکن تبدیل کریں</string>
     <string name="action_call">کال کریں</string>
     <string name="action_sms">ایس ایم ایس</string>

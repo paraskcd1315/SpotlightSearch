@@ -22,6 +22,7 @@ By using SpotlightSearch, you agree to this policy.
 - All searches, app launches, contact lookups, calculations, and translations happen entirely on your device.
 - We do **not** collect, store, or transmit this data to any servers we control.
 - If your device has a work profile, SpotlightSearch also lists the apps in it, so you can search and open them. The list, the launch counts and your hidden apps stay on your device. SpotlightSearch does not read any data inside the work profile's apps.
+- When your work profile's policy allows it, contact search also looks up work contacts by the name you type. The lookup happens on your device, and SpotlightSearch stores no work contacts.
 
 ### 2.2 Google Suggestions
 - When Google suggestions are on, SpotlightSearch sends what you type in the search bar to Google to fetch search suggestions.

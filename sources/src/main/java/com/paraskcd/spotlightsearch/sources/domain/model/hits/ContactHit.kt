@@ -8,5 +8,8 @@ data class ContactHit(
     val photoUri: String?,
     val hasWhatsApp: Boolean,
     val tier: MatchTier = MatchTier.EXACT,
-    val matches: List<IntRange> = emptyList()
-) : SearchHit
+    val matches: List<IntRange> = emptyList(),
+    val workLookupUri: String? = null
+) : SearchHit {
+    val isWork: Boolean get() = workLookupUri != null
+}

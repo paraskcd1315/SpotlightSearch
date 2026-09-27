@@ -7,6 +7,7 @@ import android.content.ClipboardManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.Settings
@@ -43,6 +44,7 @@ class IntentActionRunner @Inject constructor(
         is CopyNumber -> copy(action.number)
         is LaunchApp -> apps.launch(action.packageName, action.profile)
         is OpenAppInfo -> apps.openInfo(action.packageName, action.profile)
+        is OpenContact -> action.workLookupUri?.let(::showWorkContact) ?: start(action)
         else -> start(action)
     }
 
@@ -83,6 +85,14 @@ class IntentActionRunner @Inject constructor(
             "https://translate.google.com/?sl=auto&tl=${action.targetLanguage}&text=${Uri.encode(action.text)}&op=translate".toUri()
         )
         else -> null
+    }
+
+    private fun showWorkContact(lookupUri: String) {
+        runCatching {
+            ContactsContract.QuickContact.showQuickContact(
+                context, Rect(), lookupUri.toUri(), ContactsContract.QuickContact.MODE_LARGE, null
+            )
+        }.onFailure { Log.w(TAG, "No quick contact for a work contact", it) }
     }
 
     private fun appDetails(packageName: String) =

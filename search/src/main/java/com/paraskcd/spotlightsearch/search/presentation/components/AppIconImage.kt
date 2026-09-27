@@ -14,10 +14,6 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
-import com.composables.icons.lucide.Briefcase
-import com.composables.icons.lucide.Lucide
-import com.paraskcd.spotlightsearch.designsystem.signature.atoms.SpIconDisc
-import com.paraskcd.spotlightsearch.designsystem.signature.foundation.SpMetrics
 import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpTheme
 import com.paraskcd.spotlightsearch.search.R
 import com.paraskcd.spotlightsearch.search.infrastructure.icons.AppIconLoader
@@ -51,12 +47,7 @@ fun AppIconImage(
             }
         }
         if (profile != null) {
-            SpIconDisc(
-                icon = Lucide.Briefcase,
-                size = SpMetrics.badgeSize,
-                contentDescription = stringResource(R.string.work_app_badge),
-                modifier = Modifier.align(Alignment.BottomEnd)
-            )
+            WorkBadge(stringResource(R.string.work_app_badge), Modifier.align(Alignment.BottomEnd))
         }
     }
 }

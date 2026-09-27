@@ -37,6 +37,7 @@
 
     <string name="action_app_info">О приложении</string>
     <string name="work_app_badge">Рабочее приложение</string>
+    <string name="work_contact_badge">Рабочий контакт</string>
     <string name="action_change_icon">Сменить значок</string>
     <string name="action_call">Позвонить</string>
     <string name="action_sms">SMS</string>
