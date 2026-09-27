@@ -26,10 +26,12 @@ profileinstaller = "1.4.1"
 uiautomator = "2.4.0"
 haze = "2.0.0"
 lucide = "1.1.0"
+kxml2 = "2.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+kxml2 = { group = "net.sf.kxml", name = "kxml2", version.ref = "kxml2" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "testRunner" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
