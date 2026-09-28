@@ -8,6 +8,7 @@ import kotlin.math.roundToInt
 class KeyboardTracker(
     private val view: View,
     private val onTopOnScreen: (Int) -> Unit,
+    private val onTopSettled: (Int) -> Unit,
     private val onKeyboardShown: () -> Unit,
     private val onKeyboardVisibility: (Boolean) -> Unit
 ) : WindowInsetsAnimation.Callback(DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
@@ -26,8 +27,10 @@ class KeyboardTracker(
             val top = topOnScreen()
             val hidden = hiddenTop
             if (hidden == null || top > hidden) hiddenTop = top
-            if (top < (hiddenTop ?: top)) shownTop = top
-            onTopOnScreen(top)
+            val keyboardUp = top < (hiddenTop ?: top)
+            if (keyboardUp) shownTop = top
+            onKeyboardVisibility(keyboardUp)
+            onTopSettled(top)
         }
         pendingRest = report
         view.postOnAnimation(report)

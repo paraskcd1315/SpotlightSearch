@@ -25,6 +25,7 @@ fun SearchBarWindow(
     onSubmit: () -> Unit,
     onClose: () -> Unit,
     onTopOnScreen: (Int) -> Unit,
+    onTopSettled: (Int) -> Unit,
     onKeyboardShown: () -> Unit,
     onKeyboardVisibility: (Boolean) -> Unit
 ) {
@@ -44,7 +45,7 @@ fun SearchBarWindow(
             awaitFrame()
             focusRequester.requestFocus()
         }
-        val tracker = remember(view) { KeyboardTracker(view, onTopOnScreen, onKeyboardShown, onKeyboardVisibility) }
+        val tracker = remember(view) { KeyboardTracker(view, onTopOnScreen, onTopSettled, onKeyboardShown, onKeyboardVisibility) }
         DisposableEffect(tracker) {
             val root = view.rootView
             root.setWindowInsetsAnimationCallback(tracker)

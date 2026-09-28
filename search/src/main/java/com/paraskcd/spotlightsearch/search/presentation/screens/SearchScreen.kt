@@ -29,6 +29,7 @@ import com.paraskcd.spotlightsearch.search.presentation.overlay.OverlayMetrics
 import com.paraskcd.spotlightsearch.search.presentation.overlay.OverlayScrim
 import com.paraskcd.spotlightsearch.search.presentation.overlay.ResultsWindow
 import com.paraskcd.spotlightsearch.search.presentation.overlay.SearchBarWindow
+import com.paraskcd.spotlightsearch.search.presentation.overlay.rememberBarTopMotion
 import com.paraskcd.spotlightsearch.search.presentation.overlay.SectionSheetWindow
 import com.paraskcd.spotlightsearch.search.domain.model.SearchSection
 import com.paraskcd.spotlightsearch.search.presentation.overlay.SettingsButtonWindow
@@ -57,7 +58,8 @@ fun SearchScreen(
     val config by viewModel.config.collectAsState()
     var text by rememberSaveable { mutableStateOf("") }
     var visible by remember { mutableStateOf(false) }
-    var barTop by remember { mutableStateOf<Int?>(null) }
+    val barMotion = rememberBarTopMotion()
+    val barTop = barMotion.top
     var settingsSize by remember { mutableStateOf<IntSize?>(null) }
     var filterHeight by remember { mutableStateOf(0) }
     var filter by remember { mutableStateOf<SectionKind?>(null) }
@@ -137,7 +139,8 @@ fun SearchScreen(
         onQueryChange = onQueryChange,
         onSubmit = { handle(viewModel.submit()) },
         onClose = dismiss,
-        onTopOnScreen = { barTop = it },
+        onTopOnScreen = barMotion::follow,
+        onTopSettled = barMotion::settle,
         onKeyboardShown = { keyboardSettled = true },
         onKeyboardVisibility = { keyboardVisible = it }
     )
