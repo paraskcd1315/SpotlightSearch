@@ -25,7 +25,6 @@ import com.paraskcd.spotlightsearch.search.infrastructure.window.DialogWindowSet
 import com.paraskcd.spotlightsearch.search.presentation.model.HitCallbacks
 import com.paraskcd.spotlightsearch.search.presentation.model.HitOutcome
 import com.paraskcd.spotlightsearch.search.presentation.overlay.FilterWindow
-import com.paraskcd.spotlightsearch.search.presentation.overlay.OverlayLayout
 import com.paraskcd.spotlightsearch.search.presentation.overlay.OverlayMetrics
 import com.paraskcd.spotlightsearch.search.presentation.overlay.OverlayScrim
 import com.paraskcd.spotlightsearch.search.presentation.overlay.ResultsWindow
@@ -64,7 +63,6 @@ fun SearchScreen(
     val barTop = barMotion.top
     var settingsSize by remember { mutableStateOf<IntSize?>(null) }
     var filterHeight by remember { mutableStateOf(0) }
-    var barHeight by remember { mutableStateOf(0) }
     var filter by remember { mutableStateOf<SectionKind?>(null) }
     var sheetSection by remember { mutableStateOf<SearchSection?>(null) }
     var frequentHeight by remember { mutableStateOf<Int?>(null) }
@@ -91,7 +89,6 @@ fun SearchScreen(
     val statusBarPx = WindowInsets.statusBars.getTop(density)
     val gapPx = with(density) { OverlayMetrics.ResultsGap.roundToPx() }
     val toolbarPx = settingsSize?.height ?: 0
-    val landscape = displayWidthPx > displayHeightPx
 
     val onQueryChange: (String) -> Unit = { query ->
         text = query
@@ -129,7 +126,7 @@ fun SearchScreen(
         appName = appName,
         icons = viewModel.icons.apps,
         topLimitPx = statusBarPx,
-        bottomLimitPx = barTop?.let { it - gapPx - OverlayLayout.chromeAbovePanelPx(landscape, toolbarPx) - frequentReserve },
+        bottomLimitPx = barTop?.let { it - gapPx - toolbarPx - frequentReserve },
         onClose = dismiss
     )
 
@@ -148,27 +145,15 @@ fun SearchScreen(
         onTopSettled = barMotion::settle,
         onKeyboardShown = { keyboardSettled = true },
         onKeyboardVisibility = { keyboardVisible = it },
-        onKeyboardMoving = { keyboardMoving = it },
-        onHeight = { barHeight = it },
-        widthPx = OverlayLayout.barWidthPx(landscape, displayWidthPx)
+        onKeyboardMoving = { keyboardMoving = it }
     )
 
     val top = barTop ?: return
-    val layout = OverlayLayout.of(
-        landscape = landscape,
-        displayWidthPx = displayWidthPx,
-        displayHeightPx = displayHeightPx,
-        barTopPx = top,
-        barHeightPx = barHeight,
-        toolbarHeightPx = toolbarPx,
-        settingsWidthPx = settingsSize?.width ?: 0,
-        filterHeightPx = filterHeight,
-        sideMarginPx = sideMarginPx,
-        gapPx = gapPx,
-        ceilingPx = statusBarPx + gapPx
-    )
+    val toolbarOffsetY = displayHeightPx - top + gapPx
+    val panelOffsetY = toolbarOffsetY + toolbarPx + gapPx
+    val ceiling = statusBarPx + gapPx
     val panelHeightPx = rememberPanelCap(
-        capPx = layout.panelCapPx,
+        capPx = (top - gapPx - toolbarPx - gapPx - ceiling).coerceAtLeast(0),
         keyboardMoving = keyboardMoving || barMotion.settling
     )
     val idle = text.isBlank()
@@ -178,7 +163,7 @@ fun SearchScreen(
         visible = keyboardSettled && !closing,
         blurEnabled = blurEnabled,
         offsetX = sideMarginPx,
-        offsetY = layout.settingsOffsetY,
+        offsetY = toolbarOffsetY,
         onOpenSettings = onOpenSettings,
         onClose = dismiss,
         onSize = { settingsSize = it }
@@ -187,14 +172,15 @@ fun SearchScreen(
     val sections = if (idle || closing) emptyList() else results.sections.filterNot { it.kind == SectionKind.FREQUENT }
     val kinds = sections.filterKinds()
     val active = filter?.takeIf { it in kinds }
+    val filterMaxWidthPx = displayWidthPx - 2 * sideMarginPx - (settingsSize?.width ?: 0) - gapPx
 
     FilterWindow(
         kinds = kinds,
         active = active,
         onSelect = { filter = it },
         offsetX = sideMarginPx,
-        offsetY = layout.filterOffsetY,
-        maxWidth = with(density) { layout.filterMaxWidthPx.coerceAtLeast(0).toDp() },
+        offsetY = toolbarOffsetY + ((toolbarPx - filterHeight) / 2).coerceAtLeast(0),
+        maxWidth = with(density) { filterMaxWidthPx.coerceAtLeast(0).toDp() },
         blurEnabled = blurEnabled,
         onClose = dismiss,
         onHeight = { filterHeight = it }
@@ -210,13 +196,12 @@ fun SearchScreen(
     FrequentAppsWindow(
         apps = frequentApps,
         loading = idle && toolbarReady && results.loading && frequentApps.isEmpty(),
-        offsetY = layout.panelOffsetY,
+        offsetY = panelOffsetY,
         blurEnabled = blurEnabled,
         icons = viewModel.icons,
         callbacks = callbacks,
         onClose = dismiss,
-        onHeight = { frequentHeight = it },
-        widthPx = layout.panelWidthPx
+        onHeight = { frequentHeight = it }
     )
 
     ResultsWindow(
@@ -225,7 +210,7 @@ fun SearchScreen(
         } else {
             results.copy(sections = sections.filteredBy(active))
         },
-        offsetY = layout.panelOffsetY,
+        offsetY = panelOffsetY,
         maxHeightPx = panelHeightPx,
         rowsPerSection = config.rowsPerSection,
         appLayout = appLayout,
@@ -234,8 +219,7 @@ fun SearchScreen(
         callbacks = callbacks,
         scrollKey = active,
         onShowAll = { sheetSection = it },
-        onClose = dismiss,
-        widthPx = layout.panelWidthPx
+        onClose = dismiss
     )
 
     BackHandler(enabled = sheetSection != null) { sheetSection = null }

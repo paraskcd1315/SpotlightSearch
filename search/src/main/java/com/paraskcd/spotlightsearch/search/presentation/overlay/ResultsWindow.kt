@@ -38,8 +38,7 @@ fun ResultsWindow(
     callbacks: HitCallbacks,
     scrollKey: Any?,
     onShowAll: (SearchSection) -> Unit,
-    onClose: () -> Unit,
-    widthPx: Int? = null
+    onClose: () -> Unit
 ) {
     val hasContent = results.sections.isNotEmpty() || results.loading
     var retained by remember { mutableStateOf(results) }
@@ -55,8 +54,7 @@ fun ResultsWindow(
         onDismissRequest = onClose,
         visible = hasContent,
         animateIn = true,
-        heightPx = contentPx.takeIf { it > 0 }?.coerceAtMost(maxHeightPx),
-        widthPx = widthPx
+        heightPx = contentPx.takeIf { it > 0 }?.coerceAtMost(maxHeightPx)
     ) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
             Column(

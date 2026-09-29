@@ -10,7 +10,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import com.paraskcd.spotlightsearch.designsystem.signature.foundation.spPanelSurface
@@ -29,9 +28,7 @@ fun SearchBarWindow(
     onTopSettled: (Int) -> Unit,
     onKeyboardShown: () -> Unit,
     onKeyboardVisibility: (Boolean) -> Unit,
-    onKeyboardMoving: (Boolean) -> Unit,
-    onHeight: (Int) -> Unit,
-    widthPx: Int? = null
+    onKeyboardMoving: (Boolean) -> Unit
 ) {
     val offsetY = with(LocalDensity.current) { OverlayMetrics.BarBottomMargin.roundToPx() }
     BlurredWindow(
@@ -41,8 +38,7 @@ fun SearchBarWindow(
         cornerRadius = OverlayMetrics.BarCornerRadius,
         onDismissRequest = onClose,
         visible = visible,
-        animateIn = true,
-        widthPx = widthPx
+        animateIn = true
     ) {
         val view = LocalView.current
         val focusRequester = remember { FocusRequester() }
@@ -60,7 +56,6 @@ fun SearchBarWindow(
             modifier = Modifier
                 .fillMaxWidth()
                 .spPanelSurface(RoundedCornerShape(OverlayMetrics.BarCornerRadius), blurred = blurEnabled)
-                .onSizeChanged { onHeight(it.height) }
                 .onGloballyPositioned { tracker.onRest() }
         ) {
             SearchBarPill(

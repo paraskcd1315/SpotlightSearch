@@ -35,7 +35,6 @@ fun BlurredWindow(
     wrapWidth: Boolean = false,
     animateIn: Boolean = false,
     heightPx: Int? = null,
-    widthPx: Int? = null,
     content: @Composable () -> Unit
 ) {
     Dialog(
@@ -56,11 +55,11 @@ fun BlurredWindow(
         var laidOut by remember { mutableStateOf(!animateIn) }
         val shown = configured && laidOut && (visible || animateIn)
 
-        remember(focusable, cornerRadiusPx, offsetX, gravity, wrapWidth, widthPx) {
-            val width = when {
-                wrapWidth -> ViewGroup.LayoutParams.WRAP_CONTENT
-                widthPx != null -> widthPx
-                else -> (DialogWindowSetup.displayWidth(window) * OverlayMetrics.WindowWidthFraction).toInt()
+        remember(focusable, cornerRadiusPx, offsetX, gravity, wrapWidth) {
+            val width = if (wrapWidth) {
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            } else {
+                (DialogWindowSetup.displayWidth(window) * OverlayMetrics.WindowWidthFraction).toInt()
             }
             DialogWindowSetup.configure(
                 window = window,
