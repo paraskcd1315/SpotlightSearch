@@ -7,15 +7,14 @@ import com.paraskcd.spotlightsearch.designsystem.signature.organisms.SpGroupedLi
 import com.paraskcd.spotlightsearch.preferences.presentation.model.SettingPageItem
 
 @Composable
-fun SettingsGroup(items: List<SettingPageItem>, onOpen: (String) -> Unit, selectedRoute: String? = null) {
+fun SettingsGroup(items: List<SettingPageItem>, onOpen: (String) -> Unit) {
     SpGroupedList(count = items.size) { index ->
         val item = items[index]
         SpSettingsRow(
             label = stringResource(item.title),
             caption = stringResource(item.subtitle),
             icon = item.icon,
-            onClick = { onOpen(item.route) },
-            selected = item.route == selectedRoute
+            onClick = { onOpen(item.route) }
         )
     }
 }
