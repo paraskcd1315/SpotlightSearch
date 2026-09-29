@@ -15,6 +15,8 @@ import kotlin.math.roundToInt
 class BarTopMotion {
     var top by mutableStateOf<Int?>(null)
         private set
+    var settling by mutableStateOf(false)
+        private set
     private var settleTarget by mutableStateOf<Int?>(null)
 
     fun follow(value: Int) {
@@ -29,12 +31,17 @@ class BarTopMotion {
     suspend fun run() {
         snapshotFlow { settleTarget }.collectLatest { target ->
             val from = top
-            if (target == null || from == null || from == target) return@collectLatest
+            if (target == null || from == null || from == target) {
+                settling = false
+                return@collectLatest
+            }
+            settling = true
             animate(
                 initialValue = from.toFloat(),
                 targetValue = target.toFloat(),
                 animationSpec = tween(SpMotion.durMorphMs, easing = SpMotion.easeIos)
             ) { value, _ -> top = value.roundToInt() }
+            settling = false
         }
     }
 }

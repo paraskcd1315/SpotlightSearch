@@ -67,7 +67,6 @@ object DialogWindowSetup {
             this.alpha = alpha
             height = heightPx
         }
-        window.decorView.invalidate()
     }
 
     fun setVisible(window: Window, visible: Boolean) {
