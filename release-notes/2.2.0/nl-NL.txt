@@ -4,3 +4,4 @@ Spotlight Search 2.2.0
 • Iconenpakketten: gebruik elk geïnstalleerd pakket of kies een ander icoon voor één app
 • Vertalen start alleen als je erom vraagt, bijvoorbeeld "translate hello to French" of "hello in Spanish"
 • Taalmodellen downloaden alleen via wifi
+• Resultaten springen niet meer als het toetsenbord sluit

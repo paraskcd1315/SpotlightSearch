@@ -4,3 +4,4 @@ Spotlight Search 2.2.0
 • Icon-Packs: jedes installierte Icon-Pack nutzen oder für eine App ein anderes Icon wählen
 • Übersetzung startet nur auf Wunsch, z. B. „translate hello to French“ oder „hello in Spanish“
 • Sprachmodelle werden nur über WLAN geladen
+• Ergebnisse springen nicht mehr beim Schließen der Tastatur

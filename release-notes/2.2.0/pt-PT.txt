@@ -4,3 +4,4 @@ Spotlight Search 2.2.0
 • Pacotes de ícones: use qualquer pacote instalado ou escolha outro ícone para uma app
 • A tradução começa só quando pede, por exemplo "translate hello to French" ou "hello in Spanish"
 • Os modelos de idioma só são transferidos por Wi-Fi
+• Os resultados já não saltam ao fechar o teclado

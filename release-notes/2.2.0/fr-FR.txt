@@ -1,6 +1,7 @@
 Spotlight Search 2.2.0
 • Profil professionnel : recherchez et ouvrez vos applis pro, signalées par un badge
-• Les contacts pro apparaissent dans la recherche si la règle de votre entreprise le permet
+• Les contacts pro apparaissent dans la recherche si votre entreprise le permet
 • Packs d’icônes : utilisez un pack installé ou choisissez une autre icône pour une appli
-• La traduction démarre seulement sur demande, par exemple « translate hello to French » ou « hello in Spanish »
+• La traduction démarre seulement sur demande, p. ex. « translate hello to French » ou « hello in Spanish »
 • Les modèles de langue se téléchargent uniquement en Wi-Fi
+• Résultats stables à la fermeture du clavier

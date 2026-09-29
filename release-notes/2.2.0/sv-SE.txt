@@ -4,3 +4,4 @@ Spotlight Search 2.2.0
 • Ikonpaket: använd valfritt installerat paket eller välj en annan ikon för en app
 • Översättning startar bara när du ber om det, till exempel "translate hello to French" eller "hello in Spanish"
 • Språkmodeller laddas bara ned via wifi
+• Resultaten hoppar inte längre när tangentbordet stängs
