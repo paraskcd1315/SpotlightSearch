@@ -25,6 +25,7 @@ object SpMetrics {
     const val largeTitleMaxLines = 2
     const val barSideMaxFraction = 0.4f
     val hairlineThickness = 1.dp
+    val badgeSize = 18.dp
     val heroHeight = 260.dp
     val scrimBlur = 6.dp
     val switchTrackWidth = 48.dp

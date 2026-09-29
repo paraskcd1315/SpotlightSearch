@@ -15,6 +15,7 @@ data class ThemeUi(
     val glassStrength: GlassStrength = GlassStrength.MEDIUM,
     val textSize: TextSize = TextSize.DEFAULT,
     val appLayout: AppResultsLayout = AppResultsLayout.LIST,
+    val iconPack: String? = null,
     val colors: Map<ColorOverrideKey, Color> = emptyMap()
 ) {
     val colorOverrides: ColorOverrides

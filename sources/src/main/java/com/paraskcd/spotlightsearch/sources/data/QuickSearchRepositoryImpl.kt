@@ -5,7 +5,7 @@ import com.paraskcd.spotlightsearch.sources.domain.model.QuickSearchService
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.QuickSearchHit
 import com.paraskcd.spotlightsearch.sources.domain.ports.QuickSearchOrderPort
 import com.paraskcd.spotlightsearch.sources.domain.repository.QuickSearchRepository
-import com.paraskcd.spotlightsearch.sources.infrastructure.apps.PackageChangeReceiver
+import com.paraskcd.spotlightsearch.sources.infrastructure.apps.PackageChangeCallback
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -24,7 +24,7 @@ class QuickSearchRepositoryImpl @Inject constructor(
     @Volatile private var defaultsEnsured = false
 
     init {
-        PackageChangeReceiver { installed.clear() }.register(context)
+        PackageChangeCallback { installed.clear() }.register(context)
     }
 
     override suspend fun targets(query: String): List<QuickSearchHit> {

@@ -1,24 +1,30 @@
 package com.paraskcd.spotlightsearch.sources.infrastructure.apps
 
 import android.content.Context
-import android.content.Intent
+import android.content.pm.LauncherApps
+import android.os.UserHandle
+import android.util.Log
 import com.paraskcd.spotlightsearch.sources.domain.model.InstalledApp
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class PackageAppsSource @Inject constructor(
-    @param:ApplicationContext private val context: Context
+    @ApplicationContext context: Context,
+    private val profiles: UserProfiles
 ) {
-    fun load(): List<InstalledApp> {
-        val packageManager = context.packageManager
-        val launcherIntent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
-        return packageManager.queryIntentActivities(launcherIntent, 0)
-            .map { info ->
-                InstalledApp(
-                    packageName = info.activityInfo.packageName,
-                    label = info.activityInfo.loadLabel(packageManager).toString()
-                )
-            }
-            .distinct()
+    private val launcherApps = context.getSystemService(LauncherApps::class.java)
+
+    fun load(): List<InstalledApp> = profiles.all().flatMap(::appsOf).distinct()
+
+    private fun appsOf(user: UserHandle): List<InstalledApp> {
+        val profile = profiles.profileOf(user)
+        return runCatching { launcherApps.getActivityList(null, user) }
+            .onFailure { Log.w(TAG, "No app list for $user", it) }
+            .getOrDefault(emptyList())
+            .map { info -> InstalledApp(info.applicationInfo.packageName, info.label.toString(), profile) }
+    }
+
+    private companion object {
+        const val TAG = "PackageAppsSource"
     }
 }

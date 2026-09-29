@@ -70,6 +70,13 @@
     <string name="text_default">Standard</string>
     <string name="text_large">Stor</string>
     <string name="appearance_app_layout">Appresultat</string>
+    <string name="appearance_icon_pack">Ikonpaket</string>
+    <string name="icon_pack_system">Systemikoner</string>
+    <string name="appearance_app_icons">Appikoner</string>
+    <string name="app_icons_custom">Anpassad</string>
+    <string name="app_icon_default">Använd standardikonen</string>
+    <string name="app_icon_filter">Sök ikoner</string>
+    <string name="app_icon_no_packs">Installera ett ikonpaket för att välja ikoner för den här appen.</string>
     <string name="layout_list">Lista</string>
     <string name="layout_grid">Rutnät</string>
     <string name="personalization_section">Anpassning</string>

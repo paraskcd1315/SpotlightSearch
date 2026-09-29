@@ -26,6 +26,8 @@
     <string name="hit_web_subtitle">Webbsökning</string>
     <string name="hit_suggestion_subtitle">Förslag</string>
     <string name="hit_translation_subtitle">Översättning (%1$s → %2$s)</string>
+    <string name="hit_translation_downloading">Laddar ned %1$s…</string>
+    <string name="hit_translation_needs_wifi">Anslut till wifi för att ladda ned %1$s</string>
     <string name="hit_setting_subtitle">Öppna %1$s</string>
     <string name="hit_calculation_arithmetic">Beräkning</string>
     <string name="hit_calculation_unit">Enhetsomvandling</string>
@@ -34,6 +36,9 @@
     <string name="hit_calculation_web">Kalkylator</string>
 
     <string name="action_app_info">Appinfo</string>
+    <string name="work_app_badge">Jobbapp</string>
+    <string name="work_contact_badge">Jobbkontakt</string>
+    <string name="action_change_icon">Byt ikon</string>
     <string name="action_call">Ring</string>
     <string name="action_sms">Sms</string>
 

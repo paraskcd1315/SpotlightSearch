@@ -7,6 +7,7 @@ import android.content.ClipboardManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.Settings
@@ -15,6 +16,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.paraskcd.spotlightsearch.sources.R
+import com.paraskcd.spotlightsearch.sources.domain.model.actions.ChangeAppIcon
 import com.paraskcd.spotlightsearch.sources.domain.model.actions.CopyNumber
 import com.paraskcd.spotlightsearch.sources.domain.model.actions.DialNumber
 import com.paraskcd.spotlightsearch.sources.domain.model.actions.HitAction
@@ -35,13 +37,18 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class IntentActionRunner @Inject constructor(
-    @param:ApplicationContext private val context: Context
+    @param:ApplicationContext private val context: Context,
+    private val apps: ProfileAppLauncher
 ) : ActionRunner {
-    override fun run(action: HitAction) {
-        if (action is CopyNumber) {
-            copy(action.number)
-            return
-        }
+    override fun run(action: HitAction) = when (action) {
+        is CopyNumber -> copy(action.number)
+        is LaunchApp -> apps.launch(action.packageName, action.profile)
+        is OpenAppInfo -> apps.openInfo(action.packageName, action.profile)
+        is OpenContact -> action.workLookupUri?.let(::showWorkContact) ?: start(action)
+        else -> start(action)
+    }
+
+    private fun start(action: HitAction) {
         val intent = intentFor(action) ?: return
         try {
             context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
@@ -52,8 +59,6 @@ class IntentActionRunner @Inject constructor(
     }
 
     private fun intentFor(action: HitAction): Intent? = when (action) {
-        is LaunchApp -> context.packageManager.getLaunchIntentForPackage(action.packageName)
-        is OpenAppInfo -> appDetails(action.packageName)
         is DialNumber -> Intent(Intent.ACTION_DIAL, "tel:${action.number}".toUri())
         is SendSms -> Intent(Intent.ACTION_SENDTO, "smsto:${action.number}".toUri())
         is OpenWhatsApp -> Intent(Intent.ACTION_VIEW, "https://wa.me/${digits(action.number)}".toUri())
@@ -65,8 +70,14 @@ class IntentActionRunner @Inject constructor(
         is OpenDeviceSetting -> Intent(DeviceSettingsCatalog.action(action.setting))
         is OpenTranslator -> googleTranslate(action)
         OpenContactsPermission -> appDetails(context.packageName)
-        is CopyNumber -> null
+        is ChangeAppIcon -> changeIcon(action)
+        is CopyNumber, is LaunchApp, is OpenAppInfo -> null
     }
+
+    private fun changeIcon(action: ChangeAppIcon) = Intent(AppIconIntents.ACTION)
+        .setPackage(context.packageName)
+        .putExtra(AppIconIntents.EXTRA_PACKAGE, action.packageName)
+        .apply { action.profile?.let { putExtra(AppIconIntents.EXTRA_PROFILE, it) } }
 
     private fun fallbackFor(action: HitAction): Intent? = when (action) {
         is OpenTranslator -> Intent(
@@ -74,6 +85,14 @@ class IntentActionRunner @Inject constructor(
             "https://translate.google.com/?sl=auto&tl=${action.targetLanguage}&text=${Uri.encode(action.text)}&op=translate".toUri()
         )
         else -> null
+    }
+
+    private fun showWorkContact(lookupUri: String) {
+        runCatching {
+            ContactsContract.QuickContact.showQuickContact(
+                context, Rect(), lookupUri.toUri(), ContactsContract.QuickContact.MODE_LARGE, null
+            )
+        }.onFailure { Log.w(TAG, "No quick contact for a work contact", it) }
     }
 
     private fun appDetails(packageName: String) =

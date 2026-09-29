@@ -6,13 +6,19 @@ import androidx.lifecycle.viewModelScope
 import com.paraskcd.spotlightsearch.preferences.domain.model.ColorOverrideKey
 import com.paraskcd.spotlightsearch.preferences.domain.model.GlassStrength
 import com.paraskcd.spotlightsearch.preferences.domain.model.TextSize
+import com.paraskcd.spotlightsearch.search.domain.model.AppIconChoice
 import com.paraskcd.spotlightsearch.search.domain.model.AppResultsLayout
+import com.paraskcd.spotlightsearch.search.domain.model.IconPack
+import com.paraskcd.spotlightsearch.search.domain.ports.AppIconPort
+import com.paraskcd.spotlightsearch.sources.domain.model.AppKey
+import com.paraskcd.spotlightsearch.search.infrastructure.icons.iconpack.IconPackCatalog
 import com.paraskcd.spotlightsearch.preferences.domain.model.ThemeMode
 import com.paraskcd.spotlightsearch.preferences.domain.repository.ThemeRepository
 import com.paraskcd.spotlightsearch.preferences.presentation.model.ThemeUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -20,8 +26,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ThemeViewModel @Inject constructor(
-    private val repository: ThemeRepository
+    private val repository: ThemeRepository,
+    iconPackCatalog: IconPackCatalog,
+    appIconPort: AppIconPort
 ) : ViewModel() {
+    val iconPacks: StateFlow<List<IconPack>> = flow { emit(iconPackCatalog.installed()) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS), emptyList())
+
+    val appIcons: StateFlow<Map<AppKey, AppIconChoice>> = appIconPort.choices()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MS), emptyMap())
+
     val state: StateFlow<ThemeUi> = repository.settings()
         .map { settings ->
             ThemeUi(
@@ -31,6 +45,7 @@ class ThemeViewModel @Inject constructor(
                 glassStrength = settings.glassStrength,
                 textSize = settings.textSize,
                 appLayout = settings.appLayout,
+                iconPack = settings.iconPack,
                 colors = settings.colors.mapValues { Color(it.value) }
             )
         }
@@ -47,6 +62,8 @@ class ThemeViewModel @Inject constructor(
     fun setTextSize(size: TextSize) = viewModelScope.launch { repository.setTextSize(size) }
 
     fun setAppLayout(layout: AppResultsLayout) = viewModelScope.launch { repository.setAppLayout(layout) }
+
+    fun setIconPack(packageName: String?) = viewModelScope.launch { repository.setIconPack(packageName) }
 
     fun setColor(key: ColorOverrideKey, argb: Int) = viewModelScope.launch { repository.setColor(key, argb) }
 

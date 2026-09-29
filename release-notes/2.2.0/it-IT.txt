@@ -1,0 +1,7 @@
+Spotlight Search 2.2.0
+• Profilo di lavoro: cerca e apri le app di lavoro, segnate da un badge
+• I contatti di lavoro compaiono nella ricerca se le regole della tua azienda lo consentono
+• Pacchetti di icone: usa un pacchetto installato o scegli un’altra icona per una singola app
+• La traduzione parte solo su richiesta, ad esempio "translate hello to French" o "hello in Spanish"
+• I modelli di lingua si scaricano solo con il Wi-Fi
+• I risultati non saltano più alla chiusura della tastiera

@@ -26,6 +26,8 @@
     <string name="hit_web_subtitle">वेब खोज</string>
     <string name="hit_suggestion_subtitle">सुझाव</string>
     <string name="hit_translation_subtitle">अनुवाद (%1$s → %2$s)</string>
+    <string name="hit_translation_downloading">%1$s डाउनलोड हो रहा है…</string>
+    <string name="hit_translation_needs_wifi">%1$s डाउनलोड करने के लिए वाई-फ़ाई से जुड़ें</string>
     <string name="hit_setting_subtitle">%1$s खोलें</string>
     <string name="hit_calculation_arithmetic">हिसाब</string>
     <string name="hit_calculation_unit">इकाई बदलना</string>
@@ -34,6 +36,9 @@
     <string name="hit_calculation_web">कैलकुलेटर</string>
 
     <string name="action_app_info">ऐप्लिकेशन की जानकारी</string>
+    <string name="work_app_badge">ऑफ़िस ऐप</string>
+    <string name="work_contact_badge">ऑफ़िस संपर्क</string>
+    <string name="action_change_icon">आइकॉन बदलें</string>
     <string name="action_call">कॉल करें</string>
     <string name="action_sms">एसएमएस</string>
 

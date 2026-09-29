@@ -7,7 +7,7 @@ permalink: /privacy-policy/
 # Privacy Policy for SpotlightSearch
 
 **Effective Date:** 14/08/2025  
-**Last Updated:** 26/09/2026
+**Last Updated:** 27/09/2026
 
 ## 1. Introduction
 SpotlightSearch ("we", "our", or "us") values your privacy. This Privacy Policy explains how the app works, what information it handles, and how your data is used.
@@ -21,6 +21,8 @@ By using SpotlightSearch, you agree to this policy.
 ### 2.1 Local Processing
 - All searches, app launches, contact lookups, calculations, and translations happen entirely on your device.
 - We do **not** collect, store, or transmit this data to any servers we control.
+- If your device has a work profile, SpotlightSearch also lists the apps in it, so you can search and open them. The list, the launch counts and your hidden apps stay on your device. SpotlightSearch does not read any data inside the work profile's apps.
+- When your work profile's policy allows it, contact search also looks up work contacts by the name you type. The lookup happens on your device, and SpotlightSearch stores no work contacts.
 
 ### 2.2 Google Suggestions
 - When Google suggestions are on, SpotlightSearch sends what you type in the search bar to Google to fetch search suggestions.
@@ -29,7 +31,8 @@ By using SpotlightSearch, you agree to this policy.
 
 ### 2.3 Translation Models
 - Translation runs on your device with Google ML Kit. The text you translate never leaves your device.
-- The first time you translate to or from a language, ML Kit downloads that language model from Google.
+- SpotlightSearch translates only when you ask: start with "translate", or name the language (for example "thank you to French").
+- The first time you translate to or from a language, ML Kit downloads that language model from Google, only over Wi-Fi.
 - Google’s handling of ML Kit is governed by [Google’s Privacy Policy](https://policies.google.com/privacy).
 
 ---

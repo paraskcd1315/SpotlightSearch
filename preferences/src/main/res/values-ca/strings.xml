@@ -70,6 +70,13 @@
     <string name="text_default">Predeterminada</string>
     <string name="text_large">Gran</string>
     <string name="appearance_app_layout">Resultats d’apps</string>
+    <string name="appearance_icon_pack">Paquet d’icones</string>
+    <string name="icon_pack_system">Icones del sistema</string>
+    <string name="appearance_app_icons">Icones de les apps</string>
+    <string name="app_icons_custom">Personalitzada</string>
+    <string name="app_icon_default">Fes servir la icona predeterminada</string>
+    <string name="app_icon_filter">Cerca icones</string>
+    <string name="app_icon_no_packs">Instal·la un paquet d’icones per triar icones per a aquesta app.</string>
     <string name="layout_list">Llista</string>
     <string name="layout_grid">Quadrícula</string>
     <string name="personalization_section">Personalització</string>

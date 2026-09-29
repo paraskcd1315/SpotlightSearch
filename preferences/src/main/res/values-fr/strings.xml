@@ -70,6 +70,13 @@
     <string name="text_default">Par défaut</string>
     <string name="text_large">Grande</string>
     <string name="appearance_app_layout">Résultats d’applis</string>
+    <string name="appearance_icon_pack">Pack d’icônes</string>
+    <string name="icon_pack_system">Icônes système</string>
+    <string name="appearance_app_icons">Icônes des applis</string>
+    <string name="app_icons_custom">Personnalisée</string>
+    <string name="app_icon_default">Utiliser l’icône par défaut</string>
+    <string name="app_icon_filter">Rechercher des icônes</string>
+    <string name="app_icon_no_packs">Installez un pack d’icônes pour choisir des icônes pour cette appli.</string>
     <string name="layout_list">Liste</string>
     <string name="layout_grid">Grille</string>
     <string name="personalization_section">Personnalisation</string>

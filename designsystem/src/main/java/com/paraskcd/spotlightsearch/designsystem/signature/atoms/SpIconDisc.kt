@@ -31,7 +31,7 @@ fun SpIconDisc(
             .size(size)
             .clip(CircleShape)
             .background(background)
-            .border(size * SpMetrics.iconDiscRingFraction, ring, CircleShape),
+            .border(maxOf(size * SpMetrics.iconDiscRingFraction, SpMetrics.hairlineThickness), ring, CircleShape),
         contentAlignment = Alignment.Center
     ) {
         Icon(

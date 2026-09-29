@@ -1,0 +1,7 @@
+Spotlight Search 2.2.0
+• Perfil de trabalho: pesquise e abra as apps de trabalho, marcadas com um emblema
+• Os contactos de trabalho aparecem na pesquisa se a política da empresa o permitir
+• Pacotes de ícones: use qualquer pacote instalado ou escolha outro ícone para uma app
+• A tradução começa só quando pede, por exemplo "translate hello to French" ou "hello in Spanish"
+• Os modelos de idioma só são transferidos por Wi-Fi
+• Os resultados já não saltam ao fechar o teclado

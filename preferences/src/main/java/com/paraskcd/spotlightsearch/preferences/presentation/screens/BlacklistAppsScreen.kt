@@ -59,14 +59,15 @@ fun BlacklistAppsScreen(viewModel: BlacklistViewModel, onBack: () -> Unit) {
                 )
             }
         }
-        itemsIndexed(filtered, key = { _, app -> app.packageName }) { index, app ->
+        itemsIndexed(filtered, key = { _, app -> app.key.toString() }) { index, app ->
             SpGroupedRow(index = index, count = filtered.size) {
                 AppToggleRow(
                     packageName = app.packageName,
                     label = app.label,
-                    checked = app.packageName in blacklisted,
+                    checked = app.key in blacklisted,
                     icons = viewModel.icons,
-                    onCheckedChange = { viewModel.setBlacklisted(app.packageName, it) }
+                    onCheckedChange = { viewModel.setBlacklisted(app.key, it) },
+                    profile = app.profile
                 )
             }
         }

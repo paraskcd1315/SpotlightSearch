@@ -26,6 +26,8 @@
     <string name="hit_web_subtitle">Поиск в интернете</string>
     <string name="hit_suggestion_subtitle">Подсказка</string>
     <string name="hit_translation_subtitle">Перевод (%1$s → %2$s)</string>
+    <string name="hit_translation_downloading">Загрузка: %1$s…</string>
+    <string name="hit_translation_needs_wifi">Подключитесь к Wi-Fi, чтобы загрузить: %1$s</string>
     <string name="hit_setting_subtitle">Открыть: %1$s</string>
     <string name="hit_calculation_arithmetic">Вычисление</string>
     <string name="hit_calculation_unit">Перевод единиц</string>
@@ -34,6 +36,9 @@
     <string name="hit_calculation_web">Калькулятор</string>
 
     <string name="action_app_info">О приложении</string>
+    <string name="work_app_badge">Рабочее приложение</string>
+    <string name="work_contact_badge">Рабочий контакт</string>
+    <string name="action_change_icon">Сменить значок</string>
     <string name="action_call">Позвонить</string>
     <string name="action_sms">SMS</string>
 

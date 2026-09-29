@@ -62,8 +62,8 @@ class SearchUseCase @Inject constructor(
 
         val appHits = async {
             if (!settings.appsEnabled || !(settings.shows(SectionKind.APPS) || wantsTopHit)) return@async emptyList()
-            val ranks = usage.mostUsedPackages(USAGE_WINDOW).first().withIndex().associate { it.value to it.index }
-            apps.search(query).sortedWith(compareBy<AppHit> { it.tier }.thenBy { ranks[it.packageName] ?: Int.MAX_VALUE })
+            val ranks = usage.mostUsedApps(USAGE_WINDOW).first().withIndex().associate { it.value to it.index }
+            apps.search(query).sortedWith(compareBy<AppHit> { it.tier }.thenBy { ranks[it.key] ?: Int.MAX_VALUE })
         }
         val contactHits = async {
             if (!settings.contactsEnabled || !(settings.shows(SectionKind.CONTACTS) || wantsTopHit)) return@async emptyList()

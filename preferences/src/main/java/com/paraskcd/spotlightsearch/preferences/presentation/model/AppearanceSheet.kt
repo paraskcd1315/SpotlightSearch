@@ -6,5 +6,6 @@ enum class AppearanceSheet {
     GLASS,
     TEXT,
     LAYOUT,
+    ICON_PACK,
     RESET
 }

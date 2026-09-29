@@ -7,6 +7,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
@@ -21,6 +22,8 @@ import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpMotion
 import com.paraskcd.spotlightsearch.preferences.R
 import com.paraskcd.spotlightsearch.preferences.domain.model.ColorOverrideKey
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.AboutScreen
+import com.paraskcd.spotlightsearch.preferences.presentation.screens.AppIconPickerScreen
+import com.paraskcd.spotlightsearch.preferences.presentation.screens.AppIconsScreen
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.BlacklistAppsScreen
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.ColorPickerScreen
 import com.paraskcd.spotlightsearch.preferences.presentation.screens.FeaturesScreen
@@ -34,10 +37,16 @@ import com.paraskcd.spotlightsearch.preferences.presentation.viewmodels.SearchSo
 import com.paraskcd.spotlightsearch.preferences.presentation.viewmodels.ThemeViewModel
 
 @Composable
-fun SettingsNavHost(themeViewModel: ThemeViewModel, onClose: () -> Unit) {
+fun SettingsNavHost(themeViewModel: ThemeViewModel, onClose: () -> Unit, openRoute: String? = null) {
     val navController = rememberNavController()
     val navigate: (String) -> Unit = { navController.navigate(it) }
-    val back: () -> Unit = { navController.popBackStack() }
+    val back: () -> Unit = { if (!navController.popBackStack()) onClose() }
+
+    LaunchedEffect(openRoute) {
+        openRoute?.let { route ->
+            navController.navigate(route) { popUpTo(navController.graph.id) { inclusive = true } }
+        }
+    }
 
     val push = tween<IntOffset>(SpMotion.durPushMs, easing = SpMotion.easeIos)
     val forward = if (LocalLayoutDirection.current == LayoutDirection.Rtl) -1 else 1
@@ -66,6 +75,8 @@ fun SettingsNavHost(themeViewModel: ThemeViewModel, onClose: () -> Unit) {
         composable(SettingsRoute.QUICK_SEARCH) { QuickSearchScreen(hiltViewModel(), back) }
         composable(SettingsRoute.MANAGE_APPS) { ManageAppsScreen(hiltViewModel(), navigate, back) }
         composable(SettingsRoute.APPS_BLACKLIST) { BlacklistAppsScreen(hiltViewModel(), back) }
+        composable(SettingsRoute.APP_ICONS) { AppIconsScreen(hiltViewModel(), navigate, back) }
+        composable(SettingsRoute.APP_ICON) { AppIconPickerScreen(hiltViewModel(), back) }
         composable(SettingsRoute.WEB_SUGGESTIONS) {
             val viewModel: SearchSourcesViewModel = hiltViewModel()
             val config by viewModel.config.collectAsState()

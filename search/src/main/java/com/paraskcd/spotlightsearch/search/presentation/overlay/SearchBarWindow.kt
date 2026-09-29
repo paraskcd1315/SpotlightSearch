@@ -25,8 +25,10 @@ fun SearchBarWindow(
     onSubmit: () -> Unit,
     onClose: () -> Unit,
     onTopOnScreen: (Int) -> Unit,
+    onTopSettled: (Int) -> Unit,
     onKeyboardShown: () -> Unit,
-    onKeyboardVisibility: (Boolean) -> Unit
+    onKeyboardVisibility: (Boolean) -> Unit,
+    onKeyboardMoving: (Boolean) -> Unit
 ) {
     val offsetY = with(LocalDensity.current) { OverlayMetrics.BarBottomMargin.roundToPx() }
     BlurredWindow(
@@ -44,7 +46,7 @@ fun SearchBarWindow(
             awaitFrame()
             focusRequester.requestFocus()
         }
-        val tracker = remember(view) { KeyboardTracker(view, onTopOnScreen, onKeyboardShown, onKeyboardVisibility) }
+        val tracker = remember(view) { KeyboardTracker(view, onTopOnScreen, onTopSettled, onKeyboardShown, onKeyboardVisibility, onKeyboardMoving) }
         DisposableEffect(tracker) {
             val root = view.rootView
             root.setWindowInsetsAnimationCallback(tracker)

@@ -10,6 +10,7 @@ import com.paraskcd.spotlightsearch.search.domain.model.SearchConfig
 import com.paraskcd.spotlightsearch.search.domain.model.SearchLimits
 import com.paraskcd.spotlightsearch.search.domain.model.SectionKind
 import com.paraskcd.spotlightsearch.search.domain.model.SectionOrder
+import com.paraskcd.spotlightsearch.sources.domain.model.AppKey
 import com.paraskcd.spotlightsearch.sources.domain.model.WebSearchEngine
 import com.paraskcd.spotlightsearch.search.domain.ports.SearchConfigPort
 import com.paraskcd.spotlightsearch.sources.domain.model.QuickSearchPreference
@@ -63,11 +64,12 @@ class RoomSearchSettingsRepository @Inject constructor(
 
     override suspend fun reorderQuickSearch(packagesInOrder: List<String>) = quickSearchDao.reorder(packagesInOrder)
 
-    override fun blacklist(): Flow<Set<String>> = blacklistPort.blacklistedPackages()
+    override fun blacklist(): Flow<Set<AppKey>> = blacklistPort.blacklistedApps()
 
-    override suspend fun setBlacklisted(packageName: String, blacklisted: Boolean) {
-        if (blacklisted) blacklistDao.insert(BlacklistAppsEntity(packageName = packageName))
-        else blacklistDao.delete(packageName)
+    override suspend fun setBlacklisted(app: AppKey, blacklisted: Boolean) {
+        val profile = ProfileColumn.of(app.profile)
+        if (blacklisted) blacklistDao.insert(BlacklistAppsEntity(packageName = app.packageName, profile = profile))
+        else blacklistDao.delete(app.packageName, profile)
     }
 
     private suspend fun updateConfig(transform: (GlobalSearchConfigEntity) -> GlobalSearchConfigEntity) {

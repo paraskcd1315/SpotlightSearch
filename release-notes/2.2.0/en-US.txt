@@ -1,0 +1,7 @@
+Spotlight Search 2.2.0
+• Work profile: search and open your work apps, marked with a work badge
+• Work contacts appear in contact search when your work policy allows it
+• Icon packs: use any installed icon pack, or pick a different icon for one app
+• Translation starts only when you ask, for example "translate hello to French" or "hello in Spanish"
+• Language models download only over Wi-Fi
+• Results no longer jump when the keyboard closes

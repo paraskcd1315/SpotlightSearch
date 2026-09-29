@@ -71,6 +71,13 @@
     <string name="text_default">Default</string>
     <string name="text_large">Large</string>
     <string name="appearance_app_layout">App results</string>
+    <string name="appearance_icon_pack">Icon pack</string>
+    <string name="icon_pack_system">System icons</string>
+    <string name="appearance_app_icons">App icons</string>
+    <string name="app_icons_custom">Custom</string>
+    <string name="app_icon_default">Use the default icon</string>
+    <string name="app_icon_filter">Search icons</string>
+    <string name="app_icon_no_packs">Install an icon pack to choose icons for this app.</string>
     <string name="layout_list">List</string>
     <string name="layout_grid">Grid</string>
     <string name="personalization_section">Personalization</string>

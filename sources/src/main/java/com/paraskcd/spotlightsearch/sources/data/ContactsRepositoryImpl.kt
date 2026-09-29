@@ -28,13 +28,17 @@ class ContactsRepositoryImpl @Inject constructor(
         val folded = query.trim().foldForSearch()
         if (folded.isEmpty() || !source.hasPermission()) return emptyList()
         return withContext(Dispatchers.IO) {
-            val matches = contacts().mapNotNull { contact -> NameMatcher.match(contact.name, folded)?.let { contact to it } }
+            val candidates = contacts() + source.searchWork(query.trim())
+            val matches = candidates.mapNotNull { contact -> NameMatcher.match(contact.name, folded)?.let { contact to it } }
             if (matches.isEmpty()) return@withContext emptyList()
             val hasWhatsApp = source.hasWhatsApp()
             matches
                 .sortedWith(compareBy<Pair<PhoneContact, NameMatch>> { it.second.tier }.thenBy { it.first.name.foldForSearch() })
                 .map { (contact, match) ->
-                    ContactHit(contact.name, contact.number, contact.photoUri, hasWhatsApp, match.tier, match.ranges)
+                    ContactHit(
+                        contact.name, contact.number, contact.photoUri, hasWhatsApp, match.tier, match.ranges,
+                        workLookupUri = contact.workLookupUri
+                    )
                 }
         }
     }

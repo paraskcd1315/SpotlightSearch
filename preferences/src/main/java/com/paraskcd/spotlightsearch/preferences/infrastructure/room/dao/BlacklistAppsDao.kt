@@ -15,6 +15,6 @@ interface BlacklistAppsDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(entity: BlacklistAppsEntity)
 
-    @Query("DELETE FROM blacklist_apps WHERE packageName = :pkg")
-    suspend fun delete(pkg: String)
+    @Query("DELETE FROM blacklist_apps WHERE packageName = :pkg AND profile = :profile")
+    suspend fun delete(pkg: String, profile: Long)
 }

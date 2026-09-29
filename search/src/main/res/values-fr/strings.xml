@@ -26,6 +26,8 @@
     <string name="hit_web_subtitle">Recherche Web</string>
     <string name="hit_suggestion_subtitle">Suggestion</string>
     <string name="hit_translation_subtitle">Traduction (%1$s → %2$s)</string>
+    <string name="hit_translation_downloading">Téléchargement : %1$s…</string>
+    <string name="hit_translation_needs_wifi">Connectez-vous au Wi-Fi pour télécharger : %1$s</string>
     <string name="hit_setting_subtitle">Ouvrir %1$s</string>
     <string name="hit_calculation_arithmetic">Calcul</string>
     <string name="hit_calculation_unit">Conversion d\'unités</string>
@@ -34,6 +36,9 @@
     <string name="hit_calculation_web">Calculatrice</string>
 
     <string name="action_app_info">Infos sur l\'application</string>
+    <string name="work_app_badge">Application professionnelle</string>
+    <string name="work_contact_badge">Contact professionnel</string>
+    <string name="action_change_icon">Changer l’icône</string>
     <string name="action_call">Appeler</string>
     <string name="action_sms">SMS</string>
 

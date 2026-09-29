@@ -7,12 +7,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.Shapes
 import com.paraskcd.spotlightsearch.designsystem.icons.PermDeviceInfo
 import com.paraskcd.spotlightsearch.search.R
 import com.paraskcd.spotlightsearch.search.infrastructure.icons.AppIconLoader
 import com.paraskcd.spotlightsearch.search.presentation.model.RowMenuItem
 import com.paraskcd.spotlightsearch.search.presentation.utils.SearchMetrics
 import com.paraskcd.spotlightsearch.search.presentation.utils.hitText
+import com.paraskcd.spotlightsearch.sources.domain.model.actions.ChangeAppIcon
 import com.paraskcd.spotlightsearch.sources.domain.model.actions.HitAction
 import com.paraskcd.spotlightsearch.sources.domain.model.actions.OpenAppInfo
 import com.paraskcd.spotlightsearch.sources.domain.model.hits.AppHit
@@ -26,7 +29,8 @@ fun AppRow(
 ) {
     var menuOpen by remember { mutableStateOf(false) }
     val menu = listOf(
-        RowMenuItem(stringResource(R.string.action_app_info), PermDeviceInfo, OpenAppInfo(hit.packageName))
+        RowMenuItem(stringResource(R.string.action_app_info), PermDeviceInfo, OpenAppInfo(hit.packageName, hit.profile)),
+        RowMenuItem(stringResource(R.string.action_change_icon), Lucide.Shapes, ChangeAppIcon(hit.packageName, hit.profile))
     )
     Box {
         ResultRow(
@@ -34,7 +38,7 @@ fun AppRow(
             onClick = onClick,
             onLongClick = { menuOpen = true },
             leading = {
-                AppIconImage(hit.packageName, icons, themed = true, size = SearchMetrics.RowIconSize)
+                AppIconImage(hit.packageName, icons, themed = true, size = SearchMetrics.RowIconSize, profile = hit.profile)
             }
         )
         RowContextMenu(expanded = menuOpen, items = menu, onDismiss = { menuOpen = false }, onAction = onAction)

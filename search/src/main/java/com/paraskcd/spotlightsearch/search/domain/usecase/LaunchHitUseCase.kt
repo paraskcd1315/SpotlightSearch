@@ -1,6 +1,7 @@
 package com.paraskcd.spotlightsearch.search.domain.usecase
 
 import com.paraskcd.spotlightsearch.search.domain.ports.UsagePort
+import com.paraskcd.spotlightsearch.sources.domain.model.AppKey
 import com.paraskcd.spotlightsearch.sources.domain.model.actions.HitAction
 import com.paraskcd.spotlightsearch.sources.domain.model.actions.LaunchApp
 import com.paraskcd.spotlightsearch.sources.domain.repository.ActionRunner
@@ -14,6 +15,6 @@ class LaunchHitUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(action: HitAction) {
         runner.run(action)
-        if (action is LaunchApp) withContext(NonCancellable) { usage.recordLaunch(action.packageName) }
+        if (action is LaunchApp) withContext(NonCancellable) { usage.recordLaunch(AppKey(action.packageName, action.profile)) }
     }
 }

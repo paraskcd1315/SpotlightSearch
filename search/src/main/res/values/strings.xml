@@ -26,6 +26,8 @@
     <string name="hit_web_subtitle">Web Search</string>
     <string name="hit_suggestion_subtitle">Suggestion</string>
     <string name="hit_translation_subtitle">Translation (%1$s → %2$s)</string>
+    <string name="hit_translation_downloading">Downloading %1$s…</string>
+    <string name="hit_translation_needs_wifi">Connect to Wi-Fi to download %1$s</string>
     <string name="hit_setting_subtitle">Open %1$s</string>
     <string name="hit_calculation_arithmetic">Calculation</string>
     <string name="hit_calculation_unit">Unit conversion</string>
@@ -34,6 +36,9 @@
     <string name="hit_calculation_web">Calculator</string>
 
     <string name="action_app_info">App Info</string>
+    <string name="work_app_badge">Work app</string>
+    <string name="work_contact_badge">Work contact</string>
+    <string name="action_change_icon">Change icon</string>
     <string name="action_call">Call</string>
     <string name="action_sms">SMS</string>
     <string name="action_whatsapp" translatable="false">WhatsApp</string>
