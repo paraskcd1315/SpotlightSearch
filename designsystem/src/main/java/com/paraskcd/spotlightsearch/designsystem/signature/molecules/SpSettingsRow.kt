@@ -1,5 +1,6 @@
 package com.paraskcd.spotlightsearch.designsystem.signature.molecules
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,7 +37,8 @@ fun SpSettingsRow(
     leading: (@Composable () -> Unit)? = null,
     trailing: (@Composable () -> Unit)? = null,
     trailingIcon: ImageVector? = if (onClick != null) Lucide.ChevronRight else null,
-    maxLines: Int = 1
+    maxLines: Int = 1,
+    selected: Boolean = false
 ) {
     val colors = SpTheme.colors
     val shape = LocalGroupedRowShape.current ?: SpShapes.md
@@ -45,6 +47,7 @@ fun SpSettingsRow(
             .fillMaxWidth()
             .heightIn(min = if (caption != null) SpMetrics.settingsListItemHeightTall else SpMetrics.settingsListItemHeight)
             .clip(shape)
+            .then(if (selected) Modifier.background(colors.brandTint) else Modifier)
             .then(if (onClick != null) Modifier.clickableQuiet(onClick) else Modifier)
             .padding(horizontal = SpSpacing.s4),
         horizontalArrangement = Arrangement.spacedBy(SpSpacing.s3),

@@ -14,7 +14,7 @@ import com.paraskcd.spotlightsearch.preferences.presentation.model.SettingPageIt
 import com.paraskcd.spotlightsearch.preferences.presentation.navigation.SettingsRoute
 
 @Composable
-fun HomeScreen(onNavigate: (String) -> Unit, onBack: () -> Unit) {
+fun HomeScreen(onNavigate: (String) -> Unit, onBack: () -> Unit, selectedRoute: String? = null) {
     val pages = listOf(
         SettingPageItem(R.string.home_appearance_title, R.string.home_appearance_subtitle, Lucide.Palette, SettingsRoute.PERSONALIZATION),
         SettingPageItem(R.string.home_features_title, R.string.home_features_subtitle, Lucide.Sparkles, SettingsRoute.FEATURES),
@@ -26,6 +26,6 @@ fun HomeScreen(onNavigate: (String) -> Unit, onBack: () -> Unit) {
         onBack = onBack
     ) {
         item { VersionLine() }
-        item { SettingsGroup(pages, onNavigate) }
+        item { SettingsGroup(pages, onNavigate, selectedRoute) }
     }
 }

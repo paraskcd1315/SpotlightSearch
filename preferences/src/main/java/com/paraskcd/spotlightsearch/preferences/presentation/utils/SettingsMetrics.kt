@@ -3,6 +3,7 @@ package com.paraskcd.spotlightsearch.preferences.presentation.utils
 import androidx.compose.ui.unit.dp
 
 object SettingsMetrics {
+    const val LandscapeSidebarWeight = 0.6f
     val SectionTitlePadding = 16.dp
     val SheetListInset = 0.dp
     const val GlassLightAlpha = 0.3f
