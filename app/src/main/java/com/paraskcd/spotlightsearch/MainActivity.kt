@@ -14,18 +14,27 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import com.paraskcd.spotlightsearch.preferences.presentation.viewmodels.ThemeViewModel
+import com.paraskcd.spotlightsearch.search.domain.model.peek.PeekPhase
+import com.paraskcd.spotlightsearch.search.infrastructure.peek.PeekChannel
+import com.paraskcd.spotlightsearch.search.infrastructure.peek.PeekProtocol
 import com.paraskcd.spotlightsearch.search.infrastructure.window.WindowBlur
+import com.paraskcd.spotlightsearch.search.presentation.overlay.LocalPeekAlpha
+import com.paraskcd.spotlightsearch.search.presentation.overlay.rememberPeekAlpha
 import com.paraskcd.spotlightsearch.search.presentation.screens.SearchScreen
 import com.paraskcd.spotlightsearch.search.presentation.utils.LocalAppIcons
 import com.paraskcd.spotlightsearch.search.presentation.utils.LocalIconPack
 import com.paraskcd.spotlightsearch.search.presentation.viewmodels.SearchViewModel
 import com.paraskcd.spotlightsearch.ui.theme.SpotlightAppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val searchViewModel: SearchViewModel by viewModels()
     private val themeViewModel: ThemeViewModel by viewModels()
+
+    @Inject
+    lateinit var peekChannel: PeekChannel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +44,22 @@ class MainActivity : ComponentActivity() {
             show(WindowInsets.Type.statusBars())
             systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
+        val peekLaunch = intent.getBooleanExtra(PeekProtocol.EXTRA_PEEK, false)
+        if (peekLaunch) peekChannel.begin()
 
         setContent {
             val theme by themeViewModel.state.collectAsState()
             val appIcons by themeViewModel.appIcons.collectAsState()
+            val peek by peekChannel.state.collectAsState()
+            val peekState = if (peekLaunch) peek else null
+            val peekAlpha = rememberPeekAlpha(peekState, onCancelled = ::finishQuietly)
             val blurEnabled = remember(theme.enableBlur) { WindowBlur.isAvailable(this, theme.enableBlur) }
             SpotlightAppTheme(themeViewModel) {
-                CompositionLocalProvider(LocalIconPack provides theme.iconPack, LocalAppIcons provides appIcons) {
+                CompositionLocalProvider(
+                    LocalIconPack provides theme.iconPack,
+                    LocalAppIcons provides appIcons,
+                    LocalPeekAlpha provides peekAlpha
+                ) {
                     SearchScreen(
                         viewModel = searchViewModel,
                         blurEnabled = blurEnabled,
@@ -49,10 +67,22 @@ class MainActivity : ComponentActivity() {
                         appLayout = theme.appLayout,
                         appName = stringResource(R.string.app_name),
                         onOpenSettings = { startActivity(Intent(this, SettingsActivity::class.java)) },
-                        onClose = ::finish
+                        onClose = ::finish,
+                        peekLaunch = peekLaunch,
+                        barFocused = !peekLaunch || peekState?.phase == PeekPhase.Committed
                     )
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        if (isFinishing) peekChannel.closed()
+        super.onDestroy()
+    }
+
+    private fun finishQuietly() {
+        overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0)
+        finish()
     }
 }

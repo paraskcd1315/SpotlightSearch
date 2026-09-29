@@ -35,6 +35,7 @@ fun BlurredWindow(
     wrapWidth: Boolean = false,
     animateIn: Boolean = false,
     heightPx: Int? = null,
+    keyboardAtStart: Boolean = true,
     content: @Composable () -> Unit
 ) {
     Dialog(
@@ -70,7 +71,8 @@ fun BlurredWindow(
                 elevationPx = elevationPx,
                 shadowAlpha = OverlayMetrics.WindowShadowAlpha,
                 gravity = gravity,
-                offsetXPx = offsetX
+                offsetXPx = offsetX,
+                keyboardAtStart = keyboardAtStart
             )
             DialogWindowSetup.place(window, offsetY, alpha = 0f)
         }
@@ -92,7 +94,7 @@ fun BlurredWindow(
             laidOut = true
             reveal.animateTo(1f, tween(SpMotion.durAutoHeightMs, easing = SpMotion.easeIos))
         }
-        val progress = reveal.value
+        val progress = reveal.value * LocalPeekAlpha.current
         SideEffect {
             DialogWindowSetup.place(
                 window = window,

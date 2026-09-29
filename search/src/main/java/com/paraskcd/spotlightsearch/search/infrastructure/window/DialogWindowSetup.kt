@@ -20,7 +20,8 @@ object DialogWindowSetup {
         elevationPx: Float,
         shadowAlpha: Float,
         gravity: Int = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL,
-        offsetXPx: Int = 0
+        offsetXPx: Int = 0,
+        keyboardAtStart: Boolean = true
     ) {
         window.decorView.outlineProvider = object : ViewOutlineProvider() {
             override fun getOutline(view: View, outline: Outline) {
@@ -41,7 +42,11 @@ object DialogWindowSetup {
         if (focusable) {
             window.setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or
-                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+                    if (keyboardAtStart) {
+                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+                    } else {
+                        WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED
+                    }
             )
         } else {
             window.addFlags(
