@@ -5,6 +5,8 @@ import com.paraskcd.spotlightsearch.designsystem.signature.theme.SpRadii
 
 object OverlayMetrics {
     const val WindowWidthFraction = 0.95f
+    const val LandscapeBarWidthFraction = 0.44f
+    const val LandscapePanelWidthFraction = 0.6f
     const val ResultsResizeMs = 250
     val WindowCornerRadius = SpRadii.xl
     val BarCornerRadius = 32.dp

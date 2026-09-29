@@ -23,7 +23,8 @@ fun FrequentAppsWindow(
     icons: IconSources,
     callbacks: HitCallbacks,
     onClose: () -> Unit,
-    onHeight: (Int?) -> Unit
+    onHeight: (Int?) -> Unit,
+    widthPx: Int? = null
 ) {
     val visible = apps.isNotEmpty() || loading
     var retained by remember { mutableStateOf(apps) }
@@ -39,7 +40,8 @@ fun FrequentAppsWindow(
         cornerRadius = OverlayMetrics.WindowCornerRadius,
         onDismissRequest = onClose,
         visible = visible,
-        animateIn = true
+        animateIn = true,
+        widthPx = widthPx
     ) {
         val reportHeight = Modifier.onSizeChanged { if (visible) onHeight(it.height) }
         if (shownApps.isEmpty()) {
