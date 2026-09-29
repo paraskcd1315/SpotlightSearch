@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="peek_known_certs" translatable="false">
+        <item>A72B6DF8079CE9EE4E6E70C0780D8001245B789CB624CF5B46A004700ABEDBD8</item>
+    </string-array>
+</resources>
