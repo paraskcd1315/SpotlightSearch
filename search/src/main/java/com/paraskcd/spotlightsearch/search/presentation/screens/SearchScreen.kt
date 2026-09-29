@@ -53,7 +53,9 @@ fun SearchScreen(
     appLayout: AppResultsLayout,
     appName: String,
     onOpenSettings: () -> Unit,
-    onClose: () -> Unit
+    onClose: () -> Unit,
+    peekLaunch: Boolean = false,
+    barFocused: Boolean = true
 ) {
     val results by viewModel.results.collectAsState()
     val config by viewModel.config.collectAsState()
@@ -107,6 +109,11 @@ fun SearchScreen(
     )
 
     LaunchedEffect(Unit) {
+        if (peekLaunch) {
+            visible = true
+            keyboardSettled = true
+            return@LaunchedEffect
+        }
         delay(OverlayMetrics.EntryDelayMs)
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
         visible = true
@@ -145,7 +152,8 @@ fun SearchScreen(
         onTopSettled = barMotion::settle,
         onKeyboardShown = { keyboardSettled = true },
         onKeyboardVisibility = { keyboardVisible = it },
-        onKeyboardMoving = { keyboardMoving = it }
+        onKeyboardMoving = { keyboardMoving = it },
+        focused = barFocused
     )
 
     val top = barTop ?: return

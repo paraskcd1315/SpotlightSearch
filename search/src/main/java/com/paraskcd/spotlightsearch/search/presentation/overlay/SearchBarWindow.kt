@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import com.paraskcd.spotlightsearch.designsystem.signature.foundation.spPanelSurface
 import com.paraskcd.spotlightsearch.search.presentation.components.SearchBarPill
@@ -28,7 +29,8 @@ fun SearchBarWindow(
     onTopSettled: (Int) -> Unit,
     onKeyboardShown: () -> Unit,
     onKeyboardVisibility: (Boolean) -> Unit,
-    onKeyboardMoving: (Boolean) -> Unit
+    onKeyboardMoving: (Boolean) -> Unit,
+    focused: Boolean = true
 ) {
     val offsetY = with(LocalDensity.current) { OverlayMetrics.BarBottomMargin.roundToPx() }
     BlurredWindow(
@@ -38,13 +40,17 @@ fun SearchBarWindow(
         cornerRadius = OverlayMetrics.BarCornerRadius,
         onDismissRequest = onClose,
         visible = visible,
-        animateIn = true
+        animateIn = true,
+        keyboardAtStart = focused
     ) {
         val view = LocalView.current
         val focusRequester = remember { FocusRequester() }
-        LaunchedEffect(Unit) {
+        val keyboard = LocalSoftwareKeyboardController.current
+        LaunchedEffect(focused) {
+            if (!focused) return@LaunchedEffect
             awaitFrame()
             focusRequester.requestFocus()
+            keyboard?.show()
         }
         val tracker = remember(view) { KeyboardTracker(view, onTopOnScreen, onTopSettled, onKeyboardShown, onKeyboardVisibility, onKeyboardMoving) }
         DisposableEffect(tracker) {

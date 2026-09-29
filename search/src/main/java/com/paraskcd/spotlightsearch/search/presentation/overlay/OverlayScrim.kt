@@ -69,11 +69,12 @@ fun OverlayScrim(
     }
     var dragOffset by remember { mutableFloatStateOf(0f) }
     val packageName = LocalContext.current.packageName
+    val peekAlpha = LocalPeekAlpha.current
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .graphicsLayer { alpha = (1f - dragOffset / OverlayMetrics.DragFadeDistancePx).coerceIn(0f, 1f) }
+            .graphicsLayer { alpha = peekAlpha * (1f - dragOffset / OverlayMetrics.DragFadeDistancePx).coerceIn(0f, 1f) }
             .drawBehind { drawRect(tintColor.copy(alpha = tint)) }
             .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null, onClick = onClose)
             .pointerInput(Unit) {
