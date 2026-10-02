@@ -18,8 +18,10 @@ import com.paraskcd.spotlightsearch.search.domain.model.peek.PeekPhase
 import com.paraskcd.spotlightsearch.search.infrastructure.peek.PeekChannel
 import com.paraskcd.spotlightsearch.search.infrastructure.peek.PeekProtocol
 import com.paraskcd.spotlightsearch.search.infrastructure.window.WindowBlur
-import com.paraskcd.spotlightsearch.search.presentation.overlay.LocalPeekAlpha
-import com.paraskcd.spotlightsearch.search.presentation.overlay.rememberPeekAlpha
+import com.paraskcd.spotlightsearch.search.presentation.overlay.LocalOverlayDrag
+import com.paraskcd.spotlightsearch.search.presentation.overlay.LocalOverlayMotion
+import com.paraskcd.spotlightsearch.search.presentation.overlay.rememberOverlayDrag
+import com.paraskcd.spotlightsearch.search.presentation.overlay.rememberOverlayMotion
 import com.paraskcd.spotlightsearch.search.presentation.screens.SearchScreen
 import com.paraskcd.spotlightsearch.search.presentation.utils.LocalAppIcons
 import com.paraskcd.spotlightsearch.search.presentation.utils.LocalIconPack
@@ -52,13 +54,15 @@ class MainActivity : ComponentActivity() {
             val appIcons by themeViewModel.appIcons.collectAsState()
             val peek by peekChannel.state.collectAsState()
             val peekState = if (peekLaunch) peek else null
-            val peekAlpha = rememberPeekAlpha(peekState, onCancelled = ::finishQuietly)
+            val overlayMotion = rememberOverlayMotion(peekState, onCancelled = ::finishQuietly)
+            val overlayDrag = rememberOverlayDrag(overlayMotion, onShown = peekChannel::shown, onDismissed = ::finishQuietly)
             val blurEnabled = remember(theme.enableBlur) { WindowBlur.isAvailable(this, theme.enableBlur) }
             SpotlightAppTheme(themeViewModel) {
                 CompositionLocalProvider(
                     LocalIconPack provides theme.iconPack,
                     LocalAppIcons provides appIcons,
-                    LocalPeekAlpha provides peekAlpha
+                    LocalOverlayMotion provides overlayMotion,
+                    LocalOverlayDrag provides overlayDrag
                 ) {
                     SearchScreen(
                         viewModel = searchViewModel,
@@ -69,7 +73,7 @@ class MainActivity : ComponentActivity() {
                         onOpenSettings = { startActivity(Intent(this, SettingsActivity::class.java)) },
                         onClose = ::finish,
                         peekLaunch = peekLaunch,
-                        barFocused = !peekLaunch || peekState?.phase == PeekPhase.Committed
+                        barFocused = !peekLaunch || (peekState?.phase == PeekPhase.Committed && !overlayMotion.moving)
                     )
                 }
             }

@@ -1,5 +1,6 @@
 package com.paraskcd.spotlightsearch.search.infrastructure.peek
 
+import android.os.Bundle
 import android.os.Message
 import android.os.Messenger
 import android.os.RemoteException
@@ -22,27 +23,39 @@ class PeekChannel @Inject constructor() {
         client = replyTo
     }
 
-    fun progress(value: Float) {
-        held.value = PeekState(PeekPhase.Dragging, value.coerceIn(0f, 1f))
+    fun progress(value: Float, distancePx: Float) {
+        held.value = PeekState(PeekPhase.Dragging, value.coerceIn(0f, 1f), distancePx.coerceAtLeast(0f))
     }
 
     fun commit() {
-        held.value = PeekState(PeekPhase.Committed, held.value?.progress ?: 0f)
+        held.value = ended(PeekPhase.Committed)
     }
 
     fun cancel() {
-        held.value = PeekState(PeekPhase.Cancelled, held.value?.progress ?: 0f)
+        held.value = ended(PeekPhase.Cancelled)
     }
+
+    private fun ended(phase: PeekPhase): PeekState = held.value?.copy(phase = phase) ?: PeekState(phase, 0f)
 
     fun begin() {
         if (held.value?.phase != PeekPhase.Dragging) held.value = PeekState(PeekPhase.Dragging, 0f)
     }
 
+    fun shown(fraction: Float) {
+        send(Message.obtain(null, PeekProtocol.SHOWN).apply {
+            data = Bundle().apply { putFloat(PeekProtocol.KEY_PROGRESS, fraction.coerceIn(0f, 1f)) }
+        })
+    }
+
     fun closed() {
         held.value = null
+        send(Message.obtain(null, PeekProtocol.CLOSED))
+    }
+
+    private fun send(message: Message) {
         val target = client ?: return
         try {
-            target.send(Message.obtain(null, PeekProtocol.CLOSED))
+            target.send(message)
         } catch (_: RemoteException) {
             client = null
         }

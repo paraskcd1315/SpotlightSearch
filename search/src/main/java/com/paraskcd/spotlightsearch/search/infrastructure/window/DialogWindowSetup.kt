@@ -40,6 +40,8 @@ object DialogWindowSetup {
         window.setDimAmount(0f)
         window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL)
         if (focusable) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+            window.setDecorFitsSystemWindows(false)
             window.setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or
                     if (keyboardAtStart) {
@@ -51,6 +53,7 @@ object DialogWindowSetup {
         } else {
             window.addFlags(
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                    WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM or
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS or
                     WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
             )
