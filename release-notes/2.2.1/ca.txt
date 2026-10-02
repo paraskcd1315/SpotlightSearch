@@ -1,0 +1,2 @@
+Spotlight Search 2.2.1
+• Arrossega la cerca cap avall per tancar-la: la cerca segueix el teu dit

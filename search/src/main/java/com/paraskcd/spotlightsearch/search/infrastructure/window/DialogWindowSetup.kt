@@ -67,13 +67,27 @@ object DialogWindowSetup {
         }
     }
 
-    fun place(window: Window, offsetYPx: Int, alpha: Float, heightPx: Int = ViewGroup.LayoutParams.WRAP_CONTENT) {
+    fun place(
+        window: Window,
+        offsetYPx: Int,
+        alpha: Float,
+        heightPx: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
+        animatedMoves: Boolean = true
+    ) {
         val attributes = window.attributes
-        if (attributes.y == offsetYPx && attributes.alpha == alpha && attributes.height == heightPx) return
+        if (
+            attributes.y == offsetYPx &&
+            attributes.alpha == alpha &&
+            attributes.height == heightPx &&
+            attributes.canPlayMoveAnimation() == animatedMoves
+        ) {
+            return
+        }
         window.attributes = attributes.apply {
             y = offsetYPx
             this.alpha = alpha
             height = heightPx
+            setCanPlayMoveAnimation(animatedMoves)
         }
     }
 

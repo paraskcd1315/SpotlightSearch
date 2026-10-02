@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -52,9 +53,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             val theme by themeViewModel.state.collectAsState()
             val appIcons by themeViewModel.appIcons.collectAsState()
-            val peek by peekChannel.state.collectAsState()
-            val peekState = if (peekLaunch) peek else null
-            val overlayMotion = rememberOverlayMotion(peekState, onCancelled = ::finishQuietly)
+            val phase by peekChannel.phase.collectAsState()
+            val peekPhase = if (peekLaunch) phase else null
+            val overlayMotion = rememberOverlayMotion(peekPhase, onCancelled = ::finishQuietly)
+            DisposableEffect(overlayMotion) {
+                val follower = overlayMotion::follow
+                if (peekLaunch) peekChannel.follow(follower)
+                onDispose { peekChannel.unfollow(follower) }
+            }
             val overlayDrag = rememberOverlayDrag(overlayMotion, onShown = peekChannel::shown, onDismissed = ::finishQuietly)
             val blurEnabled = remember(theme.enableBlur) { WindowBlur.isAvailable(this, theme.enableBlur) }
             SpotlightAppTheme(themeViewModel) {
@@ -73,7 +79,7 @@ class MainActivity : ComponentActivity() {
                         onOpenSettings = { startActivity(Intent(this, SettingsActivity::class.java)) },
                         onClose = ::finish,
                         peekLaunch = peekLaunch,
-                        barFocused = !peekLaunch || (peekState?.phase == PeekPhase.Committed && !overlayMotion.moving)
+                        barFocused = !peekLaunch || (peekPhase == PeekPhase.Committed && !overlayMotion.moving)
                     )
                 }
             }

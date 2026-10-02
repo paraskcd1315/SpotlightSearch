@@ -8,6 +8,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -109,18 +110,27 @@ fun BlurredWindow(
         val restY = rememberUpdatedState(offsetY)
         val windowHeightPx = rememberUpdatedState(heightPx ?: measuredHeightPx ?: ViewGroup.LayoutParams.WRAP_CONTENT)
         val placement = {
+            val shiftPx = motion.shiftPx.roundToInt()
             WindowPlacement(
-                y = restY.value - motion.shiftPx.roundToInt(),
+                y = restY.value - shiftPx,
                 alpha = if (configured) reveal.value * motion.alpha else 0f,
-                heightPx = windowHeightPx.value
+                heightPx = windowHeightPx.value,
+                animatedMoves = shiftPx == 0
             )
         }
+        val place = { placement: WindowPlacement ->
+            DialogWindowSetup.place(window, placement.y, placement.alpha, placement.heightPx, placement.animatedMoves)
+        }
         SideEffect {
-            placement().let { DialogWindowSetup.place(window, it.y, it.alpha, it.heightPx) }
+            place(placement())
             DialogWindowSetup.setVisible(window, shown || focusable)
         }
         LaunchedEffect(window) {
-            snapshotFlow(placement).collect { DialogWindowSetup.place(window, it.y, it.alpha, it.heightPx) }
+            snapshotFlow(placement).collect { place(it) }
+        }
+        DisposableEffect(window, motion) {
+            val remove = motion.addMover { place(placement()) }
+            onDispose(remove)
         }
         LaunchedEffect(blurEnabled, shown) {
             if (!shown) {

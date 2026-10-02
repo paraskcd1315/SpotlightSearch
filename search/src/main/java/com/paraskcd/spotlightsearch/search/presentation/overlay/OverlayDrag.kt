@@ -54,7 +54,7 @@ class OverlayDrag(
         ending?.cancel()
         val start = anchor ?: (fingerY - motion.shiftPx).also { anchor = it }
         val shown = 1f - (fingerY - start).coerceIn(0f, travelPx) / travelPx
-        scope.launch { motion.follow(shown, travelPx) }
+        motion.follow(shown, travelPx)
         onShown(shown)
     }
 

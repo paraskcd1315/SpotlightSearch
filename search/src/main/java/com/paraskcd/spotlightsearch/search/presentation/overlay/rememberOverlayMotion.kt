@@ -6,16 +6,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import com.paraskcd.spotlightsearch.search.domain.model.peek.PeekPhase
-import com.paraskcd.spotlightsearch.search.domain.model.peek.PeekState
 
 @Composable
-fun rememberOverlayMotion(state: PeekState?, onCancelled: () -> Unit): OverlayMotion {
+fun rememberOverlayMotion(phase: PeekPhase?, onCancelled: () -> Unit): OverlayMotion {
     val cancelled by rememberUpdatedState(onCancelled)
-    val motion = remember { OverlayMotion(initiallyShown = state?.progress ?: 1f) }
-    LaunchedEffect(state) {
-        when (state?.phase) {
+    val motion = remember { OverlayMotion(initiallyShown = if (phase == null) 1f else 0f) }
+    LaunchedEffect(phase) {
+        when (phase) {
             null -> motion.rest()
-            PeekPhase.Dragging -> motion.follow(state.progress, state.distancePx)
+            PeekPhase.Dragging -> Unit
             PeekPhase.Committed -> motion.settle()
             PeekPhase.Cancelled -> {
                 motion.leave()

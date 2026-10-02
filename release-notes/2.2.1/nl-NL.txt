@@ -1,0 +1,2 @@
+Spotlight Search 2.2.1
+• Sleep de zoekfunctie omlaag om te sluiten: de zoekfunctie volgt je vinger
