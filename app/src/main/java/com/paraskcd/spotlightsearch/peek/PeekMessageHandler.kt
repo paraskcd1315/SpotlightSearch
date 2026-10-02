@@ -16,7 +16,10 @@ class PeekMessageHandler(
         if (!allowed(msg.sendingUid)) return
         when (msg.what) {
             PeekProtocol.REGISTER -> channel.register(msg.replyTo)
-            PeekProtocol.PROGRESS -> channel.progress(msg.data.getFloat(PeekProtocol.KEY_PROGRESS))
+            PeekProtocol.PROGRESS -> channel.progress(
+                value = msg.data.getFloat(PeekProtocol.KEY_PROGRESS),
+                distancePx = msg.data.getFloat(PeekProtocol.KEY_DISTANCE)
+            )
             PeekProtocol.COMMIT -> channel.commit()
             PeekProtocol.CANCEL -> channel.cancel()
         }

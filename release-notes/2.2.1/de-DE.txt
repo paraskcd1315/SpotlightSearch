@@ -1,0 +1,2 @@
+Spotlight Search 2.2.1
+• Suche nach unten ziehen, um sie zu schließen: Die Suche folgt dem Finger

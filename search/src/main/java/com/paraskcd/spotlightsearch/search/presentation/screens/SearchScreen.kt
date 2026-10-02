@@ -1,12 +1,14 @@
 package com.paraskcd.spotlightsearch.search.presentation.screens
 
 import android.view.HapticFeedbackConstants
+import android.view.MotionEvent
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +27,9 @@ import com.paraskcd.spotlightsearch.search.infrastructure.window.DialogWindowSet
 import com.paraskcd.spotlightsearch.search.presentation.model.HitCallbacks
 import com.paraskcd.spotlightsearch.search.presentation.model.HitOutcome
 import com.paraskcd.spotlightsearch.search.presentation.overlay.FilterWindow
+import com.paraskcd.spotlightsearch.search.presentation.overlay.LocalOverlayDrag
+import com.paraskcd.spotlightsearch.search.presentation.overlay.LocalOverlayMotion
+import com.paraskcd.spotlightsearch.search.presentation.overlay.WindowTouches
 import com.paraskcd.spotlightsearch.search.presentation.overlay.OverlayMetrics
 import com.paraskcd.spotlightsearch.search.presentation.overlay.OverlayScrim
 import com.paraskcd.spotlightsearch.search.presentation.overlay.ResultsWindow
@@ -63,6 +68,9 @@ fun SearchScreen(
     var visible by remember { mutableStateOf(false) }
     val barMotion = rememberBarTopMotion()
     val barTop = barMotion.top
+    val overlayMotion = LocalOverlayMotion.current
+    val overlayDrag = LocalOverlayDrag.current
+    SideEffect { overlayMotion.anchored = barTop != null }
     var settingsSize by remember { mutableStateOf<IntSize?>(null) }
     var filterHeight by remember { mutableStateOf(0) }
     var filter by remember { mutableStateOf<SectionKind?>(null) }
@@ -85,6 +93,11 @@ fun SearchScreen(
     val view = LocalView.current
     val density = LocalDensity.current
     val activityWindow = LocalActivity.current?.window
+    if (activityWindow != null && overlayDrag != null) {
+        WindowTouches(activityWindow) { event ->
+            overlayDrag.onFinger(event.eventTime, event.rawY, down = event.actionMasked == MotionEvent.ACTION_DOWN)
+        }
+    }
     val displayHeightPx = activityWindow?.let(DialogWindowSetup::displayHeight) ?: 0
     val displayWidthPx = activityWindow?.let(DialogWindowSetup::displayWidth) ?: 0
     val sideMarginPx = (displayWidthPx * (1f - OverlayMetrics.WindowWidthFraction) / 2f).roundToInt()

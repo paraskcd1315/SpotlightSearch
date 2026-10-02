@@ -1,0 +1,2 @@
+Spotlight Search 2.2.1
+• Arraste a pesquisa para baixo para a fechar: a pesquisa segue o seu dedo

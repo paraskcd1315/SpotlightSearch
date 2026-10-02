@@ -9,5 +9,7 @@ object PeekProtocol {
     const val COMMIT = 3
     const val CANCEL = 4
     const val CLOSED = 10
+    const val SHOWN = 11
     const val KEY_PROGRESS = "progress"
+    const val KEY_DISTANCE = "distance"
 }

@@ -52,7 +52,13 @@ fun SearchBarWindow(
             focusRequester.requestFocus()
             keyboard?.show()
         }
-        val tracker = remember(view) { KeyboardTracker(view, onTopOnScreen, onTopSettled, onKeyboardShown, onKeyboardVisibility, onKeyboardMoving) }
+        val motion = LocalOverlayMotion.current
+        LaunchedEffect(motion.leaving) {
+            if (motion.leaving) keyboard?.hide()
+        }
+        val tracker = remember(view, motion) {
+            KeyboardTracker(view, onTopOnScreen, onTopSettled, onKeyboardShown, onKeyboardVisibility, onKeyboardMoving, overlayMoving = { motion.moving })
+        }
         DisposableEffect(tracker) {
             val root = view.rootView
             root.setWindowInsetsAnimationCallback(tracker)

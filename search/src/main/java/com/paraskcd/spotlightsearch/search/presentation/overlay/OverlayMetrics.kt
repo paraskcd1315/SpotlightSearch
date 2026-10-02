@@ -28,6 +28,8 @@ object OverlayMetrics {
     const val EntryDelayMs = 250L
     const val EntryFadeMs = 400
     const val EntryInitialScale = 0.95f
-    const val DismissDragPx = 100f
-    const val DragFadeDistancePx = 300f
+    val DismissTravel = 220.dp
+    val DismissFling = 800.dp
+    const val DismissFraction = 0.35f
+    const val PeekAlphaLead = 2f
 }

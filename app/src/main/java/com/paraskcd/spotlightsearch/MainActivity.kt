@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -18,8 +19,10 @@ import com.paraskcd.spotlightsearch.search.domain.model.peek.PeekPhase
 import com.paraskcd.spotlightsearch.search.infrastructure.peek.PeekChannel
 import com.paraskcd.spotlightsearch.search.infrastructure.peek.PeekProtocol
 import com.paraskcd.spotlightsearch.search.infrastructure.window.WindowBlur
-import com.paraskcd.spotlightsearch.search.presentation.overlay.LocalPeekAlpha
-import com.paraskcd.spotlightsearch.search.presentation.overlay.rememberPeekAlpha
+import com.paraskcd.spotlightsearch.search.presentation.overlay.LocalOverlayDrag
+import com.paraskcd.spotlightsearch.search.presentation.overlay.LocalOverlayMotion
+import com.paraskcd.spotlightsearch.search.presentation.overlay.rememberOverlayDrag
+import com.paraskcd.spotlightsearch.search.presentation.overlay.rememberOverlayMotion
 import com.paraskcd.spotlightsearch.search.presentation.screens.SearchScreen
 import com.paraskcd.spotlightsearch.search.presentation.utils.LocalAppIcons
 import com.paraskcd.spotlightsearch.search.presentation.utils.LocalIconPack
@@ -50,15 +53,22 @@ class MainActivity : ComponentActivity() {
         setContent {
             val theme by themeViewModel.state.collectAsState()
             val appIcons by themeViewModel.appIcons.collectAsState()
-            val peek by peekChannel.state.collectAsState()
-            val peekState = if (peekLaunch) peek else null
-            val peekAlpha = rememberPeekAlpha(peekState, onCancelled = ::finishQuietly)
+            val phase by peekChannel.phase.collectAsState()
+            val peekPhase = if (peekLaunch) phase else null
+            val overlayMotion = rememberOverlayMotion(peekPhase, onCancelled = ::finishQuietly)
+            DisposableEffect(overlayMotion) {
+                val follower = overlayMotion::follow
+                if (peekLaunch) peekChannel.follow(follower)
+                onDispose { peekChannel.unfollow(follower) }
+            }
+            val overlayDrag = rememberOverlayDrag(overlayMotion, onShown = peekChannel::shown, onDismissed = ::finishQuietly)
             val blurEnabled = remember(theme.enableBlur) { WindowBlur.isAvailable(this, theme.enableBlur) }
             SpotlightAppTheme(themeViewModel) {
                 CompositionLocalProvider(
                     LocalIconPack provides theme.iconPack,
                     LocalAppIcons provides appIcons,
-                    LocalPeekAlpha provides peekAlpha
+                    LocalOverlayMotion provides overlayMotion,
+                    LocalOverlayDrag provides overlayDrag
                 ) {
                     SearchScreen(
                         viewModel = searchViewModel,
@@ -69,7 +79,7 @@ class MainActivity : ComponentActivity() {
                         onOpenSettings = { startActivity(Intent(this, SettingsActivity::class.java)) },
                         onClose = ::finish,
                         peekLaunch = peekLaunch,
-                        barFocused = !peekLaunch || peekState?.phase == PeekPhase.Committed
+                        barFocused = !peekLaunch || (peekPhase == PeekPhase.Committed && !overlayMotion.moving)
                     )
                 }
             }

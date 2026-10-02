@@ -11,7 +11,8 @@ class KeyboardTracker(
     private val onTopSettled: (Int) -> Unit,
     private val onKeyboardShown: () -> Unit,
     private val onKeyboardVisibility: (Boolean) -> Unit,
-    private val onKeyboardMoving: (Boolean) -> Unit
+    private val onKeyboardMoving: (Boolean) -> Unit,
+    private val overlayMoving: () -> Boolean
 ) : WindowInsetsAnimation.Callback(DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
     private var hiddenTop: Int? = null
     private var shownTop: Int? = null
@@ -20,18 +21,27 @@ class KeyboardTracker(
     private var pendingRest: Runnable? = null
 
     fun onRest() {
-        if (animating) return
+        if (animating || overlayMoving()) return
         pendingRest?.let(view::removeCallbacks)
-        val report = Runnable {
-            pendingRest = null
-            if (animating) return@Runnable
-            val top = topOnScreen()
-            val hidden = hiddenTop
-            if (hidden == null || top > hidden) hiddenTop = top
-            val keyboardUp = top < (hiddenTop ?: top)
-            if (keyboardUp) shownTop = top
-            onKeyboardVisibility(keyboardUp)
-            onTopSettled(top)
+        var seenTop: Int? = null
+        val report = object : Runnable {
+            override fun run() {
+                pendingRest = null
+                if (animating || overlayMoving()) return
+                val top = topOnScreen()
+                if (top != seenTop) {
+                    seenTop = top
+                    pendingRest = this
+                    view.postOnAnimation(this)
+                    return
+                }
+                val hidden = hiddenTop
+                if (hidden == null || top > hidden) hiddenTop = top
+                val keyboardUp = top < (hiddenTop ?: top)
+                if (keyboardUp) shownTop = top
+                onKeyboardVisibility(keyboardUp)
+                onTopSettled(top)
+            }
         }
         pendingRest = report
         view.postOnAnimation(report)

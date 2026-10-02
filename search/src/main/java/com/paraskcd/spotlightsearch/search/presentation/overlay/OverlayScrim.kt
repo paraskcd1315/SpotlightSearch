@@ -6,7 +6,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,13 +20,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
@@ -67,27 +63,16 @@ fun OverlayScrim(
     } else {
         Modifier.fillMaxSize()
     }
-    var dragOffset by remember { mutableFloatStateOf(0f) }
     val packageName = LocalContext.current.packageName
-    val peekAlpha = LocalPeekAlpha.current
+    val motion = LocalOverlayMotion.current
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .graphicsLayer { alpha = peekAlpha * (1f - dragOffset / OverlayMetrics.DragFadeDistancePx).coerceIn(0f, 1f) }
+            .graphicsLayer { alpha = motion.scrimAlpha }
             .drawBehind { drawRect(tintColor.copy(alpha = tint)) }
             .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null, onClick = onClose)
-            .pointerInput(Unit) {
-                detectVerticalDragGestures(
-                    onVerticalDrag = { change, amount ->
-                        dragOffset = (dragOffset + amount).coerceAtLeast(0f)
-                        change.consume()
-                    },
-                    onDragEnd = {
-                        if (dragOffset > OverlayMetrics.DismissDragPx) onClose() else dragOffset = 0f
-                    }
-                )
-            },
+            .overlayDismissDrag(LocalOverlayDrag.current),
         contentAlignment = Alignment.TopCenter
     ) {
         Box(modifier = band, contentAlignment = Alignment.Center) {
@@ -97,7 +82,7 @@ fun OverlayScrim(
                     initialScale = OverlayMetrics.EntryInitialScale,
                     animationSpec = tween(OverlayMetrics.EntryFadeMs, easing = FastOutSlowInEasing)
                 ),
-                modifier = Modifier.offset { IntOffset(0, dragOffset.roundToInt()) }
+                modifier = Modifier.offset { IntOffset(0, motion.shiftPx.roundToInt()) }
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
