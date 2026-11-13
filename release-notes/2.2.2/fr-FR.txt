@@ -1,0 +1,2 @@
+Spotlight Search 2.2.2
+• Le clavier reste ouvert après avoir effacé la recherche

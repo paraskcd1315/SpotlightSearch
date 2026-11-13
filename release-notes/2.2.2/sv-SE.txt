@@ -1,0 +1,2 @@
+Spotlight Search 2.2.2
+• Tangentbordet förblir öppet när du har rensat sökningen

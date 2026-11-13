@@ -1,0 +1,2 @@
+Spotlight Search 2.2.2
+• O teclado continua aberto depois de apagar a pesquisa

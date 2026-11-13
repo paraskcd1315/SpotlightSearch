@@ -1,0 +1,2 @@
+Spotlight Search 2.2.2
+• La tastiera resta aperta dopo aver cancellato la ricerca

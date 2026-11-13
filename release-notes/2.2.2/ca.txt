@@ -1,0 +1,2 @@
+Spotlight Search 2.2.2
+• El teclat continua obert després d'esborrar la cerca

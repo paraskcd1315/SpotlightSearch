@@ -1,0 +1,2 @@
+Spotlight Search 2.2.2
+• Het toetsenbord blijft open nadat je de zoekopdracht hebt gewist

@@ -1,0 +1,2 @@
+Spotlight Search 2.2.2
+• The keyboard stays open after you clear the search

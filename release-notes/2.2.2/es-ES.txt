@@ -1,0 +1,2 @@
+Spotlight Search 2.2.2
+• El teclado sigue abierto después de borrar la búsqueda

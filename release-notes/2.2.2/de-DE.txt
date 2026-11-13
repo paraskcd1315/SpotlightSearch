@@ -1,0 +1,2 @@
+Spotlight Search 2.2.2
+• Die Tastatur bleibt geöffnet, nachdem du die Suche gelöscht hast
