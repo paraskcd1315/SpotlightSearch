@@ -1,0 +1,4 @@
+Spotlight Search 2.2.2
+• El teclat continua obert després d'esborrar la cerca
+• La barra de cerca es queda damunt del teclat quan escrius ràpid
+• Escriure just després d'obrir la cerca ja no la tanca

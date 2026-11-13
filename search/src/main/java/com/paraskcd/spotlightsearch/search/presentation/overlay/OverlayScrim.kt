@@ -44,6 +44,7 @@ fun OverlayScrim(
     icons: AppIconLoader,
     topLimitPx: Int?,
     bottomLimitPx: Int?,
+    closesOnTap: Boolean,
     onClose: () -> Unit
 ) {
     val density = LocalDensity.current
@@ -71,7 +72,12 @@ fun OverlayScrim(
             .fillMaxSize()
             .graphicsLayer { alpha = motion.scrimAlpha }
             .drawBehind { drawRect(tintColor.copy(alpha = tint)) }
-            .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null, onClick = onClose)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                enabled = closesOnTap,
+                onClick = onClose
+            )
             .overlayDismissDrag(LocalOverlayDrag.current),
         contentAlignment = Alignment.TopCenter
     ) {

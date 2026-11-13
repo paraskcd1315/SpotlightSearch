@@ -1,0 +1,4 @@
+Spotlight Search 2.2.2
+• Tangentbordet förblir öppet när du har rensat sökningen
+• Sökfältet stannar ovanför tangentbordet när du skriver snabbt
+• Att skriva direkt efter att du öppnat sökningen stänger den inte längre

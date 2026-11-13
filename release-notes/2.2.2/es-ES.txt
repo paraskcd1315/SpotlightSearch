@@ -1,0 +1,4 @@
+Spotlight Search 2.2.2
+• El teclado sigue abierto después de borrar la búsqueda
+• La barra de búsqueda se queda encima del teclado cuando escribes rápido
+• Escribir justo después de abrir la búsqueda ya no la cierra

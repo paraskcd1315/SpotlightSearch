@@ -1,0 +1,4 @@
+Spotlight Search 2.2.2
+• Het toetsenbord blijft open nadat je de zoekopdracht hebt gewist
+• De zoekbalk blijft boven het toetsenbord als je snel typt
+• Typen direct na het openen sluit de zoekfunctie niet meer

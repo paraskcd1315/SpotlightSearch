@@ -1,0 +1,4 @@
+Spotlight Search 2.2.2
+• La tastiera resta aperta dopo aver cancellato la ricerca
+• La barra di ricerca resta sopra la tastiera quando scrivi velocemente
+• Scrivere subito dopo aver aperto la ricerca non la chiude più
