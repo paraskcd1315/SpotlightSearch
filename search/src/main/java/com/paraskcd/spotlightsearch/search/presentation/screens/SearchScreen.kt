@@ -147,6 +147,7 @@ fun SearchScreen(
         icons = viewModel.icons.apps,
         topLimitPx = statusBarPx,
         bottomLimitPx = barTop?.let { it - gapPx - toolbarPx - frequentReserve },
+        closesOnTap = keyboardSettled && !keyboardMoving,
         onClose = dismiss
     )
 
