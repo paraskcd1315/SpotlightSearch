@@ -1,2 +1,4 @@
 Spotlight Search 2.2.2
 • Le clavier reste ouvert après avoir effacé la recherche
+• La barre de recherche reste au-dessus du clavier quand vous tapez vite
+• Taper juste après avoir ouvert la recherche ne la ferme plus

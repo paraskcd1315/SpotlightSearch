@@ -1,2 +1,4 @@
 Spotlight Search 2.2.2
 • The keyboard stays open after you clear the search
+• The search bar stays above the keyboard when you type fast
+• Typing right after you open the search no longer closes it

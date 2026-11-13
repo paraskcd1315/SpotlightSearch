@@ -1,2 +1,4 @@
 Spotlight Search 2.2.2
 • O teclado continua aberto depois de apagar a pesquisa
+• A barra de pesquisa fica acima do teclado quando escreve depressa
+• Escrever logo depois de abrir a pesquisa já não a fecha

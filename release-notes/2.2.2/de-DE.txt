@@ -1,2 +1,4 @@
 Spotlight Search 2.2.2
 • Die Tastatur bleibt geöffnet, nachdem du die Suche gelöscht hast
+• Die Suchleiste bleibt über der Tastatur, auch wenn du schnell tippst
+• Tippen direkt nach dem Öffnen schließt die Suche nicht mehr
